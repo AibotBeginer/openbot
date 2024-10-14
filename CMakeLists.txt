@@ -29,6 +29,7 @@ include("${PROJECT_SOURCE_DIR}/cmake/functions.cmake")
 google_initialize_openbot_project()
 google_enable_testing()
 
+find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams)
 
 find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
@@ -121,6 +122,21 @@ list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
 list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
 
 add_library(${PROJECT_NAME} SHARED ${ALL_LIBRARY_HDRS} ${ALL_LIBRARY_SRCS})
+
+target_link_libraries(${PROJECT_NAME} PUBLIC 
+  absl::algorithm
+  absl::base
+  absl::debugging
+  absl::flat_hash_map
+  absl::memory
+  absl::meta
+  absl::numeric
+  absl::str_format
+  absl::strings
+  absl::synchronization
+  absl::time
+  absl::utility 
+)
 
 configure_file(
   ${PROJECT_SOURCE_DIR}/openbot/common/config.hpp.cmake

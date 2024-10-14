@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_COMMON_CONFIG_HPP_
-#define OPENBOT_COMMON_CONFIG_HPP_
+#ifndef OPENBOT_COMMON_LUA_HPP_
+#define OPENBOT_COMMON_LUA_HPP_
 
-namespace openbot {
-namespace common {
+#include <lua.hpp>
 
-constexpr char kConfigurationFilesDirectory[] = "@OPENBOT_CONFIGURATION_FILES_DIRECTORY@";
-constexpr char kSourceDirectory[] = "@PROJECT_SOURCE_DIR@";
-
-}  // namespace common
-}  // namespace openbot
-
-#endif  // OPENBOT_COMMON_CONFIG_HPP_
+#endif  // OPENBOT_COMMON_LUA_HPP_
