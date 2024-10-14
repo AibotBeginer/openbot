@@ -82,7 +82,7 @@ macro(google_initialize_openbot_project)
     google_add_flag(GOOG_CXX_FLAGS "-Wpedantic")
 
     # clalancette: disable deprecated declarations; there is currently no way to
-    # compile cartographer warning-free with this on
+    # compile openbot warning-free with this on
     google_add_flag(GOOG_CXX_FLAGS "-Wno-deprecated-declarations")
 
     # Turn some warnings into errors.

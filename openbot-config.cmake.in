@@ -35,11 +35,9 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${OPENBOT_CMAKE_DIR}/modules)
 
-find_package(Ceres ${QUIET_OR_REQUIRED_OPTION} HINTS ${CERES_DIR_HINTS})
-if (WIN32)
-    find_package(glog REQUIRED)
-endif()
+#find_package(Ceres ${QUIET_OR_REQUIRED_OPTION} HINTS ${CERES_DIR_HINTS})
 find_package(absl ${QUIET_OR_REQUIRED_OPTION})
+
 if(OPENBOT_HAS_GRPC)
    find_package(async_grpc ${QUIET_OR_REQUIRED_OPTION})
 endif()

@@ -65,12 +65,12 @@ install(DIRECTORY config DESTINATION share/openbot/)
 
 install(DIRECTORY cmake DESTINATION share/openbot/)
 
-file(GLOB_RECURSE ALL_LIBRARY_HDRS "modules/*.hpp")
-file(GLOB_RECURSE ALL_LIBRARY_SRCS "modules/*.cc")
-file(GLOB_RECURSE TEST_LIBRARY_HDRS "modules/fake_*.hpp" "modules/test_helpers*.hpp")
-file(GLOB_RECURSE TEST_LIBRARY_SRCS "modules/fake_*.cc"  "/odules/test_helpers*.cc")
-file(GLOB_RECURSE ALL_TESTS "modules/*_test.cc")
-file(GLOB_RECURSE ALL_EXECUTABLES "modules/*_main.cc")
+file(GLOB_RECURSE ALL_LIBRARY_HDRS "openbot/*.hpp")
+file(GLOB_RECURSE ALL_LIBRARY_SRCS "openbot/*.cc")
+file(GLOB_RECURSE TEST_LIBRARY_HDRS "openbot/fake_*.hpp" "openbot/test_helpers*.hpp")
+file(GLOB_RECURSE TEST_LIBRARY_SRCS "openbot/fake_*.cc"  "openbot/test_helpers*.cc")
+file(GLOB_RECURSE ALL_TESTS "openbot/*_test.cc")
+file(GLOB_RECURSE ALL_EXECUTABLES "openbot/*_main.cc")
 
 # Remove dotfiles/-folders that could potentially pollute the build.
 file(GLOB_RECURSE ALL_DOTFILES ".*/*")
@@ -88,8 +88,11 @@ list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_TESTS})
 list(REMOVE_ITEM ALL_LIBRARY_HDRS ${TEST_LIBRARY_HDRS})
 list(REMOVE_ITEM ALL_LIBRARY_SRCS ${TEST_LIBRARY_SRCS})
 
-file(GLOB_RECURSE ALL_PROTOS "modules/*.proto")
+file(GLOB_RECURSE ALL_PROTOS "openbot/*.proto")
 
+set(INSTALL_SOURCE_HDRS ${ALL_LIBRARY_HDRS} ${TEST_LIBRARY_HDRS})
+file(GLOB_RECURSE INTERNAL_HDRS "openbot/*/internal/*.hpp")
+list(REMOVE_ITEM INSTALL_SOURCE_HDRS ${INTERNAL_HDRS})
 
 # TODO(cschuet): Move proto compilation to separate function.
 set(ALL_PROTO_SRCS)
@@ -120,12 +123,12 @@ list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
 add_library(${PROJECT_NAME} SHARED ${ALL_LIBRARY_HDRS} ${ALL_LIBRARY_SRCS})
 
 configure_file(
-  ${PROJECT_SOURCE_DIR}/modules/common/config.hpp.cmake
-  ${PROJECT_BINARY_DIR}/modules/common/config.hpp)
+  ${PROJECT_SOURCE_DIR}/openbot/common/config.hpp.cmake
+  ${PROJECT_BINARY_DIR}/openbot/common/config.hpp)
 
 google_binary(openbot_print_configuration
   SRCS
-    modules/common/print_configuration_main.cc
+    openbot/common/print_configuration_main.cc
 )
 
 if(${BUILD_GRPC})
@@ -219,12 +222,12 @@ foreach(HDR ${INSTALL_GENERATED_HDRS})
   )
 endforeach()
 
-set(openbot_CMAKE_DIR share/openbot/cmake)
+set(OPENBOT_CMAKE_DIR share/openbot/cmake)
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
   openbot-config.cmake.in
   ${PROJECT_BINARY_DIR}/cmake/openbot/openbot-config.cmake
-  PATH_VARS openbot_CMAKE_DIR
+  PATH_VARS OPENBOT_CMAKE_DIR
   INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/openbot
 )
 
