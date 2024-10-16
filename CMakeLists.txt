@@ -142,9 +142,16 @@ configure_file(
   ${PROJECT_SOURCE_DIR}/openbot/common/config.hpp.cmake
   ${PROJECT_BINARY_DIR}/openbot/common/config.hpp)
 
+# openbot_print_configuration
 google_binary(openbot_print_configuration
   SRCS
     openbot/common/print_configuration_main.cc
+)
+
+# system_app
+google_binary(system_app
+  SRCS
+    openbot/system/system_app_main.cc
 )
 
 if(${BUILD_GRPC})
