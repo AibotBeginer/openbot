@@ -14,4 +14,4 @@
 
 syntax = "proto3";
 
-package openbot.common.proto.geometry_msgs;
+package openbot.common.proto.nav_msgs;

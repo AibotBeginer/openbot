@@ -14,4 +14,21 @@
 
 syntax = "proto3";
 
-package openbot.common.proto.geometry_msgs;
+package openbot.common.proto.nav_msgs;
+
+import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/geometry_msgs/pose_stamped.proto";
+
+// An array of poses that represents a Path for a robot to follow.
+message Path 
+{
+    // Indicates the frame_id of the path.
+    std_msgs.Header header = 1;
+
+    // Array of poses to follow.
+    // repeated geometry_msgs.PoseStamped poses = 2;
+}
+
+
+
+
