@@ -46,10 +46,6 @@ if(${BUILD_PROMETHEUS})
   find_package( ZLIB REQUIRED )
 endif()
 
-include(FindPkgConfig)
-find_library(CAIRO_LIBRARIES cairo)
-
-
 # Only build the documentation if we can find Sphinx.
 find_package(Sphinx)
 if(SPHINX_FOUND)
@@ -122,8 +118,8 @@ list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
 list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
 
 add_library(${PROJECT_NAME} SHARED ${ALL_LIBRARY_HDRS} ${ALL_LIBRARY_SRCS})
-
-target_link_libraries(${PROJECT_NAME} PUBLIC 
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PROTOBUF_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY} 
   absl::algorithm
   absl::base
   absl::debugging

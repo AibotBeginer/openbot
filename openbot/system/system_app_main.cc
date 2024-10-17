@@ -41,7 +41,7 @@ int main(int argc, char** argv)
   //     << "-configuration_basename is missing.";
 
   // openbot_ros::ScopedRosLogSink ros_log_sink;
-  google::ShutdownGoogleLogging();
   openbot::Run();
+  google::ShutdownGoogleLogging();
   return 0;
 }

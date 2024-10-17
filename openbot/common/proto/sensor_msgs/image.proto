@@ -1,0 +1,54 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package openbot.common.proto.std_msgs;
+
+import "openbot/common/proto/std_msgs/header.proto";
+
+message Image 
+{
+    std_msgs.Header header  = 1; // Header timestamp should be acquisition time of image
+                                 // Header frame_id should be optical frame of camera
+                                 // origin of frame should be optical center of cameara
+                                 // +x should point to the right in the image
+                                 // +y should point down in the image
+                                 // +z should point into to plane of the image
+                                 // If the frame_id here and the frame_id of the CameraInfo
+                                 // message associated with the image conflict
+                                 // the behavior is undefined
+
+    // image height, that is, number of rows
+    uint32 height = 2;       
+    
+    // image width, that is, number of columns
+    uint32 width = 3;            
+
+    // The legal values for encoding are in file src/image_encodings.cpp
+    // If you want to standardize a new string format, join
+    // ros-users@lists.ros.org and send an email proposing a new encoding.
+    string encoding = 4;    // Encoding of pixels -- channel meaning, ordering, size
+                            // taken from the list of strings in include/sensor_msgs/image_encodings.hpp
+
+
+    // is this data bigendian?
+    uint32 is_bigendian = 5;
+
+    // Full row length in bytes
+    uint32 step = 6;
+
+    // actual matrix data, size is (step * rows)
+    repeated uint32 data = 7;
+}   
