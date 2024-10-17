@@ -37,6 +37,7 @@ find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 find_package(Eigen3 REQUIRED)
 find_package(Lua REQUIRED)
 find_package(Protobuf 3.0.0 REQUIRED)
+find_package(TinyXML2 REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
@@ -173,6 +174,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${LUA_LIBRARIES})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${Boost_INCLUDE_DIRS}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${Boost_LIBRARIES})
 
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${TinyXML2_INCLUDE_DIRS}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${TinyXML2_LIBRARIES})
 
 set(GLOG_LIBRARY glog)
 target_link_libraries(${PROJECT_NAME} PUBLIC ${GLOG_LIBRARY})
