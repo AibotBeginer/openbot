@@ -27,8 +27,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLUGINLIB__IMPL__SPLIT_HPP_
-#define PLUGINLIB__IMPL__SPLIT_HPP_
+#ifndef OPENBOT_COMMON_PLUGINLIB__IMPL__SPLIT_HPP_
+#define OPENBOT_COMMON_PLUGINLIB__IMPL__SPLIT_HPP_
 
 #include <regex>
 #include <string>
@@ -53,4 +53,4 @@ split(const std::string & input, const std::string & regex)
 }  // namespace impl
 }  // namespace pluginlib
 
-#endif  // PLUGINLIB__IMPL__SPLIT_HPP_
+#endif  // OPENBOT_COMMON_PLUGINLIB__IMPL__SPLIT_HPP_

@@ -34,8 +34,8 @@
 *
 *********************************************************************/
 
-#ifndef PLUGINLIB__CLASS_DESC_HPP_
-#define PLUGINLIB__CLASS_DESC_HPP_
+#ifndef OPENBOT_COMMON_PLUGINLIB__CLASS_DESC_HPP_
+#define OPENBOT_COMMON_PLUGINLIB__CLASS_DESC_HPP_
 
 #include <string>
 
@@ -81,4 +81,4 @@ public:
 
 }  // namespace pluginlib
 
-#endif  // PLUGINLIB__CLASS_DESC_HPP_
+#endif  // OPENBOT_COMMON_PLUGINLIB__CLASS_DESC_HPP_

@@ -34,8 +34,8 @@
 *
 *********************************************************************/
 
-#ifndef PLUGINLIB__CLASS_LIST_MACROS_HPP_
-#define PLUGINLIB__CLASS_LIST_MACROS_HPP_
+#ifndef OPENBOT_COMMON_PLUGINLIB__CLASS_LIST_MACROS_HPP_
+#define OPENBOT_COMMON_PLUGINLIB__CLASS_LIST_MACROS_HPP_
 
 #include <class_loader/class_loader.hpp>
 
@@ -48,4 +48,4 @@
 #define PLUGINLIB_EXPORT_CLASS(class_type, base_class_type) \
   CLASS_LOADER_REGISTER_CLASS(class_type, base_class_type)
 
-#endif  // PLUGINLIB__CLASS_LIST_MACROS_HPP_
+#endif  // OPENBOT_COMMON_PLUGINLIB__CLASS_LIST_MACROS_HPP_

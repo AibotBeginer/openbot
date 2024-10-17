@@ -34,8 +34,8 @@
 *
 *********************************************************************/
 
-#ifndef PLUGINLIB__CLASS_LOADER_IMP_HPP_
-#define PLUGINLIB__CLASS_LOADER_IMP_HPP_
+#ifndef OPENBOT_COMMON_PLUGINLIB__CLASS_LOADER_IMP_HPP_
+#define OPENBOT_COMMON_PLUGINLIB__CLASS_LOADER_IMP_HPP_
 
 #include <cstdlib>
 #include <list>

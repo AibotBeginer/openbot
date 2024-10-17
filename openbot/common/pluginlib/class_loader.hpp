@@ -27,8 +27,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PLUGINLIB__CLASS_LOADER_HPP_
-#define PLUGINLIB__CLASS_LOADER_HPP_
+#ifndef OPENBOT_COMMON_PLUGINLIB__CLASS_LOADER_HPP_
+#define OPENBOT_COMMON_PLUGINLIB__CLASS_LOADER_HPP_
 
 #include <map>
 #include <memory>
@@ -333,4 +333,4 @@ private:
 // Note: The implementation of the methods is in a separate file for clarity.
 #include "./class_loader_imp.hpp"
 
-#endif  // PLUGINLIB__CLASS_LOADER_HPP_
+#endif  // OPENBOT_COMMON_PLUGINLIB__CLASS_LOADER_HPP_
