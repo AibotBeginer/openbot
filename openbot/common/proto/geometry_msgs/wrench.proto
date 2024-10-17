@@ -15,3 +15,12 @@
 syntax = "proto3";
 
 package openbot.common.proto.geometry_msgs;
+
+import "openbot/common/proto/geometry_msgs/vector3.proto";
+
+// This represents force in free space, separated into its linear and angular parts.
+message Wrench
+{
+    geometry_msgs.Vector3 force = 1;
+    geometry_msgs.Vector3 torque = 2;
+}

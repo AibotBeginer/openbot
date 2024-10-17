@@ -15,3 +15,21 @@
 syntax = "proto3";
 
 package openbot.common.proto.nav_msgs;
+
+import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/geometry_msgs/point.proto";
+
+// An array of cells in a 2D grid
+message GridCells
+{
+    std_msgs.Header header = 1;
+
+    // Width of each cell
+    float cell_width = 2;
+
+    // Height of each cell
+    float cell_height = 3;
+
+    // Each cell is represented by the Point at the center of the cell
+    repeated geometry_msgs.Point cells = 4;
+}

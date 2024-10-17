@@ -15,3 +15,19 @@
 syntax = "proto3";
 
 package openbot.common.proto.geometry_msgs;
+
+import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/geometry_msgs/twist.proto";
+
+message VelocityStamped
+{
+    // This expresses the timestamped velocity vector of a frame 'body_frame_id' in the reference frame 'reference_frame_id' expressed from arbitrary observation frame 'header.frame_id'.
+    // - If the 'body_frame_id' and 'header.frame_id' are identical, the velocity is observed and defined in the local coordinates system of the body
+    //   which is the usual use-case in mobile robotics and is also known as a body twist.
+    std_msgs.Header header = 1;
+    string body_frame_id = 2;
+    string reference_frame_id = 3;
+    geometry_msgs.Twist velocity = 4;
+}
+
+

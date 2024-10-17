@@ -14,14 +14,12 @@
 
 syntax = "proto3";
 
-package openbot.common.proto.geometry_msgs;
+package openbot.common.proto.std_msgs;
 
-import "openbot/common/proto/std_msgs/header.proto";
-import "openbot/common/proto/geometry_msgs/twist_with_covariance.proto";
-
-// This represents an estimated twist with reference coordinate frame and timestamp.
-message TwistWithCovarianceStamped
+message ColorRGBA
 {
-    std_msgs.Header header = 1;
-    geometry_msgs.TwistWithCovariance twist = 2;
+    float r = 1;
+    float g = 2;
+    float b = 3;
+    float a = 4;
 }

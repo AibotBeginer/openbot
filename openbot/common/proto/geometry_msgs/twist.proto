@@ -15,3 +15,12 @@
 syntax = "proto3";
 
 package openbot.common.proto.geometry_msgs;
+
+import "openbot/common/proto/geometry_msgs/vector3.proto";
+
+// This expresses velocity in free space broken into its linear and angular parts.
+message Twist
+{
+    geometry_msgs.Vector3 linear = 1;
+    geometry_msgs.Vector3 angular = 2;
+}

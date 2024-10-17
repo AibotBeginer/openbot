@@ -15,3 +15,13 @@
 syntax = "proto3";
 
 package openbot.common.proto.geometry_msgs;
+
+import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/geometry_msgs/twist.proto";
+
+// A twist with reference coordinate frame and timestamp
+message TwistStamped
+{
+    std_msgs.Header header = 1;
+    geometry_msgs.Twist twist = 2;
+}

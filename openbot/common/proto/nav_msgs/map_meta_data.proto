@@ -15,3 +15,27 @@
 syntax = "proto3";
 
 package openbot.common.proto.nav_msgs;
+
+import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/geometry_msgs/pose.proto";
+import "openbot/common/proto/builtin_interfaces/time.proto";
+
+// This hold basic information about the characteristics of the OccupancyGrid
+message MapMetaData
+{
+    // The time at which the map was loaded
+    builtin_interfaces.Time map_load_time = 1;
+    
+    // The map resolution [m/cell]
+    float resolution = 2;
+    
+    // Map width [cells]
+    uint32 width = 3;
+    
+    // Map height [cells]
+    uint32 height = 4;
+    
+    // The origin of the map [m, m, rad].  This is the real-world pose of the
+    // bottom left corner of cell (0,0) in the map.
+    geometry_msgs.Pose origin = 5;
+}

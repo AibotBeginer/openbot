@@ -15,3 +15,23 @@
 syntax = "proto3";
 
 package openbot.common.proto.nav_msgs;
+
+import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/nav_msgs/map_meta_data.proto";
+
+message OccupancyGrid
+{
+    // This represents a 2-D grid map
+    std_msgs.Header header = 1;
+
+    // MetaData for the map
+    nav_msgs.MapMetaData info = 2;
+
+    // The map data, in row-major order, starting with (0,0). 
+    // Cell (1, 0) will be listed second, representing the next cell in the x direction. 
+    // Cell (0, 1) will be at the index equal to info.width, followed by (1, 1).
+    // The values inside are application dependent, but frequently, 
+    // 0 represents unoccupied, 1 represents definitely occupied, and
+    // -1 represents unknown. 
+    repeated int32 data = 3;
+}

@@ -15,3 +15,15 @@
 syntax = "proto3";
 
 package openbot.common.proto.geometry_msgs;
+
+import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/geometry_msgs/vector3.proto";
+
+// This represents a Vector3 with reference coordinate frame and timestamp
+message Vector3Stamped
+{
+    // Note that this follows vector semantics with it always anchored at the origin,
+    // so the rotational elements of a transform are the only parts applied when transforming.
+    std_msgs.Header header = 1;
+    geometry_msgs.Vector3 vector = 2;
+}

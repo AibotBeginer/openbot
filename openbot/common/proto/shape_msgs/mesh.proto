@@ -14,14 +14,17 @@
 
 syntax = "proto3";
 
-package openbot.common.proto.geometry_msgs;
+package openbot.common.proto.shape_msgs;
 
-import "openbot/common/proto/std_msgs/header.proto";
-import "openbot/common/proto/geometry_msgs/twist_with_covariance.proto";
+import "openbot/common/proto/shape_msgs/mesh_triangle.proto";
+import "openbot/common/proto/geometry_msgs/point.proto";
 
-// This represents an estimated twist with reference coordinate frame and timestamp.
-message TwistWithCovarianceStamped
+// Definition of a mesh.
+message Mesh
 {
-    std_msgs.Header header = 1;
-    geometry_msgs.TwistWithCovariance twist = 2;
+    // List of triangles; the index values refer to positions in vertices[].
+    repeated shape_msgs.MeshTriangle triangles = 1;
+
+    // The actual vertices that make up the mesh.
+    repeated geometry_msgs.Point vertices = 2;
 }

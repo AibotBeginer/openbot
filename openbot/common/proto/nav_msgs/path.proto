@@ -26,7 +26,7 @@ message Path
     std_msgs.Header header = 1;
 
     // Array of poses to follow.
-    // repeated geometry_msgs.PoseStamped poses = 2;
+    repeated geometry_msgs.PoseStamped poses = 2;
 }
 
 

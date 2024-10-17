@@ -15,3 +15,37 @@
 syntax = "proto3";
 
 package openbot.common.proto.sensor_msgs;
+
+import "openbot/common/proto/std_msgs/header.proto";
+
+// Single scan from a planar laser range-finder
+//
+// If you have another ranging device with different behavior (e.g. a sonar
+// array), please find or create a different message, since applications
+// will make fairly laser-specific assumptions about this data
+message LaserScan
+{
+    std_msgs.Header header = 1; // timestamp in the header is the acquisition time of
+                                // the first ray in the scan.
+                                //
+                                // in frame frame_id, angles are measured around
+                                // the positive Z axis (counterclockwise, if Z is up)
+                                // with zero angle being forward along the x axis
+
+    float angle_min = 2;           // start angle of the scan [rad]
+    float angle_max = 3;           // end angle of the scan [rad]
+    float angle_increment = 4;     // angular distance between measurements [rad]
+
+    float time_increment = 5;       // time between measurements [seconds] - if your scanner
+                                    // is moving, this will be used in interpolating position
+                                    // of 3d points
+    float scan_time = 6;            // time between scans [seconds]
+
+    float range_min = 7;            // minimum range value [m]
+    float range_max = 8;            // maximum range value [m]
+
+    repeated float ranges = 9;           // range data [m]
+                                         // (Note: values < range_min or > range_max should be discarded)
+    repeated float intensities = 10;     // intensity data [device-specific units].  If your
+                                         // device does not provide intensities, please leave the array empty.
+}

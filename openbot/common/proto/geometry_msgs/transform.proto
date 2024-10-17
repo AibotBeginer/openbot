@@ -15,3 +15,13 @@
 syntax = "proto3";
 
 package openbot.common.proto.geometry_msgs;
+
+import "openbot/common/proto/geometry_msgs/vector3.proto";
+import "openbot/common/proto/geometry_msgs/quaternion.proto";
+
+// This represents the transform between two coordinate frames in free space.
+message Transform
+{
+    geometry_msgs.Vector3 translation = 1;
+    geometry_msgs.Quaternion rotation = 2;
+}
