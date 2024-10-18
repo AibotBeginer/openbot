@@ -33,7 +33,7 @@ find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams)
 
 find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-# find_package(Ceres REQUIRED)
+find_package(Ceres REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(Lua REQUIRED)
 find_package(Protobuf 3.0.0 REQUIRED)
@@ -180,6 +180,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${Boost_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${TinyXML2_INCLUDE_DIRS}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${TinyXML2_LIBRARIES})
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${CERES_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${CERES_LIBRARY})
 
 set(GLOG_LIBRARY glog)
 target_link_libraries(${PROJECT_NAME} PUBLIC ${GLOG_LIBRARY})
