@@ -139,6 +139,10 @@ configure_file(
   ${PROJECT_SOURCE_DIR}/openbot/common/config.hpp.cmake
   ${PROJECT_BINARY_DIR}/openbot/common/config.hpp)
 
+# thirdparty
+add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/class_loader)
+add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/pluginlib)
+
 # openbot_print_configuration
 google_binary(openbot_print_configuration
   SRCS
