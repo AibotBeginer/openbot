@@ -37,7 +37,6 @@ namespace controller {
 class Controller
 {
 public:
-
   /**
    *  @brief SharedPtr
    */
@@ -51,28 +50,28 @@ public:
   /**
    * @param 
    */
-  virtual void configure() = 0;
+  virtual void Configure() = 0;
 
   /**
    * @brief Method to cleanup resources.
    */
-  virtual void cleanup() = 0;
+  virtual void Cleanup() = 0;
 
   /**
    * @brief Method to active planner and any threads involved in execution.
    */
-  virtual void activate() = 0;
+  virtual void Activate() = 0;
 
   /**
    * @brief Method to deactive planner and any threads involved in execution.
    */
-  virtual void deactivate() = 0;
+  virtual void Deactivate() = 0;
 
   /**
    * @brief local setPlan - Sets the global plan
    * @param path The global plan
    */
-  virtual void setPlan(const common::proto::nav_msgs::Path & path) = 0;
+  virtual void SetPlan(const common::proto::nav_msgs::Path & path) = 0;
 
   /**
    * @brief Controller computeVelocityCommands - calculates the best command given the current pose and velocity
@@ -87,7 +86,7 @@ public:
    * @param goal_checker Pointer to the current goal checker the task is utilizing
    * @return The best command for the robot to drive
    */
-  virtual common::proto::geometry_msgs::TwistStamped computeVelocityCommands(
+  virtual common::proto::geometry_msgs::TwistStamped ComputeVelocityCommands(
     const common::proto::geometry_msgs::PoseStamped& pose,
     const common::proto::geometry_msgs::Twist& velocity) = 0;
 
@@ -98,7 +97,7 @@ public:
    * @param percentage Setting speed limit in percentage if true
    * or in absolute values in false case.
    */
-  virtual void setSpeedLimit(const double & speed_limit, const bool & percentage) = 0;
+  virtual void SetSpeedLimit(const double & speed_limit, const bool & percentage) = 0;
 };
 
 }  // namespace controller 
