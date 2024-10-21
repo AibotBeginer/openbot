@@ -79,6 +79,7 @@ void Run()
 int main(int argc, char *argv[]) {
   // init cyber framework
   apollo::cyber::Init(argv[0]);
+
   // create talker node
   auto talker_node = apollo::cyber::CreateNode("talker");
   // create talker
@@ -92,9 +93,11 @@ int main(int argc, char *argv[]) {
     msg->set_seq(seq);
     msg->set_content("Hello, apollo!");
     talker->Write(msg);
-    AINFO << "talker sent a message! No. " << seq;
+    std::cout << "talker sent a message! No. " << seq << std::endl;
     seq++;
     rate.Sleep();
   }
+
+  google::ShutdownGoogleLogging();
   return 0;
 }

@@ -19,7 +19,7 @@ find_path(CYBERRT_INCLUDE_DIR
 )
 
 find_library(CYBERRT_LIBRARY
-  NAMES cyberrt
+  NAMES cyber
   PATHS /usr/local/lib /usr/lib
 )
 

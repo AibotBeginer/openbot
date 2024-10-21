@@ -32,12 +32,15 @@ google_enable_testing()
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams)
 
+find_package(CYBERRT REQUIRED)
 find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 find_package(Ceres REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(Lua REQUIRED)
 find_package(Protobuf 3.0.0 REQUIRED)
 find_package(TinyXML2 REQUIRED)
+find_package(fastrtps REQUIRED)
+find_package(fastcdr REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
@@ -157,6 +160,20 @@ google_binary(system_app
     openbot/system/system_app_main.cc
 )
 
+# listener_main
+google_binary(listener_main
+  SRCS
+    openbot/system/listener_main.cc
+)
+
+
+# talker_main
+google_binary(talker_main
+  SRCS
+    openbot/system/talker_main.cc
+)
+
+
 if(${BUILD_GRPC})
   google_binary(openbot_grpc_server
     SRCS
@@ -171,8 +188,18 @@ if(${BUILD_GRPC})
   endif()
 endif()
 
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${fastrtps_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC fastrtps)
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${fastcdr_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC fastcdr)
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${CYBERRT_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${CYBERRT_LIBRARY})
+
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${EIGEN3_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${EIGEN3_LIBRARIES})
+
 # target_link_libraries(${PROJECT_NAME} PUBLIC ${CERES_LIBRARIES})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${LUA_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LUA_LIBRARIES})
