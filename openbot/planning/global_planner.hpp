@@ -34,7 +34,7 @@ class GlobalPlanner
 public:
 
    /**
-   *  @brief SharedPtr
+   *  @brief SharedPtr typedef
    */
   OPENBOT_SMART_PTR_DEFINITIONS(GlobalPlanner)
 

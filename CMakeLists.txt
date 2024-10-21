@@ -118,6 +118,11 @@ set_source_files_properties(${ALL_PROTO_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENER
 list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
 list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
 
+# thirdparty
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
+add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/class_loader)
+add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/pluginlib)
+
 add_library(${PROJECT_NAME} SHARED ${ALL_LIBRARY_HDRS} ${ALL_LIBRARY_SRCS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PROTOBUF_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY} 
@@ -139,9 +144,6 @@ configure_file(
   ${PROJECT_SOURCE_DIR}/openbot/common/config.hpp.cmake
   ${PROJECT_BINARY_DIR}/openbot/common/config.hpp)
 
-# thirdparty
-add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/class_loader)
-add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/pluginlib)
 
 # openbot_print_configuration
 google_binary(openbot_print_configuration
