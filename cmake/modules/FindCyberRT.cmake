@@ -12,11 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-find_program(SPHINX_EXECUTABLE
-             NAMES sphinx-build
-             PATHS
-               /usr/bin
-             DOC "Sphinx")
+# Locate the CyberRT library
+find_path(CYBERRT_INCLUDE_DIR
+  NAMES cyber/cyber.h
+  PATHS /usr/local/include /usr/include
+)
 
+find_library(CYBERRT_LIBRARY
+  NAMES cyberrt
+  PATHS /usr/local/lib /usr/lib
+)
+
+# Set the results
+if(CYBERRT_INCLUDE_DIR AND CYBERRT_LIBRARY)
+  set(CYBERRT_FOUND TRUE)
+  set(CYBERRT_INCLUDE_DIRS ${CYBERRT_INCLUDE_DIR})
+  set(CYBERRT_LIBRARIES ${CYBERRT_LIBRARY})
+else()
+  set(CYBERRT_FOUND FALSE)
+endif()
+
+# Provide the package configuration
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Sphinx DEFAULT_MSG SPHINX_EXECUTABLE)
+find_package_handle_standard_args(CyberRT DEFAULT_MSG CYBERRT_INCLUDE_DIR CYBERRT_LIBRARY)
+
+mark_as_advanced(CYBERRT_INCLUDE_DIR CYBERRT_LIBRARY)
