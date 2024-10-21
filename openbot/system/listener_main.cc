@@ -15,24 +15,23 @@
  *****************************************************************************/
 
 #include "cyber/examples/proto/examples.pb.h"
+#include "openbot/common/proto/nav_msgs/path.pb.h"
 
 #include "cyber/cyber.h"
 
-void MessageCallback(
-    const std::shared_ptr<apollo::cyber::examples::proto::Chatter>& msg) {
-  std::cout << "Received message seq-> " << msg->seq() << std::endl;
-  std::cout << "msgcontent->" << msg->content() << std::endl;
+void MessageCallback(const std::shared_ptr<openbot::common::proto::nav_msgs::Path>& msg) 
+{
+  std::cout << "msgcontent->" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
   // init cyber framework
   apollo::cyber::Init(argv[0]);
   // create listener node
-  auto listener_node = apollo::cyber::CreateNode("listener");
+  auto listener_node = apollo::cyber::CreateNode("path");
   // create listener
   auto listener =
-      listener_node->CreateReader<apollo::cyber::examples::proto::Chatter>(
-          "channel/chatter", MessageCallback);
+      listener_node->CreateReader<openbot::common::proto::nav_msgs::Path>("path", MessageCallback);
   apollo::cyber::WaitForShutdown();
   return 0;
 }

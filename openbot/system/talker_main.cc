@@ -19,6 +19,7 @@
 #include "glog/logging.h"
 
 #include "cyber/examples/proto/examples.pb.h"
+#include "openbot/common/proto/nav_msgs/path.pb.h"
 
 #include "cyber/cyber.h"
 #include "cyber/time/rate.h"
@@ -33,48 +34,10 @@ namespace {
 
 void Run() 
 {
-  LOG(INFO) << "Openbot starting !!! ";
-  // create talker node
-  auto talker_node = apollo::cyber::CreateNode("talker");
-  // create talker
-  auto talker = talker_node->CreateWriter<Chatter>("channel/chatter");
-  Rate rate(1.0);
-  uint64_t seq = 0;
-  while (apollo::cyber::OK()) {
-    auto msg = std::make_shared<Chatter>();
-    msg->set_timestamp(Time::Now().ToNanosecond());
-    msg->set_lidar_timestamp(Time::Now().ToNanosecond());
-    msg->set_seq(seq);
-    msg->set_content("Hello, apollo!");
-    talker->Write(msg);
-    AINFO << "talker sent a message! No. " << seq;
-    seq++;
-    rate.Sleep();
-  }
-
 }
 
 }  // namespace
 }  // namespace openbot
-
-// int main(int argc, char** argv) 
-// {
-//   // init cyber framework
-//   apollo::cyber::Init(argv[0]);
-//   // google::AllowCommandLineReparsing();
-//   // google::InitGoogleLogging(argv[0]);
-//   // google::ParseCommandLineFlags(&argc, &argv, false);
-
-//   // CHECK(!FLAGS_configuration_directory.empty())
-//   //     << "-configuration_directory is missing.";
-//   // CHECK(!FLAGS_configuration_basename.empty())
-//   //     << "-configuration_basename is missing.";
-
-//   // openbot_ros::ScopedRosLogSink ros_log_sink;
-//   openbot::Run();
-//   // google::ShutdownGoogleLogging();
-//   return 0;
-// }
 
 int main(int argc, char *argv[]) {
   // init cyber framework
@@ -82,16 +45,13 @@ int main(int argc, char *argv[]) {
 
   // create talker node
   auto talker_node = apollo::cyber::CreateNode("talker");
+
   // create talker
-  auto talker = talker_node->CreateWriter<Chatter>("channel/chatter");
+  auto talker = talker_node->CreateWriter<openbot::common::proto::nav_msgs::Path>("path");
   Rate rate(1.0);
   uint64_t seq = 0;
   while (apollo::cyber::OK()) {
-    auto msg = std::make_shared<Chatter>();
-    msg->set_timestamp(Time::Now().ToNanosecond());
-    msg->set_lidar_timestamp(Time::Now().ToNanosecond());
-    msg->set_seq(seq);
-    msg->set_content("Hello, apollo!");
+    auto msg = std::make_shared<openbot::common::proto::nav_msgs::Path>();
     talker->Write(msg);
     std::cout << "talker sent a message! No. " << seq << std::endl;
     seq++;
