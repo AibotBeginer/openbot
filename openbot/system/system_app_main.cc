@@ -18,16 +18,6 @@
 #include "gflags/gflags.h"
 #include "glog/logging.h"
 
-#include "cyber/examples/proto/examples.pb.h"
-
-#include "cyber/cyber.h"
-#include "cyber/time/rate.h"
-#include "cyber/time/time.h"
-
-using apollo::cyber::Rate;
-using apollo::cyber::Time;
-using apollo::cyber::examples::proto::Chatter;
-
 namespace openbot {
 namespace {
 
