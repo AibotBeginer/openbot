@@ -14,59 +14,61 @@
  * limitations under the License.
  */
 
-
-#ifndef OPENBOT_PLANNING_GLOBAL_PLANNER_HPP_
-#define OPENBOT_PLANNING_GLOBAL_PLANNER_HPP_
+#ifndef OPENBOT_PLANNING_COMPONENTS_A_STAR_PALNNER_HPP_
+#define OPENBOT_PLANNING_COMPONENTS_A_STAR_PALNNER_HPP_
 
 #include <memory>
 #include <string>
 
 #include "openbot/common/macros.hpp"
+#include "openbot/planning/global_planner.hpp"
 #include "openbot/common/proto/nav_msgs/path.pb.h"
+#include "openbot/common/proto/geometry_msgs/twist.pb.h"
+#include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"
 #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
 namespace openbot {
 namespace planning { 
+namespace components { 
 
 /**
- * @class GlobalPlanner
- * @brief Abstract interface for global planners to adhere to with pluginlib
+ * @class Controller
+ * @brief controller interface that acts as a virtual base class for all controller plugins
  */
-class GlobalPlanner
+class AStarPlanner : public GlobalPlanner
 {
 public:
-
-   /**
-   *  @brief SharedPtr typedef
+  /**
+   *  @brief SharedPtr
    */
-  OPENBOT_SMART_PTR_DEFINITIONS(GlobalPlanner)
+  OPENBOT_SMART_PTR_DEFINITIONS(AStarPlanner)
 
   /**
    * @brief Virtual destructor
    */
-  virtual ~GlobalPlanner() {}
+  virtual ~AStarPlanner();
 
   /**
-   * @param  name The name of this planner
+   * @param name
    */
-  virtual void Configure(std::string name) = 0;
+  virtual void Configure(std::string name) override;
 
   /**
-   * @brief Method to cleanup resources used on shutdown.
+   * @brief Method to cleanup resources.
    */
-  virtual void Cleanup() = 0;
+  virtual void Cleanup() override;
 
   /**
    * @brief Method to active planner and any threads involved in execution.
    */
-  virtual void Activate() = 0;
+  virtual void Activate() override;
 
   /**
    * @brief Method to deactive planner and any threads involved in execution.
    */
-  virtual void Deactivate() = 0;
+  virtual void Deactivate() override;
 
-  /**
+   /**
    * @brief Method create the plan from a starting and ending goal.
    * @param start The starting pose of the robot
    * @param goal  The goal pose of the robot
@@ -74,10 +76,12 @@ public:
    */
   virtual common::proto::nav_msgs::Path CreatePlan(
     const common::proto::geometry_msgs::PoseStamped& start,
-    const common::proto::geometry_msgs::PoseStamped & goal) = 0;
+    const common::proto::geometry_msgs::PoseStamped& goal) override;
+
 };
 
+}  // namespace components
 }  // namespace planning 
 }  // namespace openbot
 
-#endif  // OPENBOT_PLANNING_GLOBAL_PLANNER_HPP_
+#endif  // OPENBOT_PLANNING_COMPONENTS_A_STAR_PALNNER_HPP_

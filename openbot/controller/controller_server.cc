@@ -15,20 +15,20 @@
  */
 
 
-#include "openbot/planning/planner_server.hpp"
+#include "openbot/controller/controller_server.hpp"
 // #include "openbot/common/proto/nav_msgs/path.pb.h"
 // #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
 namespace openbot {
-namespace planning { 
+namespace controller { 
 
-PlannerServer::PlannerServer()
+ControllerServer::ControllerServer()
 {
 }
 
-PlannerServer::~PlannerServer()
+ControllerServer::~ControllerServer()
 {
 }
 
-}  // namespace planning 
+}  // namespace controller 
 }  // namespace openbot

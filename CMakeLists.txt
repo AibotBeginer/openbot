@@ -160,19 +160,17 @@ google_binary(system_app
     openbot/system/system_app_main.cc
 )
 
-# listener_main
-google_binary(listener_main
-  SRCS
-    openbot/system/listener_main.cc
-)
+# # listener_main
+# google_binary(listener_main
+#   SRCS
+#     openbot/system/listener_main.cc
+# )
 
-
-# talker_main
-google_binary(talker_main
-  SRCS
-    openbot/system/talker_main.cc
-)
-
+# # talker_main
+# google_binary(talker_main
+#   SRCS
+#     openbot/system/talker_main.cc
+# )
 
 if(${BUILD_GRPC})
   google_binary(openbot_grpc_server

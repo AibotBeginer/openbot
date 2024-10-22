@@ -14,48 +14,42 @@
  * limitations under the License.
  */
 
-
-#ifndef OPENBOT_PLANNING_GLOBAL_PLANNER_SERVERHPP_
-#define OPENBOT_PLANNING_GLOBAL_PLANNER_SERVERHPP_
+#ifndef OPENBOT_SMOOTHER_SMOOTHER_SERVER_HPP_
+#define OPENBOT_SMOOTHER_SMOOTHER_SERVER_HPP_
 
 #include <memory>
 #include <string>
 
 #include "openbot/common/macros.hpp"
-// #include "openbot/common/proto/nav_msgs/path.pb.h"
-// #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
-
-// #include "pluginlib/class_loader.hpp"
-// #include "pluginlib/class_list_macros.hpp"
+#include "openbot/common/time.hpp"
+#include "openbot/common/proto/nav_msgs/path.pb.h"
 
 namespace openbot {
-namespace planning { 
+namespace smoother { 
 
-class PlannerServer
+class SmootherServer
 {
 public:
     /**
      *  @brief SharedPtr typedef
      */
-    OPENBOT_SMART_PTR_DEFINITIONS(PlannerServer);
+    OPENBOT_SMART_PTR_DEFINITIONS(SmootherServer);
 
     /**
      * @brief A constructor for openbot::planning::PlannerServer
      * @param options Additional options to control creation of the node.
      */
-    explicit PlannerServer();
+    explicit SmootherServer();
 
     /**
-     * @brief Destructor for openbot::planning::PlannerServer
+     * @brief Destructor for openbot::planning::SmootherServer
      */
-    ~PlannerServer();
-
-private:
+    ~SmootherServer();
 
 
 };
 
-}  // namespace planning 
+}  // namespace smoother 
 }  // namespace openbot
 
-#endif  // OPENBOT_PLANNING_GLOBAL_PLANNER_SERVERHPP_
+#endif  // OPENBOT_SMOOTHER_SMOOTHER_SERVER_HPP_

@@ -15,8 +15,8 @@
  */
 
 
-#ifndef OPENBOT_PLANNING_GLOBAL_PLANNER_SERVERHPP_
-#define OPENBOT_PLANNING_GLOBAL_PLANNER_SERVERHPP_
+#ifndef OPENBOT_CONTROLLER_CONTROLLER_SERVER_HPP_
+#define OPENBOT_CONTROLLER_CONTROLLER_SERVER_HPP_
 
 #include <memory>
 #include <string>
@@ -29,33 +29,33 @@
 // #include "pluginlib/class_list_macros.hpp"
 
 namespace openbot {
-namespace planning { 
+namespace controller { 
 
-class PlannerServer
+class ControllerServer
 {
 public:
     /**
      *  @brief SharedPtr typedef
      */
-    OPENBOT_SMART_PTR_DEFINITIONS(PlannerServer);
+    OPENBOT_SMART_PTR_DEFINITIONS(ControllerServer);
 
     /**
-     * @brief A constructor for openbot::planning::PlannerServer
+     * @brief A constructor for openbot::planning::ControllerServer
      * @param options Additional options to control creation of the node.
      */
-    explicit PlannerServer();
+    explicit ControllerServer();
 
     /**
-     * @brief Destructor for openbot::planning::PlannerServer
+     * @brief Destructor for openbot::planning::ControllerServer
      */
-    ~PlannerServer();
+    ~ControllerServer();
 
 private:
 
 
 };
 
-}  // namespace planning 
+}  // namespace controller 
 }  // namespace openbot
 
-#endif  // OPENBOT_PLANNING_GLOBAL_PLANNER_SERVERHPP_
+#endif  // OPENBOT_CONTROLLER_CONTROLLER_SERVER_HPP_

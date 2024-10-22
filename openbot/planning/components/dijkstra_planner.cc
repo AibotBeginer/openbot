@@ -15,20 +15,46 @@
  */
 
 
-#include "openbot/planning/planner_server.hpp"
-// #include "openbot/common/proto/nav_msgs/path.pb.h"
-// #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
+#include "openbot/planning/components/dijkstra_planner.hpp"
 
 namespace openbot {
 namespace planning { 
+namespace components { 
 
-PlannerServer::PlannerServer()
+DijkstraPlanner::~DijkstraPlanner()
 {
+
 }
 
-PlannerServer::~PlannerServer()
+void DijkstraPlanner::Configure(std::string name)
 {
+
 }
 
+void DijkstraPlanner::Cleanup() 
+{
+  
+}
+
+void DijkstraPlanner::Activate() 
+{
+
+}
+
+
+void DijkstraPlanner::Deactivate() 
+{
+
+}
+
+common::proto::nav_msgs::Path DijkstraPlanner::CreatePlan(
+    const common::proto::geometry_msgs::PoseStamped& start,
+    const common::proto::geometry_msgs::PoseStamped& goal)
+{
+    common::proto::nav_msgs::Path path;
+    return path;
+}
+
+}  // namespace components
 }  // namespace planning 
 }  // namespace openbot

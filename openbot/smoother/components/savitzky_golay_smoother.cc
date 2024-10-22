@@ -15,20 +15,42 @@
  */
 
 
-#include "openbot/planning/planner_server.hpp"
-// #include "openbot/common/proto/nav_msgs/path.pb.h"
-// #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
+#include "openbot/smoother/components/savitzky_golay_smoother.hpp"
 
 namespace openbot {
-namespace planning { 
+namespace smoother { 
+namespace components { 
 
-PlannerServer::PlannerServer()
+SavitzkyGolaySmoother::~SavitzkyGolaySmoother()
 {
+
 }
 
-PlannerServer::~PlannerServer()
+void SavitzkyGolaySmoother::Configure()
 {
+
 }
 
-}  // namespace planning 
+void SavitzkyGolaySmoother::Cleanup() 
+{
+  
+}
+
+void SavitzkyGolaySmoother::Activate() 
+{
+
+}
+
+void SavitzkyGolaySmoother::Deactivate() 
+{
+
+}
+
+bool SavitzkyGolaySmoother::Smooth(common::proto::nav_msgs::Path& path, const common::Duration& max_time)
+{
+    return true;
+}
+
+}  // namespace components
+}  // namespace smoother 
 }  // namespace openbot

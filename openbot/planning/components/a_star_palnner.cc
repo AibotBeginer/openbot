@@ -15,20 +15,45 @@
  */
 
 
-#include "openbot/planning/planner_server.hpp"
-// #include "openbot/common/proto/nav_msgs/path.pb.h"
-// #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
+#include "openbot/planning/components/a_star_palnner.hpp"
 
 namespace openbot {
 namespace planning { 
+namespace components { 
 
-PlannerServer::PlannerServer()
+AStarPlanner::~AStarPlanner()
 {
+
 }
 
-PlannerServer::~PlannerServer()
+void AStarPlanner::Configure(std::string name)
 {
+
 }
 
+void AStarPlanner::Cleanup() 
+{
+  
+}
+
+void AStarPlanner::Activate() 
+{
+
+}
+
+void AStarPlanner::Deactivate() 
+{
+
+}
+
+common::proto::nav_msgs::Path AStarPlanner::CreatePlan(
+    const common::proto::geometry_msgs::PoseStamped& start,
+    const common::proto::geometry_msgs::PoseStamped& goal)
+{
+    common::proto::nav_msgs::Path path;
+    return path;
+}
+
+}  // namespace components
 }  // namespace planning 
 }  // namespace openbot

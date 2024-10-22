@@ -15,20 +15,13 @@
  */
 
 
-#include "openbot/planning/planner_server.hpp"
+#include "openbot/smoother/smoother_server.hpp"
 // #include "openbot/common/proto/nav_msgs/path.pb.h"
 // #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
 namespace openbot {
-namespace planning { 
+namespace smoother { 
 
-PlannerServer::PlannerServer()
-{
-}
 
-PlannerServer::~PlannerServer()
-{
-}
-
-}  // namespace planning 
+}  // namespace smoother 
 }  // namespace openbot
