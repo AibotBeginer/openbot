@@ -39,6 +39,8 @@ find_package(Eigen3 REQUIRED)
 find_package(Lua REQUIRED)
 find_package(Protobuf 3.0.0 REQUIRED)
 find_package(TinyXML2 REQUIRED)
+find_package(behaviortree_cpp REQUIRED)
+
 # find_package(fastrtps REQUIRED)
 # find_package(fastcdr REQUIRED)
 
@@ -55,6 +57,11 @@ find_package(Sphinx)
 if(SPHINX_FOUND)
   add_subdirectory("docs")
 endif()
+
+include_directories(
+  ${PROJECT_SOURCE_DIR}/thirdparty/pluginlib/include
+  ${PROJECT_SOURCE_DIR}/thirdparty/class_loader/include
+)
 
 # Install catkin package.xml
 install(FILES package.xml DESTINATION share/openbot)
@@ -122,7 +129,6 @@ list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
 list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
 
 # thirdparty
-include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
 add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/class_loader)
 add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/pluginlib)
 
@@ -154,23 +160,23 @@ google_binary(openbot_print_configuration
     openbot/common/print_configuration_main.cc
 )
 
-# system_app
-google_binary(system_app
+# application.system_main
+google_binary(application.system_main
   SRCS
     openbot/system/system_app_main.cc
 )
 
-# # listener_main
-# google_binary(listener_main
-#   SRCS
-#     openbot/system/listener_main.cc
-# )
+# application.navigator_main
+google_binary(application.navigator_main
+  SRCS
+    openbot/system/navigation/navigator_app_main.cc
+)
 
-# # talker_main
-# google_binary(talker_main
-#   SRCS
-#     openbot/system/talker_main.cc
-# )
+# application.slam_main
+google_binary(application.slam_main
+  SRCS
+    openbot/system/slam/slam_app_main.cc
+)
 
 if(${BUILD_GRPC})
   google_binary(openbot_grpc_server
@@ -186,11 +192,8 @@ if(${BUILD_GRPC})
   endif()
 endif()
 
-# target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${fastrtps_INCLUDE_DIR}")
-# target_link_libraries(${PROJECT_NAME} PUBLIC fastrtps)
-
-# target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${fastcdr_INCLUDE_DIR}")
-# target_link_libraries(${PROJECT_NAME} PUBLIC fastcdr)
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${behaviortree_cpp_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC behaviortree_cpp)
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${CYBERRT_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CYBERRT_LIBRARY})
@@ -214,6 +217,10 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${CERES_LIBRARY})
 set(GLOG_LIBRARY glog)
 target_link_libraries(${PROJECT_NAME} PUBLIC ${GLOG_LIBRARY})
 target_link_libraries(${PROJECT_NAME} PUBLIC gflags)
+
+# target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${class_loader_INCLUDE_DIR}")
+# target_link_libraries(${PROJECT_NAME} PUBLIC class_loader)
+
 
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)

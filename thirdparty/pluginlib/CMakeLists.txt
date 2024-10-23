@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
 project(pluginlib)
+
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 # find_package(class_loader REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem)
@@ -21,3 +23,7 @@ foreach(HDR ${INSTALL_SOURCE_HDRS})
     DESTINATION ${DIR}
   )
 endforeach()
+
+# Prepare "Catch2" library for other executables
+add_library(pluginlib INTERFACE)
+target_include_directories(pluginlib INTERFACE ${ALL_LIBRARY_HDRS})

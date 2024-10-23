@@ -25,8 +25,8 @@
 // #include "openbot/common/proto/nav_msgs/path.pb.h"
 // #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
-// #include "pluginlib/class_loader.hpp"
-// #include "pluginlib/class_list_macros.hpp"
+#include "class_loader/class_loader.hpp"
+
 
 namespace openbot {
 namespace planning { 

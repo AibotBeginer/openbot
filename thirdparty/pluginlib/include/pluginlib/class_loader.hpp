@@ -39,8 +39,6 @@
 #include "pluginlib/class_desc.hpp"
 #include "pluginlib/class_loader_base.hpp"
 #include "pluginlib/exceptions.hpp"
-#include "ros/console.h"
-#include "ros/package.h"
 #include "tinyxml2.h"  // NOLINT
 
 // Note: pluginlib has traditionally utilized a "lookup name" for classes that does not match its

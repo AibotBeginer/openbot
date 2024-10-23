@@ -38,6 +38,7 @@ target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${Poco_LIBRARIES})
 
 install(
   TARGETS ${PROJECT_NAME}
+  EXPORT ClassLoaderExport
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
@@ -54,3 +55,23 @@ foreach(HDR ${ALL_LIBRARY_HDRS})
     DESTINATION ${DIR}
   )
 endforeach()
+
+set(CLASS_LOADER_CMAKE_DIR share/class_loader/cmake)
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+  class_loader-config.cmake.in
+  ${PROJECT_BINARY_DIR}/cmake/class_loader/class_loader-config.cmake
+  PATH_VARS CLASS_LOADER_CMAKE_DIR
+  INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/class_loader
+)
+
+install(
+  EXPORT ClassLoaderExport
+  DESTINATION share/class_loader/cmake/
+  FILE ClassLoaderTargets.cmake
+)
+
+install(
+  FILES ${PROJECT_BINARY_DIR}/cmake/class_loader/class_loader-config.cmake
+  DESTINATION share/class_loader/
+)
