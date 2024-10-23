@@ -116,6 +116,27 @@ foreach(ABS_FIL ${ALL_PROTOS})
     VERBATIM
   )
 endforeach()
+
+foreach(HDR ${ALL_PROTO_HDRS})
+  file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
+  get_filename_component(DIR ${REL_FIL} DIRECTORY)
+  get_filename_component(ABSOLUTE_PATH "${DIR}" ABSOLUTE)
+  string(REPLACE "/" ";" PATH_LIST "${ABSOLUTE_PATH}")
+  list(LENGTH PATH_LIST PATH_LENGTH)
+  if(PATH_LENGTH GREATER_EQUAL 4)
+      math(EXPR START_INDEX "${PATH_LENGTH} - 4")
+      list(SUBLIST PATH_LIST ${START_INDEX} 4 LAST_FOUR)
+      string(REPLACE ";" "/" LAST_FOUR_PATH "${LAST_FOUR}")
+  else()
+      message(STATUS "Path is too short to extract last four directories.")
+  endif()
+    
+  install(
+    FILES ${HDR}
+    DESTINATION include/${LAST_FOUR_PATH}
+  )
+endforeach()
+
 set_source_files_properties(${ALL_PROTO_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
 list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
