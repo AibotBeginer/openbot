@@ -41,9 +41,6 @@ find_package(Protobuf 3.0.0 REQUIRED)
 find_package(TinyXML2 REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 
-# find_package(fastrtps REQUIRED)
-# find_package(fastcdr REQUIRED)
-
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
 endif()
@@ -57,11 +54,6 @@ find_package(Sphinx)
 if(SPHINX_FOUND)
   add_subdirectory("docs")
 endif()
-
-include_directories(
-  ${PROJECT_SOURCE_DIR}/thirdparty/pluginlib/include
-  ${PROJECT_SOURCE_DIR}/thirdparty/class_loader/include
-)
 
 # Install catkin package.xml
 install(FILES package.xml DESTINATION share/openbot)
@@ -127,10 +119,6 @@ endforeach()
 set_source_files_properties(${ALL_PROTO_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
 list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
-
-# thirdparty
-add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/class_loader)
-add_subdirectory(${PROJECT_SOURCE_DIR}/thirdparty/pluginlib)
 
 add_library(${PROJECT_NAME} SHARED ${ALL_LIBRARY_HDRS} ${ALL_LIBRARY_SRCS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PROTOBUF_INCLUDE_DIR})

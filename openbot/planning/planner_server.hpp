@@ -25,7 +25,7 @@
 // #include "openbot/common/proto/nav_msgs/path.pb.h"
 // #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
-#include "class_loader/class_loader.hpp"
+// #include "class_loader/class_loader.hpp"
 
 
 namespace openbot {
