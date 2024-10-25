@@ -25,11 +25,11 @@ import "openbot/common/proto/vision_msgs/pose_2d.proto";
 //   algorithm.
 message BoundingBox2D
 {
-    // // The 2D position (in pixels) and orientation of the bounding box center.
-    // vision_msgs.Pose2D center = 1;
+    // The 2D position (in pixels) and orientation of the bounding box center.
+    vision_msgs.Pose2D center = 1;
 
-    // // The total size (in pixels) of the bounding box surrounding the object relative
-    // //   to the pose of its center.
-    // double size_x = 2;
-    // double size_y = 3;
+    // The total size (in pixels) of the bounding box surrounding the object relative
+    //   to the pose of its center.
+    double size_x = 2;
+    double size_y = 3;
 }

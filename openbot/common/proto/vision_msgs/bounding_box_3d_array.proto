@@ -16,8 +16,11 @@ syntax = "proto3";
 
 package openbot.common.proto.vision_msgs;
 
+import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/vision_msgs/bounding_box_3d.proto";
 
 message BoundingBox3DArray
 {
-
+    std_msgs.Header header = 1;
+    repeated vision_msgs.BoundingBox3D boxes = 2;
 }

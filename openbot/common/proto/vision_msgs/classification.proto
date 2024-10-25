@@ -16,8 +16,25 @@ syntax = "proto3";
 
 package openbot.common.proto.vision_msgs;
 
+import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/vision_msgs/object_hypothesis.proto";
 
+// Defines a classification result.
+//
+// This result does not contain any position information. It is designed for
+//   classifiers, which simply provide class probabilities given an instance of
+//   source data (e.g., an image or a point cloud).
 message Classification
 {
-
+    std_msgs.Header header = 1;
+    
+    // A list of class probabilities. This list need not provide a probability for
+    //   every possible class, just ones that are nonzero, or above some
+    //   user-defined threshold.
+    repeated vision_msgs.ObjectHypothesis results = 2;
+    
+    // Source data that generated this classification are not a part of the message.
+    // If you need to access them, use an exact or approximate time synchronizer in
+    // your code, as this message's header should match the header of the source
+    // data.
 }
