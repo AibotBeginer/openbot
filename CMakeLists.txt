@@ -187,6 +187,19 @@ google_binary(application.slam_main
     openbot/system/slam/slam_app_main.cc
 )
 
+# # application.talker_main
+# google_binary(application.talker_main
+#   SRCS
+#     openbot/system/talker_main.cc
+# )
+
+# # application.listener_main
+# google_binary(application.listener_main
+#   SRCS
+#     openbot/system/listener_main.cc
+# )
+
+
 if(${BUILD_GRPC})
   google_binary(openbot_grpc_server
     SRCS
@@ -204,8 +217,8 @@ endif()
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${behaviortree_cpp_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC behaviortree_cpp)
 
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${CYBERRT_INCLUDE_DIR}")
-target_link_libraries(${PROJECT_NAME} PUBLIC ${CYBERRT_LIBRARY})
+# target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${CYBERRT_INCLUDE_DIR}")
+# target_link_libraries(${PROJECT_NAME} PUBLIC ${CYBERRT_LIBRARY})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${EIGEN3_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${EIGEN3_LIBRARIES})

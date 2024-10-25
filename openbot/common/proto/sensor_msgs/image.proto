@@ -14,7 +14,7 @@
 
 syntax = "proto3";
 
-package openbot.common.proto.std_msgs;
+package openbot.common.proto.sensor_msgs;
 
 import "openbot/common/proto/std_msgs/header.proto";
 

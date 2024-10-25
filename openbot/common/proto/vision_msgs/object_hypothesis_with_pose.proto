@@ -1,0 +1,39 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package openbot.common.proto.vision_msgs;
+
+import "openbot/common/proto/geometry_msgs/pose_with_covariance.proto";
+import "openbot/common/proto/vision_msgs/object_hypothesis.proto";
+
+// An object hypothesis that contains pose information.
+// If you would like to define an array of ObjectHypothesisWithPose messages,
+//   please see the Detection2D or Detection3D message types.
+message ObjectHypothesisWithPose
+{
+    // The object hypothesis (ID and score).
+    vision_msgs.ObjectHypothesis hypothesis = 1;
+
+    // The 6D pose of the object hypothesis. This pose should be
+    //   defined as the pose of some fixed reference point on the object, such as
+    //   the geometric center of the bounding box, the center of mass of the
+    //   object or the origin of a reference mesh of the object.
+    // Note that this pose is not stamped; frame information can be defined by
+    //   parent messages.
+    // Also note that different classes predicted for the same input data may have
+    //   different predicted 6D poses.
+    geometry_msgs.PoseWithCovariance pose = 2;
+}
