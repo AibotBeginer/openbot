@@ -14,7 +14,6 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "cyber/examples/proto/examples.pb.h"
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 
 #include "cyber/cyber.h"

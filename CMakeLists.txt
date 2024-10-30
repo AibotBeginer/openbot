@@ -36,7 +36,8 @@ google_enable_testing()
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams)
 
-# find_package(CYBERRT REQUIRED)
+find_package(CYBERRT REQUIRED)
+find_package(FastRTPS REQUIRED)
 find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 find_package(Ceres REQUIRED)
 find_package(Eigen3 REQUIRED)
@@ -213,17 +214,17 @@ google_binary(application.slam_main
     openbot/system/slam/slam_app_main.cc
 )
 
-# # application.talker_main
-# google_binary(application.talker_main
-#   SRCS
-#     openbot/system/talker_main.cc
-# )
+# application.talker_main
+google_binary(application.talker_main
+  SRCS
+    openbot/system/talker_main.cc
+)
 
-# # application.listener_main
-# google_binary(application.listener_main
-#   SRCS
-#     openbot/system/listener_main.cc
-# )
+# application.listener_main
+google_binary(application.listener_main
+   SRCS
+     openbot/system/listener_main.cc
+)
 
 
 if(${BUILD_GRPC})
@@ -243,8 +244,11 @@ endif()
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${behaviortree_cpp_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC behaviortree_cpp)
 
-# target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${CYBERRT_INCLUDE_DIR}")
-# target_link_libraries(${PROJECT_NAME} PUBLIC ${CYBERRT_LIBRARY})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${CYBERRT_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${CYBERRT_LIBRARY})
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${FastRTPS_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${FastRTPS_LIBRARY})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${EIGEN3_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${EIGEN3_LIBRARIES})

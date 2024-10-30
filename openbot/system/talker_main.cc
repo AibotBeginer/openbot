@@ -18,7 +18,6 @@
 #include "gflags/gflags.h"
 #include "glog/logging.h"
 
-#include "cyber/examples/proto/examples.pb.h"
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 
 #include "cyber/cyber.h"
@@ -27,7 +26,6 @@
 
 using apollo::cyber::Rate;
 using apollo::cyber::Time;
-using apollo::cyber::examples::proto::Chatter;
 
 namespace openbot {
 namespace {
@@ -50,12 +48,12 @@ int main(int argc, char *argv[]) {
   auto talker = talker_node->CreateWriter<openbot::common::proto::nav_msgs::Path>("path");
   Rate rate(1.0);
   uint64_t seq = 0;
-  // while (apollo::cyber::OK()) {
-  //   auto msg = std::make_shared<openbot::common::proto::nav_msgs::Path>();
-  //   talker->Write(msg);
-  //   std::cout << "talker sent a message! No. " << seq << std::endl;
-  //   seq++;
-  //   rate.Sleep();
-  // }
+  while (apollo::cyber::OK()) {
+    auto msg = std::make_shared<openbot::common::proto::nav_msgs::Path>();
+    talker->Write(msg);
+    std::cout << "talker sent a message! No. " << seq << std::endl;
+    seq++;
+    rate.Sleep();
+  }
   return 0;
 }
