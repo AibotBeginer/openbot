@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_COMMON_PROTO_NAV_MSGS_TO_PROTO_HPP_
-#define OPENBOT_COMMON_PROTO_NAV_MSGS_TO_PROTO_HPP_
+#ifndef OPENBOT_COMMON_MSGS_MSGS_HPP_
+#define OPENBOT_COMMON_MSGS_MSGS_HPP_
 
-namespace openbot {
-namespace common {
-namespace proto {
+#include "openbot/common/msgs/builtin_interfaces.hpp"
+#include "openbot/common/msgs/geometry_msgs.hpp"
+#include "openbot/common/msgs/nav_msgs.hpp"
+#include "openbot/common/msgs/sensor_msgs.hpp"
+#include "openbot/common/msgs/shape_msgs.hpp"
+#include "openbot/common/msgs/std_msgs.hpp"
+#include "openbot/common/msgs/vision_msgs.hpp"
 
-
-
-}  // namespace proto
-}  // namespace common
-}  // namespace openbot
-
-#endif  // OPENBOT_COMMON_PROTO_NAV_MSGS_TO_PROTO_HPP_
+#endif  // OPENBOT_COMMON_MSGS_MSGS_HPP_

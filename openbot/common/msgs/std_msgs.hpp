@@ -14,28 +14,34 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_COMMON_PROTO_BUILTIN_INTERFACES_TO_PROTO_HPP_
-#define OPENBOT_COMMON_PROTO_BUILTIN_INTERFACES_TO_PROTO_HPP_
+#ifndef OPENBOT_COMMON_MSGS_STD_MSGS_HPP_
+#define OPENBOT_COMMON_MSGS_STD_MSGS_HPP_
 
-// std_msgs
+#include <string>
+
 #include "openbot/common/proto/std_msgs/header.pb.h"
-#include "openbot/common/port.hpp"
+#include "openbot/common/msgs/builtin_interfaces.hpp"
 
 namespace openbot {
 namespace common {
-namespace builtin_interfaces {
+namespace std_msgs {
 
-struct Time 
+struct Header
 {
-    // The seconds component, valid over all int32 values.
-    uint32 sec;
+    builtin_interfaces::Time stamp;
 
-    // The nanoseconds component, valid in the range [0, 10e9).
-    uint32 nanosec;
+    // Transform frame with which this data is associated.
+    std::string frame_id;
 };
 
-}  // namespace builtin_interfaces
+// Converts 'Header' to a openbot::common::proto::std_msgs::Header.
+openbot::common::proto::std_msgs::Header ToProto(const Header& data);
+
+// Converts 'proto' to openbot::common::proto::Header.
+Header FromProto(const openbot::common::proto::std_msgs::Header& proto);
+
+}  // namespace std_msgs
 }  // namespace common
 }  // namespace openbot
 
-#endif  // OPENBOT_COMMON_PROTO_BUILTIN_INTERFACES_TO_PROTO_HPP_
+#endif  // OPENBOT_COMMON_MSGS_STD_MSGS_HPP_

@@ -1,8 +1,7 @@
-#include "openbot/common/proto/std_msgs_to_proto.hpp"
+#include "openbot/common/msgs/std_msgs.hpp"
 
 namespace openbot {
 namespace common {
-namespace proto {
 namespace std_msgs {
 
 // Converts 'Header' to a openbot::common::proto::std_msgs::Header.
@@ -22,6 +21,5 @@ Header FromProto(const openbot::common::proto::std_msgs::Header& proto)
 }
 
 }  // namespace std_msgs
-}  // namespace proto
 }  // namespace common
 }  // namespace openbot

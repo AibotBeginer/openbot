@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_COMMON_PROTO_GEOMETRY_MSGS_TO_PROTO_HPP_
-#define OPENBOT_COMMON_PROTO_GEOMETRY_MSGS_TO_PROTO_HPP_
+#ifndef OPENBOT_COMMON_MSGS_SENSOR_MSGS_HPP_
+#define OPENBOT_COMMON_MSGS_SENSOR_MSGS_HPP_
 
 namespace openbot {
 namespace common {
-namespace proto {
+namespace sensor_msgs {
 
 
 
-}  // namespace proto
+}  // namespace sensor_msgs
 }  // namespace common
 }  // namespace openbot
 
-#endif  // OPENBOT_COMMON_PROTO_GEOMETRY_MSGS_TO_PROTO_HPP_
+#endif  // OPENBOT_COMMON_MSGS_SENSOR_MSGS_HPP_

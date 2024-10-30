@@ -14,34 +14,34 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_COMMON_PROTO_STD_MSGS_TO_PROTO_HPP_
-#define OPENBOT_COMMON_PROTO_STD_MSGS_TO_PROTO_HPP_
+#ifndef OPENBOT_COMMON_MSGS_BUILTIN_INTERFACES_HPP_
+#define OPENBOT_COMMON_MSGS_BUILTIN_INTERFACES_HPP_
 
-#include <string>
-
-#include "openbot/common/proto/std_msgs/header.pb.h"
-#include "openbot/common/proto/builtin_interfaces_to_proto.hpp"
+// std_msgs
+#include "openbot/common/proto/builtin_interfaces/time.pb.h"
+#include "openbot/common/port.hpp"
 
 namespace openbot {
 namespace common {
-namespace std_msgs {
+namespace builtin_interfaces {
 
-struct Header
+struct Time 
 {
-    builtin_interfaces::Time stamp;
+    // The seconds component, valid over all int32 values.
+    uint32 sec;
 
-    // Transform frame with which this data is associated.
-    std::string frame_id;
+    // The nanoseconds component, valid in the range [0, 10e9).
+    uint32 nanosec;
 };
 
-// Converts 'Header' to a openbot::common::proto::std_msgs::Header.
-openbot::common::proto::std_msgs::Header ToProto(const Header& data);
+// Converts 'Time' to a openbot::common::proto::std_msgs::Header.
+openbot::common::proto::builtin_interfaces::Time ToProto(const Time& data);
 
 // Converts 'proto' to openbot::common::proto::Header.
-Header FromProto(const openbot::common::proto::std_msgs::Header& proto);
+Time FromProto(const openbot::common::proto::builtin_interfaces::Time& proto);
 
-}  // namespace std_msgs
+}  // namespace builtin_interfaces
 }  // namespace common
 }  // namespace openbot
 
-#endif  // OPENBOT_COMMON_PROTO_STD_MSGS_TO_PROTO_HPP_
+#endif  // OPENBOT_COMMON_MSGS_BUILTIN_INTERFACES_HPP_
