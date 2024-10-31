@@ -48,6 +48,8 @@ find_package(TinyXML2 REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 find_package(OpenCV REQUIRED)
 
+message("========================${PCL_INCLUDE_DIRS}")
+
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
 endif()

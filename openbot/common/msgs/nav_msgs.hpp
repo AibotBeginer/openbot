@@ -33,6 +33,11 @@ namespace openbot {
 namespace common {
 namespace nav_msgs {
 
+struct Odometry
+{
+
+};
+
 struct Path
 {
     std_msgs::Header header;
