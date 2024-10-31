@@ -1,5 +1,5 @@
 #include "openbot/common/msgs/nav_msgs.hpp"
-
+#include "openbot/common/msgs/std_msgs.hpp"
 
 namespace openbot {
 namespace common {
@@ -10,7 +10,7 @@ proto::nav_msgs::Path ToProto(const Path& data)
     proto::nav_msgs::Path proto;
     *proto.mutable_header() = ToProto(data.header);
     for (int i = 0; i < data.poses.size(); ++i) {
-        *proto.mutable_poses(i) = ToProto(data.poses[i]);
+        *proto.add_poses() = ToProto(data.poses[i]);
     }
     return proto;
 }

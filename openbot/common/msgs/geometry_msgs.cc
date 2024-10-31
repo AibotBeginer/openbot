@@ -194,10 +194,10 @@ proto::geometry_msgs::PoseStamped ToProto(const PoseStamped& data)
 
 PoseStamped FromProto(const proto::geometry_msgs::PoseStamped& proto)
 {
-    return PoseStamped {
-        std_msgs::FromProto(proto.header()),
-        FromProto(proto.pose())
-    };
+    PoseStamped data;
+    data.header = std_msgs::FromProto(proto.header());
+    data.pose = FromProto(proto.pose());
+    return data;
 }
 
 proto::geometry_msgs::Quaternion ToProto(const Quaternion& data)
