@@ -48,6 +48,15 @@ sudo apt install libtinyxml2-dev \
 	libompl-dev
 ```
 
+* G2O
+
+```bash
+git clone -b 20230223_git https://github.com/RainerKuemmerle/g2o.git
+cd g2o && mkdir build && cd build && cmake ..
+make -j8
+sudo make install
+```
+
 * cyberRT
 
 ```bash

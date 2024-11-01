@@ -40,6 +40,7 @@ find_package(CYBERRT REQUIRED)
 find_package(FastRTPS REQUIRED)
 find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 find_package(Ceres REQUIRED)
+# find_package(G2O REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
 find_package(Lua REQUIRED)
@@ -227,7 +228,6 @@ google_binary(application.listener_main
      openbot/system/listener_main.cc
 )
 
-
 if(${BUILD_GRPC})
   google_binary(openbot_grpc_server
     SRCS
@@ -254,7 +254,12 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${FastRTPS_LIBRARY})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${EIGEN3_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${EIGEN3_LIBRARIES})
 
+# target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${CERES_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC ${CERES_LIBRARIES})
+
+# target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${G2O_CORE_LIBRARY} ${G2O_STUFF_LIBRARY}")
+# target_link_libraries(${PROJECT_NAME} PUBLIC ${G2O_LIBRARIES})
+
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${LUA_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LUA_LIBRARIES})
 
