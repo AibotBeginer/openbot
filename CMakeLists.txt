@@ -47,6 +47,7 @@ find_package(Protobuf 3.0.0 REQUIRED)
 find_package(TinyXML2 REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(ompl REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
@@ -278,6 +279,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${PCL_LIBRARY_DIRS})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OpenCV_INCLUDE_DIRS}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${OpenCV_LIBS})
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OMPL_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${OMPL_LIBRARY})
 
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)

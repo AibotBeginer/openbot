@@ -39,10 +39,13 @@ make -j8
 sudo make install
 ```
 
-* TinyXML2
+* apt安装
 
 ```bash
-sudo apt install libtinyxml2-dev liblua5.3-dev ninja-build
+sudo apt install libtinyxml2-dev \
+	liblua5.3-dev \
+	ninja-build \
+	libompl-dev
 ```
 
 * cyberRT
