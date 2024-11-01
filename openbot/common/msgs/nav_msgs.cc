@@ -5,6 +5,56 @@ namespace openbot {
 namespace common {
 namespace nav_msgs {
 
+proto::nav_msgs::GridCells ToProto(const GridCells& data)
+{
+    proto::nav_msgs::GridCells proto;
+    return proto;
+}
+
+GridCells FromProto(const proto::nav_msgs::GridCells& proto)
+{
+    GridCells data;
+    return data;
+}
+
+// MapMetaData
+proto::nav_msgs::MapMetaData ToProto(const MapMetaData& data)
+{
+    proto::nav_msgs::MapMetaData proto;
+    return proto;
+}
+
+MapMetaData FromProto(const proto::nav_msgs::MapMetaData& proto)
+{
+    MapMetaData data;
+    return data;
+}
+
+// OccupancyGrid
+proto::nav_msgs::OccupancyGrid ToProto(const OccupancyGrid& data)
+{
+    proto::nav_msgs::OccupancyGrid proto;
+    return proto;
+}
+
+OccupancyGrid FromProto(const proto::nav_msgs::OccupancyGrid& proto)
+{
+    OccupancyGrid data;
+    return data;
+}
+
+proto::nav_msgs::Odometry ToProto(const Odometry& data)
+{
+    proto::nav_msgs::Odometry proto;
+    return proto;
+}
+
+Odometry FromProto(const proto::nav_msgs::Odometry& proto)
+{
+    Odometry data;
+    return data;
+}
+
 proto::nav_msgs::Path ToProto(const Path& data)
 {
     proto::nav_msgs::Path proto;
