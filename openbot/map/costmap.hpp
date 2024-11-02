@@ -33,7 +33,7 @@ public:
     /**
      * @brief Virtual destructor
      */
-    virtual ~GlobalPlanner() {}
+    virtual ~Costmap() {}
 };
 
 }  // namespace map
