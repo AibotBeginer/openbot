@@ -23,6 +23,7 @@
 #include <pcl/PCLPointCloud2.h>
 #include <pcl/conversions.h>
 
+#include "openbot/common/pcl_conversions.hpp"
 #include "openbot/common/msgs/sensor_msgs.hpp"
 
 namespace openbot {

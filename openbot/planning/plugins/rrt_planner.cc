@@ -122,11 +122,12 @@ common::proto::nav_msgs::Path RRTPlanner::CreatePlan(
     return path;
 }
 
-common::nav_msgs::Path CreatePlan(
+common::nav_msgs::Path RRTPlanner::CreatePlan(
         const common::geometry_msgs::PoseStamped& start,
         const common::geometry_msgs::PoseStamped& goal)
 {
-    
+    common::nav_msgs::Path path;
+    return path;
 }
 
 }  // namespace plugins
