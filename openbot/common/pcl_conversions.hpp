@@ -467,7 +467,6 @@ void toROSMsg (const pcl::PointCloud<T> &cloud, sensor_msgs::msg::Image& msg)
 }
 
 /** Provide to/fromROSMsg for sensor_msgs::msg::PointCloud2 <=> pcl::PointCloud<T> **/
-
 template<typename T>
 void toROSMsg(const pcl::PointCloud<T> &pcl_cloud, sensor_msgs::msg::PointCloud2 &cloud)
 {
@@ -518,8 +517,7 @@ namespace io {
 
   /** Overload pcl::io::savePCDFile **/
 
-  inline int
-  savePCDFile(const std::string &file_name, const sensor_msgs::msg::PointCloud2 &cloud,
+  inline int savePCDFile(const std::string &file_name, const sensor_msgs::msg::PointCloud2 &cloud,
               const Eigen::Vector4f &origin = Eigen::Vector4f::Zero (),
               const Eigen::Quaternionf &orientation = Eigen::Quaternionf::Identity (),
               const bool binary_mode = false)
@@ -529,8 +527,7 @@ namespace io {
     return pcl::io::savePCDFile(file_name, pcl_cloud, origin, orientation, binary_mode);
   }
 
-  inline int
-  destructiveSavePCDFile(const std::string &file_name, sensor_msgs::msg::PointCloud2 &cloud,
+  inline int destructiveSavePCDFile(const std::string &file_name, sensor_msgs::msg::PointCloud2 &cloud,
                           const Eigen::Vector4f &origin = Eigen::Vector4f::Zero (),
                           const Eigen::Quaternionf &orientation = Eigen::Quaternionf::Identity (),
                           const bool binary_mode = false)

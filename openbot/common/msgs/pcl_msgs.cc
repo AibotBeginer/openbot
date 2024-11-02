@@ -56,15 +56,15 @@ PointIndices FromProto(const openbot::common::proto::pcl_msgs::PointIndices& pro
     return data;
 }
 
-openbot::common::proto::pcl_msgs::PolygonMesh ToProto(const PolygonMesh& data)
+openbot::common::proto::pcl_msgs::ModelCoefficients ToProto(const ModelCoefficients& data)
 {
-    openbot::common::proto::pcl_msgs::PolygonMesh proto;
+    openbot::common::proto::pcl_msgs::ModelCoefficients proto;
     return proto;
 }
 
-PolygonMesh FromProto(const openbot::common::proto::pcl_msgs::PolygonMesh& proto)
+ModelCoefficients FromProto(const openbot::common::proto::pcl_msgs::ModelCoefficients& proto)
 {
-    PolygonMesh data;
+    ModelCoefficients data;
     return data;
 }
 
