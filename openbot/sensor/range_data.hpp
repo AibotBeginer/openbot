@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_POINT_CLOUD_HPP_
-#define OPENBOT_SENSOR_POINT_CLOUD_HPP_
+#ifndef OPENBOT_SENSOR_RANGE_DATA_HPP_
+#define OPENBOT_SENSOR_RANGE_DATA_HPP_
 
 namespace openbot {
 namespace sensor { 
@@ -24,4 +24,4 @@ namespace sensor {
 }  // namespace sensor
 }  // namespace openbot
 
-#endif  // OPENBOT_SENSOR_POINT_CLOUD_HPP_
+#endif  // OPENBOT_SENSOR_RANGE_DATA_HPP_

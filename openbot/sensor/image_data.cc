@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_POINT_CLOUD_HPP_
-#define OPENBOT_SENSOR_POINT_CLOUD_HPP_
+#include "openbot/sensor/image_data.hpp"
 
 namespace openbot {
-namespace sensor { 
+namespace sensor {
 
 
 }  // namespace sensor
 }  // namespace openbot
-
-#endif  // OPENBOT_SENSOR_POINT_CLOUD_HPP_
