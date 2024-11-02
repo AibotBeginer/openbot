@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-#include "openbot/map/generator.hpp"
+#ifndef OPENBOT_MAP_RAND_MAP_GENERATOR_HPP_
+#define OPENBOT_MAP_RAND_MAP_GENERATOR_HPP_
 
-#include <time.h>
-
-#include <cerrno>
-#include <cstring>
+#include <vector>
 #include <string>
 
-#include "glog/logging.h"
-
 namespace openbot {
-namespace map {
+namespace map { 
 
 
 }  // namespace map
 }  // namespace openbot
+
+
+#endif  // OPENBOT_MAP_RAND_MAP_GENERATOR_HPP_

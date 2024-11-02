@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/map/rand_map_generator.hpp"
+#include "openbot/map/voxel_map.hpp"
 
 #include "gtest/gtest.h"
 
@@ -22,7 +22,7 @@ namespace openbot {
 namespace map {
 namespace {
 
-TEST(MapTest, testX) 
+TEST(VoxelMap, testX) 
 {
  
 }
