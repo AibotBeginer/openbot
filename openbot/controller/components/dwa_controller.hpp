@@ -21,7 +21,7 @@
 #include <string>
 
 #include "openbot/common/macros.hpp"
-#include "openbot/controller/controller.hpp"
+#include "openbot/control/controller.hpp"
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"

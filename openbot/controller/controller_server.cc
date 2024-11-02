@@ -15,7 +15,7 @@
  */
 
 
-#include "openbot/controller/controller_server.hpp"
+#include "openbot/control/controller_server.hpp"
 // #include "openbot/common/proto/nav_msgs/path.pb.h"
 // #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
