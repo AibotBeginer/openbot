@@ -60,6 +60,14 @@ common::proto::nav_msgs::Path DijkstraPlanner::CreatePlan(
     return path;
 }
 
+common::nav_msgs::Path DijkstraPlanner::CreatePlan(
+        const common::geometry_msgs::PoseStamped& start,
+        const common::geometry_msgs::PoseStamped& goal)
+{
+    common::nav_msgs::Path path;
+    return path;
+}
+
 }  // namespace plugins
 }  // namespace planning 
 }  // namespace openbot

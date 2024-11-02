@@ -84,6 +84,17 @@ public:
     const common::proto::geometry_msgs::PoseStamped& start,
     const common::proto::geometry_msgs::PoseStamped& goal) override;
 
+  /**
+     * @brief Method create the plan from a starting and ending goal.
+     * @param start The starting pose of the robot
+     * @param goal  The goal pose of the robot
+     * @return      The sequence of poses to get from start to goal, if any
+     */
+    virtual common::nav_msgs::Path CreatePlan(
+        const common::geometry_msgs::PoseStamped& start,
+        const common::geometry_msgs::PoseStamped& goal) override;
+private:
+    std::shared_ptr<map::Costmap> costmap_{nullptr};
 };
 
 }  // namespace plugins

@@ -122,6 +122,13 @@ common::proto::nav_msgs::Path RRTPlanner::CreatePlan(
     return path;
 }
 
+common::nav_msgs::Path CreatePlan(
+        const common::geometry_msgs::PoseStamped& start,
+        const common::geometry_msgs::PoseStamped& goal)
+{
+    
+}
+
 }  // namespace plugins
 }  // namespace planning 
 }  // namespace openbot

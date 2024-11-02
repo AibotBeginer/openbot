@@ -22,6 +22,7 @@
 #include <string>
 
 #include "openbot/common/macros.hpp"
+#include "openbot/common/msgs/msgs.hpp"
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 #include "openbot/map/voxel_map.hpp"
@@ -84,6 +85,16 @@ public:
   virtual common::proto::nav_msgs::Path CreatePlan(
     const common::proto::geometry_msgs::PoseStamped& start,
     const common::proto::geometry_msgs::PoseStamped & goal) = 0;
+
+  /**
+   * @brief Method create the plan from a starting and ending goal.
+   * @param start The starting pose of the robot
+   * @param goal  The goal pose of the robot
+   * @return      The sequence of poses to get from start to goal, if any
+   */
+  virtual common::nav_msgs::Path CreatePlan(
+    const common::geometry_msgs::PoseStamped& start,
+    const common::geometry_msgs::PoseStamped & goal) = 0;
 };
 
 }  // namespace planning 
