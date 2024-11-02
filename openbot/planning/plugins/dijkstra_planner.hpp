@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_PLANNING_COMPONENTS_DIJKSTRA_PLANNER_HPP_
-#define OPENBOT_PLANNING_COMPONENTS_DIJKSTRA_PLANNER_HPP_
+#ifndef OPENBOT_PLANNING_PLUGINS_DIJKSTRA_PLANNER_HPP_
+#define OPENBOT_PLANNING_PLUGINS_DIJKSTRA_PLANNER_HPP_
 
 #include <memory>
 #include <string>
@@ -29,7 +29,7 @@
 
 namespace openbot {
 namespace planning { 
-namespace components { 
+namespace plugins { 
 
 /**
  * @class Controller
@@ -52,6 +52,12 @@ public:
    * @param name
    */
   virtual void Configure(std::string name) override;
+
+  /**
+   * @param  name The name of this planner
+   * @param  costmap A pointer to the costmap
+   */
+  virtual void Configure(std::string name, std::shared_ptr<map::Costmap> costmap) override;
 
   /**
    * @brief Method to cleanup resources.
@@ -80,8 +86,8 @@ public:
 
 };
 
-}  // namespace components
+}  // namespace plugins
 }  // namespace planning 
 }  // namespace openbot
 
-#endif  // OPENBOT_PLANNING_COMPONENTS_DIJKSTRA_PLANNER_HPP_
+#endif  // OPENBOT_PLANNING_PLUGINS_DIJKSTRA_PLANNER_HPP_

@@ -24,9 +24,12 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
+#include "openbot/map/voxel_map.hpp"
+#include "openbot/map/costmap.hpp"
 
 namespace openbot {
 namespace planning { 
+
 
 /**
  * @class GlobalPlanner
@@ -50,6 +53,12 @@ public:
    * @param  name The name of this planner
    */
   virtual void Configure(std::string name) = 0;
+
+  /**
+   * @param  name The name of this planner
+   * @param  costmap A pointer to the costmap
+   */
+  virtual void Configure(std::string name, std::shared_ptr<map::Costmap> costmap_ros) = 0;
 
   /**
    * @brief Method to cleanup resources used on shutdown.

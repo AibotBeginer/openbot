@@ -14,46 +14,29 @@
  * limitations under the License.
  */
 
+#ifndef OPENBOT_MAP_COSTMAP_HPP_
+#define OPENBOT_MAP_COSTMAP_HPP_
 
-#include "openbot/planning/components/a_star_palnner.hpp"
+#include "openbot/common/macros.hpp"
 
 namespace openbot {
-namespace planning { 
-namespace components { 
+namespace map { 
 
-AStarPlanner::~AStarPlanner()
+class Costmap
 {
+public:
+    /**
+     *  @brief SharedPtr typedef
+     */
+    OPENBOT_SMART_PTR_DEFINITIONS(Costmap)
 
-}
+    /**
+     * @brief Virtual destructor
+     */
+    virtual ~GlobalPlanner() {}
+};
 
-void AStarPlanner::Configure(std::string name)
-{
-
-}
-
-void AStarPlanner::Cleanup() 
-{
-  
-}
-
-void AStarPlanner::Activate() 
-{
-
-}
-
-void AStarPlanner::Deactivate() 
-{
-
-}
-
-common::proto::nav_msgs::Path AStarPlanner::CreatePlan(
-    const common::proto::geometry_msgs::PoseStamped& start,
-    const common::proto::geometry_msgs::PoseStamped& goal)
-{
-    common::proto::nav_msgs::Path path;
-    return path;
-}
-
-}  // namespace components
-}  // namespace planning 
+}  // namespace map
 }  // namespace openbot
+
+#endif  // OPENBOT_MAP_COSTMAP_HPP_

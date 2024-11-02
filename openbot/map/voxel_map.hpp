@@ -19,6 +19,7 @@
 
 #include "openbot/common/port.hpp"
 #include "openbot/common/macros.hpp"
+#include "openbot/map/costmap.hpp"
 #include "openbot/map/voxel_dilater.hpp"
 
 #include <memory>
@@ -28,7 +29,7 @@
 namespace openbot {
 namespace map { 
 
-class VoxelMap
+class VoxelMap : public Costmap
 {
 public:
     /**

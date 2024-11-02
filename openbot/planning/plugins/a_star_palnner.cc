@@ -15,39 +15,43 @@
  */
 
 
-#include "openbot/planning/components/dijkstra_planner.hpp"
+#include "openbot/planning/plugins/a_star_palnner.hpp"
 
 namespace openbot {
 namespace planning { 
-namespace components { 
+namespace plugins { 
 
-DijkstraPlanner::~DijkstraPlanner()
+AStarPlanner::~AStarPlanner()
 {
 
 }
 
-void DijkstraPlanner::Configure(std::string name)
+void AStarPlanner::Configure(std::string name)
 {
 
 }
 
-void DijkstraPlanner::Cleanup() 
+void AStarPlanner::Configure(std::string name, std::shared_ptr<map::Costmap> costmap)
+{
+
+}
+
+void AStarPlanner::Cleanup() 
 {
   
 }
 
-void DijkstraPlanner::Activate() 
+void AStarPlanner::Activate() 
 {
 
 }
 
-
-void DijkstraPlanner::Deactivate() 
+void AStarPlanner::Deactivate() 
 {
 
 }
 
-common::proto::nav_msgs::Path DijkstraPlanner::CreatePlan(
+common::proto::nav_msgs::Path AStarPlanner::CreatePlan(
     const common::proto::geometry_msgs::PoseStamped& start,
     const common::proto::geometry_msgs::PoseStamped& goal)
 {
@@ -55,6 +59,6 @@ common::proto::nav_msgs::Path DijkstraPlanner::CreatePlan(
     return path;
 }
 
-}  // namespace components
+}  // namespace plugins
 }  // namespace planning 
 }  // namespace openbot
