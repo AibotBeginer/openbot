@@ -15,11 +15,11 @@
  */
 
 
-#include "openbot/controller/components/dwa_controller.hpp"
+#include "openbot/control/plugins/dwa_controller.hpp"
 
 namespace openbot {
 namespace controller { 
-namespace components { 
+namespace plugins { 
 
 DWAController::~DWAController()
 {
@@ -66,6 +66,6 @@ void DWAController::SetSpeedLimit(const double& speed_limit, const bool& percent
 
 }
 
-}  // namespace components
-}  // namespace controller 
+}  // namespace plugins
+}  // namespace control
 }  // namespace openbot

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_CONTROLLER_COMPONENTS_DWA_CONTROLLER_HPP_
-#define OPENBOT_CONTROLLER_COMPONENTS_DWA_CONTROLLER_HPP_
+#ifndef OPENBOT_CONTROL_PLUGINS_DWA_CONTROLLER_HPP_
+#define OPENBOT_CONTROL_PLUGINS_DWA_CONTROLLER_HPP_
 
 #include <memory>
 #include <string>
@@ -28,8 +28,8 @@
 #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
 namespace openbot {
-namespace controller { 
-namespace components { 
+namespace control { 
+namespace plugins { 
 
 /**
  * @class Controller
@@ -101,8 +101,8 @@ public:
   virtual void SetSpeedLimit(const double & speed_limit, const bool & percentage) override;
 };
 
-}  // namespace components
-}  // namespace controller 
+}  // namespace plugins
+}  // namespace control
 }  // namespace openbot
 
-#endif  // OPENBOT_CONTROLLER_COMPONENTS_DWA_CONTROLLER_HPP_
+#endif  // OPENBOT_CONTROL_PLUGINS_DWA_CONTROLLER_HPP_

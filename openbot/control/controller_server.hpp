@@ -15,8 +15,8 @@
  */
 
 
-#ifndef OPENBOT_CONTROLLER_CONTROLLER_SERVER_HPP_
-#define OPENBOT_CONTROLLER_CONTROLLER_SERVER_HPP_
+#ifndef OPENBOT_CONTROL_CONTROLLER_SERVER_HPP_
+#define OPENBOT_CONTROL_CONTROLLER_SERVER_HPP_
 
 #include <memory>
 #include <string>
@@ -29,7 +29,7 @@
 // #include "pluginlib/class_list_macros.hpp"
 
 namespace openbot {
-namespace controller { 
+namespace control { 
 
 class ControllerServer
 {
@@ -55,7 +55,7 @@ private:
 
 };
 
-}  // namespace controller 
+}  // namespace control
 }  // namespace openbot
 
-#endif  // OPENBOT_CONTROLLER_CONTROLLER_SERVER_HPP_
+#endif  // OPENBOT_CONTROL_CONTROLLER_SERVER_HPP_
