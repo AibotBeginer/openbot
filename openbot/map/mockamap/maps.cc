@@ -896,7 +896,7 @@ void Maps::toPointCloud2()
 
   // 设置消息头
   // output.header.stamp = ros::Time::now();
-  info.output->header.frame_id = "odoom";
+  info.output->header.frame_id = "odom";
 
   // 设置消息的基本属性
   info.output->height = info.cloud->height;
