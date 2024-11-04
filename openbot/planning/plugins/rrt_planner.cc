@@ -117,6 +117,11 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
     solved = planner->ompl::base::Planner::solve(timeout);
     common::nav_msgs::Path path;
 
+    auto now = std::chrono::high_resolution_clock::now();
+    path.header.stamp.sec = std::chrono::time_point_cast<std::chrono::seconds>(now).time_since_epoch().count();
+    path.header.stamp.nanosec =  std::chrono::time_point_cast<std::chrono::nanoseconds>(now).time_since_epoch().count();
+    path.header.frame_id = "map";
+
     if (!solved) {
         LOG(WARNING) << "RRT Planner use ompl rrt planner solved failed.";
         return path;
@@ -136,7 +141,7 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
         path.poses.emplace_back(pose);
     }
     cost = pdef->getSolutionPath()->cost(pdef->getOptimizationObjective()).value();
-    LOG(INFO) << "RRT Planner create plan cost: " << cost;
+    LOG(INFO) << "RRT Planner path size : " << path.poses.size() << ", create plan cost: " << cost;
     return path;
 }
 
