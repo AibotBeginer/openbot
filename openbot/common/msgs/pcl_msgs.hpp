@@ -21,6 +21,10 @@
 #include <vector>
 
 #include "openbot/common/proto/std_msgs/header.pb.h"
+#include "openbot/common/proto/pcl_msgs/vertices.pb.h"
+#include "openbot/common/proto/pcl_msgs/polygon_mesh.pb.h"
+#include "openbot/common/proto/pcl_msgs/point_indices.pb.h"
+#include "openbot/common/proto/pcl_msgs/model_coefficients.pb.h"
 #include "openbot/common/msgs/std_msgs.hpp"
 #include "openbot/common/msgs/sensor_msgs.hpp"
 
