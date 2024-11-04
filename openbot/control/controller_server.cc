@@ -20,7 +20,7 @@
 // #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
 namespace openbot {
-namespace controller { 
+namespace control { 
 
 ControllerServer::ControllerServer()
 {

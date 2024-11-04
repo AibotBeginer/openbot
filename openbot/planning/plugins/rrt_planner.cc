@@ -68,6 +68,14 @@ common::proto::nav_msgs::Path RRTPlanner::CreatePlan(
     const common::proto::geometry_msgs::PoseStamped& start,
     const common::proto::geometry_msgs::PoseStamped& goal)
 {
+    common::proto::nav_msgs::Path path;
+    return path;
+}
+
+common::nav_msgs::Path RRTPlanner::CreatePlan(
+        const common::geometry_msgs::PoseStamped& start,
+        const common::geometry_msgs::PoseStamped& goal)
+{
     // auto space(std::make_shared<ompl::base::RealVectorStateSpace>(3));
     // ompl::base::RealVectorBounds bounds(3);
     // bounds.setLow(0, 0.0);
@@ -102,7 +110,7 @@ common::proto::nav_msgs::Path RRTPlanner::CreatePlan(
 
     // ompl::base::PlannerStatus solved;
     // solved = planner->ompl::base::Planner::solve(timeout);
-    common::proto::nav_msgs::Path path;
+   
     // if !(solved) {
     //     LOG(WARN) << "RRT Planner use ompl rrt planner solved failed.";
     //     return path;
@@ -119,13 +127,7 @@ common::proto::nav_msgs::Path RRTPlanner::CreatePlan(
     // }
     // cost = pdef->getSolutionPath()->cost(pdef->getOptimizationObjective()).value();
     // LOG(INFO) << "RRT Planner create plan cost: " << cost;
-    return path;
-}
 
-common::nav_msgs::Path RRTPlanner::CreatePlan(
-        const common::geometry_msgs::PoseStamped& start,
-        const common::geometry_msgs::PoseStamped& goal)
-{
     common::nav_msgs::Path path;
     return path;
 }

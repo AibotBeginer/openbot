@@ -31,13 +31,13 @@ constexpr uint8 kConstantUnoccupied = 0;
 constexpr uint8 kConstantOccupied = 1;
 constexpr uint8 kConstantDilated = 2;
 
-VoxelMap(const Eigen::Vector3i& size, const Eigen::Vector3d& origin, const double& vox_scale)
+VoxelMap::VoxelMap(const Eigen::Vector3i& size, const Eigen::Vector3d& origin, const double& vox_scale)
     : map_size_(size),
-      o(origin),
+      o_(origin),
       scale_(vox_scale),
       vox_num_(map_size_.prod()),
       step_(1, map_size_(0), map_size_(1) * map_size_(0)),
-      oc_(o + Eigen::Vector3d::Constant(0.5 * scale_)),
+      oc_(o_ + Eigen::Vector3d::Constant(0.5 * scale_)),
       bounds_((map_size_.array() - 1) * step_.array()),
       step_scale_(step_.cast<double>().cwiseInverse() * scale_),
       voxels_(vox_num_, kConstantUnoccupied) 
@@ -45,7 +45,7 @@ VoxelMap(const Eigen::Vector3i& size, const Eigen::Vector3d& origin, const doubl
 
 void VoxelMap::SetOccupied(const Eigen::Vector3d& pos)
 {
-    const Eigen::Vector3i id = ((pos - o) / scale).cast<int>();
+    const Eigen::Vector3i id = ((pos - o_) / scale_).cast<int>();
     if (id(0) >= 0 && id(1) >= 0 && id(2) >= 0 &&
         id(0) < map_size_(0) && id(1) < map_size_(1) && id(2) < map_size_(2))
     {

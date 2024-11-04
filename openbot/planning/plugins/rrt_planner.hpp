@@ -41,12 +41,12 @@ public:
     /**
      *  @brief SharedPtr
      */
-    OPENBOT_SMART_PTR_DEFINITIONS(DijkstraPlanner)
+    OPENBOT_SMART_PTR_DEFINITIONS(RRTPlanner)
 
     /**
      * @brief Virtual destructor
      */
-    virtual ~DijkstraPlanner();
+    virtual ~RRTPlanner();
 
     /**
      * @param name

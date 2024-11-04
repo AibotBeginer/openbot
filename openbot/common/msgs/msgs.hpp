@@ -24,5 +24,6 @@
 #include "openbot/common/msgs/shape_msgs.hpp"
 #include "openbot/common/msgs/std_msgs.hpp"
 #include "openbot/common/msgs/vision_msgs.hpp"
+#include "openbot/common/msgs/pcl_msgs.hpp"
 
 #endif  // OPENBOT_COMMON_MSGS_MSGS_HPP_

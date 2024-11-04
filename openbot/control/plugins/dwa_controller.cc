@@ -18,7 +18,7 @@
 #include "openbot/control/plugins/dwa_controller.hpp"
 
 namespace openbot {
-namespace controller { 
+namespace control { 
 namespace plugins { 
 
 DWAController::~DWAController()

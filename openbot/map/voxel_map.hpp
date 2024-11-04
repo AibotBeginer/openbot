@@ -63,7 +63,7 @@ public:
      */
     double GetScale() const
     {
-        return scale;
+        return scale_;
     }
 
     /**
@@ -98,7 +98,7 @@ public:
     /**
      * @brief Get value
      */
-    void SetOccupied(const Eigen::Vector3i& id)
+    void SetOccupied(const Eigen::Vector3i& id);
 
     /**
      * @brief Get value

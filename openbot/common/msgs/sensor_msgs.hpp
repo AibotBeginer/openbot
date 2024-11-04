@@ -109,7 +109,7 @@ struct Image
     uint32 step;
 
     // actual matrix data, size is (step * rows)
-    std::vector<uint32> data;
+    std::vector<unsigned char> data;
 };
 
 struct Imu
@@ -208,7 +208,7 @@ struct PointCloud2
     bool    is_bigendian; // Is this data bigendian?
     uint32  point_step;   // Length of a point in bytes
     uint32  row_step;     // Length of a row in bytes 
-    std::vector<uint32> data; // Actual point data, size is (row_step*height)
+    std::vector<unsigned char> data; // Actual point data, size is (row_step*height)
 
     bool is_dense = 9;        // True if there are no invalid points
 };
