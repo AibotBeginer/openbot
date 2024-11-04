@@ -286,7 +286,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OpenCV_INCLUDE_DIRS}
 target_link_libraries(${PROJECT_NAME} PUBLIC ${OpenCV_LIBS})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OMPL_INCLUDE_DIR}")
-target_link_libraries(${PROJECT_NAME} PUBLIC ${OMPL_LIBRARY})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${OMPL_LIBRARIES})
 
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)

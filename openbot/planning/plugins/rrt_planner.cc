@@ -46,7 +46,8 @@ void RRTPlanner::Configure(std::string name)
 
 void RRTPlanner::Configure(std::string name, std::shared_ptr<map::Costmap> costmap)
 {
-    costmap_ = costmap;
+    // costmap_ = dynamic_cast<VoxelMap::SharedPtr>(costmap);
+    costmap_ = dynamic_cast<map::VoxelMap*>(costmap.get());
 }
 
 void RRTPlanner::Cleanup() 
@@ -76,59 +77,66 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
         const common::geometry_msgs::PoseStamped& start,
         const common::geometry_msgs::PoseStamped& goal)
 {
-    // auto space(std::make_shared<ompl::base::RealVectorStateSpace>(3));
-    // ompl::base::RealVectorBounds bounds(3);
-    // bounds.setLow(0, 0.0);
-    // bounds.setHigh(0, hb(0) - lb(0));
-    // bounds.setLow(1, 0.0);
-    // bounds.setHigh(1, hb(1) - lb(1));
-    // bounds.setLow(2, 0.0);
-    // bounds.setHigh(2, hb(2) - lb(2));
-    // space->setBounds(bounds);
-    // auto si(std::make_shared<ompl::base::SpaceInformation>(space));sss
-    // si->setStateValidityChecker([&](const ompl::base::State *state) {
-    //         const auto *pos = state->as<ompl::base::RealVectorStateSpace::StateType>();
-    //         const Eigen::Vector3d position(lb(0) + (*pos)[0], lb(1) + (*pos)[1], lb(2) + (*pos)[2]);
-    //         return costmap_->Query(position) == 0;
-    // });
-    // si->setup();
+    auto space(std::make_shared<ompl::base::RealVectorStateSpace>(3));
+    ompl::base::RealVectorBounds bounds(3);
 
-    // ompl::msg::setLogLevel(ompl::msg::LOG_NONE);
-    // ompl::base::ScopedState<> start(space), goal(space);
-    // start[0] = s(0) - lb(0);
-    // start[1] = s(1) - lb(1);
-    // start[2] = s(2) - lb(2);
-    // goal[0] = g(0) - lb(0);
-    // goal[1] = g(1) - lb(1);
-    // goal[2] = g(2) - lb(2);
-    // auto pdef(std::make_shared<ompl::base::ProblemDefinition>(si));
-    // pdef->setStartAndGoalStates(start, goal);
-    // pdef->setOptimizationObjective(std::make_shared<ompl::base::PathLengthOptimizationObjective>(si));
-    // auto planner(std::make_shared<ompl::geometric::InformedRRTstar>(si));
-    // planner->setProblemDefinition(pdef);
-    // planner->setup();
+    auto lb = costmap_->GetOrigin();
+    auto hb = costmap_->GetCorner();
+    bounds.setLow(0, 0.0);
+    bounds.setHigh(0, hb(0) - lb(0));
+    bounds.setLow(1, 0.0);
+    bounds.setHigh(1, hb(1) - lb(1));
+    bounds.setLow(2, 0.0);
+    bounds.setHigh(2, hb(2) - lb(2));
+    space->setBounds(bounds);
+    auto si(std::make_shared<ompl::base::SpaceInformation>(space));
+    si->setStateValidityChecker([&](const ompl::base::State *state) {
+            const auto *pos = state->as<ompl::base::RealVectorStateSpace::StateType>();
+            const Eigen::Vector3d position(lb(0) + (*pos)[0], lb(1) + (*pos)[1], lb(2) + (*pos)[2]);
+            return costmap_->Query(position) == 0;
+    });
+    si->setup();
 
-    // ompl::base::PlannerStatus solved;
-    // solved = planner->ompl::base::Planner::solve(timeout);
-   
-    // if !(solved) {
-    //     LOG(WARN) << "RRT Planner use ompl rrt planner solved failed.";
-    //     return path;
-    // }
+    ompl::msg::setLogLevel(ompl::msg::LOG_NONE);
+    ompl::base::ScopedState<> start_pose(space), goal_pose(space);
+    start_pose[0] = start.pose.position.x - lb(0);
+    start_pose[1] = start.pose.position.y - lb(1);
+    start_pose[2] = start.pose.position.z - lb(2);
+    goal_pose[0] = goal.pose.position.x - lb(0);
+    goal_pose[1] = goal.pose.position.x - lb(1);
+    goal_pose[2] = goal.pose.position.x - lb(2);
+    auto pdef(std::make_shared<ompl::base::ProblemDefinition>(si));
+    pdef->setStartAndGoalStates(start_pose, goal_pose);
+    pdef->setOptimizationObjective(std::make_shared<ompl::base::PathLengthOptimizationObjective>(si));
+    auto planner(std::make_shared<ompl::geometric::InformedRRTstar>(si));
+    planner->setProblemDefinition(pdef);
+    planner->setup();
 
-    // double cost = INFINITY;
-    // p.clear();
-    // const ompl::geometric::PathGeometric path_ = ompl::geometric::PathGeometric(
-    //     dynamic_cast<const ompl::geometric::PathGeometric &>(*pdef->getSolutionPath()));
-    // for (size_t i = 0; i < path_.getStateCount(); i++)
-    // {
-    //     const auto state = path_.getState(i)->as<ompl::base::RealVectorStateSpace::StateType>()->values;
-    //     p.emplace_back(lb(0) + state[0], lb(1) + state[1], lb(2) + state[2]);
-    // }
-    // cost = pdef->getSolutionPath()->cost(pdef->getOptimizationObjective()).value();
-    // LOG(INFO) << "RRT Planner create plan cost: " << cost;
-
+    const double timeout = 0.01;
+    ompl::base::PlannerStatus solved;
+    solved = planner->ompl::base::Planner::solve(timeout);
     common::nav_msgs::Path path;
+
+    if (!solved) {
+        LOG(WARNING) << "RRT Planner use ompl rrt planner solved failed.";
+        return path;
+    }
+
+    double cost = INFINITY;
+    path.poses.clear();
+    const ompl::geometric::PathGeometric path_ = ompl::geometric::PathGeometric(
+        dynamic_cast<const ompl::geometric::PathGeometric &>(*pdef->getSolutionPath()));
+    for (size_t i = 0; i < path_.getStateCount(); i++)
+    {
+        const auto state = path_.getState(i)->as<ompl::base::RealVectorStateSpace::StateType>()->values;
+        common::geometry_msgs::PoseStamped pose;
+        pose.pose.position.x = lb(0) + state[0];
+        pose.pose.position.y = lb(1) + state[1];
+        pose.pose.position.z = lb(2) + state[2];
+        path.poses.emplace_back(pose);
+    }
+    cost = pdef->getSolutionPath()->cost(pdef->getOptimizationObjective()).value();
+    LOG(INFO) << "RRT Planner create plan cost: " << cost;
     return path;
 }
 

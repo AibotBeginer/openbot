@@ -95,7 +95,7 @@ public:
         const common::geometry_msgs::PoseStamped& goal) override;
 
 private:
-    std::shared_ptr<map::Costmap> costmap_{nullptr};
+    map::VoxelMap* costmap_{nullptr};
 };
 
 }  // namespace plugins

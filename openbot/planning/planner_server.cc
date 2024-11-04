@@ -24,10 +24,26 @@ namespace planning {
 
 PlannerServer::PlannerServer()
 {
+    std::string name = "rrt_planner";
+    plugins_[name] = std::make_shared<plugins::RRTPlanner>();
 }
 
 PlannerServer::~PlannerServer()
 {
+}
+
+void PlannerServer::InitMap(const map::Costmap::SharedPtr costmap)
+{
+    costmap_ = costmap;
+    std::string name = "rrt_planner";
+    plugins_["rrt_planner"]->Configure(name,  costmap_);
+}
+
+common::nav_msgs::Path PlannerServer::CreatePlan(
+    const common::geometry_msgs::PoseStamped& start,
+    const common::geometry_msgs::PoseStamped& goal)
+{
+    return plugins_["rrt_planner"]->CreatePlan(start, goal);
 }
 
 }  // namespace planning 

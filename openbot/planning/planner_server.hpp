@@ -20,8 +20,13 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include "openbot/common/macros.hpp"
+#include "openbot/map/voxel_map.hpp"
+#include "openbot/map/costmap.hpp"
+#include "openbot/planning/plugins/rrt_planner.hpp"
+
 // #include "openbot/common/proto/nav_msgs/path.pb.h"
 // #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
@@ -50,9 +55,16 @@ public:
      */
     ~PlannerServer();
 
+    void InitMap(const map::Costmap::SharedPtr costmap);
+
+    common::nav_msgs::Path CreatePlan(
+        const common::geometry_msgs::PoseStamped& start,
+        const common::geometry_msgs::PoseStamped& goal);
+
 private:
+    std::unordered_map<std::string, GlobalPlanner::SharedPtr> plugins_;
 
-
+    map::Costmap::SharedPtr costmap_{nullptr};
 };
 
 }  // namespace planning 

@@ -26,7 +26,7 @@ class Costmap
 {
 public:
     /**
-     *  @brief SharedPtr typedef
+     * @brief SharedPtr typedef
      */
     OPENBOT_SMART_PTR_DEFINITIONS(Costmap)
 
@@ -34,6 +34,7 @@ public:
      * @brief Virtual destructor
      */
     virtual ~Costmap() {}
+
 };
 
 }  // namespace map
