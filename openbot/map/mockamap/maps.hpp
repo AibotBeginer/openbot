@@ -58,7 +58,8 @@ private:
   void recursiveDivision(int xl, int xh, int yl, int yh, Eigen::MatrixXi &maze);
   void recursizeDivisionMaze(Eigen::MatrixXi &maze);
   void optimizeMap();
-  void toPointCloud2();
+
+  void PCLToPointCloud2();
 
   BasicInfo info;
 };

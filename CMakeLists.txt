@@ -280,7 +280,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC gflags)
 # target_link_libraries(${PROJECT_NAME} PUBLIC class_loader)
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${PCL_INCLUDE_DIRS}")
-target_link_libraries(${PROJECT_NAME} PUBLIC ${PCL_LIBRARY_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${PCL_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OpenCV_INCLUDE_DIRS}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${OpenCV_LIBS})

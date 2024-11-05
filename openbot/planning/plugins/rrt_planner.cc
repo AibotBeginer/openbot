@@ -93,7 +93,7 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
     si->setStateValidityChecker([&](const ompl::base::State *state) {
             const auto *pos = state->as<ompl::base::RealVectorStateSpace::StateType>();
             const Eigen::Vector3d position(lb(0) + (*pos)[0], lb(1) + (*pos)[1], lb(2) + (*pos)[2]);
-            return costmap_->Query(position) == 0 && position(2) < 0.5;
+            return costmap_->Query(position) == 0;
     });
     si->setup();
 
@@ -112,7 +112,7 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
     planner->setProblemDefinition(pdef);
     planner->setup();
 
-    const double timeout = 0.01;
+    const double timeout = 1;
     ompl::base::PlannerStatus solved;
     solved = planner->ompl::base::Planner::solve(timeout);
     common::nav_msgs::Path path;
