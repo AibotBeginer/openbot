@@ -124,6 +124,8 @@ public:
 
     bool GetPointCloud2Data(common::sensor_msgs::PointCloud2& point_cloud);
 
+    bool GetSensedPoints(const pcl::PointXYZ& current_point, common::sensor_msgs::PointCloud2& point_cloud);
+
     common::sensor_msgs::PointCloud2& global_map();
 
     double resolution() { return resolution_; }

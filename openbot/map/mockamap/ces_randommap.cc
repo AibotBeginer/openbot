@@ -111,6 +111,49 @@ bool CesRandomMap::GetPointCloud2Data(common::sensor_msgs::PointCloud2& point_cl
   return true;
 }
 
+bool CesRandomMap::GetSensedPoints(const pcl::PointXYZ& current_point, 
+  common::sensor_msgs::PointCloud2& point_cloud)
+{
+  if (!initialized_finished_ ) {
+    return false;
+  }
+
+  pcl::PointCloud<pcl::PointXYZ> local_map;
+  std::vector<int> point_idx_radius_search;
+  std::vector<float> point_radius_squared_distance;
+
+  point_idx_radius_search.clear();
+  point_radius_squared_distance.clear();
+  double sensing_range;
+
+  pcl::PointXYZ pt_in_noflation;
+  if (kdtree_local_map_.radiusSearch(current_point, sensing_range, 
+    point_idx_radius_search, point_radius_squared_distance) <= 0) {
+    return false;
+  }
+
+  for (size_t i = 0; i < point_idx_radius_search.size(); ++i)
+  {
+    pt_in_noflation = cloud_map_.points[point_idx_radius_search[i]];
+    local_map.points.push_back(pt_in_noflation);
+  }
+
+  pcl::PointXYZ pt_fix;
+  pt_fix.x = current_point.x;
+  pt_fix.y = current_point.y;
+  pt_fix.z = 0.0;
+  local_map.points.push_back(pt_fix);
+
+  local_map.width    = local_map.points.size();
+  local_map.height   = 1;
+  local_map.is_dense = true;
+
+  ::openbot::common::pcl::toROSMsg(local_map, local_map_pcd_);
+  local_map_pcd_.header.frame_id = "odom";
+  point_cloud = local_map_pcd_;
+  return true;
+}
+
 common::sensor_msgs::PointCloud2& CesRandomMap::global_map()
 {
   return global_map_pcd_;
@@ -122,22 +165,8 @@ common::sensor_msgs::PointCloud2& CesRandomMap::global_map()
 
 
 
-// using namespace std;
-// using namespace mocka;
-
-// #if MAP_OR_WORLD
-// const string kFrameIdNs_ = "/map";
-// #else
-// const string kFrameIdNs_ = "/world";
-// #endif
-
-// pcl::search::KdTree<pcl::PointXYZ> kdtreeLocalMap;
 // vector<int>                        pointIdxRadiusSearch;
 // vector<float>                      pointRadiusSquaredDistance;
-
-// ros::Publisher _local_map_pub;
-// ros::Publisher _local_map_inflate_pub;
-// ros::Publisher _global_map_pub;
 
 // ros::Subscriber _map_sub;
 // ros::Subscriber _odom_sub;
@@ -187,71 +216,4 @@ common::sensor_msgs::PointCloud2& CesRandomMap::global_map()
 //   _odom_queue.push_back(odom);
 //   while (_odom_queue.size() > _odom_queue_size)
 //     _odom_queue.pop_front();
-// }
-
-// int frequence_division_global = 40;
-
-
-
-// void pubSensedPoints()
-// {
-//   if (!map_ok || !_has_odom)
-//     return;
-
-//   ros::Time time_bef_sensing = ros::Time::now();
-
-//   pcl::PointCloud<pcl::PointXYZ> localMap;
-
-//   pcl::PointXYZ searchPoint(_state[0], _state[1], _state[2]);
-//   pointIdxRadiusSearch.clear();
-//   pointRadiusSquaredDistance.clear();
-
-//   pcl::PointXYZ ptInNoflation;
-
-//   if (kdtreeLocalMap.radiusSearch(searchPoint, _sensing_range,
-//                                   pointIdxRadiusSearch,
-//                                   pointRadiusSquaredDistance) > 0)
-//   {
-//     for (size_t i = 0; i < pointIdxRadiusSearch.size(); ++i)
-//     {
-//       ptInNoflation = cloudMap.points[pointIdxRadiusSearch[i]];
-//       localMap.points.push_back(ptInNoflation);
-//     }
-//   }
-//   else
-//   {
-//     // ROS_ERROR("[Map server] No obstacles .");
-//     // cout<<searchPoint.x<<" , "<<searchPoint.y<<" , "<<searchPoint.z<<endl;
-//     // return;
-//   }
-
-//   pcl::PointXYZ pt_fix;
-//   pt_fix.x = _state[0];
-//   pt_fix.y = _state[1];
-//   pt_fix.z = 0.0;
-//   localMap.points.push_back(pt_fix);
-
-//   localMap.width    = localMap.points.size();
-//   localMap.height   = 1;
-//   localMap.is_dense = true;
-
-//   pcl::toROSMsg(localMap, localMap_pcd);
-
-//   localMap_pcd.header.frame_id = kFrameIdNs_;
-//   _local_map_pub.publish(localMap_pcd);
-
-//   ros::Time time_aft_sensing = ros::Time::now();
-
-//   if ((time_aft_sensing - begin_time).toSec() > 5.0)
-//     return;
-
-//   frequence_division_global--;
-//   if (frequence_division_global == 0)
-//   {
-//     pcl::toROSMsg(cloudMap, globalMap_pcd);
-//     globalMap_pcd.header.frame_id = kFrameIdNs_;
-//     _global_map_pub.publish(globalMap_pcd);
-//     frequence_division_global = 40;
-//     ROS_INFO("[SERVER]Publish one global map");
-//   }
 // }
