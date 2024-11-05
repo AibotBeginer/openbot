@@ -44,6 +44,8 @@ void RRTPlanner::Configure(std::string name)
 
 }
 
+
+// Configures the RRTPlanner with a name and a shared pointer to a Costmap
 void RRTPlanner::Configure(std::string name, std::shared_ptr<map::Costmap> costmap)
 {
     // costmap_ = dynamic_cast<VoxelMap::SharedPtr>(costmap);
@@ -77,11 +79,15 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
         const common::geometry_msgs::PoseStamped& start,
         const common::geometry_msgs::PoseStamped& goal)
 {
+    // Define the 3D state space for the planner (x, y, z)
     auto space(std::make_shared<ompl::base::RealVectorStateSpace>(3));
     ompl::base::RealVectorBounds bounds(3);
 
-    auto lb = costmap_->GetOrigin();
-    auto hb = costmap_->GetCorner();
+    // Get bounds of the costmap
+    auto lb = costmap_->GetOrigin();  // Lower bound (origin)
+    auto hb = costmap_->GetCorner();  // Upper bound (corner)
+
+    // TODO: why not bounds.setLow(0, lb(0));
     bounds.setLow(0, 0.0);
     bounds.setHigh(0, hb(0) - lb(0));
     bounds.setLow(1, 0.0);
@@ -89,30 +95,45 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
     bounds.setLow(2, 0.0);
     bounds.setHigh(2, hb(2) - lb(2));
     space->setBounds(bounds);
+
+
     auto si(std::make_shared<ompl::base::SpaceInformation>(space));
     si->setStateValidityChecker([&](const ompl::base::State *state) {
             const auto *pos = state->as<ompl::base::RealVectorStateSpace::StateType>();
             const Eigen::Vector3d position(lb(0) + (*pos)[0], lb(1) + (*pos)[1], lb(2) + (*pos)[2]);
-            return costmap_->Query(position) == 0;
+            return costmap_->Query(position) == 0; // occupied
     });
     si->setup();
 
-    ompl::msg::setLogLevel(ompl::msg::LOG_NONE);
+    // ompl::msg::setLogLevel(ompl::msg::LOG_NONE);
+    ompl::msg::setLogLevel(ompl::msg::LOG_DEV2);
     ompl::base::ScopedState<> start_pose(space), goal_pose(space);
     start_pose[0] = start.pose.position.x - lb(0);
     start_pose[1] = start.pose.position.y - lb(1);
     start_pose[2] = start.pose.position.z - lb(2);
     goal_pose[0] = goal.pose.position.x - lb(0);
-    goal_pose[1] = goal.pose.position.x - lb(1);
-    goal_pose[2] = goal.pose.position.x - lb(2);
+    goal_pose[1] = goal.pose.position.y - lb(1);
+    goal_pose[2] = goal.pose.position.z - lb(2);
+
+  
     auto pdef(std::make_shared<ompl::base::ProblemDefinition>(si));
     pdef->setStartAndGoalStates(start_pose, goal_pose);
+
+    // shortest path
     pdef->setOptimizationObjective(std::make_shared<ompl::base::PathLengthOptimizationObjective>(si));
+
+    // informed rrt star
     auto planner(std::make_shared<ompl::geometric::InformedRRTstar>(si));
+    // Set the step size (range for state extension)
+    double step_size = 0.5;  // Adjust the step size as needed
+    // It represents the maximum length of a motion to be added in the tree of motions.
+    planner->setRange(step_size);
+
     planner->setProblemDefinition(pdef);
     planner->setup();
 
-    const double timeout = 0.01;
+    auto start_time = std::chrono::high_resolution_clock::now();
+    const double timeout = 1;
     ompl::base::PlannerStatus solved;
     solved = planner->ompl::base::Planner::solve(timeout);
     common::nav_msgs::Path path;
@@ -140,8 +161,13 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
         pose.pose.position.z = lb(2) + state[2];
         path.poses.emplace_back(pose);
     }
+    // cost = the shortest path length for PathLengthOptimizationObjective
     cost = pdef->getSolutionPath()->cost(pdef->getOptimizationObjective()).value();
     LOG(INFO) << "RRT Planner path size : " << path.poses.size() << ", create plan cost: " << cost;
+
+    std::chrono::duration<double> duration = now - start_time;
+    std::cout << "Time taken to solve the problem: " << duration.count() << " seconds. OMPL Timeout: " << timeout << "s" << std::endl;
+
     return path;
 }
 
