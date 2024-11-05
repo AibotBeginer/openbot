@@ -105,7 +105,7 @@ void Maps::randomMapGenerate()
   info.cloud->height   = 1;
   info.cloud->is_dense = true;
 
-  toPointCloud2();
+  PCLToPointCloud2();
 }
 
 void Maps::perlin3D()
@@ -183,7 +183,7 @@ void Maps::perlin3D()
   info.cloud->width = pos;
   // ROS_INFO("the number of points before optimization is %d", info.cloud->width);
   info.cloud->points.resize(info.cloud->width * info.cloud->height);
-  toPointCloud2();
+  PCLToPointCloud2();
 }
 
 void Maps::recursiveDivision(int xl, int xh, int yl, int yh, Eigen::MatrixXi& maze)
@@ -679,7 +679,7 @@ void Maps::maze2D()
   info.cloud->width    = info.cloud->points.size();
   info.cloud->height   = 1;
   info.cloud->is_dense = true;
-  toPointCloud2();
+  PCLToPointCloud2();
 }
 
 Maps::BasicInfo Maps::getInfo() const
@@ -882,42 +882,14 @@ void Maps::Maze3DGen()
   info.cloud->height = 1;
   // ROS_INFO("the number of points before optimization is %d", info.cloud->width);
   info.cloud->points.resize(info.cloud->width * info.cloud->height);
-  toPointCloud2();
+  PCLToPointCloud2();
 }
 
-void Maps::toPointCloud2()
+void Maps::PCLToPointCloud2()
 {
-
-  // pcl::toROSMsg(*info.cloud, *info.output);
-//   info.output->header.frame_id = "odom";
-//   ROS_INFO("finish: infill %lf%%",
-//            info.cloud->width / (1.0 * info.sizeX * info.sizeY * info.sizeZ));
-
-
-  // 设置消息头
-  // output.header.stamp = ros::Time::now();
-  info.output->header.frame_id = "odoom";
-
-  // 设置消息的基本属性
-  info.output->height = info.cloud->height;
-  info.output->width = info.cloud->width;
-  info.output->is_bigendian = false;
-  info.output->is_dense = info.cloud->is_dense;
-  info.output->point_step = sizeof(pcl::PointXYZ);
-  info.output->row_step = info.output->point_step * info.cloud->width;
-  info.output->data.resize(info.cloud->points.size() * sizeof(pcl::PointXYZ));
-  memcpy(&info.output->data[0], &info.cloud->points[0], info.cloud->points.size() * sizeof(pcl::PointXYZ));
-
-  // // 设置字段信息
-  // info.output->fields.clear();
-  // for (size_t i = 0; i < info.cloud->points.size(); ++i) {
-  //     openbot::common::sensor_msgs::PointField field;
-  //     field.name = pcl::traits::name<pcl::PointXYZ, i>::value;
-  //     field.offset = pcl::traits::offset<pcl::PointXYZ, i>::value;
-  //     field.datatype = pcl::traits::datatype<pcl::PointXYZ, i>::value;
-  //     field.count = pcl::traits::datatype<pcl::PointXYZ, i>::size;
-  //     info.output->fields.push_back(field);
-  // }
+  ::openbot::common::pcl::toROSMsg(*info.cloud, *info.output);
+  info.output->header.frame_id = "map";
+  LOG(INFO) << "finish: infill " << info.cloud->width / (1.0 * info.sizeX * info.sizeY * info.sizeZ);
 }
 
 }  // namespace mockamap
