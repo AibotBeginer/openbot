@@ -29,7 +29,7 @@
 
 #include "Eigen/Dense"
 
-#include "modules/common/math/vec2d.hpp"
+#include "openbot/common/math/vec2d.hpp"
 
 
 namespace openbot {
