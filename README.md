@@ -99,6 +99,18 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF
 cmake --install build
 ```
 
+* :ramen:osqp
+
+```bash
+git clone -b release-0.6.3 https://github.com/osqp/osqp.git
+cd osqp && 
+mkdir build && cd build && cmake ..
+make -j8
+sudo make install
+```
+
+
+
 ##  :cactus: 编译
 
 ```bash

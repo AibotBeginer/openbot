@@ -49,6 +49,7 @@ find_package(TinyXML2 REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(ompl REQUIRED)
+find_package(OSQP REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
@@ -288,6 +289,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${OpenCV_LIBS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OMPL_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${OMPL_LIBRARIES})
 
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OSQP_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${OSQP_LIBRARY})
+
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)
   target_link_libraries(${PROJECT_NAME} PUBLIC async_grpc)
@@ -314,7 +318,6 @@ foreach(ABS_FIL ${ALL_TESTS})
     target_link_libraries("${TEST_TARGET_NAME}" PUBLIC grpc++)
     target_link_libraries("${TEST_TARGET_NAME}" PUBLIC async_grpc)
   endif()
-  target_link_libraries("${TEST_TARGET_NAME}" PUBLIC ${TEST_LIB})
 endforeach()
 
 # Add the binary directory first, so that port.h is included after it has
