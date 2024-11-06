@@ -103,7 +103,7 @@ cmake --install build
 
 ```bash
 git clone -b release-0.6.3 https://github.com/osqp/osqp.git
-cd osqp && 
+cd osqp && git submodule update --init --recursive
 mkdir build && cd build && cmake ..
 make -j8
 sudo make install
