@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_COMMON_HELPER_FUNCTIONS__TYPE_NAME_HPP_
-#define OPENBOT_COMMON_HELPER_FUNCTIONS__TYPE_NAME_HPP_
+#ifndef OPENBOT_COMMON_HELPER_FUNCTIONS_TYPE_NAME_HPP_
+#define OPENBOT_COMMON_HELPER_FUNCTIONS_TYPE_NAME_HPP_
 
 #include <string>
 #include <typeinfo>
@@ -51,4 +51,4 @@ std::string get_type_name(const T &)
 }  // namespace common
 }  // namespace openbot
 
-#endif  // OPENBOT_COMMON_HELPER_FUNCTIONS__TYPE_NAME_HPP_
+#endif  // OPENBOT_COMMON_HELPER_FUNCTIONS_TYPE_NAME_HPP_

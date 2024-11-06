@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_COMMON_HELPER_FUNCTIONS__FLOAT_COMPARISONS_HPP_
-#define OPENBOT_COMMON_HELPER_FUNCTIONS__FLOAT_COMPARISONS_HPP_
+#ifndef OPENBOT_COMMON_HELPER_FUNCTIONS_FLOAT_COMPARISONS_HPP_
+#define OPENBOT_COMMON_HELPER_FUNCTIONS_FLOAT_COMPARISONS_HPP_
 
 #include <algorithm>
 #include <cmath>
@@ -136,4 +136,4 @@ bool approx_eq(const T & a, const T & b, const T & abs_eps, const T & rel_eps)
 }  // namespace common
 }  // namespace openbot
 
-#endif  // OPENBOT_COMMON_HELPER_FUNCTIONS__FLOAT_COMPARISONS_HPP_
+#endif  // OPENBOT_COMMON_HELPER_FUNCTIONS_FLOAT_COMPARISONS_HPP_

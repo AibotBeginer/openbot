@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_COMMON_HELPER_FUNCTIONS__TEMPLATE_UTILS_HPP_
-#define OPENBOT_COMMON_HELPER_FUNCTIONS__TEMPLATE_UTILS_HPP_
+#ifndef OPENBOT_COMMON_HELPER_FUNCTIONS_TEMPLATE_UTILS_HPP_
+#define OPENBOT_COMMON_HELPER_FUNCTIONS_TEMPLATE_UTILS_HPP_
 
 #include "openbot/common/helper_functions/types.hpp"
 
@@ -70,4 +70,4 @@ struct expression_valid_with_return<
 }  // namespace common
 }  // namespace openbot
 
-#endif  // OPENBOT_COMMON_JDBOT_COMMON__HELPER_FUNCTIONS__TEMPLATE_UTILS_HPP_
+#endif  // OPENBOT_COMMON_HELPER_FUNCTIONS_TEMPLATE_UTILS_HPP_
