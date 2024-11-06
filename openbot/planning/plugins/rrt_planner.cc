@@ -50,6 +50,8 @@ void RRTPlanner::Configure(std::string name, std::shared_ptr<map::Costmap> costm
 {
     // costmap_ = dynamic_cast<VoxelMap::SharedPtr>(costmap);
     costmap_ = dynamic_cast<map::VoxelMap*>(costmap.get());
+
+    LOG(INFO) << "Cost Map Size: " << costmap_->GetSize().transpose();
 }
 
 void RRTPlanner::Cleanup() 
@@ -115,6 +117,20 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
     goal_pose[1] = goal.pose.position.y - lb(1);
     goal_pose[2] = goal.pose.position.z - lb(2);
 
+    LOG(INFO) << "Start Pose: ["
+          << "x: " << start.pose.position.x << ", "
+          << "y: " << start.pose.position.y << ", "
+          << "z: " << start.pose.position.z << "] "
+          << "Goal Pose: ["
+          << "x: " << goal.pose.position.x << ", "
+          << "y: " << goal.pose.position.y << ", "
+          << "z: " << goal.pose.position.z << "]";
+
+    LOG(INFO) << "Bounds: X[" << bounds.low[0] << ", " << bounds.high[0] << "], "
+          << "Y[" << bounds.low[1] << ", " << bounds.high[1] << "], "
+          << "Z[" << bounds.low[2] << ", " << bounds.high[2] << "]";
+    LOG(INFO) << "Transformed Start Pose: [" << start_pose[0] << ", " << start_pose[1] << ", " << start_pose[2] << "]";
+    LOG(INFO) << "Transformed Goal Pose: [" << goal_pose[0] << ", " << goal_pose[1] << ", " << goal_pose[2] << "]";
   
     auto pdef(std::make_shared<ompl::base::ProblemDefinition>(si));
     pdef->setStartAndGoalStates(start_pose, goal_pose);
@@ -166,7 +182,7 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
     LOG(INFO) << "RRT Planner path size : " << path.poses.size() << ", create plan cost: " << cost;
 
     std::chrono::duration<double> duration = now - start_time;
-    std::cout << "Time taken to solve the problem: " << duration.count() << " seconds. OMPL Timeout: " << timeout << "s" << std::endl;
+    LOG(INFO) << "Time taken to solve the problem: " << duration.count() << " seconds. OMPL Timeout: " << timeout << "s" ;
 
     return path;
 }
