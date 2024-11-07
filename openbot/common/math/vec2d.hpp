@@ -26,8 +26,8 @@
 #include <string>
 
 /**
- * @namespace apollo::common::math
- * @brief apollo::common::math
+ * @namespace openbot::common::math
+ * @brief openbot::common::math
  */
 namespace openbot {
 namespace common {
@@ -133,4 +133,4 @@ Vec2d operator*(const double ratio, const Vec2d &vec);
 
 }  // namespace math
 }  // namespace common
-}  // namespace apollo
+}  // namespace openbot

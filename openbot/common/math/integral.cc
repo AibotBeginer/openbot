@@ -20,7 +20,7 @@
 
 #include "cyber/common/log.h"
 
-namespace apollo {
+namespace openbot {
 namespace common {
 namespace math {
 

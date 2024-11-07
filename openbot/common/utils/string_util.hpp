@@ -16,19 +16,38 @@
 
 /**
  * @file
- * @brief Exports the SIN_TABLE, used by the Angle class.
+ * @brief Some string util functions.
  */
 
 #pragma once
 
+#include <string>
+
+#include "absl/strings/str_format.h"
+#include "openbot/common/utils/future.hpp"
+
+#define FORMAT_TIMESTAMP(timestamp) \
+  std::fixed << std::setprecision(9) << timestamp
+
+/**
+ * @namespace openbot::common::util
+ * @brief openbot::common::util
+ */
 namespace openbot {
 namespace common {
-namespace math {
+namespace util {
 
-//! Used by Angle class to speed-up computation of trigonometric functions.
-#define SIN_TABLE_SIZE 16385
-extern const float SIN_TABLE[SIN_TABLE_SIZE];
+using absl::StrFormat;
 
-}  // namespace math
+struct DebugStringFormatter {
+  template <class T>
+  void operator()(std::string* out, const T& t) const {
+    out->append(t.DebugString());
+  }
+};
+
+std::string EncodeBase64(std::string_view in);
+
+}  // namespace util
 }  // namespace common
 }  // namespace openbot

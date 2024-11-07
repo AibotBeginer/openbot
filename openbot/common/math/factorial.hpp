@@ -15,19 +15,27 @@
  */
 
 /**
- * @file
- * @brief Exports the SIN_TABLE, used by the Angle class.
+ * @file factorial.h
+ * @brief Meta programming for computing factorial
  */
 
 #pragma once
+
+#include <cstdint>
 
 namespace openbot {
 namespace common {
 namespace math {
 
-//! Used by Angle class to speed-up computation of trigonometric functions.
-#define SIN_TABLE_SIZE 16385
-extern const float SIN_TABLE[SIN_TABLE_SIZE];
+template <uint64_t N>
+struct Factorial {
+  enum { value = N * Factorial<N - 1>::value };
+};
+
+template <>
+struct Factorial<0> {
+  enum { value = 1 };
+};
 
 }  // namespace math
 }  // namespace common

@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-/**
- * @file
- * @brief Exports the SIN_TABLE, used by the Angle class.
- */
+#include "openbot/common/utils/string_util.hpp"
 
-#pragma once
+#include <vector>
+
+#include "gtest/gtest.h"
 
 namespace openbot {
 namespace common {
-namespace math {
+namespace util {
 
-//! Used by Angle class to speed-up computation of trigonometric functions.
-#define SIN_TABLE_SIZE 16385
-extern const float SIN_TABLE[SIN_TABLE_SIZE];
+TEST(StringUtilTest, EncodeBase64) {
+  EXPECT_EQ("", EncodeBase64(""));
+  EXPECT_EQ("Zg==", EncodeBase64("f"));
+  EXPECT_EQ("Zm8=", EncodeBase64("fo"));
+  EXPECT_EQ("Zm9v", EncodeBase64("foo"));
+  EXPECT_EQ("Zm9vYg==", EncodeBase64("foob"));
+  EXPECT_EQ("Zm9vYmE=", EncodeBase64("fooba"));
+  EXPECT_EQ("Zm9vYmFy", EncodeBase64("foobar"));
+}
 
-}  // namespace math
+}  // namespace util
 }  // namespace common
 }  // namespace openbot

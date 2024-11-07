@@ -14,21 +14,33 @@
  * limitations under the License.
  */
 
-/**
- * @file
- * @brief Exports the SIN_TABLE, used by the Angle class.
- */
-
 #pragma once
 
-namespace openbot {
-namespace common {
-namespace math {
+#if __cplusplus == 201103L || __cplusplus == 201402L
+#  include "absl/types/optional.h"
+#  include "absl/strings/string_view.h"
+#endif
 
-//! Used by Angle class to speed-up computation of trigonometric functions.
-#define SIN_TABLE_SIZE 16385
-extern const float SIN_TABLE[SIN_TABLE_SIZE];
+#if __cplusplus == 201103L
+#  include "absl/memory/memory.h"
+#  include "absl/utility/utility.h"
+#endif
 
-}  // namespace math
-}  // namespace common
-}  // namespace openbot
+namespace std {
+// Drop-in replacement for code compliant with future C++ versions.
+
+#if __cplusplus == 201103L || __cplusplus == 201402L
+
+// Borrow from C++ 17 (201703L)
+using absl::optional;
+using absl::string_view;
+
+#endif
+
+#if __cplusplus == 201103L
+// Borrow from C++ 14.
+using absl::make_integer_sequence;
+using absl::make_unique;
+#endif
+
+}  // namespace std
