@@ -36,7 +36,7 @@ std::string func_name_simplified(const std::string& str) {
 }
 }  // namespace
 
-using openbot::cyber::Time;
+using apollo::cyber::Time;
 
 namespace openbot {
 namespace common {

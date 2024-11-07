@@ -82,8 +82,8 @@ class Timer {
   int64_t End(const std::string& msg);
 
  private:
-  openbot::cyber::Time start_time_;
-  openbot::cyber::Time end_time_;
+  apollo::cyber::Time start_time_;
+  apollo::cyber::Time end_time_;
 
   DISALLOW_COPY_AND_ASSIGN(Timer);
 };
