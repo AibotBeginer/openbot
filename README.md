@@ -25,6 +25,22 @@ cd openbot && mkdir build && cd build && cmake ..
 make -j8
 ```
 
+
+
+## :tanabata_tree:文档自动生成依赖
+
+```bash
+sudo apt install sphinx
+sudo apt install python3-pip 
+pip install Sphinx
+pip install recommonmark
+pip install sphinx_rtd_theme
+pip install mathjax
+pip install --upgrade myst-parser
+```
+
+
+
 ## :leaves:  安装依赖
 
 * :man_cartwheeling: abseil

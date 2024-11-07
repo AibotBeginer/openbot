@@ -60,3 +60,9 @@ function install_osqp()
 {
 
 }
+
+function install_docs() 
+{
+
+}
+
