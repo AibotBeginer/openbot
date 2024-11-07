@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_VEHICLE_MOTION_MODEL_DIFFERENTIAL_DRIVE_MOTION_MODEL_HPP_
-#define OPENBOT_VEHICLE_MOTION_MODEL_DIFFERENTIAL_DRIVE_MOTION_MODEL_HPP_
+#ifndef OPENBOT_COMMON_MOTION_MODEL_DIFFERENTIAL_DRIVE_MOTION_MODEL_HPP_
+#define OPENBOT_COMMON_MOTION_MODEL_DIFFERENTIAL_DRIVE_MOTION_MODEL_HPP_
 
-#include "openbot/vehicle/motion_model/motion_model_interface.hpp"
+#include "openbot/common/motion_model/motion_model_interface.hpp"
 #include "openbot/common/state_vector/common_states.hpp"
 #include "openbot/common/state_vector/generic_state.hpp"
 
 namespace openbot {
-namespace vehicle { 
+namespace common { 
 namespace motion_model {
 
 /// @brief      A generic differential motion model. This class only exists to be specialized for
@@ -121,7 +121,7 @@ template<>
   const std::chrono::nanoseconds & dt) const;
 
 }  // namespace motion_model
-}  // namespace vehicle 
+}  // namespace common 
 }  // namespace openbot
 
-#endif  // OPENBOT_VEHICLE_MOTION_MODEL_DIFFERENTIAL_DRIVE_MOTION_MODEL_HPP_
+#endif  // OPENBOT_COMMON_MOTION_MODEL_DIFFERENTIAL_DRIVE_MOTION_MODEL_HPP_

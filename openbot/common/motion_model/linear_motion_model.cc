@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/vehicle/motion_model/linear_motion_model.hpp"
+#include "openbot/common/motion_model/linear_motion_model.hpp"
 #include "openbot/common/helper_functions/types.hpp"
 
 namespace
@@ -50,7 +50,7 @@ Eigen::Matrix<ScalarT, size, size> create_jacobian(const std::chrono::nanosecond
 }  // namespace
 
 namespace openbot {
-namespace vehicle { 
+namespace common { 
 namespace motion_model {
 
 template<typename StateT>
@@ -81,5 +81,5 @@ template class  LinearMotionModel<common::state_vector::ConstAccelerationXYZRPY6
 /// \endcond
 
 }  // namespace motion_model
-}  // namespace vehicle 
+}  // namespace common 
 }  // namespace openbot

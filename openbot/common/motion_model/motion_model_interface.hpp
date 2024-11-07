@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_VEHICLE_MOTION_MODEL_MOTION_MODEL_INTERFACE_HPP_
-#define OPENBOT_VEHICLE_MOTION_MODEL_MOTION_MODEL_INTERFACE_HPP_
+#ifndef OPENBOT_COMMON_MOTION_MODEL_MOTION_MODEL_INTERFACE_HPP_
+#define OPENBOT_COMMON_MOTION_MODEL_MOTION_MODEL_INTERFACE_HPP_
 
 #include "openbot/common/helper_functions/crtp.hpp"
 #include "openbot/common/state_vector/generic_state.hpp"
@@ -23,7 +23,7 @@
 #include <chrono>
 
 namespace openbot {
-namespace vehicle { 
+namespace common { 
 namespace motion_model {
 
 ///
@@ -74,7 +74,7 @@ public:
 };
 
 }  // namespace motion_model
-}  // namespace vehicle 
+}  // namespace common 
 }  // namespace openbot
 
-#endif  // OPENBOT_VEHICLE_MOTION_MODEL_MOTION_MODEL_INTERFACE_HPP_
+#endif  // OPENBOT_COMMON_MOTION_MODEL_MOTION_MODEL_INTERFACE_HPP_

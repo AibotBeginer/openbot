@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#include "openbot/vehicle/motion_model/stationary_motion_model.hpp"
+#include "openbot/common/motion_model/stationary_motion_model.hpp"
 #include "openbot/common/state_vector/common_states.hpp"
 
 #include <gtest/gtest.h>
 
 namespace openbot {
-namespace vehicle { 
+namespace common { 
 namespace motion_model {
 
 using openbot::common::state_vector::variable::X;
@@ -46,5 +46,5 @@ TEST(StationaryMotionModelTest, Jacobian) {
 }
 
 }  // namespace motion_model
-}  // namespace vehicle 
+}  // namespace common 
 }  // namespace openbot

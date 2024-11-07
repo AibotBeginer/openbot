@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/vehicle/motion_model/differential_drive_motion_model.hpp"
+#include "openbot/common/motion_model/differential_drive_motion_model.hpp"
 #include "openbot/common/helper_functions/types.hpp"
 #include "openbot/common/helper_functions/float_comparisons.hpp"
 
@@ -40,7 +40,7 @@ using openbot::common::types::float64_t;
 }  // namespace
 
 namespace openbot {
-namespace vehicle { 
+namespace common { 
 namespace motion_model {
 
 template<typename ScalarT>
@@ -303,5 +303,5 @@ template<>
 }
 
 }  // namespace motion_model
-}  // namespace vehicle 
+}  // namespace common 
 }  // namespace openbot

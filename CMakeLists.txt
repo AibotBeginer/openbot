@@ -77,8 +77,8 @@ install(DIRECTORY cmake DESTINATION share/openbot/)
 
 file(GLOB_RECURSE ALL_LIBRARY_HDRS "openbot/*.hpp")
 file(GLOB_RECURSE ALL_LIBRARY_SRCS "openbot/*.cc")
-file(GLOB_RECURSE TEST_LIBRARY_HDRS "openbot/fake_*.hpp" "openbot/test_helpers*.hpp")
-file(GLOB_RECURSE TEST_LIBRARY_SRCS "openbot/fake_*.cc"  "openbot/test_helpers*.cc")
+file(GLOB_RECURSE TEST_LIBRARY_HDRS "openbot/fake_*.hpp" "openbot/*_test_helpers*.hpp")
+file(GLOB_RECURSE TEST_LIBRARY_SRCS "openbot/fake_*.cc"  "openbot/*_test_helpers*.cc")
 file(GLOB_RECURSE ALL_TESTS "openbot/*_test.cc")
 file(GLOB_RECURSE ALL_EXECUTABLES "openbot/*_main.cc")
 
@@ -299,13 +299,13 @@ endif()
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
-# set(TEST_LIB openbot_test_library)
-# add_library(${TEST_LIB} ${TEST_LIBRARY_HDRS} ${TEST_LIBRARY_SRCS})
-# target_include_directories(${TEST_LIB} SYSTEM PRIVATE "${GMOCK_INCLUDE_DIRS}")
-# # Needed for dynamically linked GTest on Windows.
-# target_link_libraries(${TEST_LIB} PUBLIC ${GMOCK_LIBRARY})
-# target_link_libraries(${TEST_LIB} PUBLIC ${PROJECT_NAME})
-# set_target_properties(${TEST_LIB} PROPERTIES COMPILE_FLAGS ${TARGET_COMPILE_FLAGS})
+set(TEST_LIB openbot_test_library)
+add_library(${TEST_LIB} ${TEST_LIBRARY_HDRS} ${TEST_LIBRARY_SRCS})
+target_include_directories(${TEST_LIB} SYSTEM PRIVATE "${GMOCK_INCLUDE_DIRS}")
+# Needed for dynamically linked GTest on Windows.
+target_link_libraries(${TEST_LIB} PUBLIC ${GMOCK_LIBRARY})
+target_link_libraries(${TEST_LIB} PUBLIC ${PROJECT_NAME})
+set_target_properties(${TEST_LIB} PROPERTIES COMPILE_FLAGS ${TARGET_COMPILE_FLAGS})
 
 foreach(ABS_FIL ${ALL_TESTS})
   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
@@ -318,6 +318,7 @@ foreach(ABS_FIL ${ALL_TESTS})
     target_link_libraries("${TEST_TARGET_NAME}" PUBLIC grpc++)
     target_link_libraries("${TEST_TARGET_NAME}" PUBLIC async_grpc)
   endif()
+  target_link_libraries("${TEST_TARGET_NAME}" PUBLIC ${TEST_LIB})
 endforeach()
 
 # Add the binary directory first, so that port.h is included after it has

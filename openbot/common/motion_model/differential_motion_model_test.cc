@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/vehicle/motion_model/differential_drive_motion_model.hpp"
+#include "openbot/common/motion_model/differential_drive_motion_model.hpp"
 #include "openbot/common/state_vector/common_states.hpp"
 
 #include <gtest/gtest.h>
@@ -24,7 +24,7 @@
 #include <cmath>
 
 namespace openbot {
-namespace vehicle { 
+namespace common { 
 namespace motion_model {
 
 using openbot::common::state_vector::variable::X;
@@ -323,5 +323,5 @@ TEST(CatrMotionModelTest, PredictLinearMovementWithNonzeroTurnRate) {
 }
 
 }  // namespace motion_model
-}  // namespace vehicle 
+}  // namespace common 
 }  // namespace openbot

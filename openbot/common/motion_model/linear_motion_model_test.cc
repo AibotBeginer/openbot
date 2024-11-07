@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#include "openbot/vehicle/motion_model/linear_motion_model.hpp"
+#include "openbot/common/motion_model/linear_motion_model.hpp"
 #include "openbot/common/state_vector/common_states.hpp"
 
 #include <gtest/gtest.h>
 
 namespace openbot {
-namespace vehicle { 
+namespace common { 
 namespace motion_model {
 
 using openbot::common::state_vector::ConstAccelerationXY32;
@@ -67,5 +67,5 @@ TEST(LinearMotionModel, PredictConstAccelerationXY) {
 }
 
 }  // namespace motion_model
-}  // namespace vehicle 
+}  // namespace common 
 }  // namespace openbot
