@@ -77,7 +77,8 @@ sudo make install
 sudo apt install libtinyxml2-dev \
 	liblua5.3-dev \
 	ninja-build \
-	libompl-dev
+	libompl-dev \
+	libpoco-dev
 ```
 
 * :person_fencing: G2O

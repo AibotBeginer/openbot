@@ -16,6 +16,8 @@
 
 #include "openbot/common/interpolation/spherical_linear_interpolation.hpp"
 
+#include "openbot/common/tf2/utils.hpp"
+
 namespace openbot {
 namespace common {
 namespace interpolation {
@@ -24,13 +26,12 @@ geometry_msgs::Quaternion slerp(
   const geometry_msgs::Quaternion & src_quat, const geometry_msgs::Quaternion & dst_quat,
   const double ratio)
 {
-  // TODO(duyongquan)
-  // tf2::Quaternion src_tf;
-  // tf2::Quaternion dst_tf;
-  // tf2::fromMsg(src_quat, src_tf);
-  // tf2::fromMsg(dst_quat, dst_tf);
-  // const auto interpolated_quat = tf2::slerp(src_tf, dst_tf, ratio);
-  // return tf2::toMsg(interpolated_quat);
+  tf2::Quaternion src_tf;
+  tf2::Quaternion dst_tf;
+  tf2::fromMsg(src_quat, src_tf);
+  tf2::fromMsg(dst_quat, dst_tf);
+  const auto interpolated_quat = tf2::slerp(src_tf, dst_tf, ratio);
+  return tf2::toMsg(interpolated_quat);
   geometry_msgs::Quaternion d;
   return d;
 }

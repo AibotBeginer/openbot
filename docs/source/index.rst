@@ -28,7 +28,7 @@ Contents
 ----------------
 
 .. toctree::
-  :maxdepth: 2
+  :maxdepth: 1
 
   01 Instructions - 工程介绍 <01_Instructions/what_openbot>
   02 Installation - 工程安装 <02_Installation/prerequisite_software_installation_guide>

@@ -12,7 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set(OUTPUT_DIR "${PROJECT_BINARY_DIR}/docs/html")
+# HTML output directory
+set(SPHINX_HTML_DIR "${PROJECT_BINARY_DIR}/docs/html")
+
+# Find python
+find_package(Python REQUIRED COMPONENTS Interpreter)
 
 add_custom_target(build_doc ALL
     ${SPHINX_EXECUTABLE} -b html
@@ -21,4 +25,5 @@ add_custom_target(build_doc ALL
     COMMENT "Building documentation."
 )
 
-# TODO(hrapp): Install documentation?
+# Install documentation
+install(DIRECTORY ${PROJECT_BINARY_DIR}/docs/html/ DESTINATION docs)

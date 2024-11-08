@@ -20,6 +20,13 @@ namespace openbot {
 namespace common {
 namespace builtin_interfaces {
 
+// Overload the << operator for the Time struct
+std::ostream& operator<<(std::ostream& os, const Time& time) 
+{
+    os << "Time(sec: " << time.sec << ", nanosec: " << time.nanosec << ")";
+    return os;
+}
+
 // Converts 'Time' to a openbot::common::proto::std_msgs::Header.
 openbot::common::proto::builtin_interfaces::Time ToProto(const Time& data)
 {
