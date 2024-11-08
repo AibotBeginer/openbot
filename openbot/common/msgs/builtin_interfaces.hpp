@@ -142,6 +142,11 @@ struct Time
     
 };
 
+struct Duration
+{
+
+};
+
 // Overload the << operator for the Time struct
 std::ostream& operator<<(std::ostream& os, const Time& time);
 

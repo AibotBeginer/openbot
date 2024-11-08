@@ -153,6 +153,7 @@ list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
 
 # thirdparty
 add_subdirectory(thirdparty)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
 
 add_library(${PROJECT_NAME} SHARED ${ALL_LIBRARY_HDRS} ${ALL_LIBRARY_SRCS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PROTOBUF_INCLUDE_DIR})
