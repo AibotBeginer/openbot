@@ -16,8 +16,6 @@
 
 #pragma once
 
-#include "cyber/common/macros.h"
-
 namespace openbot {
 namespace common {
 namespace util {
@@ -47,8 +45,6 @@ class TimeUtil {
   static const int UNIX_GPS_DIFF = 315964782;
   // unix timestamp(2016.12.31 23:59:59(60) UTC/GMT)
   static const int LEAP_SECOND_TIMESTAMP = 1483228799;
-
-  DISALLOW_COPY_AND_ASSIGN(TimeUtil);
 };
 
 }  // namespace util

@@ -20,7 +20,7 @@
 
 #include "absl/strings/str_cat.h"
 
-#include "cyber/common/log.h"
+#include "glog/logging.h"
 
 namespace openbot {
 namespace common {

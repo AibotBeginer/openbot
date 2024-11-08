@@ -18,7 +18,8 @@
 
 #include <array>
 
-#include "cyber/common/log.h"
+#include "glog/logging.h"
+
 
 namespace openbot {
 namespace common {
