@@ -33,9 +33,9 @@
 #include <Eigen/SVD>
 
 #include "openbot/common/macros.hpp"
-#include "openbot/common/port.hpp"
 #include "openbot/common/msgs/msgs.hpp"
 #include "openbot/common/pcl_conversions.hpp"
+#include "openbot/map/mockamap/map_opionts.hpp"
 
 namespace openbot {
 namespace map { 
@@ -55,70 +55,7 @@ public:
      */
     OPENBOT_SMART_PTR_DEFINITIONS(CesRandomMap);
 
-    struct Option
-    {
-        //  box edge length, unit meter
-        double resolution;
-        uint32 x_length;
-        uint32 y_length;
-        uint32 z_length;
-        uint32 type;    // 1 perlin noise 3D
-                        // 2 perlin box random map
-                        // 3 2d maze 
-                        // 4 3d maze
-        /**
-        type = 1 perlin noise parameters
-            complexity:    base noise frequency, large value will be complex typical 0.0 ~ 0.5
-            fill:          infill persentage typical: 0.4 ~ 0.0 
-            fractal:       large value will have more detail
-            attenuation:   for fractal attenuation typical: 0.0 ~ 0.5
-
-        complexity = 0.03;
-        fill = 0.3;
-        fractal = 1;
-        attenuation = 0.1;
-        */
-        double complexity;
-        double fill;
-        double attenuation;
-        uint32 fractal;
-
-        /**
-        type = 2  perlin box random map
-            width_min = 0.6;
-            width_max = 1.5;
-            obstacle_number = 50;
-        */
-        double width_min;
-        double width_max;
-        uint32 obstacle_number;
-
-        /**
-        type = 3  2d maze 
-            road_width = 0.5;
-            add_wall_x = 0;
-            add_wall_y = 1;
-            maze_type = 1;
-        */
-        double road_width;
-        uint32 add_wall_x;
-        uint32 add_wall_y;
-        uint32 maze_type;  // 1 recursive division maze
-
-        /**
-        type = 4  3d maze 
-            num_nodes = 40;
-            connectivity = 0.8;
-            node_rad = 1;
-            road_rad = 10;
-        */
-       uint32 num_nodes;
-       double connectivity;
-       uint32 node_rad;
-       uint32 road_rad;
-    };
-
-    CesRandomMap(const Option& option);
+    CesRandomMap(const MapOption& option);
 
     bool FixedMapGenerate(pcl::PointCloud<pcl::PointXYZ>& cloud);
 
@@ -131,7 +68,7 @@ public:
     double resolution() { return resolution_; }
 
 private:
-    Option option_;
+    MapOption option_;
 
     pcl::PointCloud<pcl::PointXYZ> cloud_map_;
     common::sensor_msgs::PointCloud2 global_map_pcd_;

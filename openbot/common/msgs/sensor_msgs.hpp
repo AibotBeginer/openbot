@@ -200,7 +200,7 @@ struct PointCloud2
     // 2D structure of the point cloud. If the cloud is unordered, height is
     // 1 and width is the length of the point cloud.
     uint32 height;
-    uint32 width = 3;
+    uint32 width;
 
     // Describes the channels and their layout in the binary data blob.
     std::vector<PointField> fields;
@@ -210,7 +210,7 @@ struct PointCloud2
     uint32  row_step;     // Length of a row in bytes 
     std::vector<unsigned char> data; // Actual point data, size is (row_step*height)
 
-    bool is_dense = 9;        // True if there are no invalid points
+    bool is_dense;        // True if there are no invalid points
 };
 
 struct Range

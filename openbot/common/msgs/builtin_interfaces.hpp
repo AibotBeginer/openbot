@@ -48,6 +48,16 @@ struct Time
 
     Time(int s, int n) : sec(s), nanosec(n) {}
 
+    static Time now() 
+    {
+        auto current_time = std::chrono::high_resolution_clock::now();
+        auto duration_since_epoch = std::chrono::duration_cast<std::chrono::nanoseconds>(current_time.time_since_epoch());
+        Time result;
+        result.sec = duration_since_epoch.count() / 1000000000;
+        result.nanosec = duration_since_epoch.count() % 1000000000;
+        return result;
+    }
+
     bool operator==(const Time& other) const 
     {
         return sec == other.sec && nanosec == other.nanosec;

@@ -20,8 +20,39 @@
 #include <vector>
 #include <string>
 
+#include "openbot/common/macros.hpp"
+#include "openbot/common/msgs/msgs.hpp"
+#include "openbot/map/mockamap/maps.hpp"
+#include "openbot/map/mockamap/map_opionts.hpp"
+
 namespace openbot {
 namespace map { 
+
+class MapGenerator
+{
+public:
+    /**
+     *  @brief SharedPtr typedef
+     */
+    OPENBOT_SMART_PTR_DEFINITIONS(MapGenerator);
+
+    MapGenerator(const mockamap::Maps::BasicInfo& option);
+
+    MapGenerator(const mockamap::MapOption& option);
+
+    ~MapGenerator();
+
+    bool Generate(common::sensor_msgs::PointCloud2& point_cloud2);
+
+private:
+
+    mockamap::Maps::SharedPtr map_{nullptr};
+    mockamap::Maps::BasicInfo basic_option_;
+    mockamap::MapOption option_;
+};
+
+
+
 
 
 }  // namespace map

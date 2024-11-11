@@ -45,12 +45,9 @@ void Maps::randomMapGenerate()
   double _h_l = 0;
   double _h_h = info.sizeZ / info.scale;
 
-  double _w_l, _w_h;
-  int    _ObsNum;
-
-  // info.nh_private->param("width_min", _w_l, 0.6);
-  // info.nh_private->param("width_max", _w_h, 1.5);
-  // info.nh_private->param("obstacle_number", _ObsNum, 10);
+  double _w_l = option_.width_min;
+  double _w_h = option_.width_max;
+  double _ObsNum = option_.obstacle_number;
 
   std::uniform_real_distribution<double> rand_x;
   std::uniform_real_distribution<double> rand_y;
@@ -95,39 +92,34 @@ void Maps::randomMapGenerate()
             pt_random.x = x + r * _resolution;
             pt_random.y = y + s * _resolution;
             pt_random.z = t * _resolution;
-            info.cloud->points.push_back(pt_random);
+            cloud_->points.push_back(pt_random);
           }
         }
       }
   }
 
-  info.cloud->width    = info.cloud->points.size();
-  info.cloud->height   = 1;
-  info.cloud->is_dense = true;
+  cloud_->width    = cloud_->points.size();
+  cloud_->height   = 1;
+  cloud_->is_dense = true;
 
   PCLToPointCloud2();
 }
 
 void Maps::perlin3D()
 {
-  double complexity;
-  double fill;
-  int    fractal;
-  double attenuation;
+  double complexity = option_.complexity;
+  double fill = option_.fill;
+  int fractal = option_.fractal;
+  double attenuation = option_.attenuation;
 
-  // info.nh_private->param("complexity", complexity, 0.142857);
-  // info.nh_private->param("fill", fill, 0.38);
-  // info.nh_private->param("fractal", fractal, 1);
-  // info.nh_private->param("attenuation", attenuation, 0.5);
-
-  info.cloud->width  = info.sizeX * info.sizeY * info.sizeZ;
-  info.cloud->height = 1;
-  info.cloud->points.resize(info.cloud->width * info.cloud->height);
+  cloud_->width  = info.sizeX * info.sizeY * info.sizeZ;
+  cloud_->height = 1;
+  cloud_->points.resize(cloud_->width * cloud_->height);
 
   PerlinNoise noise(info.seed);
 
   std::vector<double>* v = new std::vector<double>;
-  v->reserve(info.cloud->width);
+  v->reserve(cloud_->width);
   for (int i = 0; i < info.sizeX; ++i)
   {
     for (int j = 0; j < info.sizeY; ++j)
@@ -148,9 +140,8 @@ void Maps::perlin3D()
     }
   }
   std::sort(v->begin(), v->end());
-  int    tpos = info.cloud->width * (1 - fill);
+  int    tpos = cloud_->width * (1 - fill);
   double tmp  = v->at(tpos);
-  // ROS_INFO("threshold: %lf", tmp);
 
   int pos = 0;
   for (int i = 0; i < info.sizeX; ++i)
@@ -170,19 +161,18 @@ void Maps::perlin3D()
         }
         if (tnoise > tmp)
         {
-          info.cloud->points[pos].x =
+          cloud_->points[pos].x =
             i / info.scale - info.sizeX / (2 * info.scale);
-          info.cloud->points[pos].y =
+          cloud_->points[pos].y =
             j / info.scale - info.sizeY / (2 * info.scale);
-          info.cloud->points[pos].z = k / info.scale;
+          cloud_->points[pos].z = k / info.scale;
           pos++;
         }
       }
     }
   }
-  info.cloud->width = pos;
-  // ROS_INFO("the number of points before optimization is %d", info.cloud->width);
-  info.cloud->points.resize(info.cloud->width * info.cloud->height);
+  cloud_->width = pos;
+  cloud_->points.resize(cloud_->width * cloud_->height);
   PCLToPointCloud2();
 }
 
@@ -610,14 +600,10 @@ void Maps::recursizeDivisionMaze(Eigen::MatrixXi& maze)
 
 void Maps::maze2D()
 {
-  double width;
-  int    type;
-  int    addWallX;
-  int    addWallY;
-  // info.nh_private->param("road_width", width, 1.0);
-  // info.nh_private->param("add_wall_x", addWallX, 0);
-  // info.nh_private->param("add_wall_y", addWallY, 0);
-  // info.nh_private->param("maze_type", type, 1);
+  double width = option_.road_width;
+  int addWallX = option_.add_wall_x;
+  int addWallY = option_.add_wall_y;
+  int type = option_.maze_type;
 
   int mx = info.sizeX / (width * info.scale);
   int my = info.sizeY / (width * info.scale);
@@ -669,16 +655,16 @@ void Maps::maze2D()
               pt_random.y =
                 j * width + jj / info.scale - info.sizeY / (2.0 * info.scale);
               pt_random.z = k / info.scale;
-              info.cloud->points.push_back(pt_random);
+              cloud_->points.push_back(pt_random);
             }
           }
         }
       }
     }
   }
-  info.cloud->width    = info.cloud->points.size();
-  info.cloud->height   = 1;
-  info.cloud->is_dense = true;
+  cloud_->width    = cloud_->points.size();
+  cloud_->height   = 1;
+  cloud_->is_dense = true;
   PCLToPointCloud2();
 }
 
@@ -694,10 +680,30 @@ void Maps::setInfo(const BasicInfo& value)
 
 Maps::Maps()
 {
+  cloud_ = new pcl::PointCloud<pcl::PointXYZ>();
+  output_ = new ::openbot::common::sensor_msgs::PointCloud2();
 }
 
-void Maps::generate(int type)
+Maps::Maps(const MapOption& option)
+  : Maps()
 {
+  option_ = option;
+  double scale = 1 / option.resolution;
+  int sizeX = option.x_length * scale;
+  int sizeY = option.y_length * scale;
+  int sizeZ = option.z_length * scale;
+
+  info.sizeX      = sizeX;
+  info.sizeY      = sizeY;
+  info.sizeZ      = sizeZ;
+  info.seed       = option.seed;
+  info.scale      = scale;
+  info.type       = option.type;
+}
+
+void Maps::generate()
+{
+  int type = info.type;
   switch (type)
   {
     default:
@@ -771,21 +777,11 @@ void MazePoint::setDist2(double set)
 void Maps::Maze3DGen()
 {
   // getting required info parameters from the given node
-  int    numNodes;
-  double connectivity;
-  int    nodeRad;
-  int    roadRad;
+  int numNodes = option_.num_nodes;
+  double connectivity = option_.connectivity;
+  int nodeRad = option_.node_rad;
+  int roadRad = option_.road_rad;
 
-  // info.nh_private->param("numNodes", numNodes, 10);
-  // info.nh_private->param("connectivity", connectivity, 0.5);
-  // info.nh_private->param("nodeRad", nodeRad, 3);
-  // info.nh_private->param("roadRad", roadRad, 2);
-  // ROS_INFO("received parameters : numNodes: %d connectivity: "
-  //          "%f nodeRad: %d roadRad: %d",
-  //          numNodes,
-  //          connectivity,
-  //          nodeRad,
-  //          roadRad);
   // generating random points
   std::vector<pcl::PointXYZ> base;
 
@@ -866,30 +862,30 @@ void Maps::Maze3DGen()
             if (mp.getDist1() + mp.getDist2() - judge >=
                 roadRad / (info.scale * 3))
             {
-              info.cloud->points.push_back(mp.getPoint());
+              cloud_->points.push_back(mp.getPoint());
             }
           }
           else
           {
-            info.cloud->points.push_back(mp.getPoint());
+            cloud_->points.push_back(mp.getPoint());
           }
         }
       }
     }
   }
 
-  info.cloud->width  = info.cloud->points.size();
-  info.cloud->height = 1;
-  // ROS_INFO("the number of points before optimization is %d", info.cloud->width);
-  info.cloud->points.resize(info.cloud->width * info.cloud->height);
+  cloud_->width  = cloud_->points.size();
+  cloud_->height = 1;
+  // ROS_INFO("the number of points before optimization is %d", cloud_->width);
+  cloud_->points.resize(cloud_->width * cloud_->height);
   PCLToPointCloud2();
 }
 
 void Maps::PCLToPointCloud2()
 {
-  ::openbot::common::pcl::toROSMsg(*info.cloud, *info.output);
-  info.output->header.frame_id = "map";
-  LOG(INFO) << "finish: infill " << info.cloud->width / (1.0 * info.sizeX * info.sizeY * info.sizeZ);
+  ::openbot::common::pcl::toROSMsg(*cloud_, *output_);
+  output_->header.frame_id = "map";
+  LOG(INFO) << "finish: infill " << cloud_->width / (1.0 * info.sizeX * info.sizeY * info.sizeZ);
 }
 
 }  // namespace mockamap

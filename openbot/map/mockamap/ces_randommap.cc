@@ -27,7 +27,7 @@ namespace openbot {
 namespace map {
 namespace mockamap { 
 
-CesRandomMap::CesRandomMap(const Option& option)
+CesRandomMap::CesRandomMap(const MapOption& option)
 {
 
 }
@@ -162,58 +162,3 @@ common::sensor_msgs::PointCloud2& CesRandomMap::global_map()
 }  // mockamap
 }  // namespace map
 }  // namespace openbot
-
-
-
-// vector<int>                        pointIdxRadiusSearch;
-// vector<float>                      pointRadiusSquaredDistance;
-
-// ros::Subscriber _map_sub;
-// ros::Subscriber _odom_sub;
-
-// deque<nav_msgs::Odometry> _odom_queue;
-// vector<double>            _state;
-// const size_t              _odom_queue_size = 200;
-// nav_msgs::Odometry        _odom;
-
-// double z_limit;
-// double _SenseRate;
-// double _sensing_range;
-
-// // ros::Timer vis_map;
-// bool map_ok    = false;
-// bool _has_odom = false;
-
-// sensor_msgs::PointCloud2       globalMap_pcd;
-// sensor_msgs::PointCloud2       localMap_pcd;
-// pcl::PointCloud<pcl::PointXYZ> cloudMap;
-// ros::Time                      begin_time = ros::TIME_MAX;
-
-// typedef Eigen::Vector3d ObsPos;
-// typedef Eigen::Vector3d ObsSize; // x, y, height --- z
-// typedef pair<ObsPos, ObsPos> Obstacle;
-// std::vector<Obstacle> obstacle_list;
-
-
-
-// void rcvOdometryCallbck(const nav_msgs::Odometry odom)
-// {
-//   if (odom.child_frame_id == "X" || odom.child_frame_id == "O")
-//     return;
-//   _odom     = odom;
-//   _has_odom = true;
-
-//   _state = { _odom.pose.pose.position.x,
-//              _odom.pose.pose.position.y,
-//              _odom.pose.pose.position.z,
-//              _odom.twist.twist.linear.x,
-//              _odom.twist.twist.linear.y,
-//              _odom.twist.twist.linear.z,
-//              0.0,
-//              0.0,
-//              0.0 };
-
-//   _odom_queue.push_back(odom);
-//   while (_odom_queue.size() > _odom_queue_size)
-//     _odom_queue.pop_front();
-// }

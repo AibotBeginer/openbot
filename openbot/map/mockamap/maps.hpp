@@ -23,8 +23,10 @@
 #include <pcl/PCLPointCloud2.h>
 #include <pcl/conversions.h>
 
+#include "openbot/common/macros.hpp"
 #include "openbot/common/pcl_conversions.hpp"
 #include "openbot/common/msgs/sensor_msgs.hpp"
+#include "openbot/map/mockamap/map_opionts.hpp"
 
 namespace openbot {
 namespace map { 
@@ -40,15 +42,23 @@ public:
     int sizeZ;
     int seed;
     double scale;
-    ::openbot::common::sensor_msgs::PointCloud2 *output;
-    pcl::PointCloud<pcl::PointXYZ> *cloud;
+    int type;
   } BasicInfo;
+
+  /**
+   *  @brief SharedPtr typedef
+   */
+  OPENBOT_SMART_PTR_DEFINITIONS(Maps);
 
   Maps();
 
+  Maps(const MapOption& option);
+
   BasicInfo getInfo() const;
   void setInfo(const BasicInfo &value);
-  void generate(int type);
+  void generate();
+
+  ::openbot::common::sensor_msgs::PointCloud2* cloud() { return output_;}
 
 private:
   void perlin3D();
@@ -62,6 +72,10 @@ private:
   void PCLToPointCloud2();
 
   BasicInfo info;
+  MapOption option_; 
+
+  ::openbot::common::sensor_msgs::PointCloud2 *output_{nullptr};
+  pcl::PointCloud<pcl::PointXYZ> *cloud_{nullptr};
 };
 
 class MazePoint 
