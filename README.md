@@ -1,5 +1,9 @@
 # openbot
 
+## :golf: Openbot Framework
+
+![openbot_framework](./images/openbot_framework.png)
+
 ## :seedling:  简介
 
 > **<font color='green'>openbot</font>** 不依赖 **<font color='red'>ROS/ROS2</font>** 的机器人视觉定位&建图、导航系统框架，完全由C++开发。打造一个linux系统级别，支持分布式、高吞吐、低延时、易部署、易调试、高性能的机器人算法框架：
