@@ -66,6 +66,11 @@ public:
         return scale_;
     }
 
+    double resolution() const
+    {
+        return resolution_;
+    }
+
     /**
      * @brief Get value
      */
@@ -145,6 +150,7 @@ private:
     Eigen::Vector3i map_size_;
     Eigen::Vector3d o_;
     double scale_;
+    double resolution_;
     int vox_num_;
     Eigen::Vector3i step_;
     Eigen::Vector3d oc_;

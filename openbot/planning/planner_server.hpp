@@ -26,6 +26,7 @@
 #include "openbot/map/voxel_map.hpp"
 #include "openbot/map/costmap.hpp"
 #include "openbot/planning/plugins/rrt_planner.hpp"
+#include "openbot/planning/plugins/a_star_planner.hpp"
 
 // #include "openbot/common/proto/nav_msgs/path.pb.h"
 // #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
@@ -57,12 +58,19 @@ public:
 
     void InitMap(const map::Costmap::SharedPtr costmap);
 
+    void SetRunningPlanner(const std::string& name);
+    
+    std::string running_planner_name();
+
     common::nav_msgs::Path CreatePlan(
         const common::geometry_msgs::PoseStamped& start,
         const common::geometry_msgs::PoseStamped& goal);
 
 private:
     std::unordered_map<std::string, GlobalPlanner::SharedPtr> plugins_;
+
+
+    std::string running_planner_name_;
 
     map::Costmap::SharedPtr costmap_{nullptr};
 };

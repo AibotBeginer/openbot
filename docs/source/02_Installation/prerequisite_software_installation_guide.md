@@ -1,6 +1,6 @@
-# Install
+# 安装
 
-## 安装依赖
+# 1 源码安装
 
 * abseil
 
@@ -83,3 +83,21 @@ mkdir build && cd build && cmake ..
 make -j8
 sudo make install
 ```
+
+
+
+## 2 Docker安装
+
+* docker安装
+
+```bash
+cd openbot/docker/scripts
+sudo ./install_docker.sh
+```
+
+* gou zao imge
+
+```
+
+```
+

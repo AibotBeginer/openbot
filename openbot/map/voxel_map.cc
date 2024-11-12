@@ -35,6 +35,7 @@ VoxelMap::VoxelMap(const Eigen::Vector3i& size, const Eigen::Vector3d& origin, c
     : map_size_(size),
       o_(origin),
       scale_(vox_scale),
+      resolution_(vox_scale),
       vox_num_(map_size_.prod()),
       step_(1, map_size_(0), map_size_(1) * map_size_(0)),
       oc_(o_ + Eigen::Vector3d::Constant(0.5 * scale_)),

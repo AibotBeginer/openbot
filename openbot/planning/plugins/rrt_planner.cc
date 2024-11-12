@@ -155,8 +155,7 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
     common::nav_msgs::Path path;
 
     auto now = std::chrono::high_resolution_clock::now();
-    path.header.stamp.sec = std::chrono::time_point_cast<std::chrono::seconds>(now).time_since_epoch().count();
-    path.header.stamp.nanosec =  std::chrono::time_point_cast<std::chrono::nanoseconds>(now).time_since_epoch().count();
+    path.header.stamp = common::builtin_interfaces::Time::now();
     path.header.frame_id = "map";
 
     if (!solved) {
