@@ -23,8 +23,8 @@ set -e
 rm -rf build
 
 cd /thirdparty
-git clone https://github.com/ceres-solver/ceres-solver.git
-ceres-solver
+git clone --branch 2.2.0 https://github.com/ceres-solver/ceres-solver.git
+cd ceres-solver
 mkdir build && cd build && cmake ..
 make -j6
 make install

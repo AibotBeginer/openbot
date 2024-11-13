@@ -2,7 +2,7 @@ FROM osrf/ros:humble-desktop
 
 # install packages
 RUN apt clean
-RUN apt update -y && \
+RUN apt update && \
     apt install -y \
     build-essential \
     cmake \
@@ -13,6 +13,8 @@ RUN apt update -y && \
     wget \
     bc \
     gdb \
+    libceres-dev \
+    libblas-dev liblapack-dev \
     libtinyxml2-dev \
     liblua5.3-dev \
     ninja-build \
@@ -20,13 +22,16 @@ RUN apt update -y && \
     python3-pip \
     python3-sphinx \
     uuid-dev \
+    libsuitesparse-dev \
+    lsb-release \
     libompl-dev \
+    libcairo2-dev \
+    libboost-all-dev \
     libasio-dev \
     libtinyxml2-dev \
     libncurses5-dev \
     libavcodec-dev \
     libswscale-dev \
-    libcurl4-nss-dev \
     libpoco-dev \
     libflann-dev \
     libqhull-dev \
@@ -34,7 +39,11 @@ RUN apt update -y && \
     libpcap0.8-dev \
     libusb-1.0-0 \
     libusb-1.0-0-dev \
-    software-properties-common
+    libmetis-dev \
+    libzmq3-dev \
+    software-properties-common \
+    stow
+
 
 # Setup entrypoint
 COPY scripts/workspace-entrypoint.sh /usr/local/bin/scripts/workspace-entrypoint.sh
