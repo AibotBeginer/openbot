@@ -15,23 +15,23 @@
 #  Usage from an external project:
 #    In your CMakeLists.txt, add these lines:
 #
-#    find_package(class_loader REQUIRED)
-#    target_link_libraries(MY_TARGET_NAME PUBLIC class_loader)
+#    find_package(library_loader REQUIRED)
+#    target_link_libraries(MY_TARGET_NAME PUBLIC library_loader)
 
 @PACKAGE_INIT@
 
-set_and_check(CLASS_LOADER_CMAKE_DIR "@PACKAGE_CLASS_LOADER_CMAKE_DIR@")
+set_and_check(LIBRARY_LOADER_CMAKE_DIR "@PACKAGE_LIBRARY_LOADER_CMAKE_DIR@")
 
-if (class_loader_FIND_QUIETLY)
+if (library_loader_FIND_QUIETLY)
    set(QUIET_OR_REQUIRED_OPTION "QUIET")
-elseif (class_loader_FIND_REQUIRED)
+elseif (library_loader_FIND_REQUIRED)
    set(QUIET_OR_REQUIRED_OPTION "REQUIRED")
 else ()
    set(QUIET_OR_REQUIRED_OPTION "")
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CLASS_LOADER_CMAKE_DIR}/modules)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${LIBRARY_LOADER_CMAKE_DIR}/modules)
 
-include("${CLASS_LOADER_CMAKE_DIR}/ClassLoaderTargets.cmake")
+include("${LIBRARY_LOADER_CMAKE_DIR}/LibraryLoadeTargets.cmake")
 
 unset(QUIET_OR_REQUIRED_OPTION)

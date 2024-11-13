@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(class_loader CXX)
+project(library_loader CXX)
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
@@ -25,12 +25,12 @@ set(SRCS
 )
 
 set(HDRS
-  include/class_loader/class_loader.hpp
-  include/class_loader/class_loader_core.hpp
-  include/class_loader/exceptions.hpp
-  include/class_loader/meta_object.hpp
-  include/class_loader/multi_library_class_loader.hpp
-  include/class_loader/register_macro.hpp
+  include/library_loader/class_loader.hpp
+  include/library_loader/class_loader_core.hpp
+  include/library_loader/exceptions.hpp
+  include/library_loader/meta_object.hpp
+  include/library_loader/multi_library_class_loader.hpp
+  include/library_loader/register_macro.hpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS})
@@ -38,7 +38,7 @@ target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${Poco_LIBRARIES})
 
 install(
   TARGETS ${PROJECT_NAME}
-  EXPORT ClassLoaderExport
+  EXPORT LibraryLoaderExport
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
@@ -56,22 +56,22 @@ foreach(HDR ${ALL_LIBRARY_HDRS})
   )
 endforeach()
 
-set(CLASS_LOADER_CMAKE_DIR share/class_loader/cmake)
+set(LIBRARY_LOADER_CMAKE_DIR share/library_loader/cmake)
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-  class_loader-config.cmake.in
-  ${PROJECT_BINARY_DIR}/cmake/class_loader/class_loader-config.cmake
-  PATH_VARS CLASS_LOADER_CMAKE_DIR
-  INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/class_loader
+  library_loader-config.cmake.in
+  ${PROJECT_BINARY_DIR}/cmake/library_loader/library_loader-config.cmake
+  PATH_VARS LIBRARY_LOADER_CMAKE_DIR
+  INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/library_loader
 )
 
 install(
-  EXPORT ClassLoaderExport
-  DESTINATION share/class_loader/cmake/
-  FILE ClassLoaderTargets.cmake
+  EXPORT LibraryLoaderExport
+  DESTINATION share/library_loader/cmake/
+  FILE LibraryLoaderTargets.cmake
 )
 
 install(
-  FILES ${PROJECT_BINARY_DIR}/cmake/class_loader/class_loader-config.cmake
-  DESTINATION share/class_loader/
+  FILES ${PROJECT_BINARY_DIR}/cmake/library_loader/library_loader-config.cmake
+  DESTINATION share/library_loader/
 )

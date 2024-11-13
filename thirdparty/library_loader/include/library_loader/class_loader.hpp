@@ -41,9 +41,9 @@
 #include <string>
 #include <vector>
 
-#include "class_loader/class_loader_core.hpp"
-#include "class_loader/register_macro.hpp"
-#include "class_loader/visibility_control.hpp"
+#include "library_loader/class_loader_core.hpp"
+#include "library_loader/register_macro.hpp"
+#include "library_loader/visibility_control.hpp"
 
 namespace class_loader
 {
