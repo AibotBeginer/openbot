@@ -1,7 +1,5 @@
 FROM osrf/ros:humble-desktop
 
-MAINTAINER duyongquan <quandy2020@126.com>
-
 # # install packages
 # RUN apt clean
 # RUN apt update -y && \
@@ -38,7 +36,7 @@ MAINTAINER duyongquan <quandy2020@126.com>
 #     software-properties-common
 
 # Setup entrypoint
-COPY workspace-entrypoint.sh /usr/local/bin/scripts/workspace-entrypoint.sh
+COPY scripts/workspace-entrypoint.sh /usr/local/bin/scripts/workspace-entrypoint.sh
 RUN chmod +x /usr/local/bin/scripts/workspace-entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/scripts/workspace-entrypoint.sh" ]
 
@@ -50,11 +48,12 @@ RUN mkdir /thirdparty
 # RUN bash /tmp/install/install_bazel.sh
 # RUN bash /tmp/install/install_bazel_packages.sh
 # RUN bash /tmp/install/install_python_modules.sh
-RUN bash /tmp/install/install_cyberrt.sh
+# RUN bash /tmp/install/install_cyberrt.sh
 # RUN bash /tmp/install/install_osqp.sh
+# RUN bash /tmp/install/install_abseil-cpp.sh
 # RUN bash /tmp/install/install_g2o.sh
 # RUN bash /tmp/install/install_ceres_solver.sh
-# RUN bash /tmp/install/install_behaviortree_cpp.sh
+RUN bash /tmp/install/install_behaviortree_cpp.sh
 
 # openbot workspace
 ENV OPENBOT_WS /workspace

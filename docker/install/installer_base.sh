@@ -43,8 +43,6 @@ function ok()
     (>&2 echo -e "[${GREEN}${BOLD} OK ${NO_COLOR}] $*")
 }
 
-export DOWNLOAD_LOG="/openbot/build.log"
-
 function py3_version() 
 {
     local version
@@ -150,8 +148,6 @@ function download_if_not_cached
     local pkg_name="$1"
     local expected_cs="$2"
     local url="$3"
-
-    echo -e "${pkg_name}\t${expected_cs}\t${url}" >> "${DOWNLOAD_LOG}"
 
     if _local_http_cached "${pkg_name}" ; then
         local local_addr="${LOCAL_HTTP_ADDR}/${pkg_name}"

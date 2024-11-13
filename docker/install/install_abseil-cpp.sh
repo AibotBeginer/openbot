@@ -22,9 +22,10 @@ set -e
 # Clean up.
 rm -rf build
 
-cd /openbot/3rdparty
+cd /thirdparty
 git clone https://github.com/abseil/abseil-cpp.git
-cd abseil-cpp && cmake -B build && cd build && cmake ..
+cd abseil-cpp && sed -i '30i add_compile_options(-fPIC)' CMakeLists.txt
+cmake -B build && cd build && cmake ..
 make -j8 
 make install
 
