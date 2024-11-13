@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# Copyright 2024 The AOpenRobotic Beginner Authors. All Rights Reserved.
+# Copyright 2024 The OpenRobotic Beginner Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,16 +19,13 @@
 # Fail on first error.
 set -e
 
-# Clean up.
-rm -rf build
-
-cd /openbot/3rdparty
+cd /thirdparty
 git clone https://github.com/BehaviorTree/BehaviorTree.CPP.git
 cd BehaviorTree.CPP && mkdir build && cmake ..
 make -j8
 sudo make install
 
 # Clean up.
-rm -rf build
+cd .. && rm -rf build
 
 

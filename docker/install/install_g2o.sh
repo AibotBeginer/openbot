@@ -22,13 +22,11 @@ set -e
 # Clean up.
 rm -rf build
 
-cd /openbot/3rdparty
-git clone https://github.com/abseil/abseil-cpp.git
-cd abseil-cpp && cmake -B build && cd build && cmake ..
-make -j8 
+cd /thirdparty
+git clone -b 20230223_git https://github.com/RainerKuemmerle/g2o.git
+cd g2o && mkdir build && cd build && cmake ..
+make -j8
 make install
 
 # Clean up.
 cd .. && rm -rf build
-
-

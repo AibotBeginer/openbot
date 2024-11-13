@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 ###############################################################################
 # Copyright 2024 The OpenRobotic Beginner Authors. All Rights Reserved.
@@ -16,19 +16,14 @@
 # limitations under the License.
 ###############################################################################
 
-# Fail on first error.
-set -e
+# Build cyber dependency
+source /opt/cyber/setup.bash
+export GLOG_logtostderr=1
+export GLOG_alsologtostderr=0 
+export GLOG_colorlogtostderr=1 
+export GLOG_minloglevel=0 
 
-# Clean up.
-rm -rf build
+# Restart udev daemon
+sudo service udev restart
 
-cd /openbot/3rdparty
-git clone https://github.com/abseil/abseil-cpp.git
-cd abseil-cpp && cmake -B build && cd build && cmake ..
-make -j8 
-make install
-
-# Clean up.
-cd .. && rm -rf build
-
-
+$@

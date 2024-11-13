@@ -22,13 +22,16 @@ set -e
 # Clean up.
 rm -rf build
 
-cd /openbot/3rdparty
-git clone https://github.com/abseil/abseil-cpp.git
-cd abseil-cpp && cmake -B build && cd build && cmake ..
-make -j8 
+cd /thirdparty
+git clone https://gitee.com/minhanghuang/CyberRT.git
+cd CyberRT
+python3 install.py --install_prefix /opt/cyber
+
+# cyber
+cd CyberRT && cmake -B build
+cd build && cmake -DCMAKE_INSTALL_PREFIX=/opt/cyber ..
+make -j8
 make install
 
 # Clean up.
 cd .. && rm -rf build
-
-
