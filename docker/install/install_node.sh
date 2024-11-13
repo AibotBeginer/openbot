@@ -19,15 +19,29 @@
 # Fail on first error.
 set -e
 
-# Clean up.
-rm -rf build
+geo="${1:-us}"
 
-cd /thirdparty
-git clone https://github.com/ceres-solver/ceres-solver.git
-ceres-solver
-mkdir build && cd build && cmake ..
-make -j6
-make install
+cd "$(dirname "${BASH_SOURCE[0]}")"
+. ./installer_base.sh
 
-# Clean up.
-cd .. && rm -rf build
+VERSION="6.5.1"
+NODE_VERSION="12.18.1"
+PKG_NAME="n-${VERSION}.tar.gz"
+CHECKSUM="5833f15893b9951a9ed59487e87b6c181d96b83a525846255872c4f92f0d25dd"
+DOWNLOAD_LINK="https://github.com/tj/n/archive/v${VERSION}.tar.gz"
+download_if_not_cached "${PKG_NAME}" "${CHECKSUM}" "${DOWNLOAD_LINK}"
+
+tar xzf "${PKG_NAME}"
+
+info "Install Node for $geo ..."
+
+if [[ "${geo}" == "cn" ]]; then
+    export N_NODE_MIRROR=https://npm.taobao.org/mirrors/node
+fi
+
+pushd n-${VERSION}
+    make install
+    n ${NODE_VERSION}
+popd
+
+rm -fr "${PKG_NAME}" "n-${VERSION}"

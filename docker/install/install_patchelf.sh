@@ -19,15 +19,30 @@
 # Fail on first error.
 set -e
 
-# Clean up.
-rm -rf build
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
-cd /thirdparty
-git clone https://github.com/ceres-solver/ceres-solver.git
-ceres-solver
-mkdir build && cd build && cmake ..
-make -j6
-make install
+# shellcheck source=./installer_base.sh
+. ./installer_base.sh
 
-# Clean up.
-cd .. && rm -rf build
+# Note(storypku):
+# Build patchelf from source to avoid the patchelf-creating-holes-in-binaries-
+# thus-causing-size-bloating problem.
+
+VERSION="0.12"
+PKG_NAME="patchelf-${VERSION}.tar.gz"
+CHECKSUM="3dca33fb862213b3541350e1da262249959595903f559eae0fbc68966e9c3f56"
+DOWNLOAD_LINK="https://github.com/NixOS/patchelf/archive/${VERSION}.tar.gz"
+
+download_if_not_cached "${PKG_NAME}" "${CHECKSUM}" "${DOWNLOAD_LINK}"
+
+tar xzf "${PKG_NAME}"
+pushd "patchelf-${VERSION}" >/dev/null
+    ./bootstrap.sh
+    ./configure --prefix="${SYSROOT_DIR}"
+    make -j "$(nproc)"
+    make install
+popd
+
+rm -rf "${PKG_NAME}" "patchelf-${VERSION}"
+
+ok "Done installing patchelf-${VERSION}"

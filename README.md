@@ -97,7 +97,7 @@ sudo make install
 * :woman_playing_handball: cyberRT
 
 ```bash
-git clone git clone https://gitee.com/minhanghuang/CyberRT.git
+git clone https://gitee.com/minhanghuang/CyberRT.git
 
 # 安装third_party
 cd CyberRT 

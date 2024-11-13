@@ -19,15 +19,14 @@
 # Fail on first error.
 set -e
 
-# Clean up.
-rm -rf build
+cd "$(dirname "${BASH_SOURCE[0]}")"
+. ./installer_base.sh
 
-cd /thirdparty
-git clone https://github.com/ceres-solver/ceres-solver.git
-ceres-solver
-mkdir build && cd build && cmake ..
-make -j6
-make install
+apt_get_update_and_install \
+    coinor-libipopt-dev
 
-# Clean up.
-cd .. && rm -rf build
+#FIXME(all): dirty hack here.
+sed -i '/#define __IPSMARTPTR_HPP__/a\#define HAVE_CSTDDEF' \
+    /usr/include/coin/IpSmartPtr.hpp
+
+# Source Code Package Link: https://github.com/coin-or/Ipopt/releases
