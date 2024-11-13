@@ -2,7 +2,7 @@
 
 ## :golf: Openbot Framework
 
-![openbot_framework](./images/openbot_framework.png)
+![openbot_framework](./images/openbot_framework.jpeg)
 
 ## :seedling:  简介
 
