@@ -1,4 +1,5 @@
-recommonmark 
+recommonmark
+myst_parser
 sphinx-rtd-theme 
 sphinxcontrib-applehelp 
 sphinxcontrib-devhelp 
