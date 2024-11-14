@@ -40,5 +40,16 @@ Contents
 .. toctree::
   :maxdepth: 1
 
-  01 Instructions - 工程介绍 <01_Instructions/what_openbot>
-  02 Installation - 工程安装 <02_Installation/prerequisite_software_installation_guide>
+  01 Instructions <01_Instructions/what_openbot>
+  02 Installation <02_Installation/prerequisite_software_installation_guide>
+  03 Hardware <02_Installation/prerequisite_software_installation_guide>
+  04 Map <02_Installation/prerequisite_software_installation_guide>
+  05 Localization <02_Installation/prerequisite_software_installation_guide>
+  06 Perception <02_Installation/prerequisite_software_installation_guide>
+  07 Prediction <02_Installation/prerequisite_software_installation_guide>
+  08 Planning <02_Installation/prerequisite_software_installation_guide>
+  09 Decider <02_Installation/prerequisite_software_installation_guide>
+  10 Control <02_Installation/prerequisite_software_installation_guide>
+  11 Others <02_Installation/prerequisite_software_installation_guide>
+  12 FAQS <02_Installation/prerequisite_software_installation_guide>
+
