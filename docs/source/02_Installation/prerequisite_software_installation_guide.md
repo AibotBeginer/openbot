@@ -1,6 +1,11 @@
 # 2 程序运行
 
-# 1 源码安装运行
+程序运行的方式有2种：
+
+* 方式1：使用源码方式进行安装运行（不推荐，效率较低，安装依赖繁琐）
+* 方式2：使用docker方式进行安装运行 **<font color='red'>（推荐）</font>** 
+
+## 1 源码方式
 
 * abseil
 
@@ -86,7 +91,7 @@ sudo make install
 
 
 
-## 2 Docker运行（推荐）
+## 2 Docker（推荐）
 
 * docker安装
 
@@ -106,6 +111,12 @@ cd openbot/docker
 
 ```bash
 export OPENBOT_ENV=/home/quandy/workspace/project/openbot/ # 根据自己的目录修改
+export CYBER_PATH=/usr/local/share/
+export GLOG_logtostderr=1
+export GLOG_alsologtostderr=0
+export GLOG_colorlogtostderr=1
+export GLOG_minloglevel=0
+
 ./run_openbot.sh 
 ```
 

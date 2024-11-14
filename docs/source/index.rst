@@ -23,6 +23,9 @@ Openbot
 
 `Openbot`_ is a system that provides framework.
 
+.. figure:: ../assets/openbot_framework.png
+   :align: center
+
 
 Contents
 ----------------
