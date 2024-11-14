@@ -1,5 +1,4 @@
 recommonmark 
-Sphinx 
 sphinx-rtd-theme 
 sphinxcontrib-applehelp 
 sphinxcontrib-devhelp 
