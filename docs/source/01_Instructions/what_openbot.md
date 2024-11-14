@@ -22,6 +22,7 @@
 
 ## 2 详细文档
 
-![](images/docs_desc.png)
-
 **<font color='green'>详解编译安装目录下的docs 文件夹 </font>**
+
+
+

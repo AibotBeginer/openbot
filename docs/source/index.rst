@@ -21,11 +21,18 @@ Openbot
    :hidden:
 
 
-`Openbot`_ is a system that provides framework.
+`Openbot <https://github.com/AibotBeginer/openbot>`_ is a system that provides robot framework.
 
 .. figure:: ../assets/openbot_framework.png
    :align: center
 
+github
+----------------
+
+.. code-block:: bash
+
+   git clone --recurse-submodules https://github.com/AibotBeginer/openbot.git
+   
 
 Contents
 ----------------
@@ -35,6 +42,3 @@ Contents
 
   01 Instructions - 工程介绍 <01_Instructions/what_openbot>
   02 Installation - 工程安装 <02_Installation/prerequisite_software_installation_guide>
-
-
-
