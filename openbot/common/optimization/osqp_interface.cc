@@ -352,11 +352,12 @@ int64_t OSQPInterface::initializeProblem(
   m_data->l = l_dyn;
   m_data->u = u_dyn;
 
-  // Setup workspace
-  OSQPWorkspace * workspace;
-  m_exitflag = osqp_setup(&workspace, m_data.get(), m_settings.get());
-  m_work.reset(workspace);
-  m_work_initialized = true;
+  // TODO(duyongquan)
+  // // Setup workspace
+  // OSQPWorkspace* workspace;
+  // m_exitflag = osqp_setup(&workspace, m_data.get(), m_settings.get());
+  // m_work.reset(workspace);
+  // m_work_initialized = true;
 
   return m_exitflag;
 }

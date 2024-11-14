@@ -20,14 +20,9 @@
 set -e
 
 cd /thirdparty
-git clone https://gitee.com/minhanghuang/CyberRT.git
-cd CyberRT
-python3 install.py --install_prefix /opt/cyber
-source /opt/cyber/setup.bash
-
-# cyber
-cmake -B build
-cd build && cmake -DCMAKE_INSTALL_PREFIX=/opt/cyber ..
+git clone https://github.com/robotology/osqp-eigen.git
+cd osqp-eigen 
+mkdir build && cd build && cmake ..
 make -j8
 make install
 

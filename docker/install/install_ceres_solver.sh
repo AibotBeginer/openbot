@@ -19,9 +19,6 @@
 # Fail on first error.
 set -e
 
-# Clean up.
-rm -rf build
-
 cd /thirdparty
 git clone --branch 2.2.0 https://github.com/ceres-solver/ceres-solver.git
 cd ceres-solver

@@ -1,6 +1,6 @@
-# 安装
+# 安装运行
 
-# 1 源码安装
+# 1 源码安装运行
 
 * abseil
 
@@ -86,7 +86,7 @@ sudo make install
 
 
 
-## 2 Docker安装
+## 2 Docker安装运行（推荐）
 
 * docker安装
 
@@ -95,9 +95,26 @@ cd openbot/docker/scripts
 sudo ./install_docker.sh
 ```
 
-* gou zao imge
+* 构造镜像
 
+```bash
+cd openbot/docker
+./build_docker.sh -f openbot.x86_64.dockerfile 
 ```
 
+* 运行docker
+
+```bash
+export OPENBOT_ENV=/home/quandy/workspace/project/openbot/ # 根据自己的目录修改
+./run_openbot.sh 
+```
+
+
+
+## 3 代码编译
+
+```bash
+cd openbot
+colcon build --symlink-install --packages-up-to openbot_ros
 ```
 
