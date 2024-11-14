@@ -25,112 +25,11 @@
 ```bash
 # openbot
 git clone https://github.com/AibotBeginer/openbot.git
-cd openbot && mkdir build && cd build && cmake ..
-make -j8
 ```
 
+## :tanabata_tree:详细文档
 
-
-## :tanabata_tree:文档自动生成依赖
-
-```bash
-sudo apt install sphinx
-sudo apt install python3-pip 
-pip install Sphinx
-pip install recommonmark
-pip install sphinx_rtd_theme
-pip install mathjax
-pip install --upgrade myst-parser
-```
-
-
-
-## :leaves:  安装依赖
-
-* :man_cartwheeling: abseil
-
-```bash
-git clone https://github.com/abseil/abseil-cpp.git
-# 编辑CMakeLists.txt，添加add_compile_options(-fPIC)
-cd abseil-cpp && cmake -B build && cd build && cmake ..
-make -j8 
-sudo make install
-```
-
-* :basketball_woman: behaviortree_cpp
-
-```bash
-git clone https://github.com/BehaviorTree/BehaviorTree.CPP.git
-cd BehaviorTree.CPP && mkdir build && cmake ..
-make -j8
-sudo make install
-```
-
-* :golfing_woman: ceres-solver
-
-```bash
-git clone https://github.com/ceres-solver/ceres-solver.git
-cd ceres-solver && mkdir build && cd build && cmake ..
-make -j8
-sudo make install
-```
-
-* :business_suit_levitating: apt安装
-
-```bash
-sudo apt install libtinyxml2-dev \
-	liblua5.3-dev \
-	ninja-build \
-	libompl-dev \
-	libpoco-dev
-```
-
-* :person_fencing: G2O
-
-```bash
-git clone -b 20230223_git https://github.com/RainerKuemmerle/g2o.git
-cd g2o && mkdir build && cd build && cmake ..
-make -j8
-sudo make install
-```
-
-* :woman_playing_handball: cyberRT
-
-```bash
-git clone https://gitee.com/minhanghuang/CyberRT.git
-
-# 安装third_party
-cd CyberRT 
-sudo python3 install.py --install_prefix /opt/cyber
-source /opt/cyber/setup.zsh or source /opt/cyber/setup.bash
-
-# 安装cyber
-cd CyberRT && cmake -B build
-cd build && cmake -DCMAKE_INSTALL_PREFIX=/opt/cyber ..
-make -j8
-sudo make install
-```
-
-* :woman_playing_water_polo: benchmark
-
-```bash
-git clone -b v1.9.0 https://github.com/google/benchmark.git
-cd benchmark
-cmake -B build -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF
-cmake --install build
-```
-
-* :ramen:osqp
-
-```bash
-git clone -b release-0.6.3 https://github.com/osqp/osqp.git
-cd osqp && git submodule update --init --recursive
-mkdir build && cd build && cmake ..
-make -j8
-sudo make install
-```
-
-
+**<font color='green'>参考</font>** ：[openbot详细文档](https://openbot-doc.readthedocs.io/en/latest/)
 
 ##  :cactus: 编译
 
