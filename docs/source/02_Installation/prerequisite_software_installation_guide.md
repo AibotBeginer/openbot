@@ -1,4 +1,4 @@
-# 安装运行
+# 2 程序运行
 
 # 1 源码安装运行
 
@@ -86,7 +86,7 @@ sudo make install
 
 
 
-## 2 Docker安装运行（推荐）
+## 2 Docker运行（推荐）
 
 * docker安装
 
