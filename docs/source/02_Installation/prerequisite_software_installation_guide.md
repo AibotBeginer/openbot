@@ -109,13 +109,19 @@ cd openbot/docker
 
 * 运行docker
 
+在openbot的docker容器中配置.bashrc环境变量如下
+
 ```bash
+### ROS2 ###
 export OPENBOT_ENV=/home/quandy/workspace/project/openbot/ # 根据自己的目录修改
 export CYBER_PATH=/usr/local/share/
 export GLOG_logtostderr=1
 export GLOG_alsologtostderr=0
 export GLOG_colorlogtostderr=1
 export GLOG_minloglevel=0
+
+### Openbot ###
+alias openbot_build='colcon build --symlink-install --packages-up-to openbot_ros'
 
 ./run_openbot.sh 
 ```
