@@ -24,5 +24,5 @@
 
 **<font color='green'>详解编译安装目录下的docs 文件夹 </font>**
 
-
+![openbot_docs](images/openbot_docs.png)
 
