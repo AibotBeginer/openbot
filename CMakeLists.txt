@@ -284,7 +284,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${OCTOMAP_LIBRARIES})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${YAML_CPP_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 
-
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)
   target_link_libraries(${PROJECT_NAME} PUBLIC async_grpc)
