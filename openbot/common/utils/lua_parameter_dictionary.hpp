@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 
-#include "openbot/common/lua.hpp"
+#include "openbot/common/utils/lua.hpp"
 #include "openbot/common/port.hpp"
 #include "glog/logging.h"
 

@@ -27,7 +27,7 @@
 // Some of the methods below documentation the current stack with the following
 // notation: S: <bottom> ... <top>
 
-#include "openbot/common/lua_parameter_dictionary.hpp"
+#include "openbot/common/utils/lua_parameter_dictionary.hpp"
 
 #include <algorithm>
 #include <cmath>

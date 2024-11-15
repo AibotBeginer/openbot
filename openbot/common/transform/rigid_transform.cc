@@ -20,7 +20,7 @@
 
 #include "Eigen/Core"
 #include "Eigen/Geometry"
-#include "openbot/common/lua_parameter_dictionary.hpp"
+#include "openbot/common/utils/lua_parameter_dictionary.hpp"
 #include "glog/logging.h"
 
 namespace openbot {

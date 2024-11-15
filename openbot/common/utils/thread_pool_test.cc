@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/common/thread_pool.hpp"
+#include "openbot/common/utils/thread_pool.hpp"
 
 #include <vector>
 

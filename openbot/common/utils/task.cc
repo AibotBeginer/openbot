@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/common/task.hpp"
+#include "openbot/common/utils/task.hpp"
 
 namespace openbot {
 namespace common {

@@ -25,7 +25,7 @@
 
 #include "absl/container/flat_hash_map.h"
 #include "absl/synchronization/mutex.h"
-#include "openbot/common/task.hpp"
+#include "openbot/common/utils/task.hpp"
 
 namespace openbot {
 namespace common {

@@ -19,7 +19,7 @@
 
 #include <vector>
 
-#include "openbot/common/lua_parameter_dictionary.hpp"
+#include "openbot/common/utils/lua_parameter_dictionary.hpp"
 #include "openbot/common/port.hpp"
 
 namespace openbot {

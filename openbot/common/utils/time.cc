@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/common/time.hpp"
+#include "openbot/common/utils/time.hpp"
 
 #include <time.h>
 

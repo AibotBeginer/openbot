@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/common/thread_pool.hpp"
+#include "openbot/common/utils/thread_pool.hpp"
 
 #ifndef WIN32
 #include <unistd.h>
@@ -24,7 +24,7 @@
 #include <numeric>
 
 #include "absl/memory/memory.h"
-#include "openbot/common/task.hpp"
+#include "openbot/common/utils/task.hpp"
 #include "glog/logging.h"
 
 namespace openbot {

@@ -21,7 +21,7 @@
 
 #include "absl/synchronization/mutex.h"
 #include "glog/logging.h"
-#include "openbot/common/thread_pool.hpp"
+#include "openbot/common/utils/thread_pool.hpp"
 
 namespace openbot {
 namespace common {

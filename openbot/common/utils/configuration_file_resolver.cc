@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/common/configuration_file_resolver.hpp"
+#include "openbot/common/utils/configuration_file_resolver.hpp"
 
 #include <fstream>
 #include <iostream>
