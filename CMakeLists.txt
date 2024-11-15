@@ -50,6 +50,8 @@ find_package(behaviortree_cpp REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(ompl REQUIRED)
 find_package(OSQP REQUIRED)
+find_package(octomap REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
@@ -275,6 +277,13 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${OMPL_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OSQP_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${OSQP_LIBRARY})
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OCTOMAP_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${OCTOMAP_LIBRARIES})
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${YAML_CPP_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
+
 
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)
