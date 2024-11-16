@@ -76,11 +76,11 @@ set(OPENBOT_CONFIGURATION_FILES_DIRECTORY ${CMAKE_INSTALL_PREFIX}/share/openbot/
 install(DIRECTORY config DESTINATION share/openbot/)
 install(DIRECTORY cmake DESTINATION share/openbot/)
 
-file(GLOB_RECURSE ALL_LIBRARY_HDRS "openbot/*.hpp")
-file(GLOB_RECURSE ALL_LIBRARY_SRCS "openbot/*.cc")
+file(GLOB_RECURSE ALL_LIBRARY_HDRS "openbot/*.hpp" "openbot/*.h")
+file(GLOB_RECURSE ALL_LIBRARY_SRCS "openbot/*.cc" "openbot/*.cpp")
 file(GLOB_RECURSE TEST_LIBRARY_HDRS "openbot/fake_*.hpp" "openbot/*_test_helpers*.hpp")
-file(GLOB_RECURSE TEST_LIBRARY_SRCS "openbot/fake_*.cc"  "openbot/*_test_helpers*.cc")
-file(GLOB_RECURSE ALL_TESTS "openbot/*_test.cc")
+file(GLOB_RECURSE TEST_LIBRARY_SRCS "openbot/fake_*.cc" "openbot/fake_*.cpp" "openbot/*_test_helpers*.cc" "openbot/*_test_helpers*.cpp")
+file(GLOB_RECURSE ALL_TESTS "openbot/*_test.cc" "openbot/*_test.cpp")
 file(GLOB_RECURSE ALL_EXECUTABLES "openbot/*_main.cc")
 
 # Remove dotfiles/-folders that could potentially pollute the build.

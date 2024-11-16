@@ -14,21 +14,29 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_CONTROL_CONTROLLER_HPP_
-#define OPENBOT_CONTROL_CONTROLLER_HPP_
+#pragma once
 
-#include <memory>
+#include <chrono>
 #include <string>
 
 #include "openbot/common/macros.hpp"
-
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"
 #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
+#include "openbot/control/motion/motion_common.hpp"
+#include "openbot/common/motion_model/differential_drive_motion_model.hpp"
+
+#define CONTROLLER_COMMON_COPY_MOVE_ASSIGNABLE(Class) \
+  Class(const Class &) = default; \
+  Class(Class &&) = default; \
+  Class & operator=(const Class &) = default; \
+  Class & operator=(Class &&) = default; \
+  ~Class() = default;
+
 namespace openbot {
-namespace control { 
+namespace control {
 
 /**
  * @class Controller
@@ -102,5 +110,3 @@ public:
 
 }  // namespace control
 }  // namespace openbot
-
-#endif  // OPENBOT_CONTROL_CONTROLLER_HPP_

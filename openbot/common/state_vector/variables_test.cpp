@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <state_vector/variable.hpp>
+#include "openbot/common/state_vector/variable.hpp"
 
 #include <gtest/gtest.h>
 

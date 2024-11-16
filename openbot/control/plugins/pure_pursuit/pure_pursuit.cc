@@ -14,46 +14,46 @@
  * limitations under the License.
  */
 
-
-#include "openbot/control/plugins/dwa_controller.hpp"
+#include "openbot/control/plugins/pure_pursuit/pure_pursuit.hpp"
 
 namespace openbot {
-namespace control { 
-namespace plugins { 
+namespace control {
+namespace plugins {
+namespace pure_pursuit {
 
-DWAController::~DWAController()
+PurePursuitController::~PurePursuitController()
 {
 
 }
 
-void DWAController::Configure()
+void PurePursuitController::Configure()
 {
 
 }
 
 
-void DWAController::Cleanup() 
+void PurePursuitController::Cleanup() 
 {
   
 }
 
-void DWAController::Activate() 
+void PurePursuitController::Activate() 
 {
 
 }
 
 
-void DWAController::Deactivate() 
+void PurePursuitController::Deactivate() 
 {
 
 }
 
-void DWAController::SetPlan(const common::proto::nav_msgs::Path & path) 
+void PurePursuitController::SetPlan(const common::proto::nav_msgs::Path & path) 
 {
 
 }
 
-common::proto::geometry_msgs::TwistStamped DWAController::ComputeVelocityCommands(
+common::proto::geometry_msgs::TwistStamped PurePursuitController::ComputeVelocityCommands(
   const common::proto::geometry_msgs::PoseStamped& pose,
   const common::proto::geometry_msgs::Twist& velocity) 
 {
@@ -61,11 +61,12 @@ common::proto::geometry_msgs::TwistStamped DWAController::ComputeVelocityCommand
   return cmd_vel;
 }
 
-void DWAController::SetSpeedLimit(const double& speed_limit, const bool& percentage) 
+void PurePursuitController::SetSpeedLimit(const double& speed_limit, const bool& percentage) 
 {
 
 }
 
+}  // namespace pure_pursuit
 }  // namespace plugins
 }  // namespace control
 }  // namespace openbot

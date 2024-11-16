@@ -14,39 +14,41 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_CONTROL_PLUGINS_DWA_CONTROLLER_HPP_
-#define OPENBOT_CONTROL_PLUGINS_DWA_CONTROLLER_HPP_
+#pragma once
 
 #include <memory>
 #include <string>
 
 #include "openbot/common/macros.hpp"
-#include "openbot/control/controller.hpp"
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"
 #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
+#include "openbot/control/common/controller_base.hpp"
+#include "openbot/control/plugins/pure_pursuit/config.hpp"
+
 namespace openbot {
 namespace control { 
 namespace plugins { 
+namespace pure_pursuit {
 
 /**
  * @class Controller
  * @brief controller interface that acts as a virtual base class for all controller plugins
  */
-class DWAController : public Controller
+class PurePursuitController : public Controller
 {
 public:
   /**
    *  @brief SharedPtr
    */
-  OPENBOT_SMART_PTR_DEFINITIONS(DWAController)
+  OPENBOT_SMART_PTR_DEFINITIONS(PurePursuitController)
 
   /**
    * @brief Virtual destructor
    */
-  virtual ~DWAController();
+  virtual ~PurePursuitController();
 
   /**
    * @param 
@@ -101,8 +103,8 @@ public:
   virtual void SetSpeedLimit(const double & speed_limit, const bool & percentage) override;
 };
 
+}  // namespace pure_pursuit
 }  // namespace plugins
 }  // namespace control
 }  // namespace openbot
 
-#endif  // OPENBOT_CONTROL_PLUGINS_DWA_CONTROLLER_HPP_
