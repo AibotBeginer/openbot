@@ -14,26 +14,35 @@
  * limitations under the License.
  */
 
+#include "openbot/common/utils/version.hpp"
 #include "openbot/common/utils/string_util.hpp"
-
-#include <vector>
-
-#include "gtest/gtest.h"
 
 namespace openbot {
 namespace common {
 namespace utils {
+namespace {
 
-TEST(StringUtilTest, EncodeBase64) {
-  EXPECT_EQ("", EncodeBase64(""));
-  EXPECT_EQ("Zg==", EncodeBase64("f"));
-  EXPECT_EQ("Zm8=", EncodeBase64("fo"));
-  EXPECT_EQ("Zm9v", EncodeBase64("foo"));
-  EXPECT_EQ("Zm9vYg==", EncodeBase64("foob"));
-  EXPECT_EQ("Zm9vYmE=", EncodeBase64("fooba"));
-  EXPECT_EQ("Zm9vYmFy", EncodeBase64("foobar"));
+const char* OPENBOT_VERSION = "1.0.0";
+const char* OPENBOT_COMMIT_ID = "Unknown";
+const char* OPENBOT_COMMIT_DATE = "Unknown";
+
+}  // namespace
+
+std::string GetVersionInfo() {
+  return StringPrintf("OPENBOT %s", OPENBOT_VERSION);
+}
+
+std::string GetBuildInfo() {
+#if defined(OPENBOT_CUDA_ENABLED)
+  const char* cuda_info = "with CUDA";
+#else
+  const char* cuda_info = "without CUDA";
+#endif
+  return StringPrintf(
+      "Commit %s on %s %s", OPENBOT_COMMIT_ID, OPENBOT_COMMIT_DATE, cuda_info);
 }
 
 }  // namespace utils
 }  // namespace common
-}  // namespace openbot
+}  // namespace openbot 
+

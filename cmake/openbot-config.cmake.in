@@ -1,0 +1,70 @@
+# Copyright 2016 The Cartographer Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Find package config for OPENBOT library.
+#
+# The following variables are set by this config:
+#
+#   OPENBOT_FOUND: TRUE if OPENBOT is found.
+#   OPENBOT_VERSION: OPENBOT version.
+#
+# The colmap::colmap imported interface target is defined.
+
+@PACKAGE_INIT@
+
+set(OPENBOT_FOUND FALSE)
+
+# Set hints for finding dependency packages.
+
+set(FLANN_INCLUDE_DIR_HINTS @FLANN_INCLUDE_DIR_HINTS@)
+set(FLANN_LIBRARY_DIR_HINTS @FLANN_LIBRARY_DIR_HINTS@)
+
+set(LZ4_INCLUDE_DIR_HINTS @LZ4_INCLUDE_DIR_HINTS@)
+set(LZ4_LIBRARY_DIR_HINTS @LZ4_LIBRARY_DIR_HINTS@)
+
+set(FREEIMAGE_INCLUDE_DIR_HINTS @FREEIMAGE_INCLUDE_DIR_HINTS@)
+set(FREEIMAGE_LIBRARY_DIR_HINTS @FREEIMAGE_LIBRARY_DIR_HINTS@)
+
+set(METIS_INCLUDE_DIR_HINTS @METIS_INCLUDE_DIR_HINTS@)
+set(METIS_LIBRARY_DIR_HINTS @METIS_LIBRARY_DIR_HINTS@)
+
+set(GLEW_INCLUDE_DIR_HINTS @GLEW_INCLUDE_DIR_HINTS@)
+set(GLEW_LIBRARY_DIR_HINTS @GLEW_LIBRARY_DIR_HINTS@)
+
+# Find dependency packages.
+
+set(TEMP_CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${PACKAGE_PREFIX_DIR}/share/colmap/cmake)
+
+# Set the exported variables.
+
+set(OPENBOT_FOUND TRUE)
+
+set(OPENBOT_VERSION @OPENBOT_VERSION@)
+
+set(OPENMP_ENABLED @OPENMP_ENABLED@)
+
+set(CUDA_ENABLED @CUDA_ENABLED@)
+set(CUDA_MIN_VERSION @CUDA_MIN_VERSION@)
+
+set(GUI_ENABLED @GUI_ENABLED@)
+
+set(CGAL_ENABLED @CGAL_ENABLED@)
+
+include(${PACKAGE_PREFIX_DIR}/share/colmap/colmap-targets.cmake)
+include(${PACKAGE_PREFIX_DIR}/share/colmap/cmake/FindDependencies.cmake)
+check_required_components(colmap)
+
+# Reset to previous value
+set(CMAKE_MODULE_PATH ${TEMP_CMAKE_MODULE_PATH})

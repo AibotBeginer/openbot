@@ -674,7 +674,7 @@ void Polygon2d::CalculateVertices(const Vec2d &shift_vec) {
 
 std::string Polygon2d::DebugString() const {
   return absl::StrCat("polygon2d (  num_points = ", num_points_, "  points = (",
-                      absl::StrJoin(points_, " ", util::DebugStringFormatter()),
+                      absl::StrJoin(points_, " ", utils::DebugStringFormatter()),
                       " )  ", is_convex_ ? "convex" : "non-convex",
                       "  area = ", area_, " )");
 }

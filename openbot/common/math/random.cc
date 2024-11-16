@@ -14,23 +14,28 @@
  * limitations under the License.
  */
 
-#include "openbot/common/proto/nav_msgs/path.pb.h"
 
-#include "cyber/cyber.h"
+#include "openbot/common/math/random.hpp"
 
-void MessageCallback(const std::shared_ptr<openbot::common::proto::nav_msgs::Path>& msg) 
-{
-  std::cout << "msgcontent->" << std::endl;
+#include <mutex>
+
+namespace openbot {
+namespace common {
+namespace math {
+
+thread_local std::unique_ptr<std::mt19937> PRNG;
+
+int kDefaultPRNGSeed = 0;
+
+void SetPRNGSeed(unsigned seed) {
+  PRNG = std::make_unique<std::mt19937>(seed);
+  // srand is not thread-safe.
+  static std::mutex mutex;
+  std::unique_lock<std::mutex> lock(mutex);
+  srand(seed);
 }
 
-int main(int argc, char* argv[]) {
-  // init cyber framework
-  apollo::cyber::Init(argv[0]);
-  // create listener node
-  auto listener_node = apollo::cyber::CreateNode("path");
-  // create listener
-  auto listener =
-      listener_node->CreateReader<openbot::common::proto::nav_msgs::Path>("path", MessageCallback);
-  apollo::cyber::WaitForShutdown();
-  return 0;
-}
+}  // namespace math
+}  // namespace common
+}  // namespace openbot
+

@@ -14,26 +14,39 @@
  * limitations under the License.
  */
 
-#include "openbot/common/utils/string_util.hpp"
+#include "openbot/common/utils/endian.hpp"
+#include "openbot/common/utils/logging.hpp"
 
-#include <vector>
 
-#include "gtest/gtest.h"
+#include <boost/predef/other/endian.h>
 
 namespace openbot {
 namespace common {
 namespace utils {
 
-TEST(StringUtilTest, EncodeBase64) {
-  EXPECT_EQ("", EncodeBase64(""));
-  EXPECT_EQ("Zg==", EncodeBase64("f"));
-  EXPECT_EQ("Zm8=", EncodeBase64("fo"));
-  EXPECT_EQ("Zm9v", EncodeBase64("foo"));
-  EXPECT_EQ("Zm9vYg==", EncodeBase64("foob"));
-  EXPECT_EQ("Zm9vYmE=", EncodeBase64("fooba"));
-  EXPECT_EQ("Zm9vYmFy", EncodeBase64("foobar"));
+bool IsLittleEndian() {
+#if BOOST_ENDIAN_LITTLE_BYTE
+  return true;
+#elif BOOST_ENDIAN_LITTLE_WORD
+  // We do not support such exotic architectures.
+  LOG(FATAL) << "Unsupported byte ordering";
+#else
+  return false;
+#endif
+}
+
+bool IsBigEndian() {
+#if BOOST_ENDIAN_BIG_BYTE
+  return true;
+#elif BOOST_ENDIAN_BIG_WORD
+  // We do not support such exotic architectures.
+  LOG(FATAL) << "Unsupported byte ordering";
+#else
+  return false;
+#endif
 }
 
 }  // namespace utils
 }  // namespace common
 }  // namespace openbot
+

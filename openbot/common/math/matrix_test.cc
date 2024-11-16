@@ -14,23 +14,32 @@
  * limitations under the License.
  */
 
-#include "openbot/common/proto/nav_msgs/path.pb.h"
 
-#include "cyber/cyber.h"
+#include "openbot/common/math/matrix.hpp"
 
-void MessageCallback(const std::shared_ptr<openbot::common::proto::nav_msgs::Path>& msg) 
-{
-  std::cout << "msgcontent->" << std::endl;
+#include <gtest/gtest.h>
+
+namespace openbot {
+namespace common {
+namespace math {
+namespace {
+
+TEST(DecomposeMatrixRQ, Nominal) {
+  for (int i = 0; i < 10; ++i) {
+    const Eigen::Matrix4d A = Eigen::Matrix4d::Random();
+
+    Eigen::Matrix4d R, Q;
+    DecomposeMatrixRQ(A, &R, &Q);
+
+    EXPECT_TRUE(R.bottomRows(4).isUpperTriangular());
+    EXPECT_TRUE(Q.isUnitary());
+    EXPECT_NEAR(Q.determinant(), 1.0, 1e-6);
+    EXPECT_TRUE(A.isApprox(R * Q, 1e-6));
+  }
 }
 
-int main(int argc, char* argv[]) {
-  // init cyber framework
-  apollo::cyber::Init(argv[0]);
-  // create listener node
-  auto listener_node = apollo::cyber::CreateNode("path");
-  // create listener
-  auto listener =
-      listener_node->CreateReader<openbot::common::proto::nav_msgs::Path>("path", MessageCallback);
-  apollo::cyber::WaitForShutdown();
-  return 0;
-}
+}  // namespace
+}  // namespace math
+}  // namespace common
+}  // namespace openbot
+

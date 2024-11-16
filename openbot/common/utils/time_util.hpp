@@ -16,11 +16,14 @@
 
 #pragma once
 
+#include <chrono>
+
 namespace openbot {
 namespace common {
-namespace util {
+namespace utils {
 
-class TimeUtil {
+class TimeUtil 
+{
  public:
   // @brief: UNIX timestamp to GPS timestamp, in seconds.
   static double Unix2Gps(double unix_time) {
@@ -40,13 +43,40 @@ class TimeUtil {
     return unix_time;
   }
 
- private:
+private:
   // unix timestamp(1970.01.01) is different from gps timestamp(1980.01.06)
   static const int UNIX_GPS_DIFF = 315964782;
   // unix timestamp(2016.12.31 23:59:59(60) UTC/GMT)
   static const int LEAP_SECOND_TIMESTAMP = 1483228799;
 };
 
-}  // namespace util
+class Timer 
+{
+public:
+  Timer();
+
+  void Start();
+  void Restart();
+  void Pause();
+  void Resume();
+  void Reset();
+
+  double ElapsedMicroSeconds() const;
+  double ElapsedSeconds() const;
+  double ElapsedMinutes() const;
+  double ElapsedHours() const;
+
+  void PrintSeconds() const;
+  void PrintMinutes() const;
+  void PrintHours() const;
+
+ private:
+  bool started_;
+  bool paused_;
+  std::chrono::high_resolution_clock::time_point start_time_;
+  std::chrono::high_resolution_clock::time_point pause_time_;
+};
+
+}  // namespace utils
 }  // namespace common
 }  // namespace openbot

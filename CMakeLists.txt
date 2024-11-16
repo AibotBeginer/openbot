@@ -34,7 +34,7 @@ google_initialize_openbot_project()
 google_enable_testing()
 
 find_package(absl REQUIRED)
-set(BOOST_COMPONENTS iostreams)
+set(BOOST_COMPONENTS iostreams graph program_options system)
 
 find_package(CYBERRT REQUIRED)
 find_package(FastRTPS REQUIRED)
@@ -74,7 +74,6 @@ set(OPENBOT_CONFIGURATION_FILES_DIRECTORY ${CMAKE_INSTALL_PREFIX}/share/openbot/
   CACHE PATH ".lua configuration files directory")
 
 install(DIRECTORY config DESTINATION share/openbot/)
-
 install(DIRECTORY cmake DESTINATION share/openbot/)
 
 file(GLOB_RECURSE ALL_LIBRARY_HDRS "openbot/*.hpp")
@@ -177,6 +176,22 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY}
 configure_file(
   ${PROJECT_SOURCE_DIR}/openbot/common/config.hpp.cmake
   ${PROJECT_BINARY_DIR}/openbot/common/config.hpp)
+
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/openbot-config-version.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/openbot-config-version.cmake @ONLY)
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/openbot-config-version.cmake"
+      DESTINATION "share/openbot")
+
+# Generate source file with version definitions.
+include("${PROJECT_SOURCE_DIR}/cmake/GenerateVersionDefinitions.cmake")
+
+# application.system_main
+google_binary(application.opebot_main
+  SRCS
+    openbot/system/opebot_main.cc
+)
 
 # application.system_main
 google_binary(application.system_main

@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-#include "openbot/common/proto/nav_msgs/path.pb.h"
+#pragma once
 
-#include "cyber/cyber.h"
+#include <string>
 
-void MessageCallback(const std::shared_ptr<openbot::common::proto::nav_msgs::Path>& msg) 
-{
-  std::cout << "msgcontent->" << std::endl;
-}
+namespace openbot {
+namespace common {
+namespace utils {
 
-int main(int argc, char* argv[]) {
-  // init cyber framework
-  apollo::cyber::Init(argv[0]);
-  // create listener node
-  auto listener_node = apollo::cyber::CreateNode("path");
-  // create listener
-  auto listener =
-      listener_node->CreateReader<openbot::common::proto::nav_msgs::Path>("path", MessageCallback);
-  apollo::cyber::WaitForShutdown();
-  return 0;
-}
+std::string GetVersionInfo();
+
+std::string GetBuildInfo();
+
+}  // namespace utils
+}  // namespace common
+}  // namespace openbot
+
