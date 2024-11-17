@@ -14,7 +14,7 @@
 
 syntax = "proto3";
 
-package openbot.grpc.ros_service;
+package openbot.grpc.gui_service;
 
 import "google/protobuf/empty.proto";
 
@@ -22,3 +22,10 @@ import "google/protobuf/empty.proto";
 // {
 //     rpc 
 // }
+
+enum GUIType 
+{
+    RVIZ = 0;
+    UNITY = 1;
+    ISAAC = 2;
+}
