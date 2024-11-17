@@ -20,6 +20,7 @@
 #include <string>
 
 #include "openbot/common/macros.hpp"
+#include "openbot/common/msgs/msgs.hpp"
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"
@@ -79,7 +80,7 @@ public:
    * @brief local setPlan - Sets the global plan
    * @param path The global plan
    */
-  virtual void SetPlan(const common::proto::nav_msgs::Path & path) = 0;
+  virtual void SetPlan(const common::nav_msgs::Path& path) = 0;
 
   /**
    * @brief Controller computeVelocityCommands - calculates the best command given the current pose and velocity

@@ -49,7 +49,7 @@ void DWAController::Deactivate()
 
 }
 
-void DWAController::SetPlan(const common::proto::nav_msgs::Path & path) 
+void DWAController::SetPlan(const common::nav_msgs::Path& path) 
 {
 
 }

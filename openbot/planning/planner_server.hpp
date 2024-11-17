@@ -25,6 +25,7 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/map/voxel_map.hpp"
 #include "openbot/map/costmap.hpp"
+#include "openbot/planning/common/global_planner.hpp"
 #include "openbot/planning/plugins/rrt_planner.hpp"
 #include "openbot/planning/plugins/a_star_planner.hpp"
 
@@ -56,6 +57,19 @@ public:
      */
     ~PlannerServer();
 
+    using PlannerMap = std::unordered_map<std::string, GlobalPlanner::SharedPtr>;
+
+    /**
+     * @brief Method to get plan from the desired plugin
+     * @param start starting pose
+     * @param goal goal request
+     * @return Path
+     */
+    common::nav_msgs::Path GetPlan(
+        const common::geometry_msgs::PoseStamped& start,
+        const common::geometry_msgs::PoseStamped& goal,
+        const std::string & planner_id);
+        
     void InitMap(const map::Costmap::SharedPtr costmap);
 
     void SetRunningPlanner(const std::string& name);
@@ -67,8 +81,22 @@ public:
         const common::geometry_msgs::PoseStamped& goal);
 
 private:
-    std::unordered_map<std::string, GlobalPlanner::SharedPtr> plugins_;
 
+    /**
+     * @brief The server callback which calls planner to get the path
+     * ComputePathToPose
+     */
+    void ComputePlan();
+
+    // Planner
+    PlannerMap planners_;
+    // pluginlib::ClassLoader<nav2_core::GlobalPlanner> gp_loader_;
+    std::vector<std::string> default_ids_;
+    std::vector<std::string> default_types_;
+    std::vector<std::string> planner_ids_;
+    std::vector<std::string> planner_types_;
+    double max_planner_duration_;
+    std::string planner_ids_concat_;
 
     std::string running_planner_name_;
 

@@ -74,7 +74,7 @@ public:
    * @brief local setPlan - Sets the global plan
    * @param path The global plan
    */
-  virtual void SetPlan(const common::proto::nav_msgs::Path& path) override;
+  virtual void SetPlan(const common::nav_msgs::Path& path) override;
 
   /**
    * @brief Controller computeVelocityCommands - calculates the best command given the current pose and velocity

@@ -15,8 +15,8 @@
  */
 
 
-#ifndef OPENBOT_PLANNING_GLOBAL_PLANNER_HPP_
-#define OPENBOT_PLANNING_GLOBAL_PLANNER_HPP_
+#ifndef OPENBOT_PLANNING_COMMON_GLOBAL_PLANNER_HPP_
+#define OPENBOT_PLANNING_COMMON_GLOBAL_PLANNER_HPP_
 
 #include <memory>
 #include <string>
@@ -100,4 +100,4 @@ public:
 }  // namespace planning 
 }  // namespace openbot
 
-#endif  // OPENBOT_PLANNING_GLOBAL_PLANNER_HPP_
+#endif  // OPENBOT_PLANNING_COMMON_GLOBAL_PLANNER_HPP_

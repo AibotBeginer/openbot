@@ -48,7 +48,7 @@ void MpcController::Deactivate()
 
 }
 
-void MpcController::SetPlan(const common::proto::nav_msgs::Path & path) 
+void MpcController::SetPlan(const common::nav_msgs::Path& path) 
 {
 
 }

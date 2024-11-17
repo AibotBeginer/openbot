@@ -48,7 +48,7 @@ void PurePursuitController::Deactivate()
 
 }
 
-void PurePursuitController::SetPlan(const common::proto::nav_msgs::Path & path) 
+void PurePursuitController::SetPlan(const common::nav_msgs::Path& path) 
 {
 
 }
