@@ -1,6 +1,6 @@
 # hides all symbols of a library
-function(class_loader_hide_library_symbols target)
-  set(version_script "${CMAKE_CURRENT_BINARY_DIR}/class_loader_hide_library_symbols__${target}.script")
+function(library_loader_hide_library_symbols target)
+  set(version_script "${CMAKE_CURRENT_BINARY_DIR}/library_loader_hide_library_symbols__${target}.script")
   file(WRITE "${version_script}"
     "    {
       local:

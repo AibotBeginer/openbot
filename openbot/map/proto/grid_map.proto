@@ -23,7 +23,7 @@ import "openbot/map/proto/grid_map_info.proto";
 
 // import "openbot/common/proto/builtin_interfaces/time.proto";
 
-message Duration 
+message GridMap 
 {
     // Header (time and frame)
     common.proto.std_msgs.Header header = 1;
