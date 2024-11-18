@@ -20,10 +20,10 @@
 set -e
 
 cd /thirdparty
-git clone https://github.com/BehaviorTree/BehaviorTree.CPP.git
-cd BehaviorTree.CPP && mkdir build && cmake ..
+git clone -b 4.6.2 https://github.com/BehaviorTree/BehaviorTree.CPP.git
+cd BehaviorTree.CPP && mkdir build && cd build && cmake ..
 make -j8
-sudo make install
+make install
 
 # Clean up.
 cd .. && rm -rf build

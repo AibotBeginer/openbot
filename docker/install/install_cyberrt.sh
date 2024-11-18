@@ -19,9 +19,6 @@
 # Fail on first error.
 set -e
 
-# Clean up.
-rm -rf build
-
 cd /thirdparty
 git clone https://gitee.com/minhanghuang/CyberRT.git
 cd CyberRT

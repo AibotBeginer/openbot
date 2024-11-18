@@ -34,7 +34,7 @@ google_initialize_openbot_project()
 google_enable_testing()
 
 find_package(absl REQUIRED)
-set(BOOST_COMPONENTS iostreams)
+set(BOOST_COMPONENTS iostreams graph program_options system)
 
 find_package(CYBERRT REQUIRED)
 find_package(FastRTPS REQUIRED)
@@ -50,6 +50,8 @@ find_package(behaviortree_cpp REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(ompl REQUIRED)
 find_package(OSQP REQUIRED)
+find_package(octomap REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
@@ -72,14 +74,13 @@ set(OPENBOT_CONFIGURATION_FILES_DIRECTORY ${CMAKE_INSTALL_PREFIX}/share/openbot/
   CACHE PATH ".lua configuration files directory")
 
 install(DIRECTORY config DESTINATION share/openbot/)
-
 install(DIRECTORY cmake DESTINATION share/openbot/)
 
-file(GLOB_RECURSE ALL_LIBRARY_HDRS "openbot/*.hpp")
-file(GLOB_RECURSE ALL_LIBRARY_SRCS "openbot/*.cc")
+file(GLOB_RECURSE ALL_LIBRARY_HDRS "openbot/*.hpp" "openbot/*.h")
+file(GLOB_RECURSE ALL_LIBRARY_SRCS "openbot/*.cc" "openbot/*.cpp")
 file(GLOB_RECURSE TEST_LIBRARY_HDRS "openbot/fake_*.hpp" "openbot/*_test_helpers*.hpp")
-file(GLOB_RECURSE TEST_LIBRARY_SRCS "openbot/fake_*.cc"  "openbot/*_test_helpers*.cc")
-file(GLOB_RECURSE ALL_TESTS "openbot/*_test.cc")
+file(GLOB_RECURSE TEST_LIBRARY_SRCS "openbot/fake_*.cc" "openbot/fake_*.cpp" "openbot/*_test_helpers*.cc" "openbot/*_test_helpers*.cpp")
+file(GLOB_RECURSE ALL_TESTS "openbot/*_test.cc" "openbot/*_test.cpp")
 file(GLOB_RECURSE ALL_EXECUTABLES "openbot/*_main.cc")
 
 # Remove dotfiles/-folders that could potentially pollute the build.
@@ -176,11 +177,20 @@ configure_file(
   ${PROJECT_SOURCE_DIR}/openbot/common/config.hpp.cmake
   ${PROJECT_BINARY_DIR}/openbot/common/config.hpp)
 
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/openbot-config-version.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/openbot-config-version.cmake @ONLY)
 
-# openbot_print_configuration
-google_binary(openbot_print_configuration
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/openbot-config-version.cmake"
+      DESTINATION "share/openbot")
+
+# Generate source file with version definitions.
+include("${PROJECT_SOURCE_DIR}/cmake/GenerateVersionDefinitions.cmake")
+
+# application.system_main
+google_binary(application.opebot_main
   SRCS
-    openbot/common/print_configuration_main.cc
+    openbot/system/opebot_main.cc
 )
 
 # application.system_main
@@ -275,6 +285,16 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${OMPL_LIBRARIES})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OSQP_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${OSQP_LIBRARY})
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${OCTOMAP_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${OCTOMAP_LIBRARIES})
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${YAML_CPP_INCLUDE_DIR}")
+target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
+
+# target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
+# target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
+
 
 if(${BUILD_GRPC})
   target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)

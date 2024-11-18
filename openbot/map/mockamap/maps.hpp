@@ -24,7 +24,7 @@
 #include <pcl/conversions.h>
 
 #include "openbot/common/macros.hpp"
-#include "openbot/common/pcl_conversions.hpp"
+#include "openbot/common/utils/pcl_conversions.hpp"
 #include "openbot/common/msgs/sensor_msgs.hpp"
 #include "openbot/map/mockamap/map_opionts.hpp"
 

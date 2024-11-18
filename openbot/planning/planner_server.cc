@@ -23,29 +23,46 @@ namespace openbot {
 namespace planning { 
 
 PlannerServer::PlannerServer()
+    : default_ids_{"GridBased"},
+      default_types_{"NavfnPlanner"}
 {
     // std::string name = "rrt_planner";
-    // plugins_[name] = std::make_shared<plugins::RRTPlanner>();
+    // planners_[name] = std::make_shared<plugins::RRTPlanner>();
     
+    // if (planner_ids_ == default_ids_) {
+    //     for (size_t i = 0; i < default_ids_.size(); ++i) {
+    //     }
+    // }
+
     SetRunningPlanner("a_star_planner");
-    plugins_[running_planner_name()] = std::make_shared<plugins::AStarPlanner>();
+    planners_[running_planner_name()] = std::make_shared<plugins::AStarPlanner>();
 }
 
 PlannerServer::~PlannerServer()
 {
+    planners_.clear();
+}
+
+common::nav_msgs::Path PlannerServer::GetPlan(
+    const common::geometry_msgs::PoseStamped& start,
+    const common::geometry_msgs::PoseStamped& goal,
+    const std::string & planner_id)
+{
+    common::nav_msgs::Path plan;
+    return plan;
 }
 
 void PlannerServer::InitMap(const map::Costmap::SharedPtr costmap)
 {
     costmap_ = costmap;
-    plugins_[running_planner_name()]->Configure(running_planner_name(),  costmap_);
+    planners_[running_planner_name()]->Configure(running_planner_name(),  costmap_);
 }
 
 common::nav_msgs::Path PlannerServer::CreatePlan(
     const common::geometry_msgs::PoseStamped& start,
     const common::geometry_msgs::PoseStamped& goal)
 {
-    return plugins_[running_planner_name()]->CreatePlan(start, goal);
+    return planners_[running_planner_name()]->CreatePlan(start, goal);
 }
 
 void PlannerServer::SetRunningPlanner(const std::string& name)
@@ -56,6 +73,11 @@ void PlannerServer::SetRunningPlanner(const std::string& name)
 std::string PlannerServer::running_planner_name()
 {
     return running_planner_name_;
+}
+
+void PlannerServer::ComputePlan()
+{
+
 }
 
 }  // namespace planning 
