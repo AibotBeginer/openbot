@@ -14,9 +14,9 @@ include_directories(
 # Source files
 file(GLOB_RECURSE VISUALIZER_HDR "visualizer/*.hpp" "visualizer/*.h")
 file(GLOB_RECURSE VISUALIZER_SRC "visualizer/*.cc" "visualizer/*.cpp")
-file(GLOB_RECURSE RESOURCE_FILES "images/*" "shaders/*")
-file(GLOB_RECURSE UI_FILES "*.ui")
-file(GLOB_RECURSE QRC_FILES "*.qrc")
+file(GLOB_RECURSE RESOURCE_FILES "visualizer/images/*" "visualizer/shaders/*")
+file(GLOB_RECURSE UI_FILES "visualizer/uis/*.ui")
+file(GLOB_RECURSE QRC_FILES "visualizer/*.qrc")
 
 add_executable(openbot_visualizer
   ${VISUALIZER_HDR}
