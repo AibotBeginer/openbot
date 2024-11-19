@@ -1124,17 +1124,17 @@ void MainWindow::SelectCurrentTreeItem(FixedAspectRatioWidget* dock) {
 }
 
 void MainWindow::TopologyChanged(
-    const openbot::cyber::proto::ChangeMsg& changeMsg) {
-  if (openbot::cyber::proto::ChangeType::CHANGE_CHANNEL ==
+    const apollo::cyber::proto::ChangeMsg& changeMsg) {
+  if (apollo::cyber::proto::ChangeType::CHANGE_CHANNEL ==
           changeMsg.change_type() &&
-      openbot::cyber::proto::RoleType::ROLE_WRITER == changeMsg.role_type() &&
-      openbot::cyber::proto::OperateType::OPT_JOIN == changeMsg.operate_type()) {
+      apollo::cyber::proto::RoleType::ROLE_WRITER == changeMsg.role_type() &&
+      apollo::cyber::proto::OperateType::OPT_JOIN == changeMsg.operate_type()) {
     AddNewWriter(changeMsg.role_attr());
   }
 }
 
 void MainWindow::AddNewWriter(
-    const openbot::cyber::proto::RoleAttributes& role) {
+    const apollo::cyber::proto::RoleAttributes& role) {
   const std::string& channelName = role.channel_name();
   if (_channelName2TypeMap.find(channelName) != _channelName2TypeMap.end()) {
     return;
