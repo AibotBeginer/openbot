@@ -25,7 +25,9 @@ set(OPENBOT_MINOR_VERSION 0)
 set(OPENBOT_PATCH_VERSION 0)
 set(OPENBOT_VERSION ${OPENBOT_MAJOR_VERSION}.${OPENBOT_MINOR_VERSION}.${OPENBOT_PATCH_VERSION})
 set(OPENBOT_SOVERSION ${OPENBOT_MAJOR_VERSION}.${OPENBOT_MINOR_VERSION})
-option(BUILD_GRPC "build Openbot gRPC support" false)
+option(BUILD_GRPC "build Openbot gRPC support" OFF)
+option(BUILD_TOOLS "build Openbot tools support" OFF)
+
 set(OPENBOT_HAS_GRPC ${BUILD_GRPC})
 option(BUILD_PROMETHEUS "build Prometheus monitoring support" false)
 
@@ -52,6 +54,7 @@ find_package(ompl REQUIRED)
 find_package(OSQP REQUIRED)
 find_package(octomap REQUIRED)
 find_package(yaml-cpp REQUIRED)
+find_package(CYBERRT REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
@@ -80,6 +83,8 @@ file(GLOB_RECURSE ALL_LIBRARY_HDRS "openbot/*.hpp" "openbot/*.h")
 file(GLOB_RECURSE ALL_LIBRARY_SRCS "openbot/*.cc" "openbot/*.cpp")
 file(GLOB_RECURSE TEST_LIBRARY_HDRS "openbot/fake_*.hpp" "openbot/*_test_helpers*.hpp")
 file(GLOB_RECURSE TEST_LIBRARY_SRCS "openbot/fake_*.cc" "openbot/fake_*.cpp" "openbot/*_test_helpers*.cc" "openbot/*_test_helpers*.cpp")
+file(GLOB_RECURSE ALL_TOOLS_HDRS "openbot/tools/*.hpp" "openbot/tools/*.h")
+file(GLOB_RECURSE ALL_TOOLS_SRCS "openbot/tools/*.cc" "openbot/tools*.cpp")
 file(GLOB_RECURSE ALL_TESTS "openbot/*_test.cc" "openbot/*_test.cpp")
 file(GLOB_RECURSE ALL_EXECUTABLES "openbot/*_main.cc")
 
@@ -98,6 +103,8 @@ list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_EXECUTABLES})
 list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_TESTS})
 list(REMOVE_ITEM ALL_LIBRARY_HDRS ${TEST_LIBRARY_HDRS})
 list(REMOVE_ITEM ALL_LIBRARY_SRCS ${TEST_LIBRARY_SRCS})
+list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_TOOLS_HDRS})
+list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_TOOLS_SRCS})
 
 file(GLOB_RECURSE ALL_PROTOS "openbot/*.proto")
 
@@ -222,6 +229,10 @@ google_binary(application.listener_main
    SRCS
      openbot/system/listener_main.cc
 )
+
+if (BUILD_TOOLS)
+  add_subdirectory(openbot/tools)
+endif()
 
 if(${BUILD_GRPC})
   google_binary(openbot_grpc_server
