@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package openbot.hdmap;
+
+// Global unique ids for all objects (include lanes, junctions, overlaps, etc).
+message Id {
+  string id = 1;
+}

@@ -1,0 +1,259 @@
+syntax = "proto3";
+
+package openbot.canbus;
+
+import "google/protobuf/any.proto";
+import "openbot/common_msgs/basic_msgs/drive_state.proto";
+import "openbot/common_msgs/basic_msgs/geometry.proto";
+import "openbot/common_msgs/basic_msgs/header.proto";
+import "openbot/common_msgs/basic_msgs/vehicle_id.proto";
+import "openbot/common_msgs/basic_msgs/vehicle_signal.proto";
+
+
+// next id :31
+message Chassis {
+  enum DrivingMode {
+    COMPLETE_MANUAL = 0;  // human drive
+    COMPLETE_AUTO_DRIVE = 1;
+    AUTO_STEER_ONLY = 2;  // only steer
+    AUTO_SPEED_ONLY = 3;  // include throttle and brake
+
+    // security mode when manual intervention happens, only response status
+    EMERGENCY_MODE = 4;
+  }
+
+  enum ErrorCode {
+    NO_ERROR = 0;
+
+    CMD_NOT_IN_PERIOD = 1;  // control cmd not in period
+
+    // car chassis report error, like steer, brake, throttle, gear fault
+    CHASSIS_ERROR = 2;
+
+    // classify the types of the car chassis errors
+    CHASSIS_ERROR_ON_STEER = 6;
+    CHASSIS_ERROR_ON_BRAKE = 7;
+    CHASSIS_ERROR_ON_THROTTLE = 8;
+    CHASSIS_ERROR_ON_GEAR = 9;
+
+    MANUAL_INTERVENTION = 3;  // human manual intervention
+
+    // receive car chassis can frame not in period
+    CHASSIS_CAN_NOT_IN_PERIOD = 4;
+
+    UNKNOWN_ERROR = 5;
+  }
+
+  enum GearPosition {
+    GEAR_NEUTRAL = 0;
+    GEAR_DRIVE = 1;
+    GEAR_REVERSE = 2;
+    GEAR_PARKING = 3;
+    GEAR_LOW = 4;
+    GEAR_INVALID = 5;
+    GEAR_NONE = 6;
+  }
+
+  enum BumperEvent {
+    BUMPER_INVALID = 0;
+    BUMPER_NORMAL = 1;
+    BUMPER_PRESSED = 2;
+  }
+
+  bool engine_started = 3;
+
+  // Engine speed in RPM.
+  float engine_rpm = 4;
+
+  // Vehicle Speed in meters per second.
+  float speed_mps = 5;
+
+  // Vehicle odometer in meters.
+  float odometer_m = 6;
+
+  // Fuel range in meters.
+  int32 fuel_range_m = 7;
+
+  // Real throttle location in [%], ranging from 0 to 100.
+  float throttle_percentage = 8;
+
+  // Real brake location in [%], ranging from 0 to 100.
+  float brake_percentage = 9;
+
+  // Real steering location in [%], ranging from -100 to 100.
+  // steering_angle / max_steering_angle
+  // Clockwise: negative
+  // CountClockwise: positive
+  float steering_percentage = 11;
+
+  // Applied steering torque in [Nm].
+  float steering_torque_nm = 12;
+
+  // Parking brake status.
+  bool parking_brake = 13;
+
+  // Light signals.
+  bool high_beam_signal = 14;
+  bool low_beam_signal = 15;
+  bool left_turn_signal = 16;
+  bool right_turn_signal = 17;
+  bool horn = 18;
+
+  bool wiper = 19;
+  bool disengage_status = 20;
+  DrivingMode driving_mode = 21;
+  ErrorCode error_code = 22;
+  GearPosition gear_location = 23;
+
+  // timestamp for steering module
+  double steering_timestamp = 24;  // In seconds, with 1e-6 accuracy
+
+  // chassis also needs it own sending timestamp
+  openbot.common.Header header = 25;
+
+  int32 chassis_error_mask = 26;
+
+  openbot.common.VehicleSignal signal = 27;
+
+  // Only available for Lincoln now
+  ChassisGPS chassis_gps = 28;
+
+  openbot.common.EngageAdvice engage_advice = 29;
+
+  WheelSpeed wheel_speed = 30;
+
+  Surround surround = 31;
+
+  // Vehicle registration information
+  License license = 32;
+
+  // Real gear location.
+  // int32 gear_location = 10; deprecated use enum
+  // replace this [id 23]
+
+  openbot.common.VehicleID vehicle_id = 33;
+
+  int32 battery_soc_percentage = 34;
+
+  // Real send throttle location in [%], ranging from 0 to 100.
+  float throttle_percentage_cmd = 35;
+
+  // Real send brake location in [%], ranging from 0 to 100.
+  float brake_percentage_cmd = 36;
+
+  // Real send steering location in [%], ranging from -100 to 100.
+  // steering_angle / max_steering_angle
+  // Clockwise: negative
+  // CountClockwise: positive
+  float steering_percentage_cmd = 37;
+
+  BumperEvent front_bumper_event = 38;
+
+  BumperEvent back_bumper_event = 39;
+
+  CheckResponse check_response = 40;
+
+  // Custom chassis operation command defined by user for extensibility.
+  google.protobuf.Any custom_status = 41;
+}
+
+message ChassisGPS {
+  double latitude = 1;
+  double longitude = 2;
+  bool gps_valid = 3;
+
+  int32 year = 4;
+  int32 month = 5;
+  int32 day = 6;
+  int32 hours = 7;
+  int32 minutes = 8;
+  int32 seconds = 9;
+  double compass_direction = 10;
+  double pdop = 11;
+  bool is_gps_fault = 12;
+  bool is_inferred = 13;
+
+  double altitude = 14;
+  double heading = 15;
+  double hdop = 16;
+  double vdop = 17;
+  GpsQuality quality = 18;
+  int32 num_satellites = 19;
+  double gps_speed = 20;
+}
+
+enum GpsQuality {
+  FIX_NO = 0;
+  FIX_2D = 1;
+  FIX_3D = 2;
+  FIX_INVALID = 3;
+}
+
+message WheelSpeed {
+  enum WheelSpeedType {
+    FORWARD = 0;
+    BACKWARD = 1;
+    STANDSTILL = 2;
+    INVALID = 3;
+  }
+  bool is_wheel_spd_rr_valid = 1;
+  WheelSpeedType wheel_direction_rr = 2;
+  double wheel_spd_rr = 3;
+  bool is_wheel_spd_rl_valid = 4;
+  WheelSpeedType wheel_direction_rl = 5;
+  double wheel_spd_rl = 6;
+  bool is_wheel_spd_fr_valid = 7;
+  WheelSpeedType wheel_direction_fr = 8;
+  double wheel_spd_fr = 9;
+  bool is_wheel_spd_fl_valid = 10;
+  WheelSpeedType wheel_direction_fl = 11;
+  double wheel_spd_fl = 12;
+}
+
+message Sonar {
+  double range = 1;                       // Meter
+  openbot.common.Point3D translation = 2;  // Meter
+  openbot.common.Quaternion rotation = 3;
+}
+
+message Surround {
+  bool cross_traffic_alert_left = 1;
+  bool cross_traffic_alert_left_enabled = 2;
+  bool blind_spot_left_alert = 3;
+  bool blind_spot_left_alert_enabled = 4;
+  bool cross_traffic_alert_right = 5;
+  bool cross_traffic_alert_right_enabled = 6;
+  bool blind_spot_right_alert = 7;
+  bool blind_spot_right_alert_enabled = 8;
+  double sonar00 = 9;
+  double sonar01 = 10;
+  double sonar02 = 11;
+  double sonar03 = 12;
+  double sonar04 = 13;
+  double sonar05 = 14;
+  double sonar06 = 15;
+  double sonar07 = 16;
+  double sonar08 = 17;
+  double sonar09 = 18;
+  double sonar10 = 19;
+  double sonar11 = 20;
+  bool sonar_enabled = 21;
+  bool sonar_fault = 22;
+  repeated double sonar_range = 23;
+  repeated Sonar sonar = 24;
+}
+
+message License {
+  string vin = 1;
+}
+
+// CheckResponseSignal
+message CheckResponse {
+  bool is_eps_online = 1;
+  bool is_epb_online = 2;
+  bool is_esp_online = 3;
+  bool is_vtog_online = 4;
+  bool is_scu_online = 5;
+  bool is_switch_online = 6;
+  bool is_vcu_online = 7;
+}

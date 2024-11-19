@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package openbot.dreamview;
+
+// This proto defines a mode showing in Dreamview, including how you will
+// display them and monitor their status.
+
+import "openbot/common_msgs/dreamview_msgs/hmi_status.proto";
+
+// For ProcessMonitor.
+message ProcessMonitorConfig {
+  repeated string command_keywords = 1;
+}
+
+// For ModuleMonitor
+message ModuleMonitorConfig {
+  repeated string node_name = 1;
+}
+
+// For ChannelMonitor.
+message ChannelMonitorConfig {
+  string name = 1;
+  double delay_fatal = 2;  // In seconds.
+
+  // The fields will be checked to make sure they are existing
+  // Specify in the format of "a.b.c"
+  repeated string mandatory_fields = 3;
+
+  // Minimum and maximum frequency allowed for this channel
+  double min_frequency_allowed = 4;
+  double max_frequency_allowed = 5;
+}
+
+// For ResourceMonitor.
+message ResourceMonitorConfig {
+  message DiskSpace {
+    // Path to monitor space. Support wildcards like ? and *.
+    // If the path does't exist, raise UNKNWON which will be ignored.
+    string path = 1;
+    int32 insufficient_space_warning = 2;  // In GB.
+    int32 insufficient_space_error = 3;
+  }
+
+  message CPUUsage {
+    float high_cpu_usage_warning = 1;
+    float high_cpu_usage_error = 2;
+    // The process's dag path, if not set it will check the system's overall CPU
+    // usage
+    string process_dag_path = 3;
+  }
+
+  message MemoryUsage {
+    int32 high_memory_usage_warning = 1;
+    int32 high_memory_usage_error = 2;
+    // The process's dag path, if not set it will check the system's overall
+    // memory usage
+    string process_dag_path = 3;
+  }
+
+  message DiskLoad {
+    int32 high_disk_load_warning = 1;
+    int32 high_disk_load_error = 2;
+    // Disk device name, such as sda, sdb and etc
+    string device_name = 3;
+  }
+
+  repeated DiskSpace disk_spaces = 1;
+  repeated CPUUsage cpu_usages = 2;
+  repeated MemoryUsage memory_usages = 3;
+  repeated DiskLoad disk_load_usages = 4;
+}
+
+// A monitored component will be listed on HMI which only shows its status but
+// user cannot operate.
+// The whole config will generate SystemStatus.components[i].summary by Monitor
+// module, which is generally the most severe one of process, channel or
+// resource status.
+message MonitoredComponent {
+  // Generate SystemStatus.components[i].process_status.
+  // OK if the process is running.
+  // FATAL if the process is down.
+  ProcessMonitorConfig process = 1;
+
+  // Generate SystemStatus.components[i].channel_status.
+  // OK if delay is not notable.
+  // FATAL if delay is larger than fatal_delay.
+  ChannelMonitorConfig channel = 2;
+
+  // Generate SystemStatus.components[i].resource_status.
+  // OK if all requirements are met.
+  // WARN/ERROR/FATAL if any requirement is below expectation.
+  ResourceMonitorConfig resource = 3;
+
+  // Whether to trigger safe-mode if the component is down.
+  bool required_for_safety = 4;
+
+  // Generate SystemStatus.components[i].module_status.
+  // OK if the module is running.
+  // FATAL if the module is down.
+  ModuleMonitorConfig module = 5;
+}
+
+// A module which can be started and stopped by HMI.
+message Module {
+  string start_command = 1;
+  string stop_command = 2;
+
+  // We use the config in ProcessMonitor to check if the module is running.
+  ProcessMonitorConfig process_monitor_config = 3;
+  // Whether to trigger safe-mode if the module is down.
+  bool required_for_safety = 4;
+}
+
+// A CyberModule will be translated to a regular Module upon loading.
+message CyberModule {
+  repeated string dag_files = 1;
+  bool required_for_safety = 2;
+  string process_group = 3;
+}
+
+message HMIMode {
+  map<string, CyberModule> cyber_openbot = 1;
+  map<string, Module> openbot = 2;
+  map<string, MonitoredComponent> monitored_components = 3;
+  map<string, ProcessMonitorConfig> other_components = 4;
+  repeated HMIModeOperation operations = 5;
+  HMIModeOperation default_operation = 6;
+  string layout = 7;
+  map<string, MonitoredComponent> global_components = 8;
+}

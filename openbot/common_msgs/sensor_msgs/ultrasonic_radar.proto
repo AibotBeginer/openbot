@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package openbot.drivers;
+
+import "openbot/common_msgs/basic_msgs/header.proto";
+
+message Ultrasonic {
+  //
+  //               x axis
+  //		       ^
+  //                     |
+  //                  *  |  *
+  //               *     |     *
+  //        \    *       |       *    /
+  //          \ *     range(i)    * /
+  //            \        |        /
+  //              \      |      /
+  //                \    |    /
+  //       y axis     \  |  /
+  //      <---------------
+  //        ooooooooooooo   //ultrasonic radar front surface
+  //
+  // In every working cycle, each radar of the ultrasonic system
+  // return a range to form a range array, 'ranges'.
+
+  openbot.common.Header header = 1;
+  repeated float ranges = 2;
+}

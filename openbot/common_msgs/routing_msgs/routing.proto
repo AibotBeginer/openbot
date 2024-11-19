@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package openbot.routing;
+
+import "openbot/common_msgs/routing_msgs/geometry.proto";
+import "openbot/common_msgs/basic_msgs/header.proto";
+import "openbot/common_msgs/basic_msgs/error_code.proto";
+import "openbot/common_msgs/routing_msgs/poi.proto";
+
+message RoutingRequest {
+  openbot.common.Header header = 1;
+  // at least two points. The first is start point, the end is final point.
+  // The routing must go through each point in waypoint.
+  repeated openbot.routing.LaneWaypoint waypoint = 2;
+  repeated openbot.routing.LaneSegment blacklisted_lane = 3;
+  repeated string blacklisted_road = 4;
+  bool broadcast = 5;
+  openbot.routing.ParkingInfo parking_info = 6;
+  // If the start pose is set as the first point of "way_point".
+  bool is_start_pose_set = 7;
+}
+
+message RoutingResponse {
+  openbot.common.Header header = 1;
+  repeated openbot.routing.RoadSegment road = 2;
+  openbot.routing.Measurement measurement = 3;
+  RoutingRequest routing_request = 4;
+
+  // the map version which is used to build road graph
+  bytes map_version = 5;
+  openbot.common.StatusPb status = 6;
+}

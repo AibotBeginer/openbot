@@ -1,0 +1,153 @@
+syntax = "proto3";
+
+package openbot.prediction;
+
+import "openbot/common_msgs/basic_msgs/geometry.proto";
+import "openbot/common_msgs/basic_msgs/pnc_point.proto";
+import "openbot/common_msgs/map_msgs/map_lane.proto";
+import "openbot/common_msgs/perception_msgs/perception_obstacle.proto";
+import "openbot/common_msgs/prediction_msgs/lane_graph.proto";
+import "openbot/common_msgs/prediction_msgs/prediction_point.proto";
+
+message Lane {
+  // Features of all possible current lanes.
+  repeated LaneFeature current_lane_feature = 1;
+
+  // Features of the most possible current lane.
+  LaneFeature lane_feature = 2;
+
+  // Features of all nearby lanes.
+  repeated LaneFeature nearby_lane_feature = 3;
+
+  // Lane graph
+  LaneGraph lane_graph = 4;
+  LaneGraph lane_graph_ordered = 5;
+
+  // For modeling
+  double label_update_time_delta = 26;
+}
+
+message LaneFeature {
+  string lane_id = 1;
+  uint32 lane_turn_type = 2;
+  double lane_s = 3;
+  double lane_l = 4;
+  double angle_diff = 5;
+  double dist_to_left_boundary = 6;
+  double dist_to_right_boundary = 7;
+  double lane_heading = 8;
+  openbot.hdmap.Lane.LaneType lane_type = 9;
+}
+
+message JunctionExit {
+  string exit_lane_id = 1;
+  openbot.common.Point3D exit_position = 2;
+  double exit_heading = 3;
+  double exit_width = 4;
+}
+
+message JunctionFeature {
+  string junction_id = 1;
+  double junction_range = 2;
+  LaneFeature enter_lane = 3;
+  repeated JunctionExit junction_exit = 4;
+  repeated double junction_mlp_feature = 5;
+  repeated int32 junction_mlp_label = 6;  // dim is number of masks, i.e. 12
+  repeated double junction_mlp_probability = 7;
+  repeated string start_lane_id = 8;
+}
+
+message ObstaclePriority {
+  enum Priority {
+    CAUTION = 0;
+    NORMAL = 1;
+    IGNORE = 2;
+  }
+  Priority priority = 25;
+}
+
+message ObstacleInteractiveTag {
+  enum InteractiveTag {
+    INTERACTION = 0;
+    NONINTERACTION = 1;
+  }
+  InteractiveTag interactive_tag = 37;
+}
+message Trajectory {
+  double probability = 1;  // probability of this trajectory
+  repeated openbot.common.TrajectoryPoint trajectory_point = 2;
+}
+
+// next id = 40
+message Feature {
+  // Obstacle ID
+  int32 id = 1;
+
+  // Obstacle features
+  repeated openbot.common.Point3D polygon_point = 30;
+  openbot.common.Point3D position = 2;
+  openbot.common.Point3D front_position = 27;
+  openbot.common.Point3D velocity = 3;
+  openbot.common.Point3D raw_velocity = 28;  // from perception
+  openbot.common.Point3D acceleration = 4;
+  double velocity_heading = 5;
+  double speed = 6;
+  double acc = 7;
+  double theta = 8;
+  double length = 9;
+  double width = 10;
+  double height = 11;
+  double tracking_time = 12;
+  double timestamp = 13;
+
+  // Obstacle type-specific features
+  Lane lane = 14;
+  JunctionFeature junction_feature = 26;
+
+  // Obstacle tracked features
+  openbot.common.Point3D t_position = 16;
+  openbot.common.Point3D t_velocity = 17;
+  double t_velocity_heading = 18;
+  double t_speed = 19;
+  openbot.common.Point3D t_acceleration = 20;
+  double t_acc = 21;
+
+  bool is_still = 22;
+  openbot.perception.PerceptionObstacle.Type type = 23;
+  double label_update_time_delta = 24;
+
+  ObstaclePriority priority = 25;
+  ObstacleInteractiveTag interactive_tag = 37;
+
+  bool is_near_junction = 29;
+
+  // Obstacle ground-truth labels:
+  repeated PredictionTrajectoryPoint future_trajectory_points = 31;
+
+  // Obstacle short-term predicted trajectory points
+  repeated openbot.common.TrajectoryPoint
+      short_term_predicted_trajectory_points = 32;
+
+  // Obstacle predicted trajectories
+  repeated Trajectory predicted_trajectory = 33;
+
+  // ADC trajectory at the same frame, and ADC trajectory timestamp
+  repeated openbot.common.TrajectoryPoint adc_trajectory_point = 34;
+  double adc_timestamp = 38;
+  openbot.perception.PerceptionObstacle adc_localization = 39;
+
+  // Surrounding lanes
+  repeated string surrounding_lane_id = 35;
+  repeated string within_lane_id = 36;
+}
+
+message ObstacleHistory {
+  repeated Feature feature = 1;
+  bool is_trainable = 2;
+}
+
+message FrameEnv {
+  double timestamp = 1;
+  ObstacleHistory ego_history = 2;
+  repeated ObstacleHistory obstacles_history = 3;
+}
