@@ -108,7 +108,7 @@ public:
     /**
      * @brief Map data size(x, y, z)
      */
-    common::geometry_msgs::Point size(void) const;
+    common::geometry_msgs::Point size() const;
 
     /**
      * @brief Map orgin position
@@ -148,7 +148,7 @@ public:
     bool ToOccupancyGridMap(common::nav_msgs::OccupancyGrid& data);
 
     /**
-     * @brief Convert pcl::PointCloud to occupancy grid map (2D)
+     * @brief Convert pcl::PointCloud to occupancy grid map (2.5D)
      * @return return Sccess or failed
      */
     bool ToGridMap(common::nav_msgs::GridMap& data);
