@@ -163,7 +163,7 @@ public:
    */
   virtual common::proto::nav_msgs::Path CreatePlan(
     const common::proto::geometry_msgs::PoseStamped& start,
-    const common::proto::geometry_msgs::PoseStamped& goal) override;
+    const common::proto::geometry_msgs::PoseStamped& goal, const double timeout) override;
 
   /**
      * @brief Method create the plan from a starting and ending goal.
@@ -173,7 +173,7 @@ public:
      */
     virtual common::nav_msgs::Path CreatePlan(
         const common::geometry_msgs::PoseStamped& start,
-        const common::geometry_msgs::PoseStamped& goal) override;
+        const common::geometry_msgs::PoseStamped& goal, const double timeout) override;
 
 private:
     double GetEuclHeu(Eigen::Vector3d x1, Eigen::Vector3d x2);

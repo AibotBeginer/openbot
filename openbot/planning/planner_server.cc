@@ -27,8 +27,10 @@ PlannerServer::PlannerServer()
     // std::string name = "rrt_planner";
     // plugins_[name] = std::make_shared<plugins::RRTPlanner>();
     
-    SetRunningPlanner("a_star_planner");
-    plugins_[running_planner_name()] = std::make_shared<plugins::AStarPlanner>();
+    // SetRunningPlanner("a_star_planner");
+    // plugins_[running_planner_name()] = std::make_shared<plugins::AStarPlanner>();
+    SetRunningPlanner("rrt_planner");
+    plugins_[running_planner_name()] = std::make_shared<plugins::RRTPlanner>();
 }
 
 PlannerServer::~PlannerServer()
@@ -43,9 +45,10 @@ void PlannerServer::InitMap(const map::Costmap::SharedPtr costmap)
 
 common::nav_msgs::Path PlannerServer::CreatePlan(
     const common::geometry_msgs::PoseStamped& start,
-    const common::geometry_msgs::PoseStamped& goal)
+    const common::geometry_msgs::PoseStamped& goal,
+        const double timeout)
 {
-    return plugins_[running_planner_name()]->CreatePlan(start, goal);
+    return plugins_[running_planner_name()]->CreatePlan(start, goal, timeout);
 }
 
 void PlannerServer::SetRunningPlanner(const std::string& name)

@@ -64,7 +64,7 @@ void AStarPlanner::Deactivate()
 
 common::proto::nav_msgs::Path AStarPlanner::CreatePlan(
     const common::proto::geometry_msgs::PoseStamped& start,
-    const common::proto::geometry_msgs::PoseStamped& goal)
+    const common::proto::geometry_msgs::PoseStamped& goal, const double timeout)
 {
     common::proto::nav_msgs::Path path;
     return path;
@@ -72,7 +72,7 @@ common::proto::nav_msgs::Path AStarPlanner::CreatePlan(
 
 common::nav_msgs::Path AStarPlanner::CreatePlan(
         const common::geometry_msgs::PoseStamped& start,
-        const common::geometry_msgs::PoseStamped& goal)
+        const common::geometry_msgs::PoseStamped& goal, const double timeout)
 {
     common::nav_msgs::Path path;
     Eigen::Vector3d start_point, goal_point;
