@@ -30,6 +30,7 @@
 #include <ompl/geometric/planners/rrt/RRTConnect.h>
 #include <ompl/geometric/planners/rrt/InformedRRTstar.h>
 #include <ompl/geometric/planners/rrt/RRTsharp.h> // Include RRT# header
+#include <ompl/geometric/planners/informedtrees/BITstar.h>
 
 
 #include "glog/logging.h"
