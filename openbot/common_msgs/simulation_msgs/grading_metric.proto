@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package openbot.simulation;
+
+import "openbot/common_msgs/simulation_msgs/grading_condition.proto";
+
+message GradingConfig {
+  repeated Metric metric = 1;
+  // Attention: compatible with the previous pass and fail
+  bool use_score = 2;
+  // 计算的是更具体的达标时间并记录 是否compute time
+  bool use_time = 3;
+  // This metric decide when end,how to compute time!
+  string compute_time_metric_name = 4;
+  // 计算时间第一次true的时候记录-比如到达终点
+  // 停车采取不同的策略：因为过程中始终有变更，采取最后一次状态的时候记录Timestamp
+  //【过程中】由True到false直接清除之前记录，确保状态变更始终维持最新
+  bool compute_time_as_first_true = 5;
+}
+
+message Metric {
+  string name = 1;
+  string description = 2;
+
+  // Set if combined conditions have been used.
+  Condition condition = 3;
+
+  // True if the metric is critical to the scenario.
+  // i.e. the scenario fails as long as the metric fails.
+  bool is_critical = 4;
+
+  // True implies the metric passes if and only if the condition
+  // is passing all the time.
+  bool require_all_time_pass = 5;
+
+  // True implies the metric passes if and only if the condition
+  // stays passing once it passes for one time frame.
+  bool once_pass_stay_pass = 6;
+  // Metric是否获取扣分还是得到的直接是最终分数
+  bool get_deduction_score = 7;
+}

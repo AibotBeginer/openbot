@@ -32,6 +32,6 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${LIBRARY_LOADER_CMAKE_DIR}/modules)
 
-include("${LIBRARY_LOADER_CMAKE_DIR}/LibraryLoadeTargets.cmake")
+include("${LIBRARY_LOADER_CMAKE_DIR}/LibraryLoaderTargets.cmake")
 
 unset(QUIET_OR_REQUIRED_OPTION)

@@ -1,0 +1,22 @@
+syntax = "proto3";
+package openbot.drivers;
+
+import "openbot/common_msgs/basic_msgs/header.proto";
+
+message PointXYZIT {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  uint32 intensity = 4;
+  uint64 timestamp = 5;
+}
+
+message PointCloud {
+  openbot.common.Header header = 1;
+  string frame_id = 2;
+  bool is_dense = 3;
+  repeated PointXYZIT point = 4;
+  double measurement_time = 5;
+  uint32 width = 6;
+  uint32 height = 7;
+}

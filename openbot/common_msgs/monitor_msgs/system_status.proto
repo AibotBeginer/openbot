@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package openbot.monitor;
+
+import "openbot/common_msgs/basic_msgs/header.proto";
+
+// Status summary. The value order is important, because when we summarize,
+// larger value will overwrite smaller value:
+//    FATAL > ERROR > WARN > OK > UNKNOWN
+message ComponentStatus {
+  enum Status {
+    UNKNOWN = 0;
+    OK = 1;
+    WARN = 2;
+    ERROR = 3;
+    FATAL = 4;
+  }
+  Status status = 1;
+  string message = 2;
+}
+
+message Component {
+  // A summary of all detailed status.
+  ComponentStatus summary = 1;
+
+  // Detailed status.
+  ComponentStatus process_status = 2;
+  ComponentStatus channel_status = 3;
+  ComponentStatus resource_status = 4;
+  ComponentStatus other_status = 5;
+  ComponentStatus module_status = 6;
+}
+
+message SystemStatus {
+  openbot.common.Header header = 1;
+
+  map<string, ComponentStatus> hmi_openbot = 7;
+  map<string, Component> components = 8;
+
+  // Some critical message for passengers. HMI should highlight it or even read
+  // loudly.
+  string passenger_msg = 4;
+
+  // If we have this field, safety_mode should be triggered.
+  // We'll check the system action and driver action continuously. If no proper
+  // action was taken in a specified period of time (such as 10 seconds), EStop
+  // will be sent to bring the vehicle into emergency full stop.
+  double safety_mode_trigger_time = 5;
+  bool require_emergency_stop = 6;
+
+  // In simulation mode, the monitor will publish message with this field set,
+  // so subscribers could identify it from the recorded messages.
+  bool is_realtime_in_simulation = 9;
+
+  // In some modes, other processes besides openbot and monitored components may
+  // need to be monitored
+  map<string, ComponentStatus> other_components = 10;
+  
+  // In all modes, needs to detect progress and resource space.
+  map<string, Component> global_components = 11;
+
+  bool detect_immediately = 12;
+
+  reserved 2, 3;
+}

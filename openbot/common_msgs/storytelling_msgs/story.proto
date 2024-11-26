@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package openbot.storytelling;
+
+import "openbot/common_msgs/basic_msgs/header.proto";
+
+message CloseToCrosswalk {
+  string id = 1;
+  double distance = 2;
+}
+
+message CloseToClearArea {
+  string id = 1;
+  double distance = 2;
+}
+
+message CloseToJunction {
+  enum JunctionType {
+    PNC_JUNCTION = 0;
+    JUNCTION = 1;
+  };
+  string id = 1;
+  JunctionType type = 2;
+  double distance = 3;
+}
+
+message CloseToSignal {
+  string id = 1;
+  double distance = 2;
+}
+
+message CloseToStopSign {
+  string id = 1;
+  double distance = 2;
+}
+
+message CloseToYieldSign {
+  string id = 1;
+  double distance = 2;
+}
+
+// Usage guide for action openbot:
+// 1. Call `stories.has_XXX()` to check if a story you are interested is in
+//    charge.
+// 2. Access the story details if necessary, and take action accordingly.
+message Stories {
+  openbot.common.Header header = 1;
+
+  CloseToClearArea close_to_clear_area = 2;
+  CloseToCrosswalk close_to_crosswalk = 3;
+  CloseToJunction close_to_junction = 4;
+  CloseToSignal close_to_signal = 5;
+  CloseToStopSign close_to_stop_sign = 6;
+  CloseToYieldSign close_to_yield_sign = 7;
+}

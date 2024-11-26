@@ -21,11 +21,13 @@
 #include <string>
 
 #include "openbot/common/macros.hpp"
-#include "openbot/planning/global_planner.hpp"
+#include "openbot/planning/common/global_planner.hpp"
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist.pb.h"
 #include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"
 #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
+
+
 
 namespace openbot {
 namespace planning { 
@@ -82,7 +84,7 @@ public:
      */
     virtual common::proto::nav_msgs::Path CreatePlan(
         const common::proto::geometry_msgs::PoseStamped& start,
-        const common::proto::geometry_msgs::PoseStamped& goal) override;
+        const common::proto::geometry_msgs::PoseStamped& goal, const double timeout) override;
 
     /**
      * @brief Method create the plan from a starting and ending goal.
@@ -92,7 +94,7 @@ public:
      */
     virtual common::nav_msgs::Path CreatePlan(
         const common::geometry_msgs::PoseStamped& start,
-        const common::geometry_msgs::PoseStamped& goal) override;
+        const common::geometry_msgs::PoseStamped& goal, const double timeout) override;
 
 private:
     map::VoxelMap* costmap_{nullptr};

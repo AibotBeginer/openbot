@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package openbot.relative_map;
+
+import "openbot/common_msgs/basic_msgs/header.proto";
+import "openbot/common_msgs/basic_msgs/pnc_point.proto";
+import "openbot/common_msgs/localization_msgs/localization.proto";
+import "openbot/common_msgs/map_msgs/map.proto";
+import "openbot/common_msgs/perception_msgs/perception_obstacle.proto";
+
+message NavigationPath {
+  openbot.common.Path path = 1;
+  // highest = 0 which can directly reach destination; change lane indicator
+  uint32 path_priority = 2;
+}
+
+message NavigationInfo {
+  openbot.common.Header header = 1;
+  repeated NavigationPath navigation_path = 2;
+}
+
+// The map message in transmission format.
+message MapMsg {
+  openbot.common.Header header = 1;
+
+  // Coordination: FLU
+  // x: Forward
+  // y: Left
+  // z: Up
+  openbot.hdmap.Map hdmap = 2;
+
+  // key: type string; the lane id in Map
+  // value: Navigation path; the reference line of the lane
+  map<string, NavigationPath> navigation_path = 3;
+
+  // lane marker info from perception
+  openbot.perception.LaneMarkers lane_marker = 4;
+
+  // localization
+  openbot.localization.LocalizationEstimate localization = 5;
+}

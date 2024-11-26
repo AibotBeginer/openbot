@@ -27,6 +27,11 @@
 #include <ompl/geometric/planners/rrt/InformedRRTstar.h>
 #include <ompl/base/objectives/PathLengthOptimizationObjective.h>
 #include <ompl/base/DiscreteMotionValidator.h>
+#include <ompl/geometric/planners/rrt/RRTConnect.h>
+#include <ompl/geometric/planners/rrt/InformedRRTstar.h>
+#include <ompl/geometric/planners/rrt/RRTsharp.h> // Include RRT# header
+#include <ompl/geometric/planners/informedtrees/BITstar.h>
+
 
 #include "glog/logging.h"
 
@@ -71,7 +76,7 @@ void RRTPlanner::Deactivate()
 
 common::proto::nav_msgs::Path RRTPlanner::CreatePlan(
     const common::proto::geometry_msgs::PoseStamped& start,
-    const common::proto::geometry_msgs::PoseStamped& goal)
+    const common::proto::geometry_msgs::PoseStamped& goal, const double timeout)
 {
     common::proto::nav_msgs::Path path;
     return path;
@@ -79,7 +84,8 @@ common::proto::nav_msgs::Path RRTPlanner::CreatePlan(
 
 common::nav_msgs::Path RRTPlanner::CreatePlan(
         const common::geometry_msgs::PoseStamped& start,
-        const common::geometry_msgs::PoseStamped& goal)
+        const common::geometry_msgs::PoseStamped& goal,
+        const double timeout)
 {
     // Define the 3D state space for the planner (x, y, z)
     auto space(std::make_shared<ompl::base::RealVectorStateSpace>(3));
@@ -132,24 +138,54 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
     LOG(INFO) << "Transformed Start Pose: [" << start_pose[0] << ", " << start_pose[1] << ", " << start_pose[2] << "]";
     LOG(INFO) << "Transformed Goal Pose: [" << goal_pose[0] << ", " << goal_pose[1] << ", " << goal_pose[2] << "]";
   
-    auto pdef(std::make_shared<ompl::base::ProblemDefinition>(si));
-    pdef->setStartAndGoalStates(start_pose, goal_pose);
+     // Initialize random seed
+    std::srand(std::time(nullptr));
 
-    // shortest path
+    // Create problem definition
+    auto pdef = std::make_shared<ompl::base::ProblemDefinition>(si);
+    pdef->setStartAndGoalStates(start_pose, goal_pose);
     pdef->setOptimizationObjective(std::make_shared<ompl::base::PathLengthOptimizationObjective>(si));
 
-    // informed rrt star
-    auto planner(std::make_shared<ompl::geometric::InformedRRTstar>(si));
-    // Set the step size (range for state extension)
-    double step_size = 0.5;  // Adjust the step size as needed
-    // It represents the maximum length of a motion to be added in the tree of motions.
-    planner->setRange(step_size);
+    // Randomly select algorithm
+    int algorithm_choice = 1; // std::rand() % 3;  // Generate a random number between 0 and 2
+    std::string algorithm_name;
+    ompl::base::PlannerPtr planner;
+
+    switch (algorithm_choice)
+    {
+    case 0:
+        planner = std::make_shared<ompl::geometric::RRTConnect>(si);
+        algorithm_name = "RRTConnect";
+        break;
+    case 1:
+        planner = std::make_shared<ompl::geometric::InformedRRTstar>(si);
+        algorithm_name = "InformedRRTStar";
+        break;
+    case 2:
+        planner = std::make_shared<ompl::geometric::RRTsharp>(si); // Use RRTsharp
+        algorithm_name = "RRT#";
+        break;
+    }
+
+    // Log the selected algorithm
+    LOG(INFO) << "Selected Algorithm: " << algorithm_name;
+    LOG(INFO) << "Timeout: " << timeout << " seconds";
+
+    // Configure the planner
+    double step_size = 0.2;  // Adjust the step size as needed
+    if (algorithm_name == "RRTConnect")
+    {
+        std::static_pointer_cast<ompl::geometric::RRTConnect>(planner)->setRange(step_size);
+    }
+    else if (algorithm_name == "InformedRRTStar" || algorithm_name == "RRT#")
+    {
+        std::static_pointer_cast<ompl::geometric::InformedRRTstar>(planner)->setRange(step_size);
+    }
 
     planner->setProblemDefinition(pdef);
     planner->setup();
 
     auto start_time = std::chrono::high_resolution_clock::now();
-    const double timeout = 1;
     ompl::base::PlannerStatus solved;
     solved = planner->ompl::base::Planner::solve(timeout);
     common::nav_msgs::Path path;
@@ -158,8 +194,15 @@ common::nav_msgs::Path RRTPlanner::CreatePlan(
     path.header.stamp = common::builtin_interfaces::Time::now();
     path.header.frame_id = "map";
 
-    if (!solved) {
-        LOG(WARNING) << "RRT Planner use ompl rrt planner solved failed.";
+    if (solved)
+    {
+        LOG(INFO) << "Planning succeeded using " << algorithm_name;
+        auto path = pdef->getSolutionPath();
+        path->print(std::cout);
+    }
+    else
+    {
+        LOG(INFO) << "Planning failed using " << algorithm_name;
         return path;
     }
 

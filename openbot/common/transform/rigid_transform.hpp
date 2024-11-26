@@ -24,7 +24,7 @@
 #include "Eigen/Core"
 #include "Eigen/Geometry"
 #include "absl/strings/substitute.h"
-#include "openbot/common/lua_parameter_dictionary.hpp"
+#include "openbot/common/utils/lua_parameter_dictionary.hpp"
 #include "openbot/common/math/math.hpp"
 #include "openbot/common/port.hpp"
 

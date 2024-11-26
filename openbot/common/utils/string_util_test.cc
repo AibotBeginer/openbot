@@ -22,7 +22,7 @@
 
 namespace openbot {
 namespace common {
-namespace util {
+namespace utils {
 
 TEST(StringUtilTest, EncodeBase64) {
   EXPECT_EQ("", EncodeBase64(""));
@@ -34,6 +34,6 @@ TEST(StringUtilTest, EncodeBase64) {
   EXPECT_EQ("Zm9vYmFy", EncodeBase64("foobar"));
 }
 
-}  // namespace util
+}  // namespace utils
 }  // namespace common
 }  // namespace openbot

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "interpolation/spline_interpolation_points_2d.hpp"
+#include "openbot/common/interpolation/spline_interpolation_points_2d.hpp"
 
 #include <vector>
 

@@ -34,7 +34,7 @@
 
 #include "openbot/common/macros.hpp"
 #include "openbot/common/msgs/msgs.hpp"
-#include "openbot/common/pcl_conversions.hpp"
+#include "openbot/common/utils/pcl_conversions.hpp"
 #include "openbot/map/mockamap/map_opionts.hpp"
 
 namespace openbot {
@@ -44,7 +44,6 @@ namespace mockamap {
 using ObsPos = Eigen::Vector3d;
 using ObsSize = Eigen::Vector3d ; // x, y, height --- z
 using Obstacle = std::pair<Eigen::Vector3d, Eigen::Vector3d>;
-
 
 
 class CesRandomMap

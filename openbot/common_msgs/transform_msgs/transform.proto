@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package openbot.transform;
+
+import "openbot/common_msgs/basic_msgs/geometry.proto";
+import "openbot/common_msgs/basic_msgs/header.proto";
+
+message Transform {
+  openbot.common.Point3D translation = 1;
+  openbot.common.Quaternion rotation = 2;
+}
+
+message TransformStamped {
+  openbot.common.Header header = 1;
+  string child_frame_id = 2;
+  Transform transform = 3;
+}
+
+message TransformStampeds {
+  openbot.common.Header header = 1;
+  repeated TransformStamped transforms = 2;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package openbot.external_command;
+
+import "google/protobuf/any.proto";
+import "openbot/common_msgs/basic_msgs/header.proto";
+import "openbot/common_msgs/basic_msgs/vehicle_signal.proto";
+
+message ChassisCommand {
+  openbot.common.Header header = 1;
+  // Unique identification for command.
+  int64 command_id = 2;
+  // The basic vehicle signals which can also be controlled by openbot system.
+  openbot.common.VehicleSignal basic_signal = 3;
+  // Custom chassis operation command defined by user for extensibility.
+  google.protobuf.Any custom_operation = 4;
+}

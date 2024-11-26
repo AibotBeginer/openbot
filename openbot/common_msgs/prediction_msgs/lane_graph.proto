@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package openbot.prediction;
+
+import "openbot/common_msgs/basic_msgs/geometry.proto";
+import "openbot/common_msgs/basic_msgs/pnc_point.proto";
+import "openbot/common_msgs/map_msgs/map_lane.proto";
+
+message LanePoint {
+  openbot.common.Point3D position = 1;
+  double heading = 2;
+  double width = 3;
+  // relative s to focus obstacle
+  double relative_s = 4;
+  // relative l to focus obstacle
+  double relative_l = 5;
+  // lane point heading relative to focused obstacle heading
+  double angle_diff = 6;
+  double kappa = 7;
+
+  enum ScenarioType {
+    URBAN_ROAD = 0;
+    JUNCTION = 1;
+    HIGHWAY = 2;
+  }
+
+  ScenarioType scenario_type = 8;
+  double speed_limit = 9;
+}
+
+message LaneSegment {
+  string lane_id = 1;
+  // s offset of the first lane point
+  double start_s = 2;
+  // s offset of the last lane point
+  double end_s = 3;
+  uint32 lane_turn_type = 4;
+  repeated LanePoint lane_point = 5;
+  // If this lane-segment is the one that's closest to ADC,
+  // then adc_s gives the s of the ADC.
+  double adc_s = 7;
+  int32 adc_lane_point_idx = 8;
+  double total_length = 6;
+}
+
+message NearbyObstacle {
+  int32 id = 1;
+  double s = 2;  // relative to focus obstacle
+  double l = 3;  // relative to focus obstacle
+}
+
+message StopSign {
+  string stop_sign_id = 1;
+  string lane_id = 2;
+  double lane_s = 3;           // the s value within the lane
+  double lane_sequence_s = 4;  // the s value along lane sequence
+}
+
+// next id = 24
+message LaneSequence {
+  int32 lane_sequence_id = 1;
+  repeated LaneSegment lane_segment = 2;
+  // The index of the lane-segment that is closest to ADC:
+  int32 adc_lane_segment_idx = 23;
+  repeated openbot.common.PathPoint path_point = 8;
+  openbot.hdmap.Lane.LaneType lane_type = 22;
+  double lane_s = 17;
+  double lane_l = 18;
+  bool vehicle_on_lane = 10;
+
+  // nearby obstacles on this lane sequence
+  repeated NearbyObstacle nearby_obstacle = 3;
+  StopSign stop_sign = 20;
+  int32 right_of_way = 21;  // right_of_way score
+
+  message Features {
+    repeated double mlp_features = 1;
+  }
+  Features features = 4;
+  int32 label = 5;
+  double probability = 6;
+  double acceleration = 7;
+  double time_to_lane_center = 16;
+  double time_to_lane_edge = 19;
+  enum BehaviorType {
+    NOT_GOTO_LANE = 0;
+    CONSTANT_SPEED = 1;
+    SMALL_ACCELERATION = 2;
+    LARGE_ACCELERATION = 3;
+    SMALL_DECELERATION = 4;
+    LARGE_DECELERATION = 5;
+  }
+  BehaviorType behavior_type = 9;
+  // lane points on this lane sequence
+  repeated LanePoint curr_lane_point = 11;
+  // lane points on the left neighbor lane sequence
+  repeated LanePoint left_neighbor_point = 12;
+  // lane points on the right neighbor lane sequence
+  repeated LanePoint right_neighbor_point = 13;
+  // nearby obstacles on the left neighbor lane sequence
+  repeated NearbyObstacle left_nearby_obstacle = 14;
+  // nearby obstacles on the right neighbor lane sequence
+  repeated NearbyObstacle right_nearby_obstacle = 15;
+}
+
+message LaneGraph {
+  repeated LaneSequence lane_sequence = 1;
+}
+
+message LaneObstacle {
+  int32 obstacle_id = 1;
+  string lane_id = 2;
+  double lane_s = 3;
+  double lane_l = 4;
+}
