@@ -46,6 +46,9 @@ sudo make install
 # .bashrc 或者.zshrc，添加一下环境变量
 export CYBER_PATH=/usr/local/share/
 export GLOG_logtostderr=1
+export GLOG_alsologtostderr=0
+export GLOG_colorlogtostderr=1
+export GLOG_minloglevel=0
 ```
 
 ## :four_leaf_clover: 运行
