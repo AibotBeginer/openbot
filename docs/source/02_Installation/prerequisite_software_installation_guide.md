@@ -130,8 +130,17 @@ alias openbot_build='colcon build --symlink-install --packages-up-to openbot_ros
 
 ## 3 代码编译
 
+* 编译openbot
+
 ```bash
 cd openbot
-colcon build --symlink-install --packages-up-to openbot_ros
+colcon build --merge-install --install-base /opt/openbot --packages-up-to openbot
+```
+
+* 编译openbot_ros
+
+```bash
+cd openbot
+colcon build --merge-install --install-base /opt/ros/openbot_ros --packages-up-to openbot_ros
 ```
 
