@@ -25,6 +25,11 @@ set(OPENBOT_MINOR_VERSION 0)
 set(OPENBOT_PATCH_VERSION 0)
 set(OPENBOT_VERSION ${OPENBOT_MAJOR_VERSION}.${OPENBOT_MINOR_VERSION}.${OPENBOT_PATCH_VERSION})
 set(OPENBOT_SOVERSION ${OPENBOT_MAJOR_VERSION}.${OPENBOT_MINOR_VERSION})
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
 option(BUILD_GRPC "build Openbot gRPC support" OFF)
 option(BUILD_TOOLS "build Openbot tools support" OFF)
 
@@ -379,6 +384,17 @@ configure_package_config_file(
   INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/openbot
 )
 
+# Set a default install prefix if not specified by the user
+if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "/opt/openbot" CACHE PATH "Default install prefix" FORCE)
+endif()
+
+install(TARGETS
+  ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 install(
   EXPORT OpenbotExport
   DESTINATION share/openbot/cmake/
@@ -389,3 +405,5 @@ install(
   FILES ${PROJECT_BINARY_DIR}/cmake/openbot/openbot-config.cmake
   DESTINATION share/openbot/
 )
+
+
