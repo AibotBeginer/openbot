@@ -40,6 +40,11 @@ include("${PROJECT_SOURCE_DIR}/cmake/functions.cmake")
 google_initialize_openbot_project()
 google_enable_testing()
 
+# Set a default install prefix if not specified by the user
+if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "/opt/openbot" CACHE PATH "Default install prefix" FORCE)
+endif()
+
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams graph program_options system)
 
@@ -383,11 +388,6 @@ configure_package_config_file(
   PATH_VARS OPENBOT_CMAKE_DIR
   INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/openbot
 )
-
-# Set a default install prefix if not specified by the user
-if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "/opt/openbot" CACHE PATH "Default install prefix" FORCE)
-endif()
 
 install(TARGETS
   ${PROJECT_NAME}
