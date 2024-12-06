@@ -58,7 +58,7 @@ find_package(PCL REQUIRED)
 find_package(Lua REQUIRED)
 find_package(Protobuf 3.0.0 REQUIRED)
 find_package(TinyXML2 REQUIRED)
-find_package(behaviortree_cpp REQUIRED)
+# find_package(behaviortree_cpp REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(ompl REQUIRED)
 find_package(OSQP REQUIRED)
@@ -383,7 +383,7 @@ endforeach()
 set(OPENBOT_CMAKE_DIR share/openbot/cmake)
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-  openbot-config.cmake.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/openbot-config.cmake.in
   ${PROJECT_BINARY_DIR}/cmake/openbot/openbot-config.cmake
   PATH_VARS OPENBOT_CMAKE_DIR
   INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/openbot
