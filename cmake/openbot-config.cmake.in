@@ -1,4 +1,4 @@
-# Copyright 2016 The Cartographer Authors
+# Copyright 2024 The OpenRobotic Beginner Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,59 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Find package config for OPENBOT library.
+#  Usage from an external project:
+#    In your CMakeLists.txt, add these lines:
 #
-# The following variables are set by this config:
-#
-#   OPENBOT_FOUND: TRUE if OPENBOT is found.
-#   OPENBOT_VERSION: OPENBOT version.
-#
-# The colmap::colmap imported interface target is defined.
+#    find_package(openbot REQUIRED)
+#    target_link_libraries(MY_TARGET_NAME PUBLIC openbot)
 
 @PACKAGE_INIT@
 
-set(OPENBOT_FOUND FALSE)
+set_and_check(OPENBOT_CMAKE_DIR "@PACKAGE_OPENBOT_CMAKE_DIR@")
 
-# Set hints for finding dependency packages.
+set(CERES_DIR_HINTS @Ceres_DIR@)
+set(OPENBOT_HAS_GRPC @OPENBOT_HAS_GRPC@)
 
-set(FLANN_INCLUDE_DIR_HINTS @FLANN_INCLUDE_DIR_HINTS@)
-set(FLANN_LIBRARY_DIR_HINTS @FLANN_LIBRARY_DIR_HINTS@)
+if (openbot_FIND_QUIETLY)
+   set(QUIET_OR_REQUIRED_OPTION "QUIET")
+elseif (openbot_FIND_REQUIRED)
+   set(QUIET_OR_REQUIRED_OPTION "REQUIRED")
+else ()
+   set(QUIET_OR_REQUIRED_OPTION "")
+endif()
 
-set(LZ4_INCLUDE_DIR_HINTS @LZ4_INCLUDE_DIR_HINTS@)
-set(LZ4_LIBRARY_DIR_HINTS @LZ4_LIBRARY_DIR_HINTS@)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${OPENBOT_CMAKE_DIR}/modules)
 
-set(FREEIMAGE_INCLUDE_DIR_HINTS @FREEIMAGE_INCLUDE_DIR_HINTS@)
-set(FREEIMAGE_LIBRARY_DIR_HINTS @FREEIMAGE_LIBRARY_DIR_HINTS@)
+find_package(absl ${QUIET_OR_REQUIRED_OPTION})
 
-set(METIS_INCLUDE_DIR_HINTS @METIS_INCLUDE_DIR_HINTS@)
-set(METIS_LIBRARY_DIR_HINTS @METIS_LIBRARY_DIR_HINTS@)
+if(OPENBOT_HAS_GRPC)
+   find_package(async_grpc ${QUIET_OR_REQUIRED_OPTION})
+endif()
 
-set(GLEW_INCLUDE_DIR_HINTS @GLEW_INCLUDE_DIR_HINTS@)
-set(GLEW_LIBRARY_DIR_HINTS @GLEW_LIBRARY_DIR_HINTS@)
+include("${OPENBOT_CMAKE_DIR}/OpenbotTargets.cmake")
 
-# Find dependency packages.
-
-set(TEMP_CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH})
-set(CMAKE_MODULE_PATH ${PACKAGE_PREFIX_DIR}/share/colmap/cmake)
-
-# Set the exported variables.
-
-set(OPENBOT_FOUND TRUE)
-
-set(OPENBOT_VERSION @OPENBOT_VERSION@)
-
-set(OPENMP_ENABLED @OPENMP_ENABLED@)
-
-set(CUDA_ENABLED @CUDA_ENABLED@)
-set(CUDA_MIN_VERSION @CUDA_MIN_VERSION@)
-
-set(GUI_ENABLED @GUI_ENABLED@)
-
-set(CGAL_ENABLED @CGAL_ENABLED@)
-
-include(${PACKAGE_PREFIX_DIR}/share/colmap/colmap-targets.cmake)
-include(${PACKAGE_PREFIX_DIR}/share/colmap/cmake/FindDependencies.cmake)
-check_required_components(colmap)
-
-# Reset to previous value
-set(CMAKE_MODULE_PATH ${TEMP_CMAKE_MODULE_PATH})
+unset(QUIET_OR_REQUIRED_OPTION)

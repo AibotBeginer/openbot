@@ -1,0 +1,13 @@
+
+syntax = "proto3";
+
+package openbot.external_command;
+
+message LaneSegment {
+  // lane id which this LaneSegment belongs to.
+  string id = 1;
+  // Start s of this LaneSegment on the lane.
+  double start_s = 2;
+  // End s of this LaneSegment on the lane.
+  double end_s = 3;
+}

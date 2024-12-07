@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package openbot.planning;
+
+import "openbot/common_msgs/chassis_msgs/chassis.proto";
+import "openbot/common_msgs/basic_msgs/drive_state.proto";
+import "openbot/common_msgs/basic_msgs/geometry.proto";
+import "openbot/common_msgs/basic_msgs/header.proto";
+import "openbot/common_msgs/basic_msgs/pnc_point.proto";
+import "openbot/common_msgs/map_msgs/map_id.proto";
+import "openbot/common_msgs/planning_msgs/decision.proto";
+import "openbot/common_msgs/planning_msgs/planning_internal.proto";
+
+message EStop {
+  // is_estop == true when emergency stop is required
+  bool is_estop = 1;
+  string reason = 2;
+}
+
+message TaskStats {
+  string name = 1;
+  double time_ms = 2;
+}
+
+message LatencyStats {
+  double total_time_ms = 1;
+  repeated TaskStats task_stats = 2;
+  double init_frame_time_ms = 3;
+}
+
+enum JucType {
+  UNKNOWN = 0;
+  IN_ROAD = 1;
+  CROSS_ROAD = 2;
+  FORK_ROAD = 3;
+  MAIN_SIDE = 4;
+  DEAD_END = 5;
+}
+
+message RSSInfo {
+  bool is_rss_safe = 1;
+  double cur_dist_lon = 2;
+  double rss_safe_dist_lon = 3;
+  double acc_lon_range_minimum = 4;
+  double acc_lon_range_maximum = 5;
+  double acc_lat_left_range_minimum = 6;
+  double acc_lat_left_range_maximum = 7;
+  double acc_lat_right_range_minimum = 8;
+  double acc_lat_right_range_maximum = 9;
+}
+
+// next id: 24
+message ADCTrajectory {
+  openbot.common.Header header = 1;
+
+  double total_path_length = 2;  // in meters
+
+  double total_path_time = 3;    // in seconds
+
+  EStop estop = 6;
+
+  openbot.planning_internal.Debug debug = 8;
+
+  // is_replan == true mean replan triggered
+  bool is_replan = 9;
+
+  // Specify trajectory gear
+  openbot.canbus.Chassis.GearPosition gear = 10;
+
+  // path data + speed data
+  repeated openbot.common.TrajectoryPoint trajectory_point = 12;
+
+  // path point without speed info
+  repeated openbot.common.PathPoint path_point = 13;
+
+  openbot.planning.DecisionResult decision = 14;
+
+  LatencyStats latency_stats = 15;
+
+  // the routing used for current planning result
+  openbot.common.Header routing_header = 16;
+  enum RightOfWayStatus {
+    UNPROTECTED = 0;
+    PROTECTED = 1;
+  }
+  RightOfWayStatus right_of_way_status = 17;
+
+  // lane id along current reference line
+  repeated openbot.hdmap.Id lane_id = 18;
+
+  // set the engage advice for based on current planning result.
+  openbot.common.EngageAdvice engage_advice = 19;
+
+  // the region where planning cares most
+  message CriticalRegion {
+    repeated openbot.common.Polygon region = 1;
+  }
+  // critical region will be empty when planning is NOT sure which region is
+  // critical
+  // critical regions may or may not overlap
+  CriticalRegion critical_region = 20;
+
+  enum TrajectoryType {
+    UNKNOWN = 0;
+    NORMAL = 1;
+    PATH_FALLBACK = 2;
+    SPEED_FALLBACK = 3;
+    PATH_REUSED = 4;
+    OPEN_SPACE = 5;
+  }
+  TrajectoryType trajectory_type = 21;
+
+  string replan_reason = 22;
+
+  // lane id along target reference line
+  repeated openbot.hdmap.Id target_lane_id = 23;
+
+  // complete dead end flag
+  bool car_in_dead_end = 24;
+
+  // output related to RSS
+  RSSInfo rss_info = 100;
+}

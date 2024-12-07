@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "openbot/common_msgs/basic_msgs/geometry.proto";
+
+package openbot.hdmap;
+
+// Polygon, not necessary convex.
+message Polygon {
+  repeated openbot.common.PointENU point = 1;
+}
+
+// Straight line segment.
+message LineSegment {
+  repeated openbot.common.PointENU point = 1;
+}
+
+// Generalization of a line.
+message CurveSegment {
+  oneof curve_type {
+    LineSegment line_segment = 1;
+  }
+  double s = 6;  // start position (s-coordinate)
+  openbot.common.PointENU start_position = 7;
+  double heading = 8;  // start orientation
+  double length = 9;
+}
+
+// An object similar to a line but that need not be straight.
+message Curve {
+  repeated CurveSegment segment = 1;
+}

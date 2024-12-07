@@ -84,7 +84,7 @@ public:
    */
   virtual common::proto::nav_msgs::Path CreatePlan(
     const common::proto::geometry_msgs::PoseStamped& start,
-    const common::proto::geometry_msgs::PoseStamped & goal) = 0;
+    const common::proto::geometry_msgs::PoseStamped & goal, const double timeout) = 0;
 
   /**
    * @brief Method create the plan from a starting and ending goal.
@@ -94,7 +94,7 @@ public:
    */
   virtual common::nav_msgs::Path CreatePlan(
     const common::geometry_msgs::PoseStamped& start,
-    const common::geometry_msgs::PoseStamped & goal) = 0;
+    const common::geometry_msgs::PoseStamped & goal, const double timeout) = 0;
 };
 
 }  // namespace planning 

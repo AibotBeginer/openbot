@@ -46,7 +46,6 @@ using ObsSize = Eigen::Vector3d ; // x, y, height --- z
 using Obstacle = std::pair<Eigen::Vector3d, Eigen::Vector3d>;
 
 
-
 class CesRandomMap
 {
 public:

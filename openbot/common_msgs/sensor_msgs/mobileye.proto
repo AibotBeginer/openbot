@@ -1,0 +1,161 @@
+syntax = "proto3";
+
+package openbot.drivers;
+
+import "openbot/common_msgs/basic_msgs/header.proto";
+
+message Lka_768 {
+  int32 lane_type = 1;
+  int32 quality = 2;
+  int32 model_degree = 3;
+  double position = 4;
+  double curvature = 5;
+  double curvature_derivative = 6;
+  double width_right_marking = 7;
+}
+
+message Num_76b {
+  int32 num_of_next_lane_mark_reported = 1;
+}
+
+message Aftermarket_669 {
+  int32 lane_conf_left = 1;
+  bool ldw_availability_left = 2;
+  int32 lane_type_left = 3;
+  double distance_to_lane_l = 4;
+  int32 lane_conf_right = 5;
+  bool ldw_availability_right = 6;
+  int32 lane_type_right = 7;
+  double distance_to_lane_r = 8;
+}
+
+message Lka_769 {
+  double heading_angle = 1;
+  double view_range = 2;
+  bool view_range_availability = 3;
+}
+
+message Reference_76a {
+  double ref_point_1_position = 1;
+  double ref_point_1_distance = 2;
+  bool ref_point_1_validity = 3;
+  double ref_point_2_position = 4;
+  double ref_point_2_distance = 5;
+  bool ref_point_2_validity = 6;
+}
+
+message Details_738 {
+  int32 num_obstacles = 1;
+  int32 timestamp = 2;
+  int32 application_version = 3;
+  int32 active_version_number_section = 4;
+  bool left_close_rang_cut_in = 5;
+  bool right_close_rang_cut_in = 6;
+  int32 go = 7;
+  int32 protocol_version = 8;
+  bool close_car = 9;
+  int32 failsafe = 10;
+  int32 reserved_10 = 11;
+}
+
+message Next_76c {
+  int32 lane_type = 1;
+  int32 quality = 2;
+  int32 model_degree = 3;
+  double position = 4;
+  double curvature = 5;
+  double curvature_derivative = 6;
+  double lane_mark_width = 7;
+}
+
+message Details_737 {
+  double lane_curvature = 1;
+  double lane_heading = 2;
+  bool ca_construction_area = 3;
+  bool right_ldw_availability = 4;
+  bool left_ldw_availability = 5;
+  bool reserved_1 = 6;
+  double yaw_angle = 7;
+  double pitch_angle = 8;
+}
+
+message Lka_767 {
+  double heading_angle = 1;
+  double view_range = 2;
+  bool view_range_availability = 3;
+}
+
+message Lka_766 {
+  int32 lane_type = 1;
+  int32 quality = 2;
+  int32 model_degree = 3;
+  double position = 4;
+  double curvature = 5;
+  double curvature_derivative = 6;
+  double width_left_marking = 7;
+}
+
+message Next_76d {
+  double heading_angle = 1;
+  double view_range = 2;
+  bool view_range_availability = 3;
+}
+
+message Details_739 {
+  int32 obstacle_id = 1;
+  double obstacle_pos_x = 2;
+  int32 reseved_2 = 3;
+  double obstacle_pos_y = 4;
+  int32 blinker_info = 5;
+  int32 cut_in_and_out = 6;
+  double obstacle_rel_vel_x = 7;
+  int32 obstacle_type = 8;
+  bool reserved_3 = 9;
+  int32 obstacle_status = 10;
+  bool obstacle_brake_lights = 11;
+  int32 reserved_4 = 12;
+  int32 obstacle_valid = 13;
+}
+
+message Details_73a {
+  double obstacle_length = 1;
+  double obstacle_width = 2;
+  int32 obstacle_age = 3;
+  int32 obstacle_lane = 4;
+  bool cipv_flag = 5;
+  bool reserved_5 = 6;
+  double radar_pos_x = 7;
+  double radar_vel_x = 8;
+  int32 radar_match_confidence = 9;
+  bool reserved_6 = 10;
+  int32 matched_radar_id = 11;
+  bool reserved_7 = 12;
+}
+
+message Details_73b {
+  double obstacle_angle_rate = 1;
+  double obstacle_scale_change = 2;
+  double object_accel_x = 3;
+  int32 reserved_8 = 4;
+  bool obstacle_replaced = 5;
+  int32 reserved_9 = 6;
+  double obstacle_angle = 7;
+}
+
+message Mobileye {
+  openbot.common.Header header = 1;
+  Aftermarket_669 aftermarket_669 = 2;
+  Details_737 details_737 = 3;
+  Details_738 details_738 = 4;
+  repeated Details_739 details_739 = 5;
+  repeated Details_73a details_73a = 6;
+  repeated Details_73b details_73b = 7;
+  Lka_766 lka_766 = 8;
+  Lka_767 lka_767 = 9;
+  Lka_768 lka_768 = 10;
+  Lka_769 lka_769 = 11;
+  Reference_76a reference_76a = 12;
+  Num_76b num_76b = 13;
+  repeated Next_76c next_76c = 14;
+  repeated Next_76d next_76d = 15;
+}

@@ -116,6 +116,49 @@ struct Path
     std::vector<geometry_msgs::PoseStamped> poses;
 };
 
+struct GridMapInfo
+{
+    // Resolution of the grid [m/cell].
+    double resolution;
+    
+    // Length in x-direction [m].
+    double length_x;
+    
+    // Length in y-direction [m].
+    double length_y;
+    
+    // Pose of the grid map center in the frame defined in `header` [m].
+    geometry_msgs::Pose pose;
+};
+
+struct GridMap 
+{
+    // Header (time and frame)
+    std_msgs::Header header;
+
+    // Grid map header
+    GridMapInfo info;
+
+    // Grid map layer names.
+    std::vector<std::string> layers;
+
+    // Grid map basic layer names (optional). The basic layers
+    // determine which layers from `layers` need to be valid
+    // in order for a cell of the grid map to be valid.
+    std::vector<std::string> basic_layers;
+
+    // // Grid map data.
+    // std_msgs/Float32MultiArray[] data
+    std::vector<std_msgs::Float32MultiArray> data;
+
+    // Row start index (default 0).
+    uint32 outer_start_index;
+
+    // Column start index (default 0).
+    uint32 inner_start_index;
+};
+
+
 // GridCells
 proto::nav_msgs::GridCells ToProto(const GridCells& data);
 GridCells FromProto(const proto::nav_msgs::GridCells& proto);

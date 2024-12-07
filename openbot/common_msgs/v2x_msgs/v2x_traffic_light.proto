@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package openbot.v2x;
+
+import "openbot/common_msgs/basic_msgs/header.proto";
+import "openbot/common_msgs/basic_msgs/direction.proto";
+
+message SingleTrafficLight {
+  enum Color {
+    UNKNOWN = 0;
+    RED = 1;
+    YELLOW = 2;
+    GREEN = 3;
+    BLACK = 4;
+    FLASH_GREEN = 5;
+  };
+  enum Type {
+    STRAIGHT = 0;
+    LEFT = 1;
+    RIGHT = 2;
+    U_TURN = 3;
+  };
+  Color color = 1;
+  repeated Type traffic_light_type = 2;
+  // Traffic light string-ID in the map data.
+  string id = 3;
+  int32 color_remaining_time_s = 4;
+  bool right_turn_light = 5;
+  // v2x next trrafic light color
+  Color next_color = 6;
+  // v2x next traffic light remaining time
+  double next_remaining_time_s = 7;
+}
+
+message RoadTrafficLight {
+  // Feature points of road in the map reference frame.
+  double gps_x_m = 1;
+  double gps_y_m = 2;
+  repeated SingleTrafficLight single_traffic_light = 3;
+  openbot.common.Direction road_attribute = 4;
+}
+
+message IntersectionTrafficLightData {
+  openbot.common.Header header = 1;
+  repeated RoadTrafficLight road_traffic_light = 2;
+  int32 intersection_id = 3;
+  double confidence = 4;
+}

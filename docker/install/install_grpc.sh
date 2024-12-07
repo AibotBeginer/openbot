@@ -37,7 +37,7 @@ tar xzf "${PKG_NAME}"
 
 pushd grpc-${VERSION}
     mkdir build && cd build
-    cmake ../.. -DgRPC_INSTALL=ON                \
+    cmake ..    -DgRPC_INSTALL=ON                \
                 -DBUILD_SHARED_LIBS=ON           \
                 -DCMAKE_BUILD_TYPE=Release       \
                 -DgRPC_ABSL_PROVIDER=package     \

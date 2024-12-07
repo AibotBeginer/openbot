@@ -78,7 +78,7 @@ public:
 
     common::nav_msgs::Path CreatePlan(
         const common::geometry_msgs::PoseStamped& start,
-        const common::geometry_msgs::PoseStamped& goal);
+        const common::geometry_msgs::PoseStamped& goal, const double timeout);
 
 private:
 

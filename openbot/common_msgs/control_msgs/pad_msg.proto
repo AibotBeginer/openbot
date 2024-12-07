@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package openbot.control;
+
+import "openbot/common_msgs/basic_msgs/header.proto";
+
+enum DrivingAction {
+  START = 0;
+  RESET = 1;
+  VIN_REQ = 2;
+};
+
+message PadMessage {
+  // control mode, set mode according to low level definition
+  openbot.common.Header header = 1;
+
+  // action in the driving_mode
+  DrivingAction action = 2;
+}

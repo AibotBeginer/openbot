@@ -25,13 +25,25 @@ set(OPENBOT_MINOR_VERSION 0)
 set(OPENBOT_PATCH_VERSION 0)
 set(OPENBOT_VERSION ${OPENBOT_MAJOR_VERSION}.${OPENBOT_MINOR_VERSION}.${OPENBOT_PATCH_VERSION})
 set(OPENBOT_SOVERSION ${OPENBOT_MAJOR_VERSION}.${OPENBOT_MINOR_VERSION})
-option(BUILD_GRPC "build Openbot gRPC support" false)
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+option(BUILD_GRPC "build Openbot gRPC support" OFF)
+option(BUILD_TOOLS "build Openbot tools support" OFF)
+
 set(OPENBOT_HAS_GRPC ${BUILD_GRPC})
 option(BUILD_PROMETHEUS "build Prometheus monitoring support" false)
 
 include("${PROJECT_SOURCE_DIR}/cmake/functions.cmake")
 google_initialize_openbot_project()
 google_enable_testing()
+
+# Set a default install prefix if not specified by the user
+if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "/opt/openbot" CACHE PATH "Default install prefix" FORCE)
+endif()
 
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams graph program_options system)
@@ -46,12 +58,13 @@ find_package(PCL REQUIRED)
 find_package(Lua REQUIRED)
 find_package(Protobuf 3.0.0 REQUIRED)
 find_package(TinyXML2 REQUIRED)
-find_package(behaviortree_cpp REQUIRED)
+# find_package(behaviortree_cpp REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(ompl REQUIRED)
 find_package(OSQP REQUIRED)
 find_package(octomap REQUIRED)
 find_package(yaml-cpp REQUIRED)
+find_package(CYBERRT REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(async_grpc REQUIRED)
@@ -80,6 +93,8 @@ file(GLOB_RECURSE ALL_LIBRARY_HDRS "openbot/*.hpp" "openbot/*.h")
 file(GLOB_RECURSE ALL_LIBRARY_SRCS "openbot/*.cc" "openbot/*.cpp")
 file(GLOB_RECURSE TEST_LIBRARY_HDRS "openbot/fake_*.hpp" "openbot/*_test_helpers*.hpp")
 file(GLOB_RECURSE TEST_LIBRARY_SRCS "openbot/fake_*.cc" "openbot/fake_*.cpp" "openbot/*_test_helpers*.cc" "openbot/*_test_helpers*.cpp")
+file(GLOB_RECURSE ALL_TOOLS_HDRS "openbot/tools/*.hpp" "openbot/tools/*.h")
+file(GLOB_RECURSE ALL_TOOLS_SRCS "openbot/tools/*.cc" "openbot/tools*.cpp")
 file(GLOB_RECURSE ALL_TESTS "openbot/*_test.cc" "openbot/*_test.cpp")
 file(GLOB_RECURSE ALL_EXECUTABLES "openbot/*_main.cc")
 
@@ -98,6 +113,8 @@ list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_EXECUTABLES})
 list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_TESTS})
 list(REMOVE_ITEM ALL_LIBRARY_HDRS ${TEST_LIBRARY_HDRS})
 list(REMOVE_ITEM ALL_LIBRARY_SRCS ${TEST_LIBRARY_SRCS})
+list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_TOOLS_HDRS})
+list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_TOOLS_SRCS})
 
 file(GLOB_RECURSE ALL_PROTOS "openbot/*.proto")
 
@@ -223,6 +240,10 @@ google_binary(application.listener_main
      openbot/system/listener_main.cc
 )
 
+if (BUILD_TOOLS)
+  add_subdirectory(openbot/tools)
+endif()
+
 if(${BUILD_GRPC})
   google_binary(openbot_grpc_server
     SRCS
@@ -303,13 +324,13 @@ endif()
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
-set(TEST_LIB openbot_test_library)
-add_library(${TEST_LIB} ${TEST_LIBRARY_HDRS} ${TEST_LIBRARY_SRCS})
-target_include_directories(${TEST_LIB} SYSTEM PRIVATE "${GMOCK_INCLUDE_DIRS}")
-# Needed for dynamically linked GTest on Windows.
-target_link_libraries(${TEST_LIB} PUBLIC ${GMOCK_LIBRARY})
-target_link_libraries(${TEST_LIB} PUBLIC ${PROJECT_NAME})
-set_target_properties(${TEST_LIB} PROPERTIES COMPILE_FLAGS ${TARGET_COMPILE_FLAGS})
+# set(TEST_LIB openbot_test_library)
+# add_library(${TEST_LIB} ${TEST_LIBRARY_HDRS} ${TEST_LIBRARY_SRCS})
+# target_include_directories(${TEST_LIB} SYSTEM PRIVATE "${GMOCK_INCLUDE_DIRS}")
+# # Needed for dynamically linked GTest on Windows.
+# target_link_libraries(${TEST_LIB} PUBLIC ${GMOCK_LIBRARY})
+# target_link_libraries(${TEST_LIB} PUBLIC ${PROJECT_NAME})
+# set_target_properties(${TEST_LIB} PROPERTIES COMPILE_FLAGS ${TARGET_COMPILE_FLAGS})
 
 foreach(ABS_FIL ${ALL_TESTS})
   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
@@ -362,11 +383,17 @@ endforeach()
 set(OPENBOT_CMAKE_DIR share/openbot/cmake)
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-  openbot-config.cmake.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/openbot-config.cmake.in
   ${PROJECT_BINARY_DIR}/cmake/openbot/openbot-config.cmake
   PATH_VARS OPENBOT_CMAKE_DIR
   INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/openbot
 )
+
+install(TARGETS
+  ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 install(
   EXPORT OpenbotExport
@@ -378,3 +405,5 @@ install(
   FILES ${PROJECT_BINARY_DIR}/cmake/openbot/openbot-config.cmake
   DESTINATION share/openbot/
 )
+
+
