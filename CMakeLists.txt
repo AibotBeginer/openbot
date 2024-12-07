@@ -406,4 +406,37 @@ install(
   DESTINATION share/openbot/
 )
 
+# conf dag launch
+file(GLOB_RECURSE ALL_OPENBOT_DAGS "openbot/*.dag")
+file(GLOB_RECURSE ALL_OPENBOT_CONFS "openbot/*.pb.txt")
+file(GLOB_RECURSE ALL_OPENBOT_LAUNCHS "openbot/*.launch")
 
+# # install dag files
+# foreach(DAG ${ALL_OPENBOT_DAGS})
+#   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
+#   get_filename_component(DIR ${REL_FIL} DIRECTORY)
+#   install(
+#     FILES ${HDR}
+#     DESTINATION include/${DIR}
+#   )
+# endforeach()
+
+# # install conf files
+# foreach(DAG ${ALL_OPENBOT_CONFS})
+#   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
+#   get_filename_component(DIR ${REL_FIL} DIRECTORY)
+#   install(
+#     FILES ${HDR}
+#     DESTINATION include/${DIR}
+#   )
+# endforeach()
+
+# # install launch files
+# foreach(DAG ${ALL_OPENBOT_LAUNCHS})
+#   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
+#   get_filename_component(DIR ${REL_FIL} DIRECTORY)
+#   install(
+#     FILES ${HDR}
+#     DESTINATION include/${DIR}
+#   )
+# endforeach()
