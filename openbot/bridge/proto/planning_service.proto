@@ -14,4 +14,4 @@
 
 syntax = "proto3";
 
-package openbot.grpc.task_msgs;
+package openbot.grpc.planning_service;

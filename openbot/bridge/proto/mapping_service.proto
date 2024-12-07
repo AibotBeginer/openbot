@@ -14,18 +14,4 @@
 
 syntax = "proto3";
 
-package openbot.grpc.gui_service;
-
-import "google/protobuf/empty.proto";
-
-// service ROSService 
-// {
-//     rpc 
-// }
-
-enum GUIType 
-{
-    RVIZ = 0;
-    UNITY = 1;
-    ISAAC = 2;
-}
+package openbot.grpc.mapping_msgs;

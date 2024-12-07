@@ -14,9 +14,13 @@
 
 syntax = "proto3";
 
-package openbot.grpc.system_msgs;
+package openbot.grpc.ros2_service;
 
-message GridCells
+import "google/protobuf/empty.proto";
+
+enum GUIType 
 {
- 
+    RVIZ = 0;
+    UNITY = 1;
+    ISAAC = 2;
 }

@@ -14,10 +14,4 @@
 
 syntax = "proto3";
 
-package openbot.grpc.perception_msgs;
-
-
-message Path
-{
-
-}
+package openbot.grpc.tasks_service;
