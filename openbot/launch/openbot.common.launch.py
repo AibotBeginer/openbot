@@ -17,23 +17,9 @@ import subprocess
 
 # Get the launch directory
 bringup_dir = '/opt/openbot/'
-application_dir = os.path.join(bringup_dir, 'bin')
-launch_dir = os.path.join(bringup_dir, 'share', 'launch')
 
-def start_nodes():
-    command = [os.path.join(application_dir, 'application.talker_main')]
-    result = subprocess.run(command, stderr=subprocess.STDOUT)
+def get_application_dir():
+    return os.path.join(bringup_dir, 'bin')
 
-def start_commpontents():
-    pass
-
-
-def main():
-    print("[openbot] Start openbot planning nodes")
-    start_nodes()
-
-    print("[openbot] Start openbot planning commpontents")
-    start_commpontents()
-
-if __name__ == "__main__":
-    main()
+def get_launch_dir():
+    return os.path.join(bringup_dir, 'share', 'launch')
