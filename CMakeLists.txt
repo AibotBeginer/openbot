@@ -31,8 +31,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 option(BUILD_GRPC "build Openbot gRPC support" OFF)
+option(BUILD_DOCS "build Openbot docs support" OFF)
 option(BUILD_TOOLS "build Openbot tools support" OFF)
-
 set(OPENBOT_HAS_GRPC ${BUILD_GRPC})
 option(BUILD_PROMETHEUS "build Prometheus monitoring support" false)
 
@@ -75,9 +75,11 @@ if(${BUILD_PROMETHEUS})
 endif()
 
 # Only build the documentation if we can find Sphinx.
-find_package(Sphinx)
-if(SPHINX_FOUND)
-  add_subdirectory("docs")
+if(${BUILD_DOCS})
+  find_package(Sphinx)
+  if(SPHINX_FOUND)
+    add_subdirectory("docs")
+  endif()
 endif()
 
 # Install catkin package.xml
@@ -258,8 +260,8 @@ if(${BUILD_GRPC})
   endif()
 endif()
 
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${behaviortree_cpp_INCLUDE_DIR}")
-target_link_libraries(${PROJECT_NAME} PUBLIC behaviortree_cpp)
+# target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${behaviortree_cpp_INCLUDE_DIR}")
+# target_link_libraries(${PROJECT_NAME} PUBLIC behaviortree_cpp)
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${CYBERRT_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CYBERRT_LIBRARY})
@@ -411,32 +413,32 @@ file(GLOB_RECURSE ALL_OPENBOT_DAGS "openbot/*.dag")
 file(GLOB_RECURSE ALL_OPENBOT_CONFS "openbot/*.pb.txt")
 file(GLOB_RECURSE ALL_OPENBOT_LAUNCHS "openbot/*.launch")
 
-# # install dag files
-# foreach(DAG ${ALL_OPENBOT_DAGS})
-#   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
-#   get_filename_component(DIR ${REL_FIL} DIRECTORY)
-#   install(
-#     FILES ${HDR}
-#     DESTINATION include/${DIR}
-#   )
-# endforeach()
+# install dag files
+foreach(DAG ${ALL_OPENBOT_DAGS})
+  file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${DAG})
+  get_filename_component(DIR ${REL_FIL} DIRECTORY)
+  install(
+    FILES ${DAG}
+      DESTINATION share/${DIR}
+  )
+endforeach()
 
-# # install conf files
-# foreach(DAG ${ALL_OPENBOT_CONFS})
-#   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
-#   get_filename_component(DIR ${REL_FIL} DIRECTORY)
-#   install(
-#     FILES ${HDR}
-#     DESTINATION include/${DIR}
-#   )
-# endforeach()
+# install conf files
+foreach(CONF ${ALL_OPENBOT_CONFS})
+  file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${CONF})
+  get_filename_component(DIR ${REL_FIL} DIRECTORY)
+  install(
+    FILES ${CONF}
+      DESTINATION share/${DIR}
+  )
+endforeach()
 
-# # install launch files
-# foreach(DAG ${ALL_OPENBOT_LAUNCHS})
-#   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
-#   get_filename_component(DIR ${REL_FIL} DIRECTORY)
-#   install(
-#     FILES ${HDR}
-#     DESTINATION include/${DIR}
-#   )
-# endforeach()
+# install launch files
+foreach(LAUNCH ${ALL_OPENBOT_LAUNCHS})
+  file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${LAUNCH})
+  get_filename_component(DIR ${REL_FIL} DIRECTORY)
+  install(
+    FILES ${LAUNCH}
+      DESTINATION share/${DIR}
+  )
+endforeach()
