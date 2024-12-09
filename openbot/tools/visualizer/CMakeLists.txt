@@ -18,11 +18,14 @@ file(GLOB_RECURSE RESOURCE_FILES "visualizer/images/*" "visualizer/shaders/*")
 file(GLOB_RECURSE UI_FILES "visualizer/*.ui")
 file(GLOB_RECURSE QRC_FILES "visualizer/*.qrc")
 
+# Use qt5_add_resources for Qt5 or qt_add_resources for Qt6
+qt5_add_resources(RESOURCE_SOURCES ${QRC_FILES})
+
 add_executable(openbot_visualizer
   ${VISUALIZER_HDR}
   ${VISUALIZER_SRC}
   ${UI_HEADERS}
-  ${QRC_SOURCES}
+  ${RESOURCE_SOURCES}
 )
 
 target_link_libraries(openbot_visualizer 
@@ -47,5 +50,6 @@ target_include_directories(openbot_visualizer PUBLIC
 # Install rules (if needed)
 install(TARGETS openbot_visualizer DESTINATION bin)
 
-install(DIRECTORY visualizer/images DESTINATION share/openbot/)
-install(DIRECTORY visualizer/shaders DESTINATION share/openbot/)
+install(FILES visualizer/res.qrc DESTINATION share/openbot)
+install(DIRECTORY visualizer/images DESTINATION share/openbot)
+install(DIRECTORY visualizer/shaders DESTINATION share/openbot)

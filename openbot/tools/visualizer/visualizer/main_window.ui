@@ -20,7 +20,7 @@
    <string>CyberVisualizer</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../res.qrc">
+   <iconset resource="res.qrc">
     <normaloff>:/images/app.ico</normaloff>:/images/app.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -216,7 +216,7 @@
   </action>
   <action name="actionPointCloud">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset resource="./res.qrc">
      <normaloff>:/images/pointcloud.png</normaloff>:/images/pointcloud.png</iconset>
    </property>
    <property name="text">
@@ -245,7 +245,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset resource="./res.qrc">
      <normaloff>:/images/closeimage.png</normaloff>:/images/closeimage.png</iconset>
    </property>
    <property name="text">
@@ -257,7 +257,7 @@
   </action>
   <action name="actionAddGrid">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset resource="./res.qrc">
      <normaloff>:/images/grid.png</normaloff>:/images/grid.png</iconset>
    </property>
    <property name="text">
@@ -269,7 +269,7 @@
   </action>
   <action name="actionOpenImages">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset resource="./res.qrc">
      <normaloff>:/images/images.png</normaloff>:/images/images.png</iconset>
    </property>
    <property name="text">
@@ -281,7 +281,7 @@
   </action>
   <action name="actionOpenImage">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset resource="./res.qrc">
      <normaloff>:/images/image.png</normaloff>:/images/image.png</iconset>
    </property>
    <property name="text">
@@ -298,7 +298,7 @@
   </action>
   <action name="actionPlay">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset resource="./res.qrc">
      <normaloff>:/images/play.png</normaloff>:/images/play.png</iconset>
    </property>
    <property name="text">
@@ -313,7 +313,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset resource="res.qrc">
      <normaloff>:/images/pause.png</normaloff>:/images/pause.png</iconset>
    </property>
    <property name="text">
@@ -348,7 +348,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../res.qrc"/>
+  <include location="./res.qrc"/>
  </resources>
  <connections>
   <connection>

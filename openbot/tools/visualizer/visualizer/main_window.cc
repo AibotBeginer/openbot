@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2018 The Apollo Authors. All Rights Reserved.
+ * Copyright 2024 The Openbot Authors. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ const char* aboutMessage =
     "All Views have right button Menu";
 
 const char* licenseMessage =
-    "Copyright 2018 The Apollo Authors. All Rights Reserved.\n"
+    "Copyright 2018 The Openbot Authors. All Rights Reserved.\n"
     "\n"
     "Licensed under the Apache License, Version 2.0 (the \"License\");\n"
     "you may not use this file except in compliance with the License.\n"
@@ -58,12 +58,12 @@ const char* licenseMessage =
     "limitations under the License.\n";
 
 const char* pcTempObjGroupName = "pointcloud";
-const char* pcVertexPath = "/openbot/shaders/pointcloud.vert";
-const char* pcFragPath = "/openbot/shaders/grid_pointcloud.frag";
-const char* gridVertexPath = "/openbot/shaders/grid.vert";
-const char* gridFragPath = "/openbot/shaders/grid_pointcloud.frag";
-const char* radarVertexPath = "/openbot/shaders/radarpoints.vert";
-const char* radarFragPath = "/openbot/shaders/radarpoints.frag";
+const char* pcVertexPath = "/opt/openbot/share/openbot/shaders/pointcloud.vert";
+const char* pcFragPath = "/opt/openbot/share/openbot/shaders/grid_pointcloud.frag";
+const char* gridVertexPath = "/opt/openbot/share/openbot/shaders/grid.vert";
+const char* gridFragPath = "/opt/openbot/share/openbot/shaders/grid_pointcloud.frag";
+const char* radarVertexPath = "/opt/openbot/share/openbot/shaders/radarpoints.vert";
+const char* radarFragPath = "/opt/openbot/share/openbot/shaders/radarpoints.frag";
 
 const std::string CompressedImageType("openbot.drivers.CompressedImage");
 
