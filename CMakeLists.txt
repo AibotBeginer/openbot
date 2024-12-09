@@ -411,7 +411,7 @@ install(
 # conf dag launch
 file(GLOB_RECURSE ALL_OPENBOT_DAGS "openbot/*.dag")
 file(GLOB_RECURSE ALL_OPENBOT_CONFS "openbot/*.pb.txt")
-file(GLOB_RECURSE ALL_OPENBOT_LAUNCHS "openbot/*.launch")
+file(GLOB_RECURSE ALL_OPENBOT_LAUNCHS "openbot/*.launch*")
 
 # install dag files
 foreach(DAG ${ALL_OPENBOT_DAGS})

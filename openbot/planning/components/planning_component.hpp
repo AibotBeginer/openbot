@@ -36,7 +36,7 @@ namespace openbot {
 namespace planning { 
 
 // class PlanningComponent final :
-//     public apollo::cyber::Component<::openbot::map::proto::GridMap> 
+//     public apollo::cyber::Component<> 
 // {
 // public:
 //     PlanningComponent() = default;
