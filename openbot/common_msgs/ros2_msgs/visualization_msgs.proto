@@ -16,9 +16,10 @@ syntax = "proto3";
 
 package openbot.ros2_msgs.visualization_msgs;
 
-import "openbot/ros2_msgs/std_msgs.proto";
-import "openbot/ros2_msgs/geometry_msgs.proto";
-import "openbot/ros2_msgs/builtin_interfaces.proto";
+import "openbot/common_msgs/ros2_msgs/std_msgs.proto";
+import "openbot/common_msgs/ros2_msgs/sensor_msgs.proto";
+import "openbot/common_msgs/ros2_msgs/geometry_msgs.proto";
+import "openbot/common_msgs/ros2_msgs/builtin_interfaces.proto";
 
 message ImageMarker
 {
@@ -48,13 +49,13 @@ message ImageMarker
     geometry_msgs.Point position = 6;
 
     // The scale of the object, e.g. the diameter for a CIRCLE.
-    float32 scale = 7;
+    double scale = 7;
 
     // The outline color of the marker.
     std_msgs.ColorRGBA outline_color = 8;
 
     // Whether or not to fill in the shape with color.
-    uint8 filled = 9;
+    uint32 filled = 9;
 
     // Fill color; in the range: [0.0-1.0]
     std_msgs.ColorRGBA fill_color = 10;
@@ -91,7 +92,7 @@ message InteractiveMarker
     string description = 4;
 
     // Scale to be used for default controls (default=1).
-    float32 scale = 5;
+    double scale = 5;
 
     // All menu and submenu entries associated with this marker.
     repeated MenuEntry menu_entries = 6;
@@ -124,7 +125,7 @@ message InteractiveMarkerControl
     // uint8 FIXED = 1
     // uint8 VIEW_FACING = 2
     
-    uint8 orientation_mode = 3;
+    uint32 orientation_mode = 3;
     
     // Interaction mode for this control
     //
@@ -150,7 +151,7 @@ message InteractiveMarkerControl
     // uint8 ROTATE_3D = 8
     // uint8 MOVE_ROTATE_3D = 9
     
-    uint8 interaction_mode = 4;
+    uint32 interaction_mode = 4;
     
     // If true, the contained markers will also be visible
     // when the gui is not in interactive mode.
@@ -207,7 +208,7 @@ message InteractiveMarkerFeedback
     // uint8 MOUSE_DOWN = 4
     // uint8 MOUSE_UP = 5
     
-    uint8 event_type = 5;
+    uint32 event_type = 5;
     
     // Current pose of the marker
     // Note: Has to be valid for all feedback types.
@@ -277,7 +278,7 @@ message InteractiveMarkerUpdate
     // uint8 KEEP_ALIVE = 0
     // uint8 UPDATE = 1
 
-    uint8 type = 3;
+    uint32 type = 3;
 
     // Note: No guarantees on the order of processing.
     //       Contents must be kept consistent by sender.
@@ -323,7 +324,7 @@ message Marker
 
     // Namespace in which to place the object.
     // Used in conjunction with id to create a unique name for the object.
-    string ns = 2
+    string ns = 2;
 
     // Object ID used in conjunction with the namespace for manipulating and deleting the object later.
     int32 id = 3;
@@ -448,7 +449,7 @@ message MenuEntry
     // uint8 FEEDBACK=0
     // uint8 ROSRUN=1
     // uint8 ROSLAUNCH=2
-    uint8 command_type = 5;
+    uint32 command_type = 5;
 }
 
 message MeshFile
@@ -460,13 +461,13 @@ message MeshFile
     string filename = 1;
 
     // This stores the raw text of the mesh file.
-    repeated uint8 data = 2;
+    repeated uint32 data = 2;
 }
 
 message UVCoordinate
 {
     // Location of the pixel as a ratio of the width of a 2D texture.
     // Values should be in range: [0.0-1.0].
-    float32 u = 1;
-    float32 v = 2;
+    double u = 1;
+    double v = 2;
 }

@@ -16,8 +16,8 @@ syntax = "proto3";
 
 package openbot.ros2_msgs.vision_msgs;
 
-import "openbot/ros2_msgs/std_msgs.proto";
-import "openbot/ros2_msgs/geometry_msgs.proto";
+import "openbot/common_msgs/ros2_msgs/std_msgs.proto";
+import "openbot/common_msgs/ros2_msgs/geometry_msgs.proto";
 
 // A 2D bounding box that can be rotated about its center.
 // All dimensions are in pixels, but represented using floating-point

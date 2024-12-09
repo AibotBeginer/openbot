@@ -14,9 +14,9 @@
 
 syntax = "proto3";
 
-package openbot.ros2_msg.diagnostic_msgs;
+package openbot.ros2_msgs.diagnostic_msgs;
 
-import "openbot/ros2_msg/std_msgs.proto";
+import "openbot/common_msgs/ros2_msgs/std_msgs.proto";
 
 message KeyValue
 {
@@ -35,7 +35,7 @@ message DiagnosticStatus
     // byte ERROR=2
     // byte STALE=3
     // Level of operation enumerated above.
-    byte level = 1;
+    bytes level = 1;
     // A description of the test/component reporting.
     string name = 2;
     // A description of the status.

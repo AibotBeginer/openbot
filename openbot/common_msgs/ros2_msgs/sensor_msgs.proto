@@ -16,7 +16,8 @@ syntax = "proto3";
 
 package openbot.ros2_msgs.sensor_msgs;
 
-import "openbot/ros2_msgs/std_msgs.proto";
+import "openbot/common_msgs/ros2_msgs/std_msgs.proto";
+import "openbot/common_msgs/ros2_msgs/geometry_msgs.proto";
 
 // This message defines meta information for a camera. It should be in a
 // camera namespace on topic "camera_info" and accompanied by up to five

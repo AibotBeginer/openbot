@@ -14,7 +14,7 @@
 
 syntax = "proto3";
 
-package openbot.ros2_msg.builtin_interfaces;
+package openbot.ros2_msgs.builtin_interfaces;
 
 message Time 
 {

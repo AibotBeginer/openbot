@@ -14,9 +14,9 @@
 
 syntax = "proto3";
 
-package openbot.ros2_msg.geometry_msgs;
+package openbot.ros2_msgs.geometry_msgs;
 
-import "openbot/ros2_msg/std_msgs.proto";
+import "openbot/common_msgs/ros2_msgs/std_msgs.proto";
 
 // This expresses acceleration in free space broken into its linear and angular parts.
 message Accel 
@@ -71,24 +71,11 @@ message Inertia
     float izz = 8;
 }
 
-message Inertia
+// An Inertia with a time stamp and reference frame.
+message InertiaStamped
 {
-    // Mass [kg]
-    float m = 1;
-
-    // Center of mass [m]
-    Vector3 com = 2;
-
-    // Inertia Tensor [kg-m^2]
-    //     | ixx ixy ixz |
-    // I = | ixy iyy iyz |
-    //     | ixz iyz izz |
-    float ixx = 3;
-    float ixy = 4;
-    float ixz = 5;
-    float iyy = 6;
-    float iyz = 7;
-    float izz = 8;
+    std_msgs.Header header = 1;
+    Inertia inertia = 2;
 }
 
 // This contains the position of a point in free space
