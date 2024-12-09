@@ -40,16 +40,16 @@ Contents
 .. toctree::
   :maxdepth: 1
 
-  01 Instructions <01_Instructions/what_openbot>
-  02 Installation <02_Installation/prerequisite_software_installation_guide>
-  03 Hardware <02_Installation/prerequisite_software_installation_guide>
-  04 Map <02_Installation/prerequisite_software_installation_guide>
-  05 Localization <02_Installation/prerequisite_software_installation_guide>
-  06 Perception <02_Installation/prerequisite_software_installation_guide>
-  07 Prediction <02_Installation/prerequisite_software_installation_guide>
-  08 Planning <02_Installation/prerequisite_software_installation_guide>
-  09 Decider <02_Installation/prerequisite_software_installation_guide>
-  10 Control <02_Installation/prerequisite_software_installation_guide>
-  11 Others <02_Installation/prerequisite_software_installation_guide>
-  12 FAQS <02_Installation/prerequisite_software_installation_guide>
+  01 简介 <01_Instructions/what_openbot>
+  02 安装 <02_Installation/prerequisite_software_installation_guide>
+  03 硬件 <03_Hardware/prerequisite_software_installation_guide>
+  04 地图 <04_Map/prerequisite_software_installation_guide>
+  05 定位 <05_Localization/prerequisite_software_installation_guide>
+  06 感知 <06_Perception/prerequisite_software_installation_guide>
+  07 预测 <07_Prediction/prerequisite_software_installation_guide>
+  08 规划 <08_Planning/how_to_run_planning_module>
+  09 决策 <09_Decider/prerequisite_software_installation_guide>
+  10 控制 <10_Control/prerequisite_software_installation_guide>
+  11 其他 <11_Others/prerequisite_software_installation_guide>
+  12 FAQS <12_FAQS/prerequisite_software_installation_guide>
 
