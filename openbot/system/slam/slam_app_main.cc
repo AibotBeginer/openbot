@@ -18,8 +18,6 @@
 #include "gflags/gflags.h"
 #include "glog/logging.h"
 
-#include "behaviortree_cpp/bt_factory.h"
-
 namespace openbot {
 namespace {
 
