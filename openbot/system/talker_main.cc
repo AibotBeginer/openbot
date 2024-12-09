@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
   while (apollo::cyber::OK()) {
     auto msg = std::make_shared<openbot::common::proto::nav_msgs::Path>();
     talker->Write(msg);
-    std::cout << "talker sent a message! No. " << seq << std::endl;
+    LOG(INFO) << "talker sent a message! No. " << seq;
     seq++;
     rate.Sleep();
   }
