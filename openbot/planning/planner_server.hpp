@@ -28,6 +28,7 @@
 #include "openbot/planning/common/global_planner.hpp"
 #include "openbot/planning/plugins/rrt_planner.hpp"
 #include "openbot/planning/plugins/a_star_planner.hpp"
+#include "openbot/planning/proto/global_planner.pb.h"
 
 // #include "openbot/common/proto/nav_msgs/path.pb.h"
 // #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
@@ -42,6 +43,8 @@ namespace planning {
 class PlannerServer
 {
 public:
+    using PlannerMap = std::unordered_map<std::string, GlobalPlanner::SharedPtr>;
+
     /**
      *  @brief SharedPtr typedef
      */
@@ -54,17 +57,14 @@ public:
     explicit PlannerServer();
 
     /**
-     * @brief A constructor for openbot::planning::PlannerServer
-     * @param options Additional options to control creation of the node.
-     */
-    PlannerServer(std::shared_ptr<apollo::cyber::Node> node);
-
-    /**
      * @brief Destructor for openbot::planning::PlannerServer
      */
     ~PlannerServer();
 
-    using PlannerMap = std::unordered_map<std::string, GlobalPlanner::SharedPtr>;
+    /**
+     * @brief Init server's source
+     */
+    void Configure();
 
     /**
      * @brief Method to get plan from the desired plugin
@@ -90,6 +90,14 @@ public:
 private:
 
     /**
+     * @brief Handle make plan service request callback
+     * @param request The service request cmd
+     * @param response The service response result
+     */
+    void HandleMakePlanServiceCallback(const std::shared_ptr<proto::MakePlanResquest>& request, 
+        std::shared_ptr<proto::MakePlanResponse>& response);
+
+    /**
      * @brief The server callback which calls planner to get the path
      * ComputePathToPose
      */
@@ -110,7 +118,7 @@ private:
     map::Costmap::SharedPtr costmap_{nullptr};
 
     // Cyber Node
-    std::shared_ptr<apollo::cyber::Node> node_{nullptr};
+    std::unique_ptr<apollo::cyber::Node> node_{nullptr};
 };
 
 }  // namespace planning 

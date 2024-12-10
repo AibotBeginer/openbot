@@ -30,3 +30,13 @@ message GlobalPlaner
 {
 
 }
+
+message MakePlanResquest
+{
+
+}
+
+message MakePlanResponse
+{
+
+}

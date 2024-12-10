@@ -35,14 +35,15 @@ PlannerServer::PlannerServer()
     planners_[running_planner_name()] = std::make_shared<plugins::RRTPlanner>();
 }
 
-PlannerServer::PlannerServer(std::shared_ptr<apollo::cyber::Node> node)
-{
-
-}
-
 PlannerServer::~PlannerServer()
 {
     planners_.clear();
+}
+
+void PlannerServer::Configure()
+{
+    const std::string server_node_name = "planner_server";
+    node_ = apollo::cyber::CreateNode(server_node_name);
 }
 
 common::nav_msgs::Path PlannerServer::GetPlan(
@@ -66,6 +67,13 @@ common::nav_msgs::Path PlannerServer::CreatePlan(
         const double timeout)
 {
     return planners_[running_planner_name()]->CreatePlan(start, goal, timeout);
+}
+
+void PlannerServer::HandleMakePlanServiceCallback(
+    const std::shared_ptr<proto::MakePlanResquest>& request, 
+    std::shared_ptr<proto::MakePlanResponse>& response)
+{
+
 }
 
 void PlannerServer::SetRunningPlanner(const std::string& name)

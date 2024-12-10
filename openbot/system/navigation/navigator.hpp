@@ -44,8 +44,7 @@ public:
     ~Navigator();
 
 private:
-    // Cyber Node
-    std::unique_ptr<apollo::cyber::Node> node_{nullptr};
+  
 };
 
 
