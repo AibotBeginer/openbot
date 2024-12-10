@@ -35,6 +35,11 @@ PlannerServer::PlannerServer()
     planners_[running_planner_name()] = std::make_shared<plugins::RRTPlanner>();
 }
 
+PlannerServer::PlannerServer(std::shared_ptr<apollo::cyber::Node> node)
+{
+
+}
+
 PlannerServer::~PlannerServer()
 {
     planners_.clear();

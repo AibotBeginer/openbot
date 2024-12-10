@@ -152,7 +152,6 @@ public:
      * @return return Sccess or failed
      */
     bool ToGridMap(common::nav_msgs::GridMap& data);
-
 };
 
 }  // namespace map

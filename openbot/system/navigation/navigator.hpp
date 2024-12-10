@@ -14,38 +14,41 @@
  * limitations under the License.
  */
 
+#pragma once
 
-#include "gflags/gflags.h"
-#include "glog/logging.h"
+#include "openbot/common/macros.hpp"
+#include "openbot/planning/planner_server.hpp"
 
 #include "cyber/cyber.h"
 
 namespace openbot {
-namespace {
+namespace system { 
+namespace navigation { 
 
-void Run() 
+class Navigator
 {
-  LOG(INFO) << "Openbot navigation app starting !!! ";
-}
+public:
+    /**
+     *  @brief SharedPtr typedef
+     */
+    OPENBOT_SMART_PTR_DEFINITIONS(Navigator);
 
-}  // namespace
+    /**
+     * @brief A constructor for openbot::system::navigation::Navigator
+     */
+    explicit Navigator();
+
+    /**
+     * @brief Destructor for openbot::system::navigation::Navigator
+     */
+    ~Navigator();
+
+private:
+    // Cyber Node
+    std::unique_ptr<apollo::cyber::Node> node_{nullptr};
+};
+
+
+}  // namespace navigation
+}  // namespace system
 }  // namespace openbot
-
-int main(int argc, char** argv) 
-{
-  google::AllowCommandLineReparsing();
-  google::InitGoogleLogging(argv[0]);
-  google::ParseCommandLineFlags(&argc, &argv, false);
-
-  apollo::cyber::Init(argv[0]);
-
-  // CHECK(!FLAGS_configuration_directory.empty())
-  //     << "-configuration_directory is missing.";
-  // CHECK(!FLAGS_configuration_basename.empty())
-  //     << "-configuration_basename is missing.";
-
-  // openbot_ros::ScopedRosLogSink ros_log_sink;
-  openbot::Run();
-  google::ShutdownGoogleLogging();
-  return 0;
-}

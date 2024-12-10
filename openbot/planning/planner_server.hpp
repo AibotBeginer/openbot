@@ -34,6 +34,7 @@
 
 // #include "class_loader/class_loader.hpp"
 
+#include "cyber/cyber.h"
 
 namespace openbot {
 namespace planning { 
@@ -51,6 +52,12 @@ public:
      * @param options Additional options to control creation of the node.
      */
     explicit PlannerServer();
+
+    /**
+     * @brief A constructor for openbot::planning::PlannerServer
+     * @param options Additional options to control creation of the node.
+     */
+    PlannerServer(std::shared_ptr<apollo::cyber::Node> node);
 
     /**
      * @brief Destructor for openbot::planning::PlannerServer
@@ -101,6 +108,9 @@ private:
     std::string running_planner_name_;
 
     map::Costmap::SharedPtr costmap_{nullptr};
+
+    // Cyber Node
+    std::shared_ptr<apollo::cyber::Node> node_{nullptr};
 };
 
 }  // namespace planning 
