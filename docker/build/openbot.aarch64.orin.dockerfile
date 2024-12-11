@@ -1,9 +1,5 @@
 FROM umnrobotics/isaac_ros:aarch64-ros2_humble-realsense
 
-# install packages
-RUN apt clean && apt-get install -y --no-install-recommends sudo gnupg2 curl ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
 # RUN apt update && \
 #     apt install -y \
 #     build-essential \
@@ -68,7 +64,7 @@ RUN apt clean && apt-get install -y --no-install-recommends sudo gnupg2 curl ca-
 # RUN bash /tmp/install/install_behaviortree_cpp.sh
 
 # openbot workspace
-ENV OPENBOT_WS /workspace
+# ENV OPENBOT_WS /workspace
 
-RUN mkdir -p $OPENBOT_WS
-WORKDIR $OPENBOT_WS
+# RUN mkdir -p $OPENBOT_WS
+# WORKDIR $OPENBOT_WS

@@ -21,7 +21,16 @@ xhost +
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $ROOT/scripts/print_color.sh
 
-BASE_NAME="openbot:latest"
+# platform
+platform_arch=$(uname -m)
+if [ "$platform_arch" == "x86_64" ]; then
+    print_info "This system is running on a 64-bit x86 architecture."
+    BASE_NAME="openbot:latest"
+else
+    print_info "This system is running on a different architecture: $platform_arch"
+    BASE_NAME="openbot.platform.nvidia.aarch64.orin:latest"
+fi
+
 OPENBOT_DEV_DIR="${OPENBOT_ENV}"
 
 # Prevent running as root.
