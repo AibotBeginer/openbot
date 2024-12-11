@@ -31,7 +31,6 @@
 namespace openbot {
 namespace planning { 
 
-
 /**
  * @class GlobalPlanner
  * @brief Abstract interface for global planners to adhere to with pluginlib

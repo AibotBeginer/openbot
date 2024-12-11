@@ -15,7 +15,7 @@
 # Locate the OMPL library
 find_path(OMPL_INCLUDE_DIR
     NAMES ompl/base/SpaceInformation.h
-    PATHS /usr/local/include /usr/include
+    PATHS /usr/local/include /usr/include /usr/local/include/ompl-1.6
 )
 
 find_library(OMPL_LIBRARY

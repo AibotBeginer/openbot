@@ -21,6 +21,7 @@
 #include "cyber/cyber.h"
 
 #include "openbot/planning/planner_server.hpp"
+#include "openbot/common/utils/version.hpp"
 
 namespace openbot {
 namespace {
@@ -28,6 +29,7 @@ namespace {
 void Run() 
 {
   LOG(INFO) << "Openbot navigation planning module starting !!! ";
+  common::utils::ShowVersion();
   auto server = std::make_shared<planning::PlannerServer>();
   server->Configure();
 }

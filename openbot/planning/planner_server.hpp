@@ -22,6 +22,9 @@
 #include <string>
 #include <unordered_map>
 
+#include "cyber/common/file.h"
+#include "cyber/plugin_manager/plugin_manager.h"
+
 #include "openbot/common/macros.hpp"
 #include "openbot/map/voxel_map.hpp"
 #include "openbot/map/costmap.hpp"
@@ -66,6 +69,9 @@ public:
      */
     void Configure();
 
+    template <typename T>
+    bool LoadConfig(const std::string& custom_config_path, T* config);
+
     /**
      * @brief Method to get plan from the desired plugin
      * @param start starting pose
@@ -105,6 +111,7 @@ private:
 
     // Planner
     PlannerMap planners_;
+    
     // pluginlib::ClassLoader<nav2_core::GlobalPlanner> gp_loader_;
     std::vector<std::string> default_ids_;
     std::vector<std::string> default_types_;
@@ -120,6 +127,21 @@ private:
     // Cyber Node
     std::unique_ptr<apollo::cyber::Node> node_{nullptr};
 };
+
+template <typename T>
+bool PlannerServer::LoadConfig(const std::string& custom_config_path, T* config) 
+{
+  std::string config_path = custom_config_path;
+  // Get the default config file if "custom_config_path" is empty.
+  if ("" == config_path) {
+    int status;
+    // Get the name of this class.
+    std::string class_name = abi::__cxa_demangle(typeid(*this).name(), 0, 0, &status);
+    config_path = apollo::cyber::plugin_manager::PluginManager::Instance()->GetPluginConfPath<PlannerServer>(
+        class_name, "conf/planning_config.pb.txt");
+  }
+  return apollo::cyber::common::LoadConfig<T>(config_path, config);
+}
 
 }  // namespace planning 
 }  // namespace openbot

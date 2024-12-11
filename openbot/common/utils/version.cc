@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include <iostream>
+
 #include "openbot/common/utils/version.hpp"
 #include "openbot/common/utils/string_util.hpp"
 
@@ -23,8 +25,8 @@ namespace utils {
 namespace {
 
 const char* OPENBOT_VERSION = "1.0.1";
-const char* OPENBOT_COMMIT_ID = "Unknown";
-const char* OPENBOT_COMMIT_DATE = "Unknown";
+const char* OPENBOT_COMMIT_ID = "fa84a50";
+const char* OPENBOT_COMMIT_DATE = "2024-12-11";
 
 }  // namespace
 
@@ -40,6 +42,15 @@ std::string GetBuildInfo() {
 #endif
   return StringPrintf(
       "Commit %s on %s %s", OPENBOT_COMMIT_ID, OPENBOT_COMMIT_DATE, cuda_info);
+}
+
+void ShowVersion() 
+{
+  std::cout << StringPrintf("%s -- Openbot for robotics develop everyone \n(%s)",
+      GetVersionInfo().c_str(),
+      GetBuildInfo().c_str()) 
+      << std::endl 
+      << std::endl;
 }
 
 }  // namespace utils

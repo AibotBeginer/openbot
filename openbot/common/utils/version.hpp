@@ -26,6 +26,8 @@ std::string GetVersionInfo();
 
 std::string GetBuildInfo();
 
+void ShowVersion();
+
 }  // namespace utils
 }  // namespace common
 }  // namespace openbot
