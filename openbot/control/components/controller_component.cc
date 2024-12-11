@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2024 The OpenRobotic Beginner Authors
  *
@@ -15,22 +14,20 @@
  * limitations under the License.
  */
 
-
-#include "openbot/planning/components/planning_component.hpp"
-
+#include "openbot/control/components/controller_component.hpp"
 
 namespace openbot {
-namespace planning { 
+namespace control {
 
-bool PlanningComponent::Init() 
+bool ControllerComponent::Init() 
 {
     return true;
 }
 
-bool PlanningComponent::Proc(const std::shared_ptr<::openbot::planning::proto::GlobalPlan>& plan) 
+bool ControllerComponent::Proc(const std::shared_ptr<::openbot::control::proto::LocalPlan>& plan) 
 {
     return true;
 }
 
-}  // namespace planning 
+}  // namespace control
 }  // namespace openbot

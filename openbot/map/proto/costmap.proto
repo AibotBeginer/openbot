@@ -14,41 +14,11 @@
 
 syntax = "proto3";
 
-package openbot.planning.proto;
+package openbot.map.proto;
 
-import "openbot/map/proto/grid_map.proto";
-import "openbot/map/proto/costmap.proto";
 import "openbot/common/proto/std_msgs/header.proto";
-import "openbot/common/proto/geometry_msgs/pose_stamped.proto";
 
-
-message GlobalPlan
-{
-    common.proto.std_msgs.Header header = 1;
-
-    // // costmap
-    // map.proto.Costmap costmap = 1;
-
-    // // current robot pose
-    // common.proto.geometry_msgs.PoseStamped robot_current_pose = 2;
-
-    // // start point
-    // common.proto.geometry_msgs.PoseStamped start = 3;
-
-    // // goal point
-    // common.proto.geometry_msgs.PoseStamped goal = 4;
-
-    // // planner method
-    // string planner_method = 5;
-}
-
-message MakePlanResquest
+message Costmap
 {
     
-
-}
-
-message MakePlanResponse
-{
-
 }

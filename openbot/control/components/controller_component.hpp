@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-
-
 #pragma once
 
 #include <memory>
@@ -27,27 +25,26 @@
 #include "cyber/message/raw_message.h"
 
 #include "openbot/common/macros.hpp"
-#include "openbot/map/proto/grid_map.pb.h"
-#include "openbot/planning/proto/global_planner.pb.h"
+#include "openbot/control/proto/local_planner.pb.h"
 
 namespace openbot {
-namespace planning { 
+namespace control {
 
-class PlanningComponent final :
-    public apollo::cyber::Component<proto::GlobalPlan> 
+class ControllerComponent final :
+    public apollo::cyber::Component<proto::LocalPlan> 
 {
 public:
-    PlanningComponent() = default;
-    ~PlanningComponent() = default;
+    ControllerComponent() = default;
+    ~ControllerComponent() = default;
 
     bool Init() override;
-    bool Proc(const std::shared_ptr<::openbot::planning::proto::GlobalPlan>& plan) override;
+    bool Proc(const std::shared_ptr<::openbot::control::proto::LocalPlan>& plan) override;
 
 private:
-    std::shared_ptr<apollo::cyber::Reader<::openbot::planning::proto::GlobalPlan>> global_plan_reader_{nullptr};
+    std::shared_ptr<apollo::cyber::Reader<::openbot::control::proto::LocalPlan>> local_plan_reader_{nullptr};
 };
 
-CYBER_REGISTER_COMPONENT(PlanningComponent)
+CYBER_REGISTER_COMPONENT(ControllerComponent)
 
-}  // namespace planning 
+}  // namespace control
 }  // namespace openbot
