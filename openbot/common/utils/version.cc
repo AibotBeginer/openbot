@@ -22,7 +22,7 @@ namespace common {
 namespace utils {
 namespace {
 
-const char* OPENBOT_VERSION = "1.0.0";
+const char* OPENBOT_VERSION = "1.0.1";
 const char* OPENBOT_COMMIT_ID = "Unknown";
 const char* OPENBOT_COMMIT_DATE = "Unknown";
 
