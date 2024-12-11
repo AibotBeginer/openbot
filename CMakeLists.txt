@@ -292,6 +292,7 @@ endif()
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
 # compontent
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/bridge)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/control)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/planning)
 
