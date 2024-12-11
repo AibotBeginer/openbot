@@ -207,42 +207,6 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/openbot-config-version.cmake"
 # Generate source file with version definitions.
 include("${PROJECT_SOURCE_DIR}/cmake/GenerateVersionDefinitions.cmake")
 
-# application.system_main
-google_binary(application.opebot_main
-  SRCS
-    openbot/system/opebot_main.cc
-)
-
-# application.system_main
-google_binary(application.system_main
-  SRCS
-    openbot/system/system_app_main.cc
-)
-
-# application.navigator_main
-google_binary(application.navigator_main
-  SRCS
-    openbot/system/navigation/navigator_app_main.cc
-)
-
-# application.slam_main
-google_binary(application.slam_main
-  SRCS
-    openbot/system/slam/slam_app_main.cc
-)
-
-# application.talker_main
-google_binary(application.talker_main
-  SRCS
-    openbot/system/talker_main.cc
-)
-
-# application.listener_main
-google_binary(application.listener_main
-   SRCS
-     openbot/system/listener_main.cc
-)
-
 if (BUILD_TOOLS)
   add_subdirectory(openbot/tools)
 endif()
