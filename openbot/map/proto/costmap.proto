@@ -20,5 +20,5 @@ import "openbot/common/proto/std_msgs/header.proto";
 
 message Costmap
 {
-    
+    common.proto.std_msgs.Header header = 1;
 }

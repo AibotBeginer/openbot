@@ -26,20 +26,20 @@ message GlobalPlan
 {
     common.proto.std_msgs.Header header = 1;
 
-    // // costmap
-    // map.proto.Costmap costmap = 1;
+    // costmap
+    // map.proto.costmap.Costmap costmap = 2;
 
     // // current robot pose
-    // common.proto.geometry_msgs.PoseStamped robot_current_pose = 2;
+    common.proto.geometry_msgs.PoseStamped robot_current_pose = 3;
 
-    // // start point
-    // common.proto.geometry_msgs.PoseStamped start = 3;
+    // start point
+    common.proto.geometry_msgs.PoseStamped start = 4;
 
-    // // goal point
-    // common.proto.geometry_msgs.PoseStamped goal = 4;
+    // goal point
+    common.proto.geometry_msgs.PoseStamped goal = 5;
 
-    // // planner method
-    // string planner_method = 5;
+    // planner method
+    string planner_method = 6;
 }
 
 message MakePlanResquest
