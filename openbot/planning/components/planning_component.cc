@@ -17,13 +17,14 @@
 
 
 #include "openbot/planning/components/planning_component.hpp"
-
+#include "openbot/common/utils/logging.hpp"
 
 namespace openbot {
 namespace planning { 
 
 bool PlanningComponent::Init() 
 {
+    LOG(INFO) << "Load PlanningComponent ....";
     return true;
 }
 

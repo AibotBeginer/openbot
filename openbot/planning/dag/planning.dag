@@ -1,6 +1,6 @@
 # Define all coms in DAG streaming.
 module_config {
-  module_library : "modules/planning/planning_component/libplanning_component.so"
+  module_library : "/opt/openbot/lib/libplanning_component.so"
   components {
     class_name : "PlanningComponent"
     config {

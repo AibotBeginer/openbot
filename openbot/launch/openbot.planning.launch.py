@@ -15,25 +15,44 @@
 import os
 import subprocess
 
-# Get the launch directory
-bringup_dir = '/opt/openbot/'
-application_dir = os.path.join(bringup_dir, 'bin')
-launch_dir = os.path.join(bringup_dir, 'share', 'launch')
+# 定义要并发执行的命令列表
+commands = [
+    ['/opt/openbot/bin/application.talker_main'],
+    ['cyber_launch', 'start', '/opt/openbot/share/openbot/planning/launch/planning.launch'],
+]
 
-def start_nodes():
-    command = [os.path.join(application_dir, 'application.talker_main')]
-    result = subprocess.run(command, stderr=subprocess.STDOUT)
+def start_env():
+    command = "source /opt/cyber/setup.zsh && env"
+    proc = subprocess.Popen(command, shell=True, executable='/bin/zsh', stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        (key, _, value) = line.decode('utf-8').partition("=")
+        os.environ[key] = value.strip()
 
-def start_commpontents():
-    pass
+    proc.communicate()
 
+# 存储所有的 Popen 对象
+processes = []
+
+def start_cmds():
+    # 启动所有命令
+    for command in commands:
+        print(f"Starting command: {command}")
+        # process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(command, stdout=None, stderr=None)
+        processes.append(process)
+
+    # 等待所有进程完成
+    for process in processes:
+        stdout, stderr = process.communicate()
+        print(f"Command finished with return code {process.returncode}")
+        if stdout:
+            print("Output:", stdout.decode())
+        if stderr:
+            print("Error:", stderr.decode())
 
 def main():
-    print("[openbot] Start openbot planning nodes")
-    start_nodes()
-
-    print("[openbot] Start openbot planning commpontents")
-    start_commpontents()
+    start_env()
+    start_cmds()
 
 if __name__ == "__main__":
     main()
