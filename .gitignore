@@ -1,4 +1,5 @@
 .vscode
+*.DS_Store
 
 # https://github.com/github/gitignore/blob/main/ROS.gitignore
 devel/
