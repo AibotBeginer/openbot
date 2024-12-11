@@ -49,7 +49,6 @@ endif()
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams graph program_options system)
 
-find_package(Git REQUIRED)
 find_package(CYBERRT REQUIRED)
 find_package(FastRTPS REQUIRED)
 find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})

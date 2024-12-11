@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+find_package(Git REQUIRED)
 
 if (DEFINED GIT_COMMIT_ID OR DEFINED GIT_COMMIT_DATE)
     message(STATUS "Using custom-defined GIT_COMMIT_ID (${GIT_COMMIT_ID}) "
