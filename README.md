@@ -53,8 +53,72 @@ export GLOG_minloglevel=0
 
 ## :four_leaf_clover: 运行
 
+* 激活环境变量
+
 ```bash
 source /opt/cyber/setup.bash或者source /opt/cyber/setup.zsh
-./application.system_main
+```
+
+* 运行**bridge**模块
+
+```bash
+cd /opt/openbot/share/openbot/launch
+python3 ./openbot.bridge.launch.py
+```
+
+* 运行**control**模块
+
+```bash
+cd /opt/openbot/share/openbot/launch
+python3 ./openbot.control.launch.py
+```
+
+* 运行**planning**模块
+
+```bash
+cd /opt/openbot/share/openbot/launch
+python3 ./openbot.planning.launch.py
+```
+
+* 运行**drviers**模块(TODO)
+
+```bash
+cd /opt/openbot/share/openbot/launch
+python3 ./openbot.drviers.launch.py
+```
+
+* 运行**localization**模块(TODO)
+
+```bash
+cd /opt/openbot/share/openbot/launch
+python3 ./openbot.localization.launch.py
+```
+
+* 运行**mapping**模块(TODO)
+
+```bash
+cd /opt/openbot/share/openbot/launch
+python3 ./openbot.mapping.launch.py
+```
+
+* 运行**perception**模块(TODO)
+
+```bash
+cd /opt/openbot/share/openbot/launch
+python3 ./openbot.perception.launch.py
+```
+
+* 运行**system**模块(TODO)
+
+```bash
+cd /opt/openbot/share/openbot/launch
+python3 ./openbot.system.launch.py
+```
+
+* 运行**visualization**模块(TODO)
+
+```bash
+cd /opt/openbot/share/openbot/launch
+python3 ./openbot.visualization.launch.py
 ```
 
