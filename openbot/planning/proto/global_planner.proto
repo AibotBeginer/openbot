@@ -45,10 +45,33 @@ message GlobalPlan
 message MakePlanResquest
 {
     
-
 }
 
 message MakePlanResponse
 {
 
+}
+
+message TopicConfig 
+{
+    string chassis_topic = 1;
+    string hmi_status_topic = 2;
+    string localization_topic = 3;
+    string planning_pad_topic = 4;
+    string planning_trajectory_topic = 5;
+    string prediction_topic = 6;
+    string relative_map_topic = 7;
+    string routing_request_topic = 8;
+    string routing_response_topic = 9;
+    string story_telling_topic = 10;
+    string traffic_light_detection_topic = 11;
+    string planning_learning_data_topic = 12;
+    string planning_command_topic = 13;
+    string perception_edge_info_topic = 14;
+}
+
+message PlannerConfig
+{
+    TopicConfig topic_config = 1;
+    string planner = 2;
 }

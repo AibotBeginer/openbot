@@ -89,25 +89,43 @@ make -j8
 sudo make install
 ```
 
-
-
 ## 2 Docker（推荐）
 
-* docker安装
+### 2.1 docker安装
 
 ```bash
 cd openbot/docker/scripts
 sudo ./install_docker.sh
 ```
 
-* 构造镜像
+### 2.2 x86-64平台构造镜像
 
 ```bash
 cd openbot/docker
-./build_docker.sh -f openbot.x86_64.dockerfile 
+./build_docker.x86_64.sh -f ./dockerfile/openbot.x86_64.dockerfile
 ```
 
-* 运行docker
+### 2.3 aarch64平台构造镜像
+
+```bash
+./build_docker.aarch64.orin.sh -f ./dockerfile/openbot.aarch64.orin.dockerfile
+```
+
+### 2.4 运行docker
+
+* 运行x86-64平台构造镜像
+
+```bash
+./run_openbot.sh
+```
+
+* 运行aarch64平台构造镜像
+
+```
+./run_openbot.sh aarch64
+```
+
+### 2.5 在docker容器中配置环境变量
 
 在openbot的docker容器中配置.bashrc环境变量如下
 
@@ -125,15 +143,19 @@ export OPENBOT_ENV=/home/quandy/workspace/project/openbot/ # 根据自己的目�
 alias openbot_build='colcon build --symlink-install --packages-up-to openbot_ros'
 ```
 
- 进入docker
+## 3 代码编译
+
+* 进入docker
 
 ```bash
+# x86-64平台
+cd openbot/docker
 ./run_openbot.sh 
+
+# aarch64平台
+cd openbot/docker
+./run_openbot.sh aarch64
 ```
-
-
-
-## 3 代码编译
 
 * 编译openbot
 

@@ -16,8 +16,8 @@
 
 
 #include "openbot/planning/planner_server.hpp"
-// #include "openbot/common/proto/nav_msgs/path.pb.h"
-// #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
+#include "openbot/common/utils/logging.hpp"
+
 
 namespace openbot {
 namespace planning { 
@@ -26,6 +26,12 @@ PlannerServer::PlannerServer()
     : default_ids_{"GridBased"},
       default_types_{"NavfnPlanner"}
 {
+    bool success = LoadConfig<proto::PlannerConfig>(config_file_path_, &planner_conf_);
+    if (!success) {
+        LOG(ERROR) << "Load planner config errror";
+        return;
+    }
+
     // std::string name = "rrt_planner";
     // planners_[name] = std::make_shared<plugins::RRTPlanner>();
     

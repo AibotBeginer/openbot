@@ -25,7 +25,7 @@ namespace utils {
 namespace {
 
 const char* OPENBOT_VERSION = "1.0.1";
-const char* OPENBOT_COMMIT_ID = "ed39fe2";
+const char* OPENBOT_COMMIT_ID = "6c76b92";
 const char* OPENBOT_COMMIT_DATE = "2024-12-11";
 
 }  // namespace
@@ -41,7 +41,7 @@ std::string GetBuildInfo() {
   const char* cuda_info = "without CUDA";
 #endif
   return StringPrintf(
-      "Commit %s on %s %s", OPENBOT_COMMIT_ID, OPENBOT_COMMIT_DATE, cuda_info);
+      "Openbot develop info: Commit %s on %s %s", OPENBOT_COMMIT_ID, OPENBOT_COMMIT_DATE, cuda_info);
 }
 
 void ShowVersion() 

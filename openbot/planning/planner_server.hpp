@@ -126,6 +126,9 @@ private:
 
     // Cyber Node
     std::unique_ptr<apollo::cyber::Node> node_{nullptr};
+
+    // pb config
+    proto::PlannerConfig planner_conf_;
 };
 
 template <typename T>

@@ -41,7 +41,7 @@ std::string GetBuildInfo() {
   const char* cuda_info = "without CUDA";
 #endif
   return StringPrintf(
-      "Commit %s on %s %s", OPENBOT_COMMIT_ID, OPENBOT_COMMIT_DATE, cuda_info);
+      "Openbot develop info: Commit %s on %s %s", OPENBOT_COMMIT_ID, OPENBOT_COMMIT_DATE, cuda_info);
 }
 
 void ShowVersion() 
