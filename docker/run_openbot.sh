@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# Copyright 2024 The AOpenRobotic Beginner Authors. All Rights Reserved.
+# Copyright 2024 The OpenRobotic Beginner Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,16 +21,35 @@ xhost +
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $ROOT/scripts/print_color.sh
 
+# defualt
+BASE_NAME="openbot.platform.x86_64:latest"
+
 # platform
-platform_arch=$(uname -m)
-if [ "$platform_arch" == "x86_64" ]; then
-    print_info "This system is running on a 64-bit x86 architecture."
-    BASE_NAME="openbot:latest"
+if [ $# -eq 0 ]; then
+    # No argument provided, detect platform automatically
+    platform_arch=$(uname -m)
 else
-    print_info "This system is running on a different architecture: $platform_arch"
-    BASE_NAME="openbot.platform.nvidia.aarch64.orin:latest"
+    # Use the provided argument as the platform
+    platform_arch=$1
 fi
 
+if [ "$platform_arch" == "x86_64" ]; then
+    print_info "This system is running on a 64-bit x86 architecture."
+    BASE_NAME="openbot.platform.x86_64:latest"
+elif [ "$platform_arch" == "aarch64" ]; then
+    print_info "This system is running on a 64-bit ARM architecture."
+    BASE_NAME="openbot.platform.nvidia.aarch64.orin:latest"
+else
+    print_info "This system is running on a different architecture: $platform_arch"
+    BASE_NAME="unknown"
+    print_error "Error: Unsupported platform architecture: $platform_arch"
+    exit 1
+fi
+
+# print current docker image
+print_info "Running $BASE_NAME"
+
+# get openbot dev dir
 OPENBOT_DEV_DIR="${OPENBOT_ENV}"
 
 # Prevent running as root.
@@ -56,6 +75,14 @@ if [[ -z "$(docker ps)" ]] ;  then
     exit 1
 fi
 
+# Initialize the DOCKER_ARGS array
+DOCKER_ARGS=()
+
+# Check if platform_arch is equal to "aarch64"
+if [[ "$1" == "aarch64" ]]; then
+    DOCKER_ARGS+=("--platform" "linux/arm64")
+    shift
+fi
 
 # Map host's display socket to docker
 DOCKER_ARGS+=("-v /tmp/.X11-unix:/tmp/.X11-unix")
@@ -67,7 +94,6 @@ DOCKER_ARGS+=("-e OPENBOT_DEV_DIR=/workspace/openbot")
 
 # --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
 # Run container from image
-print_info "Running $BASE_NAME"
 docker run -it --rm \
     --privileged \
     --network host \
