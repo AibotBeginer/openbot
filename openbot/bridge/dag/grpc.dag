@@ -1,0 +1,16 @@
+# Define all coms in DAG streaming.
+module_config {
+  module_library : "/opt/openbot/lib/libgrpc_component.so"
+  components {
+    class_name : "GrpcComponent"
+    config {
+      name: "grpc"
+      config_file_path:  "/opt/openbot/share/openbot/bridge/conf/grpc.pb.txt"
+      readers: [
+        {
+          channel: "/openbot/bridge/grpc"
+        }
+      ]
+    }
+  }
+}

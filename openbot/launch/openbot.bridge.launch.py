@@ -17,7 +17,7 @@ import subprocess
 
 # 定义要并发执行的命令列表
 commands = [
-    ['/opt/openbot/bin/openbot.bridge_server_main'],
+    ['cyber_launch', 'start', '/opt/openbot/share/openbot/bridge/launch/grpc_bridge.launch'],
 ]
 
 def start_env():

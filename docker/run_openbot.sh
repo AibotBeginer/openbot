@@ -92,6 +92,8 @@ DOCKER_ARGS+=("-e NVIDIA_VISIBLE_DEVICES=all")
 DOCKER_ARGS+=("-e NVIDIA_DRIVER_CAPABILITIES=all")
 DOCKER_ARGS+=("-e OPENBOT_DEV_DIR=/workspace/openbot")
 
+BASE_NAME="robot-registry.jd.local/openbot/openbot:v2.8.0"
+
 # --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
 # Run container from image
 docker run -it --rm \

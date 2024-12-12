@@ -26,11 +26,11 @@ PlannerServer::PlannerServer()
     : default_ids_{"GridBased"},
       default_types_{"NavfnPlanner"}
 {
-    bool success = LoadConfig<proto::PlannerConfig>(config_file_path_, &planner_conf_);
-    if (!success) {
-        LOG(ERROR) << "Load planner config errror";
-        return;
-    }
+    // bool success = LoadConfig<proto::PlannerConfig>(config_file_path_, &planner_conf_);
+    // if (!success) {
+    //     LOG(ERROR) << "Load planner config errror";
+    //     return;
+    // }
 
     // std::string name = "rrt_planner";
     // planners_[name] = std::make_shared<plugins::RRTPlanner>();

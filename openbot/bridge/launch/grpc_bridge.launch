@@ -1,0 +1,7 @@
+<cyber>
+    <module>
+        <name>bridge</name>
+        <dag_conf>/opt/openbot/share/openbot/bridge/dag/grpc.dag</dag_conf>
+        <process_name>bridge</process_name>
+    </module>
+</cyber>

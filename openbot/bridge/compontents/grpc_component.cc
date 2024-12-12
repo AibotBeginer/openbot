@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-
-#pragma once
+#include "openbot/bridge/compontents/grpc_component.hpp"
 
 namespace openbot {
 namespace bridge { 
-namespace grpc { 
+namespace compontents { 
 
-}  // namespace grpc 
-}  // namespace bridge 
+bool GrpcComponent::Init()
+{
+    return true;
+}
+
+}  // namespace compontents
+}  // namespace planning 
 }  // namespace openbot

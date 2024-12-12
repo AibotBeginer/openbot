@@ -17,10 +17,34 @@
 
 #pragma once
 
+#include <memory>
+#include <string>
+
+#include "cyber/class_loader/class_loader.h"
+#include "cyber/component/component.h"
+#include "cyber/message/raw_message.h"
+
+#include "openbot/common/macros.hpp"
+
 namespace openbot {
 namespace bridge { 
-namespace grpc { 
+namespace compontents { 
 
-}  // namespace grpc 
-}  // namespace bridge 
+class GrpcComponent final :
+    public apollo::cyber::Component<> 
+{
+public:
+    GrpcComponent() = default;
+    ~GrpcComponent() = default;
+
+    bool Init() override;
+
+private:
+ 
+};
+
+CYBER_REGISTER_COMPONENT(GrpcComponent)
+
+}  // namespace compontents
+}  // namespace planning 
 }  // namespace openbot

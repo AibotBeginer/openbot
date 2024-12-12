@@ -30,10 +30,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-option(BUILD_GRPC "Build openbot gRPC support" OFF)
+option(BUILD_GRPC "Build openbot gRPC support" true)
 option(BUILD_DOCS "Build openbot docs support" OFF)
 option(BUILD_TOOLS "Build openbot tools support" OFF)
-set(OPENBOT_HAS_GRPC ${BUILD_GRPC})
 option(BUILD_PROMETHEUS "Build prometheus monitoring support" false)
 option(BUILD_TEST "Build openbot unit test" OFF)
 
@@ -57,7 +56,7 @@ find_package(Ceres REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
 find_package(Lua REQUIRED)
-find_package(Protobuf 3.0.0 REQUIRED)
+find_package(Protobuf REQUIRED)
 find_package(TinyXML2 REQUIRED)
 # find_package(behaviortree_cpp REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -68,7 +67,8 @@ find_package(yaml-cpp REQUIRED)
 find_package(CYBERRT REQUIRED)
 
 if (${BUILD_GRPC})
-  find_package(async_grpc REQUIRED)
+  find_package(gRPC REQUIRED)
+  message(STATUS "Using gRPC ${gRPC_VERSION}")
 endif()
 
 if(${BUILD_PROMETHEUS})
@@ -118,8 +118,20 @@ list(REMOVE_ITEM ALL_LIBRARY_HDRS ${TEST_LIBRARY_HDRS})
 list(REMOVE_ITEM ALL_LIBRARY_SRCS ${TEST_LIBRARY_SRCS})
 list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_TOOLS_HDRS})
 list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_TOOLS_SRCS})
+file(GLOB_RECURSE ALL_GRPC_FILES "openbot/bridge/common/grpc/*")
+
+if (NOT ${BUILD_GRPC})
+  list(REMOVE_ITEM ALL_LIBRARY_HDRS ${ALL_GRPC_FILES})
+  list(REMOVE_ITEM ALL_LIBRARY_SRCS ${ALL_GRPC_FILES})
+  list(REMOVE_ITEM TEST_LIBRARY_HDRS ${ALL_GRPC_FILES})
+  list(REMOVE_ITEM TEST_LIBRARY_SRCS ${ALL_GRPC_FILES})
+  list(REMOVE_ITEM ALL_TESTS ${ALL_GRPC_FILES})
+  list(REMOVE_ITEM ALL_EXECUTABLES ${ALL_GRPC_FILES})
+endif()
 
 file(GLOB_RECURSE ALL_PROTOS "openbot/*.proto")
+file(GLOB_RECURSE ALL_GRPC_SERVICES "openbot/*_service.proto")
+list(REMOVE_ITEM ALL_PROTOS ALL_GRPC_SERVICES)
 
 set(INSTALL_SOURCE_HDRS ${ALL_LIBRARY_HDRS} ${TEST_LIBRARY_HDRS})
 file(GLOB_RECURSE INTERNAL_HDRS "openbot/*/internal/*.hpp")
@@ -128,6 +140,37 @@ list(REMOVE_ITEM INSTALL_SOURCE_HDRS ${INTERNAL_HDRS})
 # TODO(cschuet): Move proto compilation to separate function.
 set(ALL_PROTO_SRCS)
 set(ALL_PROTO_HDRS)
+
+if(${BUILD_GRPC})
+  set(ALL_GRPC_SERVICE_SRCS)
+  set(ALL_GRPC_SERVICE_HDRS)
+  foreach(ABS_FIL ${ALL_GRPC_SERVICES})
+    file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
+    get_filename_component(DIR ${REL_FIL} DIRECTORY)
+    get_filename_component(FIL_WE ${REL_FIL} NAME_WE)
+
+    list(APPEND ALL_GRPC_SERVICE_SRCS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.cc")
+    list(APPEND ALL_GRPC_SERVICE_HDRS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.h")
+
+    add_custom_command(
+      OUTPUT "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.grpc.pb.cc"
+             "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.grpc.pb.h"
+      COMMAND ${PROTOBUF_PROTOC_EXECUTABLE}
+      ARGS --grpc_out=${PROJECT_BINARY_DIR}
+        --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN}
+        --cpp_out  ${PROJECT_BINARY_DIR}
+        -I ${PROJECT_SOURCE_DIR}
+        ${ABS_FIL}
+      DEPENDS ${ABS_FIL}
+      COMMENT "Running C++ protocol buffer compiler on ${ABS_FIL}"
+      VERBATIM
+    )
+  endforeach()
+  set_source_files_properties(${ALL_GRPC_SERVICE_SRCS} ${ALL_GRPC_SERVICE_HDRS} PROPERTIES GENERATED TRUE)
+  list(APPEND ALL_LIBRARY_HDRS ${ALL_GRPC_SERVICE_HDRS})
+  list(APPEND ALL_LIBRARY_SRCS ${ALL_GRPC_SERVICE_SRCS})
+endif()
+
 foreach(ABS_FIL ${ALL_PROTOS})
   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
   get_filename_component(DIR ${REL_FIL} DIRECTORY)
@@ -148,25 +191,25 @@ foreach(ABS_FIL ${ALL_PROTOS})
   )
 endforeach()
 
-foreach(HDR ${ALL_PROTO_HDRS})
-  file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
-  get_filename_component(DIR ${REL_FIL} DIRECTORY)
-  get_filename_component(ABSOLUTE_PATH "${DIR}" ABSOLUTE)
-  string(REPLACE "/" ";" PATH_LIST "${ABSOLUTE_PATH}")
-  list(LENGTH PATH_LIST PATH_LENGTH)
-  if(PATH_LENGTH GREATER_EQUAL 4)
-      math(EXPR START_INDEX "${PATH_LENGTH} - 4")
-      list(SUBLIST PATH_LIST ${START_INDEX} 4 LAST_FOUR)
-      string(REPLACE ";" "/" LAST_FOUR_PATH "${LAST_FOUR}")
-  else()
-      message(STATUS "Path is too short to extract last four directories.")
-  endif()
+# foreach(HDR ${ALL_PROTO_HDRS})
+#   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
+#   get_filename_component(DIR ${REL_FIL} DIRECTORY)
+#   get_filename_component(ABSOLUTE_PATH "${DIR}" ABSOLUTE)
+#   string(REPLACE "/" ";" PATH_LIST "${ABSOLUTE_PATH}")
+#   list(LENGTH PATH_LIST PATH_LENGTH)
+#   if(PATH_LENGTH GREATER_EQUAL 4)
+#       math(EXPR START_INDEX "${PATH_LENGTH} - 4")
+#       list(SUBLIST PATH_LIST ${START_INDEX} 4 LAST_FOUR)
+#       string(REPLACE ";" "/" LAST_FOUR_PATH "${LAST_FOUR}")
+#   else()
+#       message(STATUS "Path is too short to extract last four directories.")
+#   endif()
     
-  install(
-    FILES ${HDR}
-    DESTINATION include/${LAST_FOUR_PATH}
-  )
-endforeach()
+#   install(
+#     FILES ${HDR}
+#     DESTINATION include/${LAST_FOUR_PATH}
+#   )
+# endforeach()
 
 set_source_files_properties(${ALL_PROTO_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
@@ -175,6 +218,8 @@ list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
 # thirdparty
 add_subdirectory(thirdparty)
 include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
+
+set(INSTALL_GENERATED_HDRS ${ALL_PROTO_HDRS} ${ALL_GRPC_SERVICE_HDRS})
 
 add_library(${PROJECT_NAME} SHARED ${ALL_LIBRARY_HDRS} ${ALL_LIBRARY_SRCS})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PROTOBUF_INCLUDE_DIR})
@@ -193,6 +238,10 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${PROTOBUF_LIBRARY}
   absl::utility 
 )
 
+if(${BUILD_GRPC})
+  target_link_libraries(${PROJECT_NAME} PUBLIC gRPC::grpc++ gRPC::grpc)
+endif()
+
 configure_file(
   ${PROJECT_SOURCE_DIR}/openbot/common/config.hpp.cmake
   ${PROJECT_BINARY_DIR}/openbot/common/config.hpp)
@@ -209,20 +258,6 @@ include("${PROJECT_SOURCE_DIR}/cmake/GenerateVersionDefinitions.cmake")
 
 if (BUILD_TOOLS)
   add_subdirectory(openbot/tools)
-endif()
-
-if(${BUILD_GRPC})
-  google_binary(openbot_grpc_server
-    SRCS
-    openbot/cloud/map_builder_server_main.cc
-  )
-  target_link_libraries(openbot_grpc_server PUBLIC grpc++)
-  target_link_libraries(openbot_grpc_server PUBLIC async_grpc)
-  if(${BUILD_PROMETHEUS})
-    target_link_libraries(openbot_grpc_server PUBLIC ${ZLIB_LIBRARIES})
-    target_link_libraries(openbot_grpc_server PUBLIC prometheus-cpp-core)
-    target_link_libraries(openbot_grpc_server PUBLIC prometheus-cpp-pull)
-  endif()
 endif()
 
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${behaviortree_cpp_INCLUDE_DIR}")
@@ -283,18 +318,13 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
 
-
-if(${BUILD_GRPC})
-  target_link_libraries(${PROJECT_NAME} PUBLIC grpc++)
-  target_link_libraries(${PROJECT_NAME} PUBLIC async_grpc)
-endif()
-
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
 # compontent
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/bridge)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/control)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/planning)
+
 
 # set(TEST_LIB openbot_test_library)
 # add_library(${TEST_LIB} ${TEST_LIBRARY_HDRS} ${TEST_LIBRARY_SRCS})
@@ -313,8 +343,7 @@ if (BUILD_TEST)
     string(REPLACE "/" "." TEST_TARGET_NAME "${DIR}/${FIL_WE}")
     google_test("${TEST_TARGET_NAME}" ${ABS_FIL})
     if(${BUILD_GRPC})
-      target_link_libraries("${TEST_TARGET_NAME}" PUBLIC grpc++)
-      target_link_libraries("${TEST_TARGET_NAME}" PUBLIC async_grpc)
+      target_link_libraries("${TEST_TARGET_NAME}" PUBLIC gRPC::grpc++ gRPC::grpc ${Protobuf_LIBRARIES})
     endif()
     target_link_libraries("${TEST_TARGET_NAME}" PUBLIC ${TEST_LIB})
   endforeach()
