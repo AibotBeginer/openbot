@@ -18,14 +18,14 @@
 
 namespace openbot {
 namespace tools { 
-namespace data_loader {
+namespace data {
 
-struct DatasetsOpitons
+class KittiDatasets
 {
 
 };
 
-}  // namespace data_loader
+}  // namespace data
 }  // namespace tools
 }  // namespace openbot
 

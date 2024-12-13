@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "openbot/tools/data/datasets_interface.hpp"
 
 namespace openbot {
 namespace tools { 
-namespace data_loader {
+namespace data {
 
-struct DatasetsOpitons
-{
 
-};
-
-}  // namespace data_loader
+}  // namespace data
 }  // namespace tools
 }  // namespace openbot
 
