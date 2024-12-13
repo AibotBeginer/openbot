@@ -21,7 +21,6 @@ xhost +
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $ROOT/scripts/print_color.sh
 
-print_info "$ROOT"
 
 # defualt
 BASE_NAME="openbot.platform.x86_64:latest"
