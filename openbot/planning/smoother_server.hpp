@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SMOOTHER_SMOOTHER_SERVER_HPP_
-#define OPENBOT_SMOOTHER_SMOOTHER_SERVER_HPP_
+#pragma once
 
 #include <memory>
 #include <string>
@@ -25,7 +24,7 @@
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 
 namespace openbot {
-namespace smoother { 
+namespace planning { 
 
 class SmootherServer
 {
@@ -36,7 +35,7 @@ public:
     OPENBOT_SMART_PTR_DEFINITIONS(SmootherServer);
 
     /**
-     * @brief A constructor for openbot::planning::PlannerServer
+     * @brief A constructor for openbot::planning::SmootherServer
      * @param options Additional options to control creation of the node.
      */
     explicit SmootherServer();
@@ -46,10 +45,7 @@ public:
      */
     ~SmootherServer();
 
-
 };
 
-}  // namespace smoother 
+}  // namespace planning 
 }  // namespace openbot
-
-#endif  // OPENBOT_SMOOTHER_SMOOTHER_SERVER_HPP_

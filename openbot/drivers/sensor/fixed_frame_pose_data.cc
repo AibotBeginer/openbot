@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/sensor/fixed_frame_pose_data.hpp"
+#include "openbot/drivers/sensor/fixed_frame_pose_data.hpp"
 
 namespace openbot {
 namespace sensor {

@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-#include "openbot/drivers/sensor/odometry_data.hpp"
+
+#include "openbot/planning/components/smoother_compontent.hpp"
 
 namespace openbot {
-namespace sensor {
+namespace planning { 
+namespace components { 
 
-
-}  // namespace sensor
+}  // namespace components
+}  // namespace planning 
 }  // namespace openbot

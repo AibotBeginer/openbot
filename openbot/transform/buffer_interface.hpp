@@ -1,27 +1,28 @@
-/******************************************************************************
- * Copyright 2018 The Apollo Authors. All Rights Reserved.
+/*
+ * Copyright 2024 The OpenRobotic Beginner Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *****************************************************************************/
+ */
+
 
 #pragma once
 
 #include <algorithm>
 #include <string>
 
-#include "modules/common_msgs/transform_msgs/transform.pb.h"
+#include "openbot/common_msgs/transform_msgs/transform.pb.h"
 
-namespace apollo {
+namespace openbot {
 namespace transform {
 
 // extend the TFCore class and the TFCpp class
@@ -40,7 +41,7 @@ class BufferInterface {
    */
   virtual TransformStamped lookupTransform(
       const std::string& target_frame, const std::string& source_frame,
-      const cyber::Time& time, const float timeout_second = 0.01f) const = 0;
+      const ::apollo::cyber::Time& time, const float timeout_second = 0.01f) const = 0;
 
   /** \brief Get the transform between two frames by frame ID assuming fixed
    *frame.
@@ -59,8 +60,8 @@ class BufferInterface {
    * tf2::ExtrapolationException, tf2::InvalidArgumentException
    */
   virtual TransformStamped lookupTransform(
-      const std::string& target_frame, const cyber::Time& target_time,
-      const std::string& source_frame, const cyber::Time& source_time,
+      const std::string& target_frame, const ::apollo::cyber::Time& target_time,
+      const std::string& source_frame, const ::apollo::cyber::Time& source_time,
       const std::string& fixed_frame,
       const float timeout_second = 0.01f) const = 0;
 
@@ -75,7 +76,7 @@ class BufferInterface {
    */
   virtual bool canTransform(const std::string& target_frame,
                             const std::string& source_frame,
-                            const cyber::Time& time,
+                            const ::apollo::cyber::Time& time,
                             const float timeout_second = 0.01f,
                             std::string* errstr = nullptr) const = 0;
 
@@ -92,9 +93,9 @@ class BufferInterface {
    * \return True if the transform is possible, false otherwise
    */
   virtual bool canTransform(const std::string& target_frame,
-                            const cyber::Time& target_time,
+                            const ::apollo::cyber::Time& target_time,
                             const std::string& source_frame,
-                            const cyber::Time& source_time,
+                            const ::apollo::cyber::Time& source_time,
                             const std::string& fixed_frame,
                             const float timeout_second = 0.01f,
                             std::string* errstr = nullptr) const = 0;
@@ -104,9 +105,9 @@ class BufferInterface {
   T& transform(const T& in, T& out, const std::string& target_frame,  // NOLINT
                float timeout = 0.0f) const {
     // do the transform
-    tf2::doTransform(in, out,
-                     lookupTransform(target_frame, tf2::getFrameId(in),
-                                     tf2::getTimestamp(in), timeout));
+    common::tf2::doTransform(in, out,
+                     lookupTransform(target_frame, common::tf2::getFrameId(in),
+                                     common::tf2::getTimestamp(in), timeout));
     return out;
   }
 
@@ -123,27 +124,27 @@ class BufferInterface {
   B& transform(const A& in, B& out, const std::string& target_frame,  // NOLINT
                float timeout = 0.0f) const {
     A copy = transform(in, target_frame, timeout);
-    tf2::convert(copy, out);
+    common::tf2::convert(copy, out);
     return out;
   }
 
   // Transform, advanced api, with pre-allocation
   template <typename T>
   T& transform(const T& in, T& out, const std::string& target_frame,  // NOLINT
-               const cyber::Time& target_time, const std::string& fixed_frame,
+               const ::apollo::cyber::Time& target_time, const std::string& fixed_frame,
                float timeout = 0.0f) const {
     // do the transform
-    tf2::doTransform(
+    common::tf2::doTransform(
         in, out,
-        lookupTransform(target_frame, target_time, tf2::getFrameId(in),
-                        tf2::getTimestamp(in), fixed_frame, timeout));
+        lookupTransform(target_frame, target_time, common::tf2::getFrameId(in),
+                        common::tf2::getTimestamp(in), fixed_frame, timeout));
     return out;
   }
 
   // transform, advanced api, no pre-allocation
   template <typename T>
   T transform(const T& in, const std::string& target_frame,
-              const cyber::Time& target_time, const std::string& fixed_frame,
+              const ::apollo::cyber::Time& target_time, const std::string& fixed_frame,
               float timeout = 0.0f) const {
     T out;
     return transform(in, out, target_frame, target_time, fixed_frame, timeout);
@@ -152,14 +153,14 @@ class BufferInterface {
   // Transform, advanced api, different types, with pre-allocation
   template <typename A, typename B>
   B& transform(const A& in, B& out, const std::string& target_frame,  // NOLINT
-               const cyber::Time& target_time, const std::string& fixed_frame,
+               const ::apollo::cyber::Time& target_time, const std::string& fixed_frame,
                float timeout = 0.0f) const {
     // do the transform
     A copy = transform(in, target_frame, target_time, fixed_frame, timeout);
-    tf2::convert(copy, out);
+    common::tf2::convert(copy, out);
     return out;
   }
 };  // class
 
 }  // namespace transform
-}  // namespace apollo
+}  // namespace openbot

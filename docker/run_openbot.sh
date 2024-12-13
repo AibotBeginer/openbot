@@ -21,6 +21,8 @@ xhost +
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $ROOT/scripts/print_color.sh
 
+print_info "$ROOT"
+
 # defualt
 BASE_NAME="openbot.platform.x86_64:latest"
 
@@ -92,19 +94,26 @@ DOCKER_ARGS+=("-e NVIDIA_VISIBLE_DEVICES=all")
 DOCKER_ARGS+=("-e NVIDIA_DRIVER_CAPABILITIES=all")
 DOCKER_ARGS+=("-e OPENBOT_DEV_DIR=/workspace/openbot")
 
-BASE_NAME="robot-registry.jd.local/openbot/openbot:v2.8.0"
+BASE_NAME="robot-registry.jd.local/openbot/openbot:latest"
 
-# --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
-# Run container from image
-docker run -it --name SpaceHero \ 
-    --privileged \
-    --network host \
-    --ipc=host \
-    ${DOCKER_ARGS[@]} \
-    -v $OPENBOT_DEV_DIR:/workspace/openbot \
-    -v /dev/*:/dev/* \
-    -v /etc/localtime:/etc/localtime:ro \
-    --workdir /workspace \
-    $@ \
-    $BASE_NAME \
-    /bin/bash
+# --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh 
+
+function main() {
+    # info "Starting docker container \"${RUNTIME_CONTAINER}\" ..."
+
+    # Run container from image
+    docker run -it --name SpaceHero \
+        --privileged \
+        --network host \
+        --ipc=host \
+        ${DOCKER_ARGS[@]} \
+        -v $OPENBOT_DEV_DIR:/workspace/openbot \
+        -v /dev/*:/dev/* \
+        -v /etc/localtime:/etc/localtime:ro \
+        --workdir /workspace \
+        $@ \
+        $BASE_NAME \
+        /bin/bash
+}
+
+main "$@"

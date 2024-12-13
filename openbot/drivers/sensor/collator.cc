@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/sensor/collator.hpp"
+#include "openbot/drivers/sensor/collator.hpp"
 
 namespace openbot {
 namespace sensor {

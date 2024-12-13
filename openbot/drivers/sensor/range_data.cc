@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/sensor/range_data.hpp"
+#include "openbot/drivers/sensor/range_data.hpp"
 
 namespace openbot {
 namespace sensor {

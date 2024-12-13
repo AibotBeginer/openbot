@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/sensor/imu_data.hpp"
+#include "openbot/drivers/sensor/imu_data.hpp"
 
 namespace openbot {
 namespace sensor {

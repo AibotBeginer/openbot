@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/sensor/compressed_point_cloud.hpp"
+#include "openbot/drivers/sensor/compressed_point_cloud.hpp"
 
 namespace openbot {
 namespace sensor {

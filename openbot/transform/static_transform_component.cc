@@ -1,27 +1,28 @@
-/******************************************************************************
- * Copyright 2018 The Apollo Authors. All Rights Reserved.
+/*
+ * Copyright 2024 The OpenRobotic Beginner Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *****************************************************************************/
+ */
 
-#include "modules/transform/static_transform_component.h"
+
+#include "openbot/transform/static_transform_component.hpp"
 
 #include "yaml-cpp/yaml.h"
 
-#include "modules/common/adapters/adapter_gflags.h"
-#include "modules/common/util/message_util.h"
+#include "openbot/common/adapters/adapter_gflags.hpp"
+#include "openbot/common/utils/message_util.hpp"
 
-namespace apollo {
+namespace openbot {
 namespace transform {
 
 bool StaticTransformComponent::Init() {
@@ -29,10 +30,10 @@ bool StaticTransformComponent::Init() {
     AERROR << "Parse conf file failed, " << ConfigFilePath();
     return false;
   }
-  cyber::proto::RoleAttributes attr;
+  ::apollo::cyber::proto::RoleAttributes attr;
   attr.set_channel_name(FLAGS_tf_static_topic);
   attr.mutable_qos_profile()->CopyFrom(
-      cyber::transport::QosProfileConf::QOS_PROFILE_TF_STATIC);
+      ::apollo::cyber::transport::QosProfileConf::QOS_PROFILE_TF_STATIC);
   writer_ = node_->CreateWriter<TransformStampeds>(attr);
   SendTransforms();
   return true;
@@ -56,7 +57,7 @@ void StaticTransformComponent::SendTransforms() {
 
 bool StaticTransformComponent::ParseFromYaml(
     const std::string& file_path, TransformStamped* transform_stamped) {
-  if (!cyber::common::PathExists(file_path)) {
+  if (!::apollo::cyber::common::PathExists(file_path)) {
     AERROR << "Extrinsic yaml file does not exist: " << file_path;
     return false;
   }
@@ -106,4 +107,4 @@ void StaticTransformComponent::SendTransform(
 }
 
 }  // namespace transform
-}  // namespace apollo
+}  // namespace openbot

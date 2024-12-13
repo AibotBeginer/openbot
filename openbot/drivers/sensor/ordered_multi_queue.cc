@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/sensor/ordered_multi_queue.hpp"
+#include "openbot/drivers/sensor/ordered_multi_queue.hpp"
 
 namespace openbot {
 namespace sensor {

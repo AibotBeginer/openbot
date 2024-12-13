@@ -1,18 +1,18 @@
-/******************************************************************************
- * Copyright 2018 The Apollo Authors. All Rights Reserved.
+/*
+ * Copyright 2024 The OpenRobotic Beginner Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *****************************************************************************/
+ */
 
 #pragma once
 
@@ -20,9 +20,9 @@
 #include <vector>
 
 #include "cyber/cyber.h"
-#include "modules/common_msgs/transform_msgs/transform.pb.h"
+#include "openbot/common_msgs/transform_msgs/transform.pb.h"
 
-namespace apollo {
+namespace openbot {
 namespace transform {
 
 /** \brief This class provides an easy way to publish coordinate frame transform
@@ -34,7 +34,7 @@ namespace transform {
 class TransformBroadcaster {
  public:
   /** \brief Constructor (needs a cyber::Node reference) */
-  explicit TransformBroadcaster(const std::shared_ptr<cyber::Node>& node);
+  explicit TransformBroadcaster(const std::shared_ptr<::apollo::cyber::Node>& node);
 
   /** \brief Send a TransformStamped message
    * The stamped data structure includes frame_id, and time, and parent_id
@@ -47,8 +47,8 @@ class TransformBroadcaster {
   void SendTransform(const std::vector<TransformStamped>& transforms);
 
  private:
-  std::shared_ptr<cyber::Node> node_;
-  std::shared_ptr<cyber::Writer<TransformStampeds>> writer_;
+  std::shared_ptr<::apollo::cyber::Node> node_;
+  std::shared_ptr<::apollo::cyber::Writer<TransformStampeds>> writer_;
 };
 }  // namespace transform
-}  // namespace apollo
+}  // namespace openbot

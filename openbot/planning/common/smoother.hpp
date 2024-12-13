@@ -25,7 +25,7 @@
 #include "openbot/common/proto/nav_msgs/path.pb.h"
 
 namespace openbot {
-namespace smoother { 
+namespace planning {
 
 class Smoother
 {
@@ -70,7 +70,7 @@ public:
         const common::Duration & max_time) = 0;
 };
 
-}  // namespace smoother 
+}  // namespace planning
 }  // namespace openbot
 
 #endif  // OPENBOT_SMOOTHER_SMOOTHER_HPP_

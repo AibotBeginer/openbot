@@ -14,43 +14,23 @@
  * limitations under the License.
  */
 
+#pragma onace
 
-#include "openbot/smoother/components/savitzky_golay_smoother.hpp"
+#include <memory>
+#include <string>
+
+#include "openbot/common/macros.hpp"
+#include "openbot/planning/common/smoother.hpp"
+#include "openbot/common/proto/nav_msgs/path.pb.h"
+#include "openbot/common/proto/geometry_msgs/twist.pb.h"
+#include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"
+#include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
 namespace openbot {
-namespace smoother { 
+namespace planning { 
 namespace components { 
 
-SavitzkyGolaySmoother::~SavitzkyGolaySmoother()
-{
-
-}
-
-void SavitzkyGolaySmoother::Configure()
-{
-
-}
-
-void SavitzkyGolaySmoother::Cleanup() 
-{
-  
-}
-
-void SavitzkyGolaySmoother::Activate() 
-{
-
-}
-
-void SavitzkyGolaySmoother::Deactivate() 
-{
-
-}
-
-bool SavitzkyGolaySmoother::Smooth(common::proto::nav_msgs::Path& path, const common::Duration& max_time)
-{
-    return true;
-}
 
 }  // namespace components
-}  // namespace smoother 
+}  // namespace planning 
 }  // namespace openbot

@@ -1,18 +1,19 @@
-/******************************************************************************
- * Copyright 2018 The Apollo Authors. All Rights Reserved.
+/*
+ * Copyright 2024 The OpenRobotic Beginner Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *****************************************************************************/
+ */
+
 
 #pragma once
 
@@ -20,17 +21,17 @@
 #include <string>
 #include <vector>
 
-#include "tf2/buffer_core.h"
-#include "tf2/convert.h"
+#include "openbot/common/tf2/buffer_core.hpp"
+#include "openbot/common/tf2/convert.hpp"
 
 #include "cyber/node/node.h"
-#include "modules/transform/buffer_interface.h"
+#include "openbot/transform/buffer_interface.hpp"
 
-namespace apollo {
+namespace openbot {
 namespace transform {
 
 // extend the BufferInterface class and BufferCore class
-class Buffer : public BufferInterface, public tf2::BufferCore {
+class Buffer : public BufferInterface, public common::tf2::BufferCore {
  public:
   /**
    * @brief  Constructor for a Buffer object
@@ -54,7 +55,7 @@ class Buffer : public BufferInterface, public tf2::BufferCore {
    */
   virtual TransformStamped lookupTransform(
       const std::string& target_frame, const std::string& source_frame,
-      const cyber::Time& time, const float timeout_second = 0.01f) const;
+      const ::apollo::cyber::Time& time, const float timeout_second = 0.01f) const;
 
   /** \brief Get the transform between two frames by frame ID assuming fixed
    *frame.
@@ -73,8 +74,8 @@ class Buffer : public BufferInterface, public tf2::BufferCore {
    * tf2::ExtrapolationException, tf2::InvalidArgumentException
    */
   virtual TransformStamped lookupTransform(
-      const std::string& target_frame, const cyber::Time& target_time,
-      const std::string& source_frame, const cyber::Time& source_time,
+      const std::string& target_frame, const ::apollo::cyber::Time& target_time,
+      const std::string& source_frame, const ::apollo::cyber::Time& source_time,
       const std::string& fixed_frame, const float timeout_second = 0.01f) const;
 
   /** \brief Test if a transform is possible
@@ -88,7 +89,7 @@ class Buffer : public BufferInterface, public tf2::BufferCore {
    */
   virtual bool canTransform(const std::string& target_frame,
                             const std::string& source_frame,
-                            const cyber::Time& target_time,
+                            const ::apollo::cyber::Time& target_time,
                             const float timeout_second = 0.01f,
                             std::string* errstr = nullptr) const;
 
@@ -105,9 +106,9 @@ class Buffer : public BufferInterface, public tf2::BufferCore {
    * \return True if the transform is possible, false otherwise
    */
   virtual bool canTransform(const std::string& target_frame,
-                            const cyber::Time& target_time,
+                            const ::apollo::cyber::Time& target_time,
                             const std::string& source_frame,
-                            const cyber::Time& source_time,
+                            const ::apollo::cyber::Time& source_time,
                             const std::string& fixed_frame,
                             const float timeout_second = 0.01f,
                             std::string* errstr = nullptr) const;
@@ -125,19 +126,19 @@ class Buffer : public BufferInterface, public tf2::BufferCore {
       const std::shared_ptr<const TransformStampeds>& transform,
       bool is_static);
 
-  void TF2MsgToCyber(const geometry_msgs::TransformStamped& tf2_trans_stamped,
+  void TF2MsgToCyber(const common::geometry_msgs::TransformStamped& tf2_trans_stamped,
                      TransformStamped& trans_stamped) const;  // NOLINT
 
-  std::unique_ptr<cyber::Node> node_;
-  std::shared_ptr<cyber::Reader<TransformStampeds>> message_subscriber_tf_;
-  std::shared_ptr<cyber::Reader<TransformStampeds>>
+  std::unique_ptr<::apollo::cyber::Node> node_;
+  std::shared_ptr<::apollo::cyber::Reader<TransformStampeds>> message_subscriber_tf_;
+  std::shared_ptr<::apollo::cyber::Reader<TransformStampeds>>
       message_subscriber_tf_static_;
 
-  cyber::Time last_update_;
-  std::vector<geometry_msgs::TransformStamped> static_msgs_;
+  ::apollo::cyber::Time last_update_;
+  std::vector<common::geometry_msgs::TransformStamped> static_msgs_;
 
   DECLARE_SINGLETON(Buffer)
 };  // class
 
 }  // namespace transform
-}  // namespace apollo
+}  // namespace openbot

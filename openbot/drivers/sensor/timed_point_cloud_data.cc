@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/sensor/timed_point_cloud_data.hpp"
+#include "openbot/drivers/sensor/timed_point_cloud_data.hpp"
 
 namespace openbot {
 namespace sensor {
