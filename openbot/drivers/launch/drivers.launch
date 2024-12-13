@@ -1,0 +1,7 @@
+<cyber>
+    <module>
+        <name>drivers</name>
+        <dag_conf>/opt/openbot/share/openbot/drivers/dag/drivers.dag</dag_conf>
+        <process_name>drivers</process_name>
+    </module>
+</cyber>

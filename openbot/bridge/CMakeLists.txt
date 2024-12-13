@@ -1,4 +1,3 @@
-
 # grpc_component
 if(${BUILD_GRPC})
   # library grpc_component

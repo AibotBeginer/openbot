@@ -1,0 +1,16 @@
+# Define all coms in DAG streaming.
+module_config {
+  module_library : "/opt/openbot/lib/libcamera_component.so"
+  components {
+    class_name : "CameraComponent"
+    config {
+      name: "drivers"
+      config_file_path:  "/opt/openbot/share/openbot/drivers/conf/camera.pb.txt"
+      readers: [
+        {
+          channel: "/openbot/drivers/images_test"
+        }
+      ]
+    }
+  }
+}
