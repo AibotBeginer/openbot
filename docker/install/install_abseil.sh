@@ -43,7 +43,7 @@ pushd "abseil-cpp-${VERSION}"
     mkdir build && cd build
     cmake .. \
         -DBUILD_SHARED_LIBS=ON \
-        -DCMAKE_CXX_STANDARD=14 
+        -DCMAKE_CXX_STANDARD=17 
     cmake --build . --target install
 popd
 

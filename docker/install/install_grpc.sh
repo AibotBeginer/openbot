@@ -38,6 +38,7 @@ tar xzf "${PKG_NAME}"
 pushd grpc-${VERSION}
     mkdir build && cd build
     cmake ..    -DgRPC_INSTALL=ON                \
+                -DCMAKE_CXX_STANDARD=17          \
                 -DBUILD_SHARED_LIBS=ON           \
                 -DCMAKE_BUILD_TYPE=Release       \
                 -DgRPC_ABSL_PROVIDER=package     \
@@ -45,7 +46,7 @@ pushd grpc-${VERSION}
                 -DgRPC_PROTOBUF_PROVIDER=package \
                 -DgRPC_RE2_PROVIDER=package      \
                 -DgRPC_SSL_PROVIDER=package      \
-                -DgRPC_ZLIB_PROVIDER=package
+                -DgRPC_ZLIB_PROVIDER=package     
     make -j${THREAD_NUM}
     make install
 popd

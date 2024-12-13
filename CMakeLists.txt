@@ -141,6 +141,16 @@ list(REMOVE_ITEM INSTALL_SOURCE_HDRS ${INTERNAL_HDRS})
 set(ALL_PROTO_SRCS)
 set(ALL_PROTO_HDRS)
 
+find_program(PROTOBUF_PROTOC_EXECUTABLE protoc)
+if(PROTOBUF_PROTOC_EXECUTABLE)
+  message(STATUS, "protoc not found. Please install protobuf and make sure it's in your PATH.")
+endif()
+
+find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
+if(NOT GRPC_CPP_PLUGIN)
+  message(FATAL_ERROR "grpc_cpp_plugin not found. Please install gRPC and make sure it's in your PATH.")
+endif()
+
 if(${BUILD_GRPC})
   set(ALL_GRPC_SERVICE_SRCS)
   set(ALL_GRPC_SERVICE_HDRS)
@@ -149,11 +159,13 @@ if(${BUILD_GRPC})
     get_filename_component(DIR ${REL_FIL} DIRECTORY)
     get_filename_component(FIL_WE ${REL_FIL} NAME_WE)
 
-    list(APPEND ALL_GRPC_SERVICE_SRCS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.cc")
-    list(APPEND ALL_GRPC_SERVICE_HDRS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.h")
+    list(APPEND ALL_GRPC_SERVICE_SRCS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.grpc.pb.cc")
+    list(APPEND ALL_GRPC_SERVICE_HDRS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.grpc.pb.h")
 
     add_custom_command(
-      OUTPUT "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.grpc.pb.cc"
+      OUTPUT "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.cc"
+             "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.h"
+             "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.grpc.pb.cc"
              "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.grpc.pb.h"
       COMMAND ${PROTOBUF_PROTOC_EXECUTABLE}
       ARGS --grpc_out=${PROJECT_BINARY_DIR}
