@@ -96,7 +96,7 @@ BASE_NAME="robot-registry.jd.local/openbot/openbot:v2.8.0"
 
 # --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
 # Run container from image
-docker run -it --rm \
+docker run -it --name SpaceHero \ 
     --privileged \
     --network host \
     --ipc=host \
