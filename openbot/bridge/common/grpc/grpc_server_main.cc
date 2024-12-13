@@ -90,16 +90,16 @@ void StopServer() {
 
 }  // namespace openbot
 
-// int main(int argc, char* argv[])
-// {
-//     google::ParseCommandLineFlags(&argc, &argv, true);
+int main(int argc, char* argv[])
+{
+    google::ParseCommandLineFlags(&argc, &argv, true);
 
-//     // init cyber framework
-//     apollo::cyber::Init(argv[0]);
-//     LOG(INFO) << "openbot::InitialServer() start==========" ;
-//     openbot::InitialServer();
+    // init cyber framework
+    apollo::cyber::Init(argv[0]);
+    LOG(INFO) << "openbot::InitialServer() start==========" ;
+    openbot::InitialServer();
 
-//     apollo::cyber::WaitForShutdown();
-//     openbot::StopServer();
-//     return EXIT_SUCCESS;
-// }
+    apollo::cyber::WaitForShutdown();
+    openbot::StopServer();
+    return EXIT_SUCCESS;
+}

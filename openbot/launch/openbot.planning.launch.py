@@ -17,7 +17,6 @@ import subprocess
 
 # 定义要并发执行的命令列表
 commands = [
-    ['/opt/openbot/bin/openbot.planning_server_main'],
     ['cyber_launch', 'start', '/opt/openbot/share/openbot/planning/launch/planning.launch'],
 ]
 

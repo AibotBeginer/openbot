@@ -3,12 +3,6 @@
 add_library(planning_component SHARED components/planning_component.cc)
 target_link_libraries(planning_component ${PROJECT_NAME})
 
-# openbot.planning_server_main
-google_binary(openbot.planning_server_main
-  SRCS
-    planning_server_main.cc
-)
-
 # install
 install(TARGETS
     planning_component
