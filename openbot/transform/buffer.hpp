@@ -53,7 +53,7 @@ class Buffer : public BufferInterface, public common::tf2::BufferCore {
    * Possible exceptions tf2::LookupException, tf2::ConnectivityException,
    * tf2::ExtrapolationException, tf2::InvalidArgumentException
    */
-  virtual TransformStamped lookupTransform(
+  virtual common::proto::geometry_msgs::TransformStamped lookupTransform(
       const std::string& target_frame, const std::string& source_frame,
       const ::apollo::cyber::Time& time, const float timeout_second = 0.01f) const;
 
@@ -73,7 +73,7 @@ class Buffer : public BufferInterface, public common::tf2::BufferCore {
    * Possible exceptions tf2::LookupException, tf2::ConnectivityException,
    * tf2::ExtrapolationException, tf2::InvalidArgumentException
    */
-  virtual TransformStamped lookupTransform(
+  virtual common::proto::geometry_msgs::TransformStamped lookupTransform(
       const std::string& target_frame, const ::apollo::cyber::Time& target_time,
       const std::string& source_frame, const ::apollo::cyber::Time& source_time,
       const std::string& fixed_frame, const float timeout_second = 0.01f) const;
@@ -115,24 +115,19 @@ class Buffer : public BufferInterface, public common::tf2::BufferCore {
 
   bool GetLatestStaticTF(const std::string& frame_id,
                          const std::string& child_frame_id,
-                         TransformStamped* tf);
+                         common::proto::geometry_msgs::TransformStamped* tf);
 
  private:
-  void SubscriptionCallback(
-      const std::shared_ptr<const TransformStampeds>& transform);
-  void StaticSubscriptionCallback(
-      const std::shared_ptr<const TransformStampeds>& transform);
-  void SubscriptionCallbackImpl(
-      const std::shared_ptr<const TransformStampeds>& transform,
-      bool is_static);
+  void SubscriptionCallback(const std::shared_ptr<const common::proto::geometry_msgs::TransformStampeds>& transform);
+  void StaticSubscriptionCallback(const std::shared_ptr<const common::proto::geometry_msgs::TransformStampeds>& transform);
+  void SubscriptionCallbackImpl(const std::shared_ptr<const common::proto::geometry_msgs::TransformStampeds>& transform, bool is_static);
 
   void TF2MsgToCyber(const common::geometry_msgs::TransformStamped& tf2_trans_stamped,
-                     TransformStamped& trans_stamped) const;  // NOLINT
+                     common::proto::geometry_msgs::TransformStamped& trans_stamped) const;  // NOLINT
 
   std::unique_ptr<::apollo::cyber::Node> node_;
-  std::shared_ptr<::apollo::cyber::Reader<TransformStampeds>> message_subscriber_tf_;
-  std::shared_ptr<::apollo::cyber::Reader<TransformStampeds>>
-      message_subscriber_tf_static_;
+  std::shared_ptr<::apollo::cyber::Reader<common::proto::geometry_msgs::TransformStampeds>> message_subscriber_tf_;
+  std::shared_ptr<::apollo::cyber::Reader<common::proto::geometry_msgs::TransformStampeds>> message_subscriber_tf_static_;
 
   ::apollo::cyber::Time last_update_;
   std::vector<common::geometry_msgs::TransformStamped> static_msgs_;

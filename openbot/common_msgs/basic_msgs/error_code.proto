@@ -14,10 +14,11 @@
 
 syntax = "proto3";
 
-package openbot.common;
+package openbot.common_msgs;
 
 // Error codes enum for API's categorized by openbot.
-enum ErrorCode {
+enum ErrorCode 
+{
   // No error, returns on success.
   OK = 0;
 
@@ -86,7 +87,8 @@ enum ErrorCode {
   STORYTELLING_ERROR = 14000;
 }
 
-message StatusPb {
+message StatusPb 
+{
   ErrorCode error_code = 1;
   string msg = 2;
 }

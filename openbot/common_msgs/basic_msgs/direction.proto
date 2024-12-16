@@ -14,9 +14,10 @@
 
 syntax = "proto3";
 
-package openbot.common;
+package openbot.common_msgs;
 
-enum Direction {
+enum Direction 
+{
   EAST = 0;
   WEST = 1;
   SOUTH = 2;

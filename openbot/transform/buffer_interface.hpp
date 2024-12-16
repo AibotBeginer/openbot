@@ -20,7 +20,8 @@
 #include <algorithm>
 #include <string>
 
-#include "openbot/common_msgs/transform_msgs/transform.pb.h"
+#include "openbot/common/proto/geometry_msgs/transform.pb.h"
+#include "openbot/common/proto/geometry_msgs/transform_stamped.pb.h"
 
 namespace openbot {
 namespace transform {
@@ -39,9 +40,11 @@ class BufferInterface {
    * Possible exceptions tf2::LookupException, tf2::ConnectivityException,
    * tf2::ExtrapolationException, tf2::InvalidArgumentException
    */
-  virtual TransformStamped lookupTransform(
-      const std::string& target_frame, const std::string& source_frame,
-      const ::apollo::cyber::Time& time, const float timeout_second = 0.01f) const = 0;
+  virtual common::proto::geometry_msgs::TransformStamped lookupTransform(
+      const std::string& target_frame, 
+      const std::string& source_frame,
+      const ::apollo::cyber::Time& time, 
+      const float timeout_second = 0.01f) const = 0;
 
   /** \brief Get the transform between two frames by frame ID assuming fixed
    *frame.
@@ -59,9 +62,11 @@ class BufferInterface {
    * Possible exceptions tf2::LookupException, tf2::ConnectivityException,
    * tf2::ExtrapolationException, tf2::InvalidArgumentException
    */
-  virtual TransformStamped lookupTransform(
-      const std::string& target_frame, const ::apollo::cyber::Time& target_time,
-      const std::string& source_frame, const ::apollo::cyber::Time& source_time,
+  virtual common::proto::geometry_msgs::TransformStamped lookupTransform(
+      const std::string& target_frame,
+      const ::apollo::cyber::Time& target_time,
+      const std::string& source_frame, 
+      const ::apollo::cyber::Time& source_time,
       const std::string& fixed_frame,
       const float timeout_second = 0.01f) const = 0;
 
@@ -105,9 +110,7 @@ class BufferInterface {
   T& transform(const T& in, T& out, const std::string& target_frame,  // NOLINT
                float timeout = 0.0f) const {
     // do the transform
-    common::tf2::doTransform(in, out,
-                     lookupTransform(target_frame, common::tf2::getFrameId(in),
-                                     common::tf2::getTimestamp(in), timeout));
+    common::tf2::doTransform(in, out, lookupTransform(target_frame, common::tf2::getFrameId(in), common::tf2::getTimestamp(in), timeout));
     return out;
   }
 

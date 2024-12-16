@@ -18,21 +18,24 @@ syntax = "proto3";
 // Defined Point types that are commonly used in PnC (Planning and Control)
 // openbot.
 
-package openbot.common;
+package openbot.common_msgs;
 
-message SLPoint {
+message SLPoint 
+{
   double s = 1;
   double l = 2;
 }
 
-message FrenetFramePoint {
+message FrenetFramePoint 
+{
   double s = 1;
   double l = 2;
   double dl = 3;
   double ddl = 4;
 }
 
-message SpeedPoint {
+message SpeedPoint 
+{
   double s = 1;
   double t = 2;
   // speed (m/s)
@@ -43,7 +46,8 @@ message SpeedPoint {
   double da = 5;
 }
 
-message PathPoint {
+message PathPoint 
+{
   // coordinates
   double x = 1;
   double y = 2;
@@ -68,12 +72,14 @@ message PathPoint {
   double y_derivative = 11;
 }
 
-message Path {
+message Path 
+{
   string name = 1;
   repeated PathPoint path_point = 2;
 }
 
-message TrajectoryPoint {
+message TrajectoryPoint 
+{
   // path point
   PathPoint path_point = 1;
   // linear velocity
@@ -91,24 +97,28 @@ message TrajectoryPoint {
   GaussianInfo gaussian_info = 7;
 }
 
-message Trajectory {
+message Trajectory 
+{
   string name = 1;
   repeated TrajectoryPoint trajectory_point = 2;
 }
 
-message VehicleMotionPoint {
+message VehicleMotionPoint 
+{
   // trajectory point
   TrajectoryPoint trajectory_point = 1;
   // The angle between vehicle front wheel and vehicle longitudinal axis
   double steer = 2;
 }
 
-message VehicleMotion {
+message VehicleMotion 
+{
   string name = 1;
   repeated VehicleMotionPoint vehicle_motion_point = 2;
 }
 
-message GaussianInfo {
+message GaussianInfo 
+{
   // Information of gaussian distribution
   double sigma_x = 1;
   double sigma_y = 2;

@@ -1,6 +1,21 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless openbotby applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
 syntax = "proto3";
 
-package openbot.canbus;
+package openbot.common_msgs.canbus;
 
 import "google/protobuf/any.proto";
 import "openbot/common_msgs/basic_msgs/drive_state.proto";
@@ -11,8 +26,10 @@ import "openbot/common_msgs/basic_msgs/vehicle_signal.proto";
 
 
 // next id :31
-message Chassis {
-  enum DrivingMode {
+message Chassis 
+{
+  enum DrivingMode 
+  {
     COMPLETE_MANUAL = 0;  // human drive
     COMPLETE_AUTO_DRIVE = 1;
     AUTO_STEER_ONLY = 2;  // only steer
@@ -22,7 +39,8 @@ message Chassis {
     EMERGENCY_MODE = 4;
   }
 
-  enum ErrorCode {
+  enum ErrorCode 
+  {
     NO_ERROR = 0;
 
     CMD_NOT_IN_PERIOD = 1;  // control cmd not in period
@@ -44,7 +62,8 @@ message Chassis {
     UNKNOWN_ERROR = 5;
   }
 
-  enum GearPosition {
+  enum GearPosition 
+  {
     GEAR_NEUTRAL = 0;
     GEAR_DRIVE = 1;
     GEAR_REVERSE = 2;
@@ -54,7 +73,8 @@ message Chassis {
     GEAR_NONE = 6;
   }
 
-  enum BumperEvent {
+  enum BumperEvent 
+  {
     BUMPER_INVALID = 0;
     BUMPER_NORMAL = 1;
     BUMPER_PRESSED = 2;
@@ -109,16 +129,16 @@ message Chassis {
   double steering_timestamp = 24;  // In seconds, with 1e-6 accuracy
 
   // chassis also needs it own sending timestamp
-  openbot.common.Header header = 25;
+  openbot.common_msgs.Header header = 25;
 
   int32 chassis_error_mask = 26;
 
-  openbot.common.VehicleSignal signal = 27;
+  openbot.common_msgs.VehicleSignal signal = 27;
 
   // Only available for Lincoln now
   ChassisGPS chassis_gps = 28;
 
-  openbot.common.EngageAdvice engage_advice = 29;
+  openbot.common_msgs.EngageAdvice engage_advice = 29;
 
   WheelSpeed wheel_speed = 30;
 
@@ -131,7 +151,7 @@ message Chassis {
   // int32 gear_location = 10; deprecated use enum
   // replace this [id 23]
 
-  openbot.common.VehicleID vehicle_id = 33;
+  openbot.common_msgs.VehicleID vehicle_id = 33;
 
   int32 battery_soc_percentage = 34;
 
@@ -157,7 +177,8 @@ message Chassis {
   google.protobuf.Any custom_status = 41;
 }
 
-message ChassisGPS {
+message ChassisGPS 
+{
   double latitude = 1;
   double longitude = 2;
   bool gps_valid = 3;
@@ -182,15 +203,18 @@ message ChassisGPS {
   double gps_speed = 20;
 }
 
-enum GpsQuality {
+enum GpsQuality 
+{
   FIX_NO = 0;
   FIX_2D = 1;
   FIX_3D = 2;
   FIX_INVALID = 3;
 }
 
-message WheelSpeed {
-  enum WheelSpeedType {
+message WheelSpeed 
+{
+  enum WheelSpeedType 
+  {
     FORWARD = 0;
     BACKWARD = 1;
     STANDSTILL = 2;
@@ -210,13 +234,15 @@ message WheelSpeed {
   double wheel_spd_fl = 12;
 }
 
-message Sonar {
+message Sonar 
+{
   double range = 1;                       // Meter
-  openbot.common.Point3D translation = 2;  // Meter
-  openbot.common.Quaternion rotation = 3;
+  openbot.common_msgs.Point3D translation = 2;  // Meter
+  openbot.common_msgs.Quaternion rotation = 3;
 }
 
-message Surround {
+message Surround 
+{
   bool cross_traffic_alert_left = 1;
   bool cross_traffic_alert_left_enabled = 2;
   bool blind_spot_left_alert = 3;
@@ -243,12 +269,14 @@ message Surround {
   repeated Sonar sonar = 24;
 }
 
-message License {
+message License 
+{
   string vin = 1;
 }
 
 // CheckResponseSignal
-message CheckResponse {
+message CheckResponse 
+{
   bool is_eps_online = 1;
   bool is_epb_online = 2;
   bool is_esp_online = 3;

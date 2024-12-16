@@ -14,11 +14,13 @@
 
 syntax = "proto3";
 
-package openbot.common;
+package openbot.common_msgs;
 
 // This is the engage advice that published by critical runtime openbot.
-message EngageAdvice {
-  enum Advice {
+message EngageAdvice 
+{
+  enum Advice 
+  {
     UNKNOWN = 0;
     DISALLOW_ENGAGE = 1;
     READY_TO_ENGAGE = 2;

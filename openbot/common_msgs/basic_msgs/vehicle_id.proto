@@ -15,9 +15,10 @@
 
 syntax = "proto3";
 
-package openbot.common;
+package openbot.common_msgs;
 
-message VehicleID {
+message VehicleID 
+{
   string vin = 1;
   string plate = 2;
   string other_unique_id = 3;

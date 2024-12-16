@@ -23,7 +23,8 @@
 namespace openbot {
 namespace transform {
 
-TEST(TransformComponentTest, Init) {
+TEST(TransformComponentTest, Init) 
+{
   ::apollo::cyber::Init("transform_component_test");
   StaticTransformComponent component;
 }

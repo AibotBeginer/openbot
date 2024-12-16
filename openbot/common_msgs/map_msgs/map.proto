@@ -1,20 +1,20 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless openbotby applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 syntax = "proto3";
 
-package openbot.hdmap;
-
-import "openbot/common_msgs/map_msgs/map_clear_area.proto";
-import "openbot/common_msgs/map_msgs/map_crosswalk.proto";
-import "openbot/common_msgs/map_msgs/map_junction.proto";
-import "openbot/common_msgs/map_msgs/map_lane.proto";
-import "openbot/common_msgs/map_msgs/map_overlap.proto";
-import "openbot/common_msgs/map_msgs/map_parking_space.proto";
-import "openbot/common_msgs/map_msgs/map_pnc_junction.proto";
-import "openbot/common_msgs/map_msgs/map_road.proto";
-import "openbot/common_msgs/map_msgs/map_rsu.proto";
-import "openbot/common_msgs/map_msgs/map_signal.proto";
-import "openbot/common_msgs/map_msgs/map_speed_bump.proto";
-import "openbot/common_msgs/map_msgs/map_stop_sign.proto";
-import "openbot/common_msgs/map_msgs/map_yield_sign.proto";
+package openbot.common_msgs.map;
 
 // This message defines how we project the ellipsoidal Earth surface to a plane.
 message Projection {
@@ -41,18 +41,4 @@ message Header {
 
 message Map {
   Header header = 1;
-
-  repeated Crosswalk crosswalk = 2;
-  repeated Junction junction = 3;
-  repeated Lane lane = 4;
-  repeated StopSign stop_sign = 5;
-  repeated Signal signal = 6;
-  repeated YieldSign yield = 7;
-  repeated Overlap overlap = 8;
-  repeated ClearArea clear_area = 9;
-  repeated SpeedBump speed_bump = 10;
-  repeated Road road = 11;
-  repeated ParkingSpace parking_space = 12;
-  repeated PNCJunction pnc_junction = 13;
-  repeated RSU rsu = 14;
 }

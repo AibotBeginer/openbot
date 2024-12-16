@@ -33,7 +33,7 @@ class PointCloud : public RenderableObject {
   virtual GLenum GetPrimitiveType(void) const { return GL_POINTS; }
 
   bool FillData(
-      const std::shared_ptr<const openbot::drivers::PointCloud>& pData);
+      const std::shared_ptr<const openbot::common_msgs::drivers::PointCloud>& pData);
 
  private:
   virtual bool FillVertexBuffer(GLfloat* vertexBuffer);

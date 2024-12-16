@@ -15,18 +15,19 @@
 
 syntax = "proto3";
 
-package openbot.common_msgs;
+package openbot.common_msgs.audio;
 
 import "openbot/common_msgs/audio_msgs/audio_common.proto";
 import "openbot/common_msgs/basic_msgs/header.proto";
 import "openbot/common_msgs/localization_msgs/pose.proto";
 
-message AudioEvent {
-  openbot.common.Header header = 1;
+message AudioEvent 
+{
+  openbot.common_msgs.Header header = 1;
   int32 id = 2;  // obstacle ID.
-  openbot.audio.MovingResult moving_result = 3;
-  openbot.audio.AudioType audio_type = 4;
+  openbot.common_msgs.audio.MovingResult moving_result = 3;
+  openbot.common_msgs.audio.AudioType audio_type = 4;
   bool siren_is_on = 5;
-  openbot.audio.AudioDirection audio_direction = 6;
-  openbot.localization.Pose pose = 7;
+  openbot.common_msgs.audio.AudioDirection audio_direction = 6;
+  openbot.common_msgs.localization.Pose pose = 7;
 }

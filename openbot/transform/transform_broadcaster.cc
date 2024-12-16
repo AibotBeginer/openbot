@@ -23,21 +23,23 @@ namespace transform {
 
 TransformBroadcaster::TransformBroadcaster(
     const std::shared_ptr<::apollo::cyber::Node>& node)
-    : node_(node) {
+    : node_(node) 
+{
   ::apollo::cyber::proto::RoleAttributes attr;
   attr.set_channel_name(FLAGS_tf_topic);
-  writer_ = node_->CreateWriter<TransformStampeds>(attr);
+  writer_ = node_->CreateWriter<common::proto::geometry_msgs::TransformStampeds>(attr);
 }
 
-void TransformBroadcaster::SendTransform(const TransformStamped& transform) {
-  std::vector<TransformStamped> transforms;
+void TransformBroadcaster::SendTransform(const common::proto::geometry_msgs::TransformStamped& transform) 
+{
+  std::vector<common::proto::geometry_msgs::TransformStamped> transforms;
   transforms.emplace_back(transform);
   SendTransform(transforms);
 }
 
-void TransformBroadcaster::SendTransform(
-    const std::vector<TransformStamped>& transforms) {
-  auto message = std::make_shared<TransformStampeds>();
+void TransformBroadcaster::SendTransform(const std::vector<common::proto::geometry_msgs::TransformStamped>& transforms) 
+{
+  auto message = std::make_shared<common::proto::geometry_msgs::TransformStampeds>();
   *message->mutable_transforms() = {transforms.begin(), transforms.end()};
   writer_->Write(message);
 }

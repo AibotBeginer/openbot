@@ -64,7 +64,7 @@ class RadarPoints : public RenderableObject {
   }
 
   bool FillData(
-      const std::shared_ptr<const openbot::drivers::RadarObstacles>& pData);
+      const std::shared_ptr<const openbot::common_msgs::drivers::RadarObstacles>& pData);
 
  protected:
   bool FillVertexBuffer(GLfloat* pBuffer) override;

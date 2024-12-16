@@ -1,14 +1,29 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless openbotby applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 syntax = "proto3";
 
-package openbot.drivers.gnss;
+package openbot.common_msgs.drivers.gnss;
 
 import "openbot/common_msgs/basic_msgs/geometry.proto";
 import "openbot/common_msgs/basic_msgs/header.proto";
 
 // Solution from a Global Navigation Satellite System (GNSS) receiver without
 // fused with any IMU.
-message Gnss {
-  openbot.common.Header header = 1;
+message Gnss 
+{
+  openbot.common_msgs.Header header = 1;
 
   // The time of position measurement, seconds since the GPS epoch (Jan 6,
   // 1980).
@@ -22,14 +37,14 @@ message Gnss {
   float velocity_latency = 3;  // In seconds.
 
   // Position of the GNSS antenna phase center.
-  openbot.common.PointLLH position = 4;
+  openbot.common_msgs.PointLLH position = 4;
 
   // East/north/up in meters.
-  openbot.common.Point3D position_std_dev = 5;
+  openbot.common_msgs.Point3D position_std_dev = 5;
   // East/north/up in meters per second.
-  openbot.common.Point3D linear_velocity = 6;
+  openbot.common_msgs.Point3D linear_velocity = 6;
   // East/north/up in meters per second.
-  openbot.common.Point3D linear_velocity_std_dev = 7;
+  openbot.common_msgs.Point3D linear_velocity_std_dev = 7;
 
   int32 num_sats = 8;  // Number of satellites in position solution.
 
@@ -55,7 +70,8 @@ message Gnss {
 }
 
 // gnss raw data
-message RawData {
-  openbot.common.Header header = 1;
+message RawData 
+{
+  openbot.common_msgs.Header header = 1;
   bytes data = 2;
 }

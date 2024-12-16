@@ -20,7 +20,9 @@
 #include <vector>
 
 #include "cyber/cyber.h"
-#include "openbot/common_msgs/transform_msgs/transform.pb.h"
+
+#include "openbot/common/proto/geometry_msgs/transform.pb.h"
+#include "openbot/common/proto/geometry_msgs/transform_stamped.pb.h"
 
 namespace openbot {
 namespace transform {
@@ -39,16 +41,16 @@ class TransformBroadcaster {
   /** \brief Send a TransformStamped message
    * The stamped data structure includes frame_id, and time, and parent_id
    * already.  */
-  void SendTransform(const TransformStamped& transform);
+  void SendTransform(const common::proto::geometry_msgs::TransformStamped& transform);
 
   /** \brief Send a vector of TransformStamped messages
    * The stamped data structure includes frame_id, and time, and parent_id
    * already.  */
-  void SendTransform(const std::vector<TransformStamped>& transforms);
+  void SendTransform(const std::vector<common::proto::geometry_msgs::TransformStamped>& transforms);
 
  private:
   std::shared_ptr<::apollo::cyber::Node> node_;
-  std::shared_ptr<::apollo::cyber::Writer<TransformStampeds>> writer_;
+  std::shared_ptr<::apollo::cyber::Writer<common::proto::geometry_msgs::TransformStampeds>> writer_;
 };
 }  // namespace transform
 }  // namespace openbot

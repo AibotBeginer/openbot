@@ -15,11 +15,12 @@
 
 syntax = "proto3";
 
-package openbot.common;
+package openbot.common_msgs;
 
 message VehicleSignal 
 {
-  enum TurnSignal {
+  enum TurnSignal 
+  {
     TURN_NONE = 0;
     TURN_LEFT = 1;
     TURN_RIGHT = 2;

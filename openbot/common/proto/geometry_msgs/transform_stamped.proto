@@ -42,3 +42,8 @@ message TransformStamped
     geometry_msgs.Transform transform = 3;
 }
 
+message TransformStampeds 
+{
+    std_msgs.Header header = 1;
+    repeated TransformStamped transforms = 2;
+}

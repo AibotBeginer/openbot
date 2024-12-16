@@ -15,7 +15,7 @@
 
 syntax = "proto3";
 
-package openbot.audio;
+package openbot.common_msgs.audio;
 
 enum MovingResult {
   UNKNOWN = 0;

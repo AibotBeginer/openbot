@@ -1,114 +1,17 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless openbotby applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 syntax = "proto3";
 
-package openbot.perception.camera;
-
-import "openbot/common_msgs/basic_msgs/geometry.proto";
-import "openbot/common_msgs/basic_msgs/header.proto";
-import "openbot/common_msgs/perception_msgs/perception_obstacle.proto";
-
-enum CameraErrorCode {
-  ERROR_NONE = 0;
-  ERROR_UNKNOWN = 1;
-}
-
-enum LaneLineType {
-  WHITE_DASHED = 0;
-  WHITE_SOLID = 1;
-  YELLOW_DASHED = 2;
-  YELLOW_SOLID = 3;
-}
-
-enum LaneLinePositionType {
-  NONE = 0;
-  BOLLARD_LEFT = -5;
-  FOURTH_LEFT = -4;
-  THIRD_LEFT = -3;
-  ADJACENT_LEFT = -2;  //!< lane marking on the left side next to ego lane
-  EGO_LEFT = -1;       //!< left lane marking of the ego lane
-  EGO_RIGHT = 1;       //!< right lane marking of the ego lane
-  ADJACENT_RIGHT = 2;  //!< lane marking on the right side next to ego lane
-  THIRD_RIGHT = 3;
-  FOURTH_RIGHT = 4;
-  BOLLARD_RIGHT = 5;
-  OTHER = 6;    //!< other types of lane
-  UNKNOWN = 7;  //!< background
-}
-
-enum LaneLineUseType {
-  REAL = 0;
-  VIRTUAL = 1;
-}
-
-message LaneLineCubicCurve {
-  float longitude_min = 1;
-  float longitude_max = 2;
-  float a = 3;
-  float b = 4;
-  float c = 5;
-  float d = 6;
-}
-
-message EndPoints {
-  openbot.common.Point2D start = 1;
-  openbot.common.Point2D end = 2;
-}
-
-message CameraLaneLine {
-  LaneLineType type = 1;
-  LaneLinePositionType pos_type = 2;
-  // @brief camera coordinate system
-  LaneLineCubicCurve curve_camera_coord = 3;
-  // @brief image coordinate system
-  LaneLineCubicCurve curve_image_coord = 4;
-  // @brief curve camera point set
-  repeated openbot.common.Point3D curve_camera_point_set = 5;
-  // @brief curve image point set
-  repeated openbot.common.Point2D curve_image_point_set = 6;
-
-  // @brief image end point set
-  repeated EndPoints image_end_point_set = 7;
-  // @brief track id
-  int32 track_id = 8;
-  // @brief confidence for lane line
-  float confidence = 9;
-
-  LaneLineUseType use_type = 10;
-}
-
-message CameraCalibrator {
-  float pitch_angle = 1;
-  float camera_height = 2;
-}
-
-message CameraObstacle {
-  PerceptionObstacle obstacle = 1;  // PerceptionObstacle
-
-  // 2D information
-  enum CameraType {
-    UNKNOWN = 0;
-    UNKNOWN_MOVABLE = 1;
-    UNKNOWN_UNMOVABLE = 2;
-    PEDESTRIAN = 3;  // Pedestrian, usually determined by moving behaviour.
-    BICYCLE = 4;     // bike, motor bike
-    VEHICLE = 5;     // Passenger car or truck.
-  };
-
-  CameraType type = 21;   // obstacle type
-  repeated float type_probs = 22;  // obstacle type
-  openbot.common.Point2D upper_left =
-      23;  // upper left corner of 2D bbox
-  openbot.common.Point2D lower_right =
-      24;  // lower right corner of 2D bbox
-  repeated openbot.common.Point2D key_points = 25;  // 2D key points
-  repeated string debug_message = 26;              // debug message
-}
-
-//
-message CameraDebug {
-  openbot.common.Header header = 1;  // header
-  string source_topic = 2;          // which topic to get the frame
-  CameraErrorCode error_code = 3;  // error code
-  CameraCalibrator camera_calibrator = 4;
-  repeated CameraLaneLine camera_laneline = 5;
-  repeated CameraObstacle camera_obstacle = 6;  // an array of obstacles
-}
+package openbot.common_msgs.perception.camera;

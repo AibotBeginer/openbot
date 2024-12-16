@@ -23,7 +23,8 @@
 
 #include "cyber/component/component.h"
 #include "openbot/transform/proto/static_transform_conf.pb.h"
-#include "openbot/common_msgs/transform_msgs/transform.pb.h"
+#include "openbot/common/proto/geometry_msgs/transform.pb.h"
+#include "openbot/common/proto/geometry_msgs/transform_stamped.pb.h"
 
 namespace openbot {
 namespace transform {
@@ -38,12 +39,12 @@ class StaticTransformComponent final : public ::apollo::cyber::Component<> {
 
  private:
   void SendTransforms();
-  void SendTransform(const std::vector<TransformStamped>& msgtf);
-  bool ParseFromYaml(const std::string& file_path, TransformStamped* transform);
+  void SendTransform(const std::vector<common::proto::geometry_msgs::TransformStamped>& msgtf);
+  bool ParseFromYaml(const std::string& file_path, common::proto::geometry_msgs::TransformStamped* transform);
 
   openbot::static_transform::Conf conf_;
-  std::shared_ptr<::apollo::cyber::Writer<TransformStampeds>> writer_;
-  TransformStampeds transform_stampeds_;
+  std::shared_ptr<::apollo::cyber::Writer<common::proto::geometry_msgs::TransformStampeds>> writer_;
+  common::proto::geometry_msgs::TransformStampeds transform_stampeds_;
 };
 
 CYBER_REGISTER_COMPONENT(StaticTransformComponent)

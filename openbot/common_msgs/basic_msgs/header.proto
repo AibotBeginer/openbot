@@ -14,11 +14,12 @@
 
 syntax = "proto3";
 
-package openbot.common;
+package openbot.common_msgs;
 
 import "openbot/common_msgs/basic_msgs/error_code.proto";
 
-message Header {
+message Header 
+{
   // Message publishing time in seconds.
   double timestamp_sec = 1;
 

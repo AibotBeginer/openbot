@@ -14,16 +14,17 @@
 
 syntax = "proto3";
 
-package openbot.audio;
+package openbot.common_msgs.audio;
 
 import "openbot/common_msgs/audio_msgs/audio_common.proto";
 import "openbot/common_msgs/basic_msgs/geometry.proto";
 import "openbot/common_msgs/basic_msgs/header.proto";
 
-message AudioDetection {
-  openbot.common.Header header = 1;
+message AudioDetection 
+{
+  openbot.common_msgs.Header header = 1;
   bool is_siren = 2;
-  openbot.audio.MovingResult moving_result = 3;
-  openbot.common.Point3D position = 4;
+  openbot.common_msgs.audio.MovingResult moving_result = 3;
+  openbot.common_msgs.Point3D position = 4;
   double source_degree = 5;
 }

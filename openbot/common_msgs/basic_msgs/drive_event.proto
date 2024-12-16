@@ -14,7 +14,7 @@
 
 syntax = "proto3";
 
-package openbot.common;
+package openbot.common_msgs;
 
 // import "openbot/common_msgs/basic_msgs/header.proto";
 // import "openbot/common_msgs/localization_msgs/pose.proto";

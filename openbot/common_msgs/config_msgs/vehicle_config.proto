@@ -1,12 +1,27 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless openbotby applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 syntax = "proto3";
 
-package openbot.common;
+package openbot.common_msgs;
 
 import "openbot/common_msgs/basic_msgs/header.proto";
 import "openbot/common_msgs/basic_msgs/geometry.proto";
 import "openbot/common_msgs/basic_msgs/vehicle_id.proto";
 
-message Transform {
+message Transform 
+{
   bytes source_frame = 1;  // Also known as "frame_id."
 
   bytes target_frame = 2;  // Also known as "child_frame_id."
@@ -18,7 +33,8 @@ message Transform {
   Quaternion rotation = 4;
 }
 
-message Extrinsics {
+message Extrinsics 
+{
   repeated Transform tansforms = 1;
 }
 
@@ -26,7 +42,8 @@ message Extrinsics {
 // By default, all are measured with the SI units (meters, meters per second,
 // etc.).
 
-enum VehicleBrand {
+enum VehicleBrand 
+{
   LINCOLN_MKZ = 0;
   GEM = 1;
   LEXUS = 2;
@@ -39,7 +56,8 @@ enum VehicleBrand {
   NEOLIX = 9;
 }
 
-message LatencyParam {
+message LatencyParam 
+{
   // latency parameters, in second (s)
   double dead_time = 1;
   double rise_time = 2;
@@ -47,7 +65,8 @@ message LatencyParam {
   double settling_time = 4;
 }
 
-message VehicleParam {
+message VehicleParam 
+{
   VehicleBrand brand = 1;
   // Car center point is car reference point, i.e., center of rear axle.
   VehicleID vehicle_id = 2;
@@ -94,8 +113,9 @@ message VehicleParam {
   LatencyParam brake_latency_param = 24;
 }
 
-message VehicleConfig {
-  openbot.common.Header header = 1;
+message VehicleConfig 
+{
+  openbot.common_msgs.Header header = 1;
   VehicleParam vehicle_param = 2;
   Extrinsics extrinsics = 3;
 }

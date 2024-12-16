@@ -36,44 +36,43 @@ namespace transform {
 
 Buffer::Buffer() : BufferCore() { Init(); }
 
-int Buffer::Init() {
-  const std::string node_name =
-      absl::StrCat("transform_listener_", Time::Now().ToNanosecond());
+int Buffer::Init() 
+{
+  const std::string node_name = absl::StrCat("transform_listener_", Time::Now().ToNanosecond());
   node_ = ::apollo::cyber::CreateNode(node_name);
   ::apollo::cyber::proto::RoleAttributes attr;
   attr.set_channel_name("/tf");
-  message_subscriber_tf_ = node_->CreateReader<TransformStampeds>(
-      attr, [&](const std::shared_ptr<const TransformStampeds>& msg_evt) {
+  message_subscriber_tf_ = node_->CreateReader<common::proto::geometry_msgs::TransformStampeds>(
+      attr, [&](const std::shared_ptr<const common::proto::geometry_msgs::TransformStampeds>& msg_evt) 
+      {
         SubscriptionCallbackImpl(msg_evt, false);
       });
 
   apollo::cyber::proto::RoleAttributes attr_static;
   attr_static.set_channel_name(FLAGS_tf_static_topic);
-  attr_static.mutable_qos_profile()->CopyFrom(
-      apollo::cyber::transport::QosProfileConf::QOS_PROFILE_TF_STATIC);
-  message_subscriber_tf_static_ = node_->CreateReader<TransformStampeds>(
-      attr_static, [&](const std::shared_ptr<TransformStampeds>& msg_evt) {
+  attr_static.mutable_qos_profile()->CopyFrom(apollo::cyber::transport::QosProfileConf::QOS_PROFILE_TF_STATIC);
+  message_subscriber_tf_static_ = node_->CreateReader<common::proto::geometry_msgs::TransformStampeds>(
+      attr_static, [&](const std::shared_ptr<common::proto::geometry_msgs::TransformStampeds>& msg_evt) {
         SubscriptionCallbackImpl(msg_evt, true);
       });
 
   return ::apollo::cyber::SUCC;
 }
 
-void Buffer::SubscriptionCallback(
-    const std::shared_ptr<const TransformStampeds>& msg_evt) {
+void Buffer::SubscriptionCallback(const std::shared_ptr<const common::proto::geometry_msgs::TransformStampeds>& msg_evt) 
+{
   SubscriptionCallbackImpl(msg_evt, false);
 }
 
-void Buffer::StaticSubscriptionCallback(
-    const std::shared_ptr<const TransformStampeds>& msg_evt) {
+void Buffer::StaticSubscriptionCallback(const std::shared_ptr<const common::proto::geometry_msgs::TransformStampeds>& msg_evt) 
+{
   SubscriptionCallbackImpl(msg_evt, true);
 }
 
-void Buffer::SubscriptionCallbackImpl(
-    const std::shared_ptr<const TransformStampeds>& msg_evt, bool is_static) {
+void Buffer::SubscriptionCallbackImpl(const std::shared_ptr<const common::proto::geometry_msgs::TransformStampeds>& msg_evt, bool is_static) 
+{
   ::apollo::cyber::Time now = Clock::Now();
-  std::string authority =
-      "cyber_tf";  // msg_evt.getPublisherName(); // lookup the authority
+  std::string authority = "cyber_tf";  // msg_evt.getPublisherName(); // lookup the authority
   if (now.ToNanosecond() < last_update_.ToNanosecond()) {
     AINFO << "Detected jump back in time. Clearing TF buffer.";
     clear();
@@ -90,11 +89,9 @@ void Buffer::SubscriptionCallbackImpl(
 
       // header
       const auto& header = msg_evt->transforms(i).header();
-      trans_stamped.header.stamp =
-          static_cast<uint64_t>(header.timestamp_sec() * kSecondToNanoFactor);
-      trans_stamped.header.frame_id = header.frame_id();
       // TODO(duyongquan)
-      // trans_stamped.header.seq = header.sequence_num();
+      // trans_stamped.header.stamp = static_cast<uint64_t>(header.timestamp_sec() * kSecondToNanoFactor);
+      trans_stamped.header.frame_id = header.frame_id();
 
       // child_frame_id
       trans_stamped.child_frame_id = msg_evt->transforms(i).child_frame_id();
@@ -106,10 +103,10 @@ void Buffer::SubscriptionCallbackImpl(
       trans_stamped.transform.translation.z = transform.translation().z();
 
       // rotation
-      trans_stamped.transform.rotation.x = transform.rotation().qx();
-      trans_stamped.transform.rotation.y = transform.rotation().qy();
-      trans_stamped.transform.rotation.z = transform.rotation().qz();
-      trans_stamped.transform.rotation.w = transform.rotation().qw();
+      trans_stamped.transform.rotation.x = transform.rotation().x();
+      trans_stamped.transform.rotation.y = transform.rotation().y();
+      trans_stamped.transform.rotation.z = transform.rotation().z();
+      trans_stamped.transform.rotation.w = transform.rotation().w();
 
       if (is_static) {
         static_msgs_.push_back(trans_stamped);
@@ -124,7 +121,7 @@ void Buffer::SubscriptionCallbackImpl(
 
 bool Buffer::GetLatestStaticTF(const std::string& frame_id,
                                const std::string& child_frame_id,
-                               TransformStamped* tf) {
+                               common::proto::geometry_msgs::TransformStamped* tf) {
   for (auto reverse_iter = static_msgs_.rbegin();
        reverse_iter != static_msgs_.rend(); ++reverse_iter) {
     if ((*reverse_iter).header.frame_id == frame_id &&
@@ -138,49 +135,43 @@ bool Buffer::GetLatestStaticTF(const std::string& frame_id,
 
 void Buffer::TF2MsgToCyber(
     const common::geometry_msgs::TransformStamped& tf2_trans_stamped,
-    TransformStamped& trans_stamped) const {
+    common::proto::geometry_msgs::TransformStamped& trans_stamped) const 
+{
   // // header
   // TODO(duyongquan)
   // trans_stamped.mutable_header()->set_timestamp_sec(
   //     static_cast<double>(tf2_trans_stamped.header.stamp) / 1e9);
-  trans_stamped.mutable_header()->set_frame_id(
-      tf2_trans_stamped.header.frame_id);
+  trans_stamped.mutable_header()->set_frame_id(tf2_trans_stamped.header.frame_id);
 
   // child_frame_id
   trans_stamped.set_child_frame_id(tf2_trans_stamped.child_frame_id);
 
   // translation
-  trans_stamped.mutable_transform()->mutable_translation()->set_x(
-      tf2_trans_stamped.transform.translation.x);
-  trans_stamped.mutable_transform()->mutable_translation()->set_y(
-      tf2_trans_stamped.transform.translation.y);
-  trans_stamped.mutable_transform()->mutable_translation()->set_z(
-      tf2_trans_stamped.transform.translation.z);
+  trans_stamped.mutable_transform()->mutable_translation()->set_x(tf2_trans_stamped.transform.translation.x);
+  trans_stamped.mutable_transform()->mutable_translation()->set_y(tf2_trans_stamped.transform.translation.y);
+  trans_stamped.mutable_transform()->mutable_translation()->set_z(tf2_trans_stamped.transform.translation.z);
 
   // rotation
-  trans_stamped.mutable_transform()->mutable_rotation()->set_qx(
-      tf2_trans_stamped.transform.rotation.x);
-  trans_stamped.mutable_transform()->mutable_rotation()->set_qy(
-      tf2_trans_stamped.transform.rotation.y);
-  trans_stamped.mutable_transform()->mutable_rotation()->set_qz(
-      tf2_trans_stamped.transform.rotation.z);
-  trans_stamped.mutable_transform()->mutable_rotation()->set_qw(
-      tf2_trans_stamped.transform.rotation.w);
+  trans_stamped.mutable_transform()->mutable_rotation()->set_x(tf2_trans_stamped.transform.rotation.x);
+  trans_stamped.mutable_transform()->mutable_rotation()->set_y(tf2_trans_stamped.transform.rotation.y);
+  trans_stamped.mutable_transform()->mutable_rotation()->set_z(tf2_trans_stamped.transform.rotation.z);
+  trans_stamped.mutable_transform()->mutable_rotation()->set_w(tf2_trans_stamped.transform.rotation.w);
 }
 
-TransformStamped Buffer::lookupTransform(const std::string& target_frame,
+common::proto::geometry_msgs::TransformStamped Buffer::lookupTransform(const std::string& target_frame,
                                          const std::string& source_frame,
                                          const ::apollo::cyber::Time& time,
-                                         const float timeout_second) const {
+                                         const float timeout_second) const 
+{
   common::tf2::Time tf2_time(time.ToNanosecond());
-  common::geometry_msgs::TransformStamped tf2_trans_stamped =
-      common::tf2::BufferCore::lookupTransform(target_frame, source_frame, tf2_time);
-  TransformStamped trans_stamped;
+  common::geometry_msgs::TransformStamped tf2_trans_stamped = 
+    common::tf2::BufferCore::lookupTransform(target_frame, source_frame, tf2_time);
+  common::proto::geometry_msgs::TransformStamped trans_stamped;
   TF2MsgToCyber(tf2_trans_stamped, trans_stamped);
   return trans_stamped;
 }
 
-TransformStamped Buffer::lookupTransform(const std::string& target_frame,
+  common::proto::geometry_msgs::TransformStamped Buffer::lookupTransform(const std::string& target_frame,
                                          const ::apollo::cyber::Time& target_time,
                                          const std::string& source_frame,
                                          const ::apollo::cyber::Time& source_time,
@@ -190,7 +181,7 @@ TransformStamped Buffer::lookupTransform(const std::string& target_frame,
       common::tf2::BufferCore::lookupTransform(target_frame, target_time.ToNanosecond(),
                                        source_frame, source_time.ToNanosecond(),
                                        fixed_frame);
-  TransformStamped trans_stamped;
+  common::proto::geometry_msgs::TransformStamped trans_stamped;
   TF2MsgToCyber(tf2_trans_stamped, trans_stamped);
   return trans_stamped;
 }
@@ -198,15 +189,14 @@ TransformStamped Buffer::lookupTransform(const std::string& target_frame,
 bool Buffer::canTransform(const std::string& target_frame,
                           const std::string& source_frame,
                           const ::apollo::cyber::Time& time, const float timeout_second,
-                          std::string* errstr) const {
-  uint64_t timeout_ns =
-      static_cast<uint64_t>(timeout_second * kSecondToNanoFactor);
+                          std::string* errstr) const 
+{
+  uint64_t timeout_ns = static_cast<uint64_t>(timeout_second * kSecondToNanoFactor);
   uint64_t start_time = Clock::Now().ToNanosecond();  // time.ToNanosecond();
-  while (Clock::Now().ToNanosecond() < start_time + timeout_ns &&
-         !::apollo::cyber::IsShutdown()) {
+  while (Clock::Now().ToNanosecond() < start_time + timeout_ns && !::apollo::cyber::IsShutdown()) 
+  {
     errstr->clear();
-    bool retval = common::tf2::BufferCore::canTransform(target_frame, source_frame,
-                                                time.ToNanosecond(), errstr);
+    bool retval = common::tf2::BufferCore::canTransform(target_frame, source_frame, time.ToNanosecond(), errstr);
     if (retval) {
       return true;
     } else {
@@ -233,8 +223,8 @@ bool Buffer::canTransform(const std::string& target_frame,
   uint64_t timeout_ns =
       static_cast<uint64_t>(timeout_second * kSecondToNanoFactor);
   uint64_t start_time = Clock::Now().ToNanosecond();
-  while (Clock::Now().ToNanosecond() < start_time + timeout_ns &&
-         !::apollo::cyber::IsShutdown()) {  // Make sure we haven't been stopped
+  while (Clock::Now().ToNanosecond() < start_time + timeout_ns && !::apollo::cyber::IsShutdown()) 
+  {  // Make sure we haven't been stopped
     errstr->clear();
     bool retval = common::tf2::BufferCore::canTransform(
         target_frame, target_time.ToNanosecond(), source_frame,
