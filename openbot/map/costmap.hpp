@@ -18,7 +18,7 @@
 #define OPENBOT_MAP_COSTMAP_HPP_
 
 #include "openbot/common/macros.hpp"
-#include "openbot/common/msgs/msgs.hpp"
+#include "openbot/common/io/msgs.hpp"
 #include "openbot/common/utils/ply.hpp"
 
 #include <string>
@@ -146,12 +146,6 @@ public:
      * @return return Sccess or failed
      */
     bool ToOccupancyGridMap(common::nav_msgs::OccupancyGrid& data);
-
-    /**
-     * @brief Convert pcl::PointCloud to occupancy grid map (2.5D)
-     * @return return Sccess or failed
-     */
-    bool ToGridMap(common::nav_msgs::GridMap& data);
 };
 
 }  // namespace map

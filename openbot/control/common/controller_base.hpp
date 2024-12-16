@@ -19,15 +19,8 @@
 #include <chrono>
 #include <string>
 
+#include "openbot/common/io/msgs.hpp"
 #include "openbot/common/macros.hpp"
-#include "openbot/common/msgs/msgs.hpp"
-#include "openbot/common/proto/nav_msgs/path.pb.h"
-#include "openbot/common/proto/geometry_msgs/twist.pb.h"
-#include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"
-#include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
-
-#include "openbot/control/motion/motion_common.hpp"
-#include "openbot/common/motion_model/differential_drive_motion_model.hpp"
 
 #define CONTROLLER_COMMON_COPY_MOVE_ASSIGNABLE(Class) \
   Class(const Class &) = default; \
@@ -95,9 +88,9 @@ public:
    * @param goal_checker Pointer to the current goal checker the task is utilizing
    * @return The best command for the robot to drive
    */
-  virtual common::proto::geometry_msgs::TwistStamped ComputeVelocityCommands(
-    const common::proto::geometry_msgs::PoseStamped& pose,
-    const common::proto::geometry_msgs::Twist& velocity) = 0;
+  virtual common::geometry_msgs::TwistStamped ComputeVelocityCommands(
+    const common::geometry_msgs::PoseStamped& pose,
+    const common::geometry_msgs::Twist& velocity) = 0;
 
   /**
    * @brief Limits the maximum linear speed of the robot.

@@ -14,14 +14,35 @@
 
 syntax = "proto3";
 
-package openbot.control;
+package openbot.common.pcl_msgs;
 
 import "openbot/common/proto/std_msgs.proto";
-import "openbot/common/proto/geometry_msgs.proto";
+import "openbot/common/proto/sensor_msgs.proto";
 
-
-message Trajectory
+message Vertices 
 {
-    common.std_msgs.Header header = 1;
+    // List of point indices
+    repeated uint32 vertices = 1;
 }
 
+message ModelCoefficients 
+{
+    std_msgs.Header header = 1;
+    repeated float values = 2;
+}
+
+message PointIndices 
+{
+    std_msgs.Header header = 1;
+    repeated int32 indices = 2;    
+}
+
+message PolygonMesh 
+{
+    // Separate header for the polygonal surface
+    std_msgs.Header header = 1;
+    // Vertices of the mesh as a point cloud
+    sensor_msgs.PointCloud2 cloud = 2;
+    // List of polygons
+    repeated Vertices polygons = 3;
+}

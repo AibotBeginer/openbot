@@ -18,7 +18,8 @@
 #ifndef OPENBOT_COMMON_COVARIANCE_INSERTION__OUTPUT_TYPE_TRAIT_HPP_
 #define OPENBOT_COMMON_COVARIANCE_INSERTION__OUTPUT_TYPE_TRAIT_HPP_
 
-#include "openbot/common/msgs/msgs.hpp"
+// #include "openbot/common/msgs/msgs.hpp"
+#include "openbot/common/proto/geometry_msgs.pb.h"
 
 namespace openbot {
 namespace common {

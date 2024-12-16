@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-#pragma onace
+#pragma once
 
-#include <memory>
-#include <string>
+#include <iostream>
 
-#include "openbot/common/macros.hpp"
-#include "openbot/planning/common/smoother.hpp"
+
+#include "openbot/common/proto/builtin_interfaces.pb.h"
+#include "openbot/common/proto/diagnostic_msgs.pb.h"
+#include "openbot/common/proto/geometry_msgs.pb.h"
+#include "openbot/common/proto/nav_msgs.pb.h"
+#include "openbot/common/proto/sensor_msgs.pb.h"
+#include "openbot/common/proto/shape_msgs.pb.h"
+#include "openbot/common/proto/std_msgs.pb.h"
+#include "openbot/common/proto/trajectory_msgs.pb.h"
+#include "openbot/common/proto/vision_msgs.pb.h"
+#include "openbot/common/proto/visualization_msgs.pb.h"
 
 namespace openbot {
-namespace planning { 
-namespace components { 
+namespace common {
+namespace io {
 
-
-}  // namespace components
-}  // namespace planning 
+}  // namespace io
 }  // namespace openbot
+}  // namespace common

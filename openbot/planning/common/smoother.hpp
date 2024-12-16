@@ -20,9 +20,9 @@
 #include <memory>
 #include <string>
 
+#include "openbot/common/io/msgs.hpp"
 #include "openbot/common/macros.hpp"
 #include "openbot/common/utils/time.hpp"
-#include "openbot/common/proto/nav_msgs/path.pb.h"
 
 namespace openbot {
 namespace planning {
@@ -66,7 +66,7 @@ public:
      * @return If smoothing was completed (true) or interrupted by time limit (false)
      */
     virtual bool Smooth(
-        common::proto::nav_msgs::Path& path,
+        common::nav_msgs::Path& path,
         const common::Duration & max_time) = 0;
 };
 

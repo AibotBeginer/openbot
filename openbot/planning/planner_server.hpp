@@ -22,6 +22,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "cyber/cyber.h"
 #include "cyber/common/file.h"
 #include "cyber/plugin_manager/plugin_manager.h"
 
@@ -30,15 +31,6 @@
 #include "openbot/map/costmap.hpp"
 #include "openbot/planning/common/global_planner.hpp"
 #include "openbot/planning/plugins/rrt_planner.hpp"
-#include "openbot/planning/plugins/a_star_planner.hpp"
-#include "openbot/planning/proto/global_planner.pb.h"
-
-// #include "openbot/common/proto/nav_msgs/path.pb.h"
-// #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
-
-// #include "class_loader/class_loader.hpp"
-
-#include "cyber/cyber.h"
 
 namespace openbot {
 namespace planning { 
@@ -96,14 +88,6 @@ public:
 private:
 
     /**
-     * @brief Handle make plan service request callback
-     * @param request The service request cmd
-     * @param response The service response result
-     */
-    void HandleMakePlanServiceCallback(const std::shared_ptr<proto::MakePlanResquest>& request, 
-        std::shared_ptr<proto::MakePlanResponse>& response);
-
-    /**
      * @brief The server callback which calls planner to get the path
      * ComputePathToPose
      */
@@ -126,9 +110,6 @@ private:
 
     // Cyber Node
     std::unique_ptr<apollo::cyber::Node> node_{nullptr};
-
-    // pb config
-    proto::PlannerConfig planner_conf_;
 };
 
 template <typename T>

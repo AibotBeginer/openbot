@@ -21,7 +21,6 @@
 
 #include "openbot/common/macros.hpp"
 #include "openbot/common/utils/time.hpp"
-#include "openbot/common/proto/nav_msgs/path.pb.h"
 
 namespace openbot {
 namespace planning { 

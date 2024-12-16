@@ -14,14 +14,14 @@
 
 syntax = "proto3";
 
-package openbot.control.proto;
+package openbot.control;
 
-import "openbot/common/proto/std_msgs/header.proto";
-import "openbot/common/proto/geometry_msgs/point.proto";
+import "openbot/common/proto/std_msgs.proto";
+import "openbot/common/proto/geometry_msgs.proto";
 
 
 message LocalPlan
 {
-    common.proto.std_msgs.Header header = 1;
+    common.std_msgs.Header header = 1;
 }
 

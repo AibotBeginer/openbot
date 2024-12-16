@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-#pragma onace
-
-#include <memory>
-#include <string>
-
-#include "openbot/common/macros.hpp"
-#include "openbot/planning/common/smoother.hpp"
+#include "openbot/common/io/msgs.hpp"
 
 namespace openbot {
-namespace planning { 
-namespace components { 
+namespace common {
+namespace io {
 
 
-}  // namespace components
-}  // namespace planning 
+}  // namespace io
 }  // namespace openbot
+}  // namespace common

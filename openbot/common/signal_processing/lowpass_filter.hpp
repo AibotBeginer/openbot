@@ -19,7 +19,7 @@
 
 #include "openbot/common/signal_processing/lowpass_filter_1d.hpp"
 
-#include "openbot/common/msgs/msgs.hpp"
+#include "openbot/common/io/msgs.hpp"
 
 namespace openbot {
 namespace common {

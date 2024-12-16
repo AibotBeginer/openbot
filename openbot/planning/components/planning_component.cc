@@ -28,10 +28,5 @@ bool PlanningComponent::Init()
     return true;
 }
 
-bool PlanningComponent::Proc(const std::shared_ptr<::openbot::planning::proto::GlobalPlan>& plan) 
-{
-    return true;
-}
-
 }  // namespace planning 
 }  // namespace openbot

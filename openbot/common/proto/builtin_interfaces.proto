@@ -14,14 +14,26 @@
 
 syntax = "proto3";
 
-package openbot.control;
+package openbot.common.builtin_interfaces;
 
-import "openbot/common/proto/std_msgs.proto";
-import "openbot/common/proto/geometry_msgs.proto";
-
-
-message Trajectory
+message Time 
 {
-    common.std_msgs.Header header = 1;
+    // The seconds component, valid over all int32 values.
+    int32 seconds = 1;
+
+    // The nanoseconds component, valid in the range [0, 10e9).
+    uint32 nanoseconds = 2;
+}
+
+// Standard metadata for higher-level stamped data types.
+// This is generally used to communicate timestamped data
+// in a particular coordinate frame.
+message Duration 
+{
+    // Two-integer timestamp that is expressed as seconds and nanoseconds.
+    Time stamp = 1;
+
+    // Transform frame with which this data is associated.
+    string frame_id = 2;
 }
 

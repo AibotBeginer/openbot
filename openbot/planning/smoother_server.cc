@@ -16,8 +16,6 @@
 
 
 #include "openbot/planning/smoother_server.hpp"
-// #include "openbot/common/proto/nav_msgs/path.pb.h"
-// #include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
 
 namespace openbot {
 namespace planning { 

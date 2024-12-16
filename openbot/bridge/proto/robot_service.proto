@@ -16,32 +16,3 @@
 syntax = "proto3";
 
 package openbot.grpc.services;
-
-import "openbot/common/proto/nav_msgs/grid_cells.proto";
-
-// See `Payload`
-message Payloads 
-{
-  repeated Payload payloads = 1;
-}
-
-// Represents some binary (byte array) data (ex: activity input parameters or workflow result) with
-// metadata which describes this binary data (format, encoding, encryption, etc). Serialization
-// of the data may be user-defined.
-message Payload 
-{
-  map<string,bytes> metadata = 1;
-  bytes data = 2;
-}
-
-message GridCellsRequest {
-  openbot.common.proto.nav_msgs.GridCells gridCells = 1;
-}
-
-message GridCellsResponse {
-    Payloads result = 1;
-}
-
-service RobotService {
-  rpc sendGridCells(services.GridCellsRequest) returns (services.GridCellsResponse);
-}
