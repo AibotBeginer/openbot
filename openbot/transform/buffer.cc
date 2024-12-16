@@ -86,12 +86,10 @@ void Buffer::SubscriptionCallbackImpl(const std::shared_ptr<const common::proto:
   for (int i = 0; i < msg_evt->transforms_size(); i++) {
     try {
       common::geometry_msgs::TransformStamped trans_stamped;
-
       // header
-      const auto& header = msg_evt->transforms(i).header();
-      // TODO(duyongquan)
-      // trans_stamped.header.stamp = static_cast<uint64_t>(header.timestamp_sec() * kSecondToNanoFactor);
-      trans_stamped.header.frame_id = header.frame_id();
+      trans_stamped.header.frame_id = msg_evt->transforms(i).header().frame_id();
+      trans_stamped.header.stamp.sec = msg_evt->transforms(i).header().stamp().sec();
+      trans_stamped.header.stamp.nanosec = msg_evt->transforms(i).header().stamp().nanosec();
 
       // child_frame_id
       trans_stamped.child_frame_id = msg_evt->transforms(i).child_frame_id();
@@ -137,10 +135,9 @@ void Buffer::TF2MsgToCyber(
     const common::geometry_msgs::TransformStamped& tf2_trans_stamped,
     common::proto::geometry_msgs::TransformStamped& trans_stamped) const 
 {
-  // // header
-  // TODO(duyongquan)
-  // trans_stamped.mutable_header()->set_timestamp_sec(
-  //     static_cast<double>(tf2_trans_stamped.header.stamp) / 1e9);
+  // header
+  trans_stamped.mutable_header()->mutable_stamp()->set_sec(tf2_trans_stamped.header.stamp.sec);
+  trans_stamped.mutable_header()->mutable_stamp()->set_nanosec(tf2_trans_stamped.header.stamp.nanosec);
   trans_stamped.mutable_header()->set_frame_id(tf2_trans_stamped.header.frame_id);
 
   // child_frame_id

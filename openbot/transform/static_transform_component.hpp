@@ -29,7 +29,8 @@
 namespace openbot {
 namespace transform {
 
-class StaticTransformComponent final : public ::apollo::cyber::Component<> {
+class StaticTransformComponent final : public ::apollo::cyber::Component<> 
+{
  public:
   StaticTransformComponent() = default;
   ~StaticTransformComponent() = default;

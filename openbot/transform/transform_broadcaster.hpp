@@ -33,7 +33,8 @@ namespace transform {
  * prototypes lay out all the
  * necessary data needed for each message.  */
 
-class TransformBroadcaster {
+class TransformBroadcaster 
+{
  public:
   /** \brief Constructor (needs a cyber::Node reference) */
   explicit TransformBroadcaster(const std::shared_ptr<::apollo::cyber::Node>& node);
