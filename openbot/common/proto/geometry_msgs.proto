@@ -220,6 +220,13 @@ message TransformStamped
     Transform transform = 3;
 }
 
+message TransformStampeds 
+{
+    std_msgs.Header header = 1;
+    repeated TransformStamped transforms = 2;
+  }
+  
+
 // This expresses velocity in free space broken into its linear and angular parts.
 message Twist
 {

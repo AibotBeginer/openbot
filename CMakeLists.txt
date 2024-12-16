@@ -45,6 +45,11 @@ if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "/opt/openbot" CACHE PATH "Default install prefix" FORCE)
 endif()
 
+# thirdparty
+add_subdirectory(thirdparty)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty/tf2/include)
+
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams graph program_options system)
 
@@ -227,10 +232,6 @@ set_source_files_properties(${ALL_PROTO_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENER
 list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
 list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
 
-# thirdparty
-add_subdirectory(thirdparty)
-include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
-
 set(INSTALL_GENERATED_HDRS ${ALL_PROTO_HDRS} ${ALL_GRPC_SERVICE_HDRS})
 
 add_library(${PROJECT_NAME} SHARED ${ALL_LIBRARY_HDRS} ${ALL_LIBRARY_SRCS})
@@ -329,6 +330,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
+target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 

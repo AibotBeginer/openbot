@@ -14,7 +14,7 @@ include_directories(
 	${Boost_INCLUDE_DIR} # for signals2 is header only
 )
 
-option(BUILD_TESTS "Build the tests" ON)
+option(BUILD_TESTS "Build the tests" OFF)
 
 # export user definitions
 #CPP Libraries
@@ -29,7 +29,11 @@ target_link_libraries(tf2
 	${Boost_LIBRARIES}
 )
 
-# ${catkin_LIBRARIES} ${console_bridge_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:include>
+)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION
     ${CMAKE_INSTALL_PREFIX}/lib
