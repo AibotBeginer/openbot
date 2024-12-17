@@ -51,55 +51,55 @@ void InitialServer() {
 }
 
 void RunServer() {
-    LOG(INFO) << "grpc server starting....";
-    std::unique_lock<std::mutex> lck(mutex_);
-    auto start = std::chrono::steady_clock::now();
-    std::string server_address = ::absl::StrFormat("%s:%d", FLAGS_grpc_server_host, FLAGS_grpc_server_port);
+    // LOG(INFO) << "grpc server starting....";
+    // std::unique_lock<std::mutex> lck(mutex_);
+    // auto start = std::chrono::steady_clock::now();
+    // std::string server_address = ::absl::StrFormat("%s:%d", FLAGS_grpc_server_host, FLAGS_grpc_server_port);
  
-    ServerBuilder builder;
-    // Listen on the given address without any authentication mechanism.
-    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-    // Register "service" as the instance through which we'll communicate with
-    // clients. In this case it corresponds to an *synchronous* service.
-    std::unique_ptr<GrpcServerImpl> grpc_server_(new GrpcServerImpl());
-    builder.RegisterService(grpc_server_.get());
-    // Finally assemble the server.
-    std::unique_ptr<::grpc::Server> server(builder.BuildAndStart());
-    auto end = std::chrono::steady_clock::now();
-    std::chrono::duration<double> time_used = end - start;
-    LOG(INFO) << "grpc server has listening on : "
-              << server_address << " time used : " << time_used.count();
-    LOG(INFO) << "Before wait, exit_flag_: " << exit_flag_;
-    condition_.wait(lck, [&]() { return exit_flag_; });
-    LOG(INFO) << "After wait, exit_flag_: " << exit_flag_;
+    // ServerBuilder builder;
+    // // Listen on the given address without any authentication mechanism.
+    // builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+    // // Register "service" as the instance through which we'll communicate with
+    // // clients. In this case it corresponds to an *synchronous* service.
+    // std::unique_ptr<GrpcServerImpl> grpc_server_(new GrpcServerImpl());
+    // builder.RegisterService(grpc_server_.get());
+    // // Finally assemble the server.
+    // std::unique_ptr<::grpc::Server> server(builder.BuildAndStart());
+    // auto end = std::chrono::steady_clock::now();
+    // std::chrono::duration<double> time_used = end - start;
+    // LOG(INFO) << "grpc server has listening on : "
+    //           << server_address << " time used : " << time_used.count();
+    // LOG(INFO) << "Before wait, exit_flag_: " << exit_flag_;
+    // condition_.wait(lck, [&]() { return exit_flag_; });
+    // LOG(INFO) << "After wait, exit_flag_: " << exit_flag_;
 }
 
-void StopServer() {
-    LOG(INFO) << "GRPC Server Stopping ...";
-    {
-        std::unique_lock<std::mutex> lck(mutex_);
-        exit_flag_ = true;
-    }
-    condition_.notify_all();
-    LOG(INFO) << "sigal notify ...";
-    if (!!thread_grpc_ && thread_grpc_->joinable()) {
-        thread_grpc_->join();
-    }
-    LOG(INFO) << "GRPC Stop success!!";
-}
+// void StopServer() {
+//     LOG(INFO) << "GRPC Server Stopping ...";
+//     {
+//         std::unique_lock<std::mutex> lck(mutex_);
+//         exit_flag_ = true;
+//     }
+//     condition_.notify_all();
+//     LOG(INFO) << "sigal notify ...";
+//     if (!!thread_grpc_ && thread_grpc_->joinable()) {
+//         thread_grpc_->join();
+//     }
+//     LOG(INFO) << "GRPC Stop success!!";
+// }
 
 }  // namespace openbot
 
 int main(int argc, char* argv[])
 {
-    google::ParseCommandLineFlags(&argc, &argv, true);
+    // google::ParseCommandLineFlags(&argc, &argv, true);
 
-    // init cyber framework
-    apollo::cyber::Init(argv[0]);
-    LOG(INFO) << "openbot::InitialServer() start==========" ;
-    openbot::InitialServer();
+    // // init cyber framework
+    // apollo::cyber::Init(argv[0]);
+    // LOG(INFO) << "openbot::InitialServer() start==========" ;
+    // openbot::InitialServer();
 
-    apollo::cyber::WaitForShutdown();
-    openbot::StopServer();
+    // apollo::cyber::WaitForShutdown();
+    // openbot::StopServer();
     return EXIT_SUCCESS;
 }

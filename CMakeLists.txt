@@ -45,11 +45,6 @@ if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "/opt/openbot" CACHE PATH "Default install prefix" FORCE)
 endif()
 
-# thirdparty
-add_subdirectory(thirdparty)
-include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
-include_directories(${PROJECT_SOURCE_DIR}/thirdparty/tf2/include)
-
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams graph program_options system)
 
@@ -147,7 +142,7 @@ set(ALL_PROTO_SRCS)
 set(ALL_PROTO_HDRS)
 
 find_program(PROTOBUF_PROTOC_EXECUTABLE protoc)
-if(PROTOBUF_PROTOC_EXECUTABLE)
+if(NOT PROTOBUF_PROTOC_EXECUTABLE)
   message(STATUS, "protoc not found. Please install protobuf and make sure it's in your PATH.")
 endif()
 
@@ -210,25 +205,10 @@ foreach(ABS_FIL ${ALL_PROTOS})
   )
 endforeach()
 
-# foreach(HDR ${ALL_PROTO_HDRS})
-#   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
-#   get_filename_component(DIR ${REL_FIL} DIRECTORY)
-#   get_filename_component(ABSOLUTE_PATH "${DIR}" ABSOLUTE)
-#   string(REPLACE "/" ";" PATH_LIST "${ABSOLUTE_PATH}")
-#   list(LENGTH PATH_LIST PATH_LENGTH)
-#   if(PATH_LENGTH GREATER_EQUAL 4)
-#       math(EXPR START_INDEX "${PATH_LENGTH} - 4")
-#       list(SUBLIST PATH_LIST ${START_INDEX} 4 LAST_FOUR)
-#       string(REPLACE ";" "/" LAST_FOUR_PATH "${LAST_FOUR}")
-#   else()
-#       message(STATUS "Path is too short to extract last four directories.")
-#   endif()
-    
-#   install(
-#     FILES ${HDR}
-#     DESTINATION include/${LAST_FOUR_PATH}
-#   )
-# endforeach()
+# thirdparty
+add_subdirectory(thirdparty)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty/tf2/include)
 
 set_source_files_properties(${ALL_PROTO_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
@@ -333,6 +313,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
 target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
+# target_link_libraries(${PROJECT_NAME} SYSTEM PUBLIC common_msgs::common_msgs)
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
