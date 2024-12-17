@@ -50,6 +50,14 @@ add_subdirectory(thirdparty)
 include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
 include_directories(${PROJECT_SOURCE_DIR}/thirdparty/tf2/include)
 
+# include(FetchContent)
+# FetchContent_Declare(
+#   common_msgs
+#   GIT_REPOSITORY https://github.com/AibotBeginer/common_msgs.git
+#   GIT_TAG develop
+# )
+# FetchContent_MakeAvailable(common_msgs)
+
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams graph program_options system)
 
@@ -147,7 +155,7 @@ set(ALL_PROTO_SRCS)
 set(ALL_PROTO_HDRS)
 
 find_program(PROTOBUF_PROTOC_EXECUTABLE protoc)
-if(PROTOBUF_PROTOC_EXECUTABLE)
+if(NOT PROTOBUF_PROTOC_EXECUTABLE)
   message(STATUS, "protoc not found. Please install protobuf and make sure it's in your PATH.")
 endif()
 
@@ -333,6 +341,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
 target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
+# target_link_libraries(${PROJECT_NAME} SYSTEM PUBLIC common_msgs::common_msgs)
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
