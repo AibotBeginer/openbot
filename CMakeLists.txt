@@ -30,7 +30,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-option(BUILD_GRPC "Build openbot gRPC support" false)
+option(BUILD_GRPC "Build openbot gRPC support" true)
 option(BUILD_DOCS "Build openbot docs support" OFF)
 option(BUILD_TOOLS "Build openbot tools support" OFF)
 option(BUILD_PROMETHEUS "Build prometheus monitoring support" false)
