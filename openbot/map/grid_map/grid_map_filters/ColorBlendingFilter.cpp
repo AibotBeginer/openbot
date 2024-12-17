@@ -11,6 +11,7 @@
 #include <math.h>
 
 #include <Eigen/Dense>
+#include <glog/logging.h>
 
 #include <grid_map_core/grid_map_core.hpp>
 
@@ -24,22 +25,22 @@ ColorBlendingFilter::~ColorBlendingFilter() = default;
 
 bool ColorBlendingFilter::configure() {
   if (!FilterBase::getParam(std::string("background_layer"), backgroundLayer_)) {
-    ROS_ERROR("Color blending filter did not find parameter `background_layer`.");
+    LOG(ERROR) << "Color blending filter did not find parameter `background_layer`.";
     return false;
   }
-  ROS_DEBUG("Color blending filter background layer is = %s.", backgroundLayer_.c_str());
+  LOG(INFO) << "Color blending filter background layer is = " << backgroundLayer_;
 
   if (!FilterBase::getParam(std::string("foreground_layer"), foregroundLayer_)) {
-    ROS_ERROR("Color blending filter did not find parameter `foreground_layer`.");
+    LOG(ERROR) << "Color blending filter did not find parameter `foreground_layer`.";
     return false;
   }
-  ROS_DEBUG("Color blending filter foreground layer is = %s.", foregroundLayer_.c_str());
+  LOG(INFO) << "Color blending filter foreground layer is = " << foregroundLayer_;
 
   std::string blendMode;
   if (!FilterBase::getParam(std::string("blend_mode"), blendMode)) {
     blendMode = "normal";
   }
-  ROS_DEBUG("Color blending filter blend mode is = %s.", blendMode.c_str());
+  LOG(INFO) << "Color blending filter blend mode is = " << blendMode;
   if (blendMode == "normal") {
     blendMode_ = BlendModes::Normal;
   } else if (blendMode == "hard_light") {
@@ -47,21 +48,21 @@ bool ColorBlendingFilter::configure() {
   } else if (blendMode == "soft_light") {
     blendMode_ = BlendModes::SoftLight;
   } else {
-    ROS_ERROR("Color blending filter blend mode `%s` does not exist.", blendMode.c_str());
+    LOG(ERROR) << "Color blending filter blend mode `" << blendMode << "` does not exist.";
     return false;
   }
 
   if (!FilterBase::getParam(std::string("opacity"), opacity_)) {
-    ROS_ERROR("Color blending filter did not find parameter `opacity`.");
+    LOG(ERROR) << "Color blending filter did not find parameter `opacity`.";
     return false;
   }
-  ROS_DEBUG("Color blending filter opacity is = %f.", opacity_);
+  LOG(INFO) << "Color blending filter opacity is = " << opacity_;
 
   if (!FilterBase::getParam(std::string("output_layer"), outputLayer_)) {
-    ROS_ERROR("Color blending filter did not find parameter `output_layer`.");
+    LOG(ERROR) << "Color blending filter did not find parameter `output_layer`.";
     return false;
   }
-  ROS_DEBUG("Color blending filter output_layer = %s.", outputLayer_.c_str());
+  LOG(INFO) << "Color blending filter output_layer = " << outputLayer_;
   return true;
 }
 
@@ -105,26 +106,16 @@ bool ColorBlendingFilter::update(const GridMap& mapIn, GridMap& mapOut) {
           } else {
             outputColor = (1.0 - opacity_) * backgroundColor + opacity_ * blendedColor;
           }
-
           break;
         }
         case BlendModes::SoftLight: {
           Eigen::Array3f blendedColor;
-          // Photoshop.
-          //          if (foregroundColor.mean() < 0.5) {
-          //            blendedColor = 2.0 * backgroundColor * foregroundColor + backgroundColor.square() * (1.0 - 2.0 * foregroundColor);
-          //          } else {
-          //            blendedColor = 2.0 * backgroundColor * (1.0 - foregroundColor) + backgroundColor.sqrt() * (2.0 * foregroundColor
-          //            - 1.0);
-          //          }
-          // Pegtop.
           blendedColor = ((1.0 - 2.0 * foregroundColor) * backgroundColor.square() + 2.0 * backgroundColor * foregroundColor);
           if (opacity_ == 1.0) {
             outputColor = blendedColor;
           } else {
             outputColor = (1.0 - opacity_) * backgroundColor + opacity_ * blendedColor;
           }
-
           break;
         }
       }

@@ -10,6 +10,7 @@
 
 #include <math.h>
 #include <Eigen/Dense>
+#include <glog/logging.h>
 
 #include <grid_map_core/grid_map_core.hpp>
 
@@ -23,34 +24,34 @@ ColorFillFilter::~ColorFillFilter() = default;
 
 bool ColorFillFilter::configure() {
   if (!FilterBase::getParam(std::string("red"), r_)) {
-    ROS_ERROR("Color fill filter did not find parameter `red`.");
+    LOG(ERROR) << "Color fill filter did not find parameter `red`.";
     return false;
   }
-  ROS_DEBUG("Color fill filter red is = %f.", r_);
+  LOG(INFO) << "Color fill filter red is = " << r_;
 
   if (!FilterBase::getParam(std::string("green"), g_)) {
-    ROS_ERROR("Color fill filter did not find parameter `green`.");
+    LOG(ERROR) << "Color fill filter did not find parameter `green`.";
     return false;
   }
-  ROS_DEBUG("Color fill filter green is = %f.", g_);
+  LOG(INFO) << "Color fill filter green is = " << g_;
 
   if (!FilterBase::getParam(std::string("blue"), b_)) {
-    ROS_ERROR("Color fill filter did not find parameter `blue`.");
+    LOG(ERROR) << "Color fill filter did not find parameter `blue`.";
     return false;
   }
-  ROS_DEBUG("Color fill filter blue is = %f.", b_);
+  LOG(INFO) << "Color fill filter blue is = " << b_;
 
   if (!FilterBase::getParam(std::string("mask_layer"), maskLayer_)) {
-    ROS_WARN("Color fill filter did not find parameter `mask_layer`.");
+    LOG(WARNING) << "Color fill filter did not find parameter `mask_layer`.";
   } else {
-    ROS_DEBUG("Color fill filter mask_layer = %s.", maskLayer_.c_str());
+    LOG(INFO) << "Color fill filter mask_layer = " << maskLayer_;
   }
 
   if (!FilterBase::getParam(std::string("output_layer"), outputLayer_)) {
-    ROS_ERROR("Color fill filter did not find parameter `output_layer`.");
+    LOG(ERROR) << "Color fill filter did not find parameter `output_layer`.";
     return false;
   }
-  ROS_DEBUG("Color fill filter output_layer = %s.", outputLayer_.c_str());
+  LOG(INFO) << "Color fill filter output_layer = " << outputLayer_;
   return true;
 }
 

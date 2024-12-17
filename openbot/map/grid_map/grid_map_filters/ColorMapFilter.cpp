@@ -9,6 +9,7 @@
 #include "grid_map_filters/ColorMapFilter.hpp"
 
 #include <Eigen/Dense>
+#include <glog/logging.h>
 
 #include <grid_map_core/grid_map_core.hpp>
 
@@ -22,44 +23,44 @@ ColorMapFilter::~ColorMapFilter() = default;
 
 bool ColorMapFilter::configure() {
   if (!FilterBase::getParam(std::string("input_layer"), inputLayer_)) {
-    ROS_ERROR("Color map filter did not find parameter `input_layer`.");
+    LOG(ERROR) << "Color map filter did not find parameter `input_layer`.";
     return false;
   }
-  ROS_DEBUG("Color map filter input_layer = %s.", inputLayer_.c_str());
+  LOG(INFO) << "Color map filter input_layer = " << inputLayer_;
 
   if (!FilterBase::getParam(std::string("output_layer"), outputLayer_)) {
-    ROS_ERROR("Color map filter did not find parameter `output_layer`.");
+    LOG(ERROR) << "Color map filter did not find parameter `output_layer`.";
     return false;
   }
-  ROS_DEBUG("Color map filter output_layer = %s.", outputLayer_.c_str());
+  LOG(INFO) << "Color map filter output_layer = " << outputLayer_;
 
   if (!FilterBase::getParam(std::string("min/value"), min_)) {
-    ROS_ERROR("Color map filter did not find parameter `min/value`.");
+    LOG(ERROR) << "Color map filter did not find parameter `min/value`.";
     return false;
   }
   if (!FilterBase::getParam(std::string("max/value"), max_)) {
-    ROS_ERROR("Color map filter did not find parameter `max/value`.");
+    LOG(ERROR) << "Color map filter did not find parameter `max/value`.";
     return false;
   }
 
   std::vector<double> minColor;
   if (!FilterBase::getParam(std::string("min/color"), minColor)) {
-    ROS_ERROR("Color map filter did not find parameter `min/color`.");
+    LOG(ERROR) << "Color map filter did not find parameter `min/color`.";
     return false;
   }
   if (minColor.size() != 3) {
-    ROS_ERROR("Color map filter parameter `min/color` needs to be of size 3.");
+    LOG(ERROR) << "Color map filter parameter `min/color` needs to be of size 3.";
     return false;
   }
   minColor_ << minColor[0], minColor[1], minColor[2];
 
   std::vector<double> maxColor;
   if (!FilterBase::getParam(std::string("max/color"), maxColor)) {
-    ROS_ERROR("Color map filter did not find parameter `max/color`.");
+    LOG(ERROR) << "Color map filter did not find parameter `max/color`.";
     return false;
   }
   if (maxColor.size() != 3) {
-    ROS_ERROR("Color map filter parameter `max/color` needs to be of size 3.");
+    LOG(ERROR) << "Color map filter parameter `max/color` needs to be of size 3.";
     return false;
   }
   maxColor_ << maxColor[0], maxColor[1], maxColor[2];
