@@ -26,27 +26,27 @@
 
 #include "cyber/cyber.h"
 
-#include "openbot/common/proto/v2x/v2x_car_to_obu_service.grpc.pb.h"
+// #include "openbot/common/proto/v2x/v2x_car_to_obu_service.grpc.pb.h"
 
 namespace openbot {
 namespace bridge { 
 namespace grpc {
 
-    class GrpcServerImpl final : public ::openbot::common::proto::v2x::CarToObu::Service {
-     public:
-       /* construct function
-       */
-       GrpcServerImpl();
-       ~GrpcServerImpl()override; 
+    // class GrpcServerImpl final : public ::openbot::common::proto::v2x::CarToObu::Service {
+    //  public:
+    //    /* construct function
+    //    */
+    //    GrpcServerImpl();
+    //    ~GrpcServerImpl()override; 
 
-       bool InitFlag() { return init_flag_; }
+    //    bool InitFlag() { return init_flag_; }
 
-       ::grpc::Status PushCarStatus(::grpc::ServerContext* context, const ::openbot::common::proto::v2x::CarStatus* request, ::openbot::common::proto::v2x::UpdateStatus* response) override;
+    //    ::grpc::Status PushCarStatus(::grpc::ServerContext* context, const ::openbot::common::proto::v2x::CarStatus* request, ::openbot::common::proto::v2x::UpdateStatus* response) override;
 
-     private:
-       bool init_flag_ = false;
-       std::unique_ptr<::apollo::cyber::Node> node_ = nullptr;
-    };
+    //  private:
+    //    bool init_flag_ = false;
+    //    std::unique_ptr<::apollo::cyber::Node> node_ = nullptr;
+    // };
 
 }  // namespace grpc 
 }  // namespace bridge 

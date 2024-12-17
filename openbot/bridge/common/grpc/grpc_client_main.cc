@@ -43,58 +43,58 @@ void MessageCallback(const std::shared_ptr<openbot::common::proto::nav_msgs::Pat
 
 int main(int argc, char* argv[])
 {
-    google::ParseCommandLineFlags(&argc, &argv, true);
+    // google::ParseCommandLineFlags(&argc, &argv, true);
 
-    // init cyber framework
-    apollo::cyber::Init(argv[0]);
+    // // init cyber framework
+    // apollo::cyber::Init(argv[0]);
 
-    auto server_address = ::absl::StrFormat("%s:%d", FLAGS_grpc_client_host, FLAGS_grpc_client_port);
-    LOG(INFO) << "connecting to " << server_address;
-    std::shared_ptr<grpc::Channel> channel = grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials());
-    grpc_connectivity_state state = channel->GetState(true);
-    switch (state) {
-        case GRPC_CHANNEL_IDLE:
-            printf("Channel is idle.\n");
-            break;
-        case GRPC_CHANNEL_CONNECTING:
-            printf("Channel is connecting.\n");
-            break;
-        case GRPC_CHANNEL_READY:
-            printf("Channel is ready.\n");
-            break;
-        case GRPC_CHANNEL_TRANSIENT_FAILURE:
-            printf("Channel encountered a transient failure.\n");
-            break;
-        case GRPC_CHANNEL_SHUTDOWN:
-            printf("Channel is shutdown.\n");
-            break;
-        default:
-            printf("Unknown channel state.\n");
-            break;
-    }
+    // auto server_address = ::absl::StrFormat("%s:%d", FLAGS_grpc_client_host, FLAGS_grpc_client_port);
+    // LOG(INFO) << "connecting to " << server_address;
+    // std::shared_ptr<grpc::Channel> channel = grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials());
+    // grpc_connectivity_state state = channel->GetState(true);
+    // switch (state) {
+    //     case GRPC_CHANNEL_IDLE:
+    //         printf("Channel is idle.\n");
+    //         break;
+    //     case GRPC_CHANNEL_CONNECTING:
+    //         printf("Channel is connecting.\n");
+    //         break;
+    //     case GRPC_CHANNEL_READY:
+    //         printf("Channel is ready.\n");
+    //         break;
+    //     case GRPC_CHANNEL_TRANSIENT_FAILURE:
+    //         printf("Channel encountered a transient failure.\n");
+    //         break;
+    //     case GRPC_CHANNEL_SHUTDOWN:
+    //         printf("Channel is shutdown.\n");
+    //         break;
+    //     default:
+    //         printf("Unknown channel state.\n");
+    //         break;
+    // }
 
 
-    std::unique_ptr<GrpcClientImpl> grpc_client (new GrpcClientImpl(channel));
-    grpc_client->InitFlag();
+    // std::unique_ptr<GrpcClientImpl> grpc_client (new GrpcClientImpl(channel));
+    // grpc_client->InitFlag();
     
-    //for testing....
-    for (int i = 0; i < 100; i++) {
-        std::shared_ptr<openbot::common::proto::v2x::CarStatus> msg(new openbot::common::proto::v2x::CarStatus());
-        msg->set_rsu_id(i);
-        LOG(INFO) << "set msg: rsu_id>>" << msg->rsu_id();
-	grpc_client->SendMsgToGrpc(msg);
-    }
-    LOG(INFO) << "======================start listener====================";
+    // //for testing....
+    // for (int i = 0; i < 100; i++) {
+    //     std::shared_ptr<openbot::common::proto::v2x::CarStatus> msg(new openbot::common::proto::v2x::CarStatus());
+    //     msg->set_rsu_id(i);
+    //     LOG(INFO) << "set msg: rsu_id>>" << msg->rsu_id();
+	// grpc_client->SendMsgToGrpc(msg);
+    // }
+    // LOG(INFO) << "======================start listener====================";
 
-    auto send_msg_fn = std::mem_fn(&openbot::bridge::grpc::GrpcClientImpl::SendMsgToGrpc);
+    // auto send_msg_fn = std::mem_fn(&openbot::bridge::grpc::GrpcClientImpl::SendMsgToGrpc);
     
-    // create grpc_client node
-    auto grpc_client_node = apollo::cyber::CreateNode("grpc_client");
+    // // create grpc_client node
+    // auto grpc_client_node = apollo::cyber::CreateNode("grpc_client");
 
-    // create listener
-    auto listener = grpc_client_node->CreateReader<::openbot::common::proto::v2x::CarStatus>("grpc_channel",
-			  std::bind(send_msg_fn, grpc_client.get(), std::placeholders::_1));
+    // // create listener
+    // auto listener = grpc_client_node->CreateReader<::openbot::common::proto::v2x::CarStatus>("grpc_channel",
+	// 		  std::bind(send_msg_fn, grpc_client.get(), std::placeholders::_1));
 
-    apollo::cyber::WaitForShutdown();
+    // apollo::cyber::WaitForShutdown();
     return EXIT_SUCCESS;
 }

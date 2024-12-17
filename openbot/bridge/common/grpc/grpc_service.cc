@@ -22,24 +22,24 @@ namespace openbot {
 namespace bridge { 
 namespace grpc {
 
-    GrpcServerImpl::GrpcServerImpl()
-        : node_(::apollo::cyber::CreateNode("grpc_server")) {
-       LOG(INFO) << "create grpc_server node";
-      CHECK(!!node_);
-      // _monitor = cybertron::MetricController::Instance();
-      LOG(INFO) << "GrpcServerImpl initial success";
-      init_flag_ = true;
-    }
+    // GrpcServerImpl::GrpcServerImpl()
+    //     : node_(::apollo::cyber::CreateNode("grpc_server")) {
+    //    LOG(INFO) << "create grpc_server node";
+    //   CHECK(!!node_);
+    //   // _monitor = cybertron::MetricController::Instance();
+    //   LOG(INFO) << "GrpcServerImpl initial success";
+    //   init_flag_ = true;
+    // }
 
-    GrpcServerImpl::~GrpcServerImpl() {};
+    // GrpcServerImpl::~GrpcServerImpl() {};
 
 
-    ::grpc::Status GrpcServerImpl::PushCarStatus(::grpc::ServerContext* context, const ::openbot::common::proto::v2x::CarStatus* request, ::openbot::common::proto::v2x::UpdateStatus* response) {
+    // ::grpc::Status GrpcServerImpl::PushCarStatus(::grpc::ServerContext* context, const ::openbot::common::proto::v2x::CarStatus* request, ::openbot::common::proto::v2x::UpdateStatus* response) {
         
-	LOG(INFO) << "PushCarStatus call success !<_>!";
+	// LOG(INFO) << "PushCarStatus call success !<_>!";
 
-        return ::grpc::Status::OK;
-    }
+    //     return ::grpc::Status::OK;
+    // }
 }  // namespace grpc 
 }  // namespace bridge 
 }  // namespace openbot

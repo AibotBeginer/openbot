@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/bridge/compontents/grpc_component.hpp"
+#include "openbot/bridge/components/grpc_component.hpp"
 
 namespace openbot {
 namespace bridge { 

@@ -22,34 +22,35 @@
 
 #include <grpc++/grpc++.h>
 
-#include "openbot/common/proto/v2x/v2x_car_to_obu_service.grpc.pb.h"
+// #include "openbot/common/proto/v2x/v2x_car_to_obu_service.grpc.pb.h"
 
 namespace openbot {
 namespace bridge { 
 namespace grpc { 
 
-    class GrpcClientImpl {
-     public:
-      /* construct function
-      @param input car_status type msg shared ptr
-      */
-      explicit GrpcClientImpl(std::shared_ptr<::grpc::Channel> channel);
+class GrpcClientImpl 
+{
+public:
+    /* construct function
+    @param input car_status type msg shared ptr
+    */
+    explicit GrpcClientImpl(std::shared_ptr<::grpc::Channel> channel);
 
-      ~GrpcClientImpl() {}
+    ~GrpcClientImpl() {}
 
-      bool InitFlag() { return init_flag_; }
+    bool InitFlag() { return init_flag_; }
 
-      /*function that send car status msg through grpc
-      @param input car_status type msg shared ptr
-      */
-      void SendMsgToGrpc(const std::shared_ptr<::openbot::common::proto::v2x::CarStatus> &msg);
+    // /*function that send car status msg through grpc
+    // @param input car_status type msg shared ptr
+    // */
+    // void SendMsgToGrpc(const std::shared_ptr<::openbot::common::proto::v2x::CarStatus> &msg);
 
-     private:
-      //  grpc service stub
-      std::unique_ptr<::openbot::common::proto::v2x::CarToObu::Stub> stub_;
-      int car_status_tv_nsec_ = 0;
-      bool init_flag_ = false;
-    };
+    // private:
+    // //  grpc service stub
+    // std::unique_ptr<::openbot::common::proto::v2x::CarToObu::Stub> stub_;
+    // int car_status_tv_nsec_ = 0;
+    // bool init_flag_ = false;
+};
 }  // namespace grpc 
 }  // namespace bridge 
 }  // namespace openbot
