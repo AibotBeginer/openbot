@@ -28,23 +28,20 @@
 
 #include "openbot/common/macros.hpp"
 #include "openbot/map/proto/grid_map.pb.h"
-#include "openbot/planning/proto/global_planner.pb.h"
 
 namespace openbot {
 namespace planning { 
 
-class PlanningComponent final :
-    public apollo::cyber::Component<proto::GlobalPlan> 
+class PlanningComponent final : public apollo::cyber::Component<> 
 {
 public:
     PlanningComponent() = default;
     ~PlanningComponent() = default;
 
     bool Init() override;
-    bool Proc(const std::shared_ptr<::openbot::planning::proto::GlobalPlan>& plan) override;
 
 private:
-    std::shared_ptr<apollo::cyber::Reader<::openbot::planning::proto::GlobalPlan>> global_plan_reader_{nullptr};
+
 };
 
 CYBER_REGISTER_COMPONENT(PlanningComponent)

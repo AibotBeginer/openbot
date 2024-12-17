@@ -14,11 +14,11 @@
 
 syntax = "proto3";
 
-package openbot.map.proto;
+package openbot.map;
 
-import "openbot/common/proto/std_msgs/header.proto";
+import "openbot/common/proto/std_msgs.proto";
 
 message Costmap
 {
-    common.proto.std_msgs.Header header = 1;
+    common.std_msgs.Header header = 1;
 }

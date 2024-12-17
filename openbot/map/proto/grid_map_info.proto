@@ -14,9 +14,9 @@
 
 syntax = "proto3";
 
-package openbot.map.proto;
+package openbot.map;
 
-import "openbot/common/proto/geometry_msgs/pose.proto";
+import "openbot/common/proto/geometry_msgs.proto";
 
 message GridMapInfo
 {
@@ -30,5 +30,5 @@ message GridMapInfo
     double length_y = 3;
     
     // Pose of the grid map center in the frame defined in `header` [m].
-    common.proto.geometry_msgs.Pose pose = 4;
+    common.geometry_msgs.Pose pose = 4;
 }

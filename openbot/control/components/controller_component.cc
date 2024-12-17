@@ -24,10 +24,5 @@ bool ControllerComponent::Init()
     return true;
 }
 
-bool ControllerComponent::Proc(const std::shared_ptr<::openbot::control::proto::LocalPlan>& plan) 
-{
-    return true;
-}
-
 }  // namespace control
 }  // namespace openbot

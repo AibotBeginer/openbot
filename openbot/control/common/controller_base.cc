@@ -27,6 +27,5 @@ namespace openbot {
 namespace control {
 
 
-
 }  // namespace control
 }  // namespace openbot

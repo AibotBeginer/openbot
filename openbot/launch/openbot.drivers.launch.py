@@ -13,3 +13,45 @@
 # limitations under the License.
 
 import os
+import subprocess
+
+# 定义要并发执行的命令列表
+commands = [
+    ['cyber_launch', 'start', '/opt/openbot/share/openbot/drivers/launch/drivers.launch'],
+]
+
+def start_env():
+    command = "source /opt/cyber/setup.zsh && env"
+    proc = subprocess.Popen(command, shell=True, executable='/bin/zsh', stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        (key, _, value) = line.decode('utf-8').partition("=")
+        os.environ[key] = value.strip()
+
+    proc.communicate()
+
+# 存储所有的 Popen 对象
+processes = []
+
+def start_cmds():
+    # 启动所有命令
+    for command in commands:
+        print(f"Starting command: {command}")
+        # process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(command, stdout=None, stderr=None)
+        processes.append(process)
+
+    # 等待所有进程完成
+    for process in processes:
+        stdout, stderr = process.communicate()
+        print(f"Command finished with return code {process.returncode}")
+        if stdout:
+            print("Output:", stdout.decode())
+        if stderr:
+            print("Error:", stderr.decode())
+
+def main():
+    start_env()
+    start_cmds()
+
+if __name__ == "__main__":
+    main()

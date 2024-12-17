@@ -22,12 +22,6 @@
 
 #include "openbot/common/macros.hpp"
 #include "openbot/planning/common/global_planner.hpp"
-#include "openbot/common/proto/nav_msgs/path.pb.h"
-#include "openbot/common/proto/geometry_msgs/twist.pb.h"
-#include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"
-#include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
-
-
 
 namespace openbot {
 namespace planning { 
@@ -75,16 +69,6 @@ public:
      * @brief Method to deactive planner and any threads involved in execution.
      */
     virtual void Deactivate() override;
-
-    /**
-     * @brief Method create the plan from a starting and ending goal.
-     * @param start The starting pose of the robot
-     * @param goal  The goal pose of the robot
-     * @return      The sequence of poses to get from start to goal, if any
-     */
-    virtual common::proto::nav_msgs::Path CreatePlan(
-        const common::proto::geometry_msgs::PoseStamped& start,
-        const common::proto::geometry_msgs::PoseStamped& goal, const double timeout) override;
 
     /**
      * @brief Method create the plan from a starting and ending goal.

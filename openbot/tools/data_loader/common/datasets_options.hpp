@@ -20,10 +20,8 @@ namespace openbot {
 namespace tools { 
 namespace data_loader {
 
-class DatasetsLoader
+struct DatasetsOpitons
 {
-public:
-    
 
 };
 

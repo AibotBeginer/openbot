@@ -157,6 +157,19 @@ cd openbot/docker
 ./run_openbot.sh aarch64
 ```
 
+* 相关的docker运行指令
+
+```bash
+# 运行存在的容器
+docker exec -it SpaceHero /bin/bash
+
+# 重启容器
+docker restart SpaceHero
+
+# 停止容器
+docker stop SpaceHero
+```
+
 * 编译openbot
 
 ```bash

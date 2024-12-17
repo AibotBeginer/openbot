@@ -45,6 +45,11 @@ if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "/opt/openbot" CACHE PATH "Default install prefix" FORCE)
 endif()
 
+# thirdparty
+add_subdirectory(thirdparty)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty/tf2/include)
+
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams graph program_options system)
 
@@ -160,6 +165,8 @@ if(${BUILD_GRPC})
 
     list(APPEND ALL_GRPC_SERVICE_SRCS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.grpc.pb.cc")
     list(APPEND ALL_GRPC_SERVICE_HDRS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.grpc.pb.h")
+    list(APPEND ALL_GRPC_SERVICE_SRCS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.cc")
+    list(APPEND ALL_GRPC_SERVICE_HDRS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.h")
 
     add_custom_command(
       OUTPUT "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}.pb.cc"
@@ -225,10 +232,6 @@ endforeach()
 set_source_files_properties(${ALL_PROTO_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
 list(APPEND ALL_LIBRARY_SRCS ${ALL_PROTO_SRCS})
-
-# thirdparty
-add_subdirectory(thirdparty)
-include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
 
 set(INSTALL_GENERATED_HDRS ${ALL_PROTO_HDRS} ${ALL_GRPC_SERVICE_HDRS})
 
@@ -328,12 +331,14 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
+target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
 # compontent
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/bridge)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/control)
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/drivers)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/planning)
 
 

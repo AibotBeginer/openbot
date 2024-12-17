@@ -26,7 +26,7 @@ RadarPoints::RadarPoints(
       buffer_(nullptr) {}
 
 bool RadarPoints::FillData(
-    const std::shared_ptr<const openbot::drivers::RadarObstacles>& rawData) {
+    const std::shared_ptr<const openbot::common_msgs::drivers::RadarObstacles>& rawData) {
   bool ret = false;
 
   set_vertex_count(rawData->radar_obstacle_size());
@@ -35,13 +35,13 @@ bool RadarPoints::FillData(
   if (buffer_) {
     GLfloat* ptr = buffer_;
     const ::google::protobuf::Map<::google::protobuf::int32,
-                                  openbot::drivers::RadarObstacle>&
+                                  openbot::common_msgs::drivers::RadarObstacle>&
         radarObstacles = rawData->radar_obstacle();
     for (::google::protobuf::Map<::google::protobuf::int32,
-                                 openbot::drivers::RadarObstacle>::const_iterator
+                                 openbot::common_msgs::drivers::RadarObstacle>::const_iterator
              iter = radarObstacles.cbegin();
          iter != radarObstacles.cend(); ++iter, ptr += vertex_element_count()) {
-      const openbot::common::Point2D& position =
+      const openbot::common_msgs::Point2D& position =
           iter->second.absolute_position();
 
       ptr[0] = static_cast<float>(position.x());

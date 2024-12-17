@@ -25,23 +25,19 @@
 #include "cyber/message/raw_message.h"
 
 #include "openbot/common/macros.hpp"
-#include "openbot/control/proto/local_planner.pb.h"
 
 namespace openbot {
 namespace control {
 
-class ControllerComponent final :
-    public apollo::cyber::Component<proto::LocalPlan> 
+class ControllerComponent final : public apollo::cyber::Component<> 
 {
 public:
     ControllerComponent() = default;
     ~ControllerComponent() = default;
 
     bool Init() override;
-    bool Proc(const std::shared_ptr<::openbot::control::proto::LocalPlan>& plan) override;
 
 private:
-    std::shared_ptr<apollo::cyber::Reader<::openbot::control::proto::LocalPlan>> local_plan_reader_{nullptr};
 };
 
 CYBER_REGISTER_COMPONENT(ControllerComponent)

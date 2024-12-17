@@ -53,7 +53,7 @@ bool Texture::UpdateData(const QImage& img) {
 }
 
 bool Texture::UpdateData(
-    const std::shared_ptr<const openbot::drivers::Image>& imgData) {
+    const std::shared_ptr<const openbot::common_msgs::drivers::Image>& imgData) {
   std::size_t imgSize = imgData->width() * imgData->height() * 3;
 
   if (static_cast<std::size_t>(data_size_) < imgSize) {

@@ -19,15 +19,8 @@
 #include <chrono>
 #include <string>
 
+#include "openbot/common/io/msgs.hpp"
 #include "openbot/common/macros.hpp"
-#include "openbot/common/proto/nav_msgs/path.pb.h"
-#include "openbot/common/proto/geometry_msgs/twist.pb.h"
-#include "openbot/common/proto/geometry_msgs/twist_stamped.pb.h"
-#include "openbot/common/proto/geometry_msgs/pose_stamped.pb.h"
-
-#include "openbot/control/motion/motion_common.hpp"
-#include "openbot/common/motion_model/differential_drive_motion_model.hpp"
-
 
 namespace openbot {
 namespace control {

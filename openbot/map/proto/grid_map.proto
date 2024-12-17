@@ -14,10 +14,9 @@
 
 syntax = "proto3";
 
-package openbot.map.proto;
+package openbot.map;
 
-import "openbot/common/proto/std_msgs/header.proto";
-import "openbot/common/proto/std_msgs/float32_multi_array.proto";
+import "openbot/common/proto/std_msgs.proto";
 import "openbot/map/proto/grid_map_info.proto";
 
 
@@ -26,10 +25,10 @@ import "openbot/map/proto/grid_map_info.proto";
 message GridMap 
 {
     // Header (time and frame)
-    common.proto.std_msgs.Header header = 1;
+    common.std_msgs.Header header = 1;
 
     // Grid map header
-    proto.GridMapInfo info = 2;
+    GridMapInfo info = 2;
 
     // Grid map layer names.
     repeated string layers = 3;
@@ -41,7 +40,7 @@ message GridMap
 
     // // Grid map data.
     // std_msgs/Float32MultiArray[] data
-    repeated common.proto.std_msgs.Float32MultiArray data = 5;
+    repeated common.std_msgs.Float32MultiArray data = 5;
 
     // Row start index (default 0).
     uint32 outer_start_index = 6;

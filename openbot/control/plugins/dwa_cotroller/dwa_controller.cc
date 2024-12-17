@@ -54,11 +54,11 @@ void DWAController::SetPlan(const common::nav_msgs::Path& path)
 
 }
 
-common::proto::geometry_msgs::TwistStamped DWAController::ComputeVelocityCommands(
-  const common::proto::geometry_msgs::PoseStamped& pose,
-  const common::proto::geometry_msgs::Twist& velocity) 
+common::geometry_msgs::TwistStamped DWAController::ComputeVelocityCommands(
+  const common::geometry_msgs::PoseStamped& pose,
+  const common::geometry_msgs::Twist& velocity) 
 {
-  common::proto::geometry_msgs::TwistStamped cmd_vel;
+  common::geometry_msgs::TwistStamped cmd_vel;
   return cmd_vel;
 }
 

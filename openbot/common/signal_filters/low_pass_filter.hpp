@@ -19,7 +19,6 @@
 #define OPENBOT_COMMON_SIGNAL_FILTERS_LOW_PASS_FILTER_HPP_
 
 #include "openbot/common/signal_filters/signal_filter.hpp"
-#include "signal_filters/visibility_control.hpp"
 
 #include <chrono>
 
