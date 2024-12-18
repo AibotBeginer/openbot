@@ -1,7 +1,8 @@
 # grpc_component
 if(${BUILD_GRPC})
+
   # library grpc_component
-  add_library(grpc_component SHARED compontents/grpc_component.cc)
+  add_library(grpc_component SHARED components/grpc_component.cc)
   target_link_libraries(grpc_component ${PROJECT_NAME})
 
   # application.grpc_client_main
@@ -15,7 +16,7 @@ if(${BUILD_GRPC})
     SRCS
       common/grpc/grpc_server_main.cc
   )
-
+  
   # install
   install(TARGETS
     grpc_component

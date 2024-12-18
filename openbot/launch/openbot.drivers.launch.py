@@ -21,7 +21,7 @@ commands = [
 ]
 
 def start_env():
-    command = "source /opt/cyber/setup.zsh && env"
+    command = "source /opt/cyber/setup.bash && env"
     proc = subprocess.Popen(command, shell=True, executable='/bin/zsh', stdout=subprocess.PIPE)
     for line in proc.stdout:
         (key, _, value) = line.decode('utf-8').partition("=")
@@ -50,7 +50,7 @@ def start_cmds():
             print("Error:", stderr.decode())
 
 def main():
-    start_env()
+    #start_env()
     start_cmds()
 
 if __name__ == "__main__":

@@ -5,6 +5,8 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt5 REQUIRED COMPONENTS OpenGL Core Gui Widgets)
 find_package(OpenGL REQUIRED)
+find_package(openbot_bridge REQUIRED)
+
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
@@ -36,6 +38,7 @@ target_link_libraries(openbot_visualizer
   Qt5::Widgets
   OpenGL::GL
   openbot
+  openbot_bridge
   ${CYBERRT_LIBRARY})
 
 # Add the binary directory first, so that port.h is included after it has

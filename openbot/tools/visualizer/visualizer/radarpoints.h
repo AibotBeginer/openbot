@@ -20,7 +20,7 @@
 #include <memory>
 #include <string>
 
-#include "openbot/common_msgs/sensor_msgs/radar.pb.h"
+#include "openbot_bridge/sensor_msgs/radar.pb.h"
 #include "renderable_object.h"
 
 class QOpenGLShaderProgram;
@@ -64,7 +64,7 @@ class RadarPoints : public RenderableObject {
   }
 
   bool FillData(
-      const std::shared_ptr<const openbot::common_msgs::drivers::RadarObstacles>& pData);
+      const std::shared_ptr<const openbot_bridge::sensor_msgs::RadarObstacles>& pData);
 
  protected:
   bool FillVertexBuffer(GLfloat* pBuffer) override;

@@ -32,7 +32,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 option(BUILD_GRPC "Build openbot gRPC support" true)
 option(BUILD_DOCS "Build openbot docs support" OFF)
-option(BUILD_TOOLS "Build openbot tools support" OFF)
+option(BUILD_TOOLS "Build openbot tools support" ON)
 option(BUILD_PROMETHEUS "Build prometheus monitoring support" false)
 option(BUILD_TEST "Build openbot unit test" OFF)
 
@@ -65,6 +65,7 @@ find_package(OSQP REQUIRED)
 find_package(octomap REQUIRED)
 find_package(yaml-cpp REQUIRED)
 find_package(CYBERRT REQUIRED)
+find_package(openbot_bridge REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(gRPC REQUIRED)
@@ -313,7 +314,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
 target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
-# target_link_libraries(${PROJECT_NAME} SYSTEM PUBLIC common_msgs::common_msgs)
+target_link_libraries(${PROJECT_NAME} PUBLIC openbot_bridge)
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
