@@ -1,6 +1,20 @@
-syntax = "proto2";
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-package apollo.drivers.camera.config;
+syntax = "proto3";
+
+package openbot.map;
 
 enum IOMethod {
   IO_METHOD_UNKNOWN = 0;
@@ -14,7 +28,7 @@ enum OutputType {
   RGB = 1;
 }
 
-message Config {
+message FilterConfig {
   optional string camera_dev = 1;
   optional string frame_id = 2;
   // v4l pixel format
