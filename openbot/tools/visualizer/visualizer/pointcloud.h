@@ -18,7 +18,7 @@
 
 #include <memory>
 
-#include "openbot/common_msgs/sensor_msgs/pointcloud.pb.h"
+#include "openbot_bridge/sensor_msgs/pointcloud.pb.h"
 #include "renderable_object.h"
 
 class QOpenGLShaderProgram;
@@ -33,7 +33,7 @@ class PointCloud : public RenderableObject {
   virtual GLenum GetPrimitiveType(void) const { return GL_POINTS; }
 
   bool FillData(
-      const std::shared_ptr<const openbot::common_msgs::drivers::PointCloud>& pData);
+      const std::shared_ptr<const openbot_bridge::sensor_msgs::PointCloud>& pData);
 
  private:
   virtual bool FillVertexBuffer(GLfloat* vertexBuffer);
