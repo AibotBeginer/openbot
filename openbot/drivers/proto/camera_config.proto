@@ -1,0 +1,87 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package openbot.drivers.camera.config;
+
+enum IOMethod 
+{
+  IO_METHOD_UNKNOWN = 0;
+  IO_METHOD_READ = 1;
+  IO_METHOD_MMAP = 2;
+  IO_METHOD_USERPTR = 3;
+}
+
+enum OutputType 
+{
+  YUYV = 0;
+  RGB = 1;
+}
+
+message Config 
+{
+  string camera_dev = 1;
+  string frame_id = 2;
+  // v4l pixel format
+  string pixel_format = 3;
+  // mmap, userptr, read
+  IOMethod io_method = 4;
+  uint32 width = 5;
+  uint32 height = 6;
+  uint32 frame_rate = 7;
+  bool monochrome = 8;
+
+  int32 brightness = 9;
+  int32 contrast = 10;
+  int32 saturation = 11;
+  int32 sharpness = 12;
+  int32 gain = 13;
+
+  bool auto_focus = 14;
+  int32 focus = 15;
+  bool auto_exposure = 16;
+  int32 exposure = 17;
+  bool auto_white_balance = 18;
+  int32 white_balance = 19;
+  uint32 bytes_per_pixel = 20;
+  uint32 trigger_internal = 21;
+  uint32 trigger_fps = 22;
+  string channel_name = 23;
+  string raw_channel_name = 24;
+  // wait time when camera select timeout
+  uint32 device_wait_ms = 25;
+  // camera select spin time
+  uint32 spin_rate = 26;
+  OutputType output_type = 27;
+
+  message CompressConfig 
+  {
+    string output_channel = 1;
+    uint32 image_pool_size = 2;
+    uint32 width = 3;
+    uint32 height = 4;
+  }
+  
+  CompressConfig compress_conf = 28;
+  bool hardware_trigger = 29;
+
+  message TimeCompensatorConfig 
+  {
+    bool enable_compensator = 1;
+    string compensator_fnode = 2;
+  }
+  TimeCompensatorConfig time_compensator_conf = 30;
+  bool arm_gpu_acceleration = 31;
+}

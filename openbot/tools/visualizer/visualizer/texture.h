@@ -20,7 +20,7 @@
 #include <QtGui/QOpenGLBuffer>
 #include <memory>
 
-#include "openbot/common_msgs/sensor_msgs/sensor_image.pb.h"
+#include "openbot_bridge/sensor_msgs/sensor_image.pb.h"
 
 class Texture {
  public:
@@ -44,7 +44,7 @@ class Texture {
   GLsizei data_size(void) const { return data_size_; }
 
   bool UpdateData(const QImage& img);
-  bool UpdateData(const std::shared_ptr<const openbot::common_msgs::drivers::Image>&);
+  bool UpdateData(const std::shared_ptr<const openbot_bridge::sensor_msgs::Image>&);
   const GLubyte* data(void) const { return data_; }
 
  private:

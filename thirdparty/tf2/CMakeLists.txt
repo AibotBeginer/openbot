@@ -56,3 +56,32 @@ if (BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
 endif()
+
+
+install(
+  TARGETS ${PROJECT_NAME}
+  EXPORT Tf2Export
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+set(TF2_CMAKE_DIR share/tf2/cmake)
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+  ${PROJECT_SOURCE_DIR}/cmake/tf2-config.cmake.in
+  ${PROJECT_BINARY_DIR}/cmake/tf2/tf2-config.cmake
+  PATH_VARS TF2_CMAKE_DIR
+  INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/tf2
+)
+
+install(
+  EXPORT Tf2Export
+  DESTINATION share/tf2/cmake/
+  FILE Tf2Targets.cmake
+)
+
+install(
+  FILES ${PROJECT_BINARY_DIR}/cmake/tf2/tf2-config.cmake
+  DESTINATION share/tf2/
+)

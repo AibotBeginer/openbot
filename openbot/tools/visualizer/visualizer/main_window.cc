@@ -90,8 +90,8 @@ struct MainWindow::VideoImgProxy {
   std::shared_ptr<Texture> dynamic_texture_;
   bool isCompressedImage_;
   union {
-    CyberChannReader<openbot::common_msgs::drivers::Image>* image_reader_;
-    CyberChannReader<openbot::common_msgs::drivers::CompressedImage>*
+    CyberChannReader<openbot_bridge::sensor_msgs::Image>* image_reader_;
+    CyberChannReader<openbot_bridge::sensor_msgs::CompressedImage>*
         compressed_image_reader_;
   };
 
@@ -144,7 +144,7 @@ struct MainWindow::RadarData {
 
   QMutex reader_mutex_;
 
-  CyberChannReader<openbot::common_msgs::drivers::RadarObstacles>* channel_reader_;
+  CyberChannReader<openbot_bridge::sensor_msgs::RadarObstacles>* channel_reader_;
 
   RadarData(void)
       : root_item_(),
@@ -590,7 +590,7 @@ void MainWindow::DoOpenRadarChannel(bool b, RadarData* radarProxy) {
 
     if (!radarProxy->channel_reader_) {
       radarProxy->channel_reader_ =
-          new CyberChannReader<openbot::common_msgs::drivers::RadarObstacles>();
+          new CyberChannReader<openbot_bridge::sensor_msgs::RadarObstacles>();
 
       if (!radarProxy->channel_reader_) {
         QMessageBox::warning(this, tr("Create cyber Channel Reader"),
@@ -602,7 +602,7 @@ void MainWindow::DoOpenRadarChannel(bool b, RadarData* radarProxy) {
 
       auto radarcallback =
           [this, radarProxy](
-              const std::shared_ptr<openbot::common_msgs::drivers::RadarObstacles>& pdata) {
+              const std::shared_ptr<openbot_bridge::sensor_msgs::RadarObstacles>& pdata) {
             this->RadarRenderCallback(pdata, radarProxy);
           };
 
@@ -644,7 +644,7 @@ void MainWindow::DoOpenRadarChannel(bool b, RadarData* radarProxy) {
 }
 
 void MainWindow::RadarRenderCallback(
-    const std::shared_ptr<const openbot::common_msgs::drivers::RadarObstacles>& rawData,
+    const std::shared_ptr<const openbot_bridge::sensor_msgs::RadarObstacles>& rawData,
     RadarData* radar) {
   radar->reader_mutex_.lock();
   radar->reader_mutex_.unlock();
@@ -855,7 +855,7 @@ void MainWindow::UpdateActions(void) {
 }
 
 void MainWindow::PointCloudReaderCallback(
-    const std::shared_ptr<const openbot::common_msgs::drivers::PointCloud>& pdata) {
+    const std::shared_ptr<const openbot_bridge::sensor_msgs::PointCloud>& pdata) {
   pointcloud_reader_mutex_.lock();
   pointcloud_reader_mutex_.unlock();
   PointCloud* pc = new PointCloud(pdata->point_size(), 4, pointcloud_shader_);
@@ -882,7 +882,7 @@ void MainWindow::PlayRenderableObject(bool b) {
 
     if (!pointcloud_channel_Reader_) {
       pointcloud_channel_Reader_ =
-          new CyberChannReader<openbot::common_msgs::drivers::PointCloud>();
+          new CyberChannReader<openbot_bridge::sensor_msgs::PointCloud>();
 
       if (!pointcloud_channel_Reader_) {
         QMessageBox::warning(this, tr("Create Cyber Channel Reader"),
@@ -894,7 +894,7 @@ void MainWindow::PlayRenderableObject(bool b) {
       }
 
       auto pointCallback =
-          [this](const std::shared_ptr<openbot::common_msgs::drivers::PointCloud>& pdata) {
+          [this](const std::shared_ptr<openbot_bridge::sensor_msgs::PointCloud>& pdata) {
             this->PointCloudReaderCallback(pdata);
           };
       std::string nodeName("Visualizer-");
@@ -933,7 +933,7 @@ void MainWindow::PlayRenderableObject(bool b) {
 }
 
 void MainWindow::ImageReaderCallback(
-    const std::shared_ptr<const openbot::common_msgs::drivers::Image>& imgData,
+    const std::shared_ptr<const openbot_bridge::sensor_msgs::Image>& imgData,
     VideoImgProxy* theVideoImgProxy) {
   theVideoImgProxy->reader_mutex_.lock();
   if (theVideoImgProxy->dynamic_texture_ != nullptr && imgData != nullptr) {
@@ -953,7 +953,7 @@ void MainWindow::ImageReaderCallback(
 }
 
 void MainWindow::ImageReaderCallback(
-    const std::shared_ptr<const openbot::common_msgs::drivers::CompressedImage>& imgData,
+    const std::shared_ptr<const openbot_bridge::sensor_msgs::CompressedImage>& imgData,
     VideoImgProxy* theVideoImgProxy) {
   theVideoImgProxy->reader_mutex_.lock();
   if (theVideoImgProxy->dynamic_texture_ != nullptr && imgData != nullptr) {
@@ -1007,10 +1007,10 @@ void MainWindow::DoPlayVideoImage(bool b, VideoImgProxy* theVideoImg) {
     if (!theVideoImg->image_reader_) {
       if (theVideoImg->isCompressedImage_) {
         theVideoImg->compressed_image_reader_ =
-            new CyberChannReader<openbot::common_msgs::drivers::CompressedImage>();
+            new CyberChannReader<openbot_bridge::sensor_msgs::CompressedImage>();
       } else {
         theVideoImg->image_reader_ =
-            new CyberChannReader<openbot::common_msgs::drivers::Image>();
+            new CyberChannReader<openbot_bridge::sensor_msgs::Image>();
       }
 
       if (!theVideoImg->image_reader_) {
@@ -1029,7 +1029,7 @@ void MainWindow::DoPlayVideoImage(bool b, VideoImgProxy* theVideoImg) {
       if (theVideoImg->isCompressedImage_) {
         auto videoCallback =
             [this, theVideoImg](
-                const std::shared_ptr<openbot::common_msgs::drivers::CompressedImage>&
+                const std::shared_ptr<openbot_bridge::sensor_msgs::CompressedImage>&
                     pdata) { this->ImageReaderCallback(pdata, theVideoImg); };
 
         ret = theVideoImg->compressed_image_reader_->InstallCallbackAndOpen(
@@ -1037,7 +1037,7 @@ void MainWindow::DoPlayVideoImage(bool b, VideoImgProxy* theVideoImg) {
       } else {
         auto videoCallback =
             [this, theVideoImg](
-                const std::shared_ptr<openbot::common_msgs::drivers::Image>& pdata) {
+                const std::shared_ptr<openbot_bridge::sensor_msgs::Image>& pdata) {
               this->ImageReaderCallback(pdata, theVideoImg);
             };
         ret = theVideoImg->image_reader_->InstallCallbackAndOpen(

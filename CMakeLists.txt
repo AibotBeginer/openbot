@@ -32,7 +32,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 option(BUILD_GRPC "Build openbot gRPC support" true)
 option(BUILD_DOCS "Build openbot docs support" OFF)
-option(BUILD_TOOLS "Build openbot tools support" OFF)
+option(BUILD_TOOLS "Build openbot tools support" ON)
 option(BUILD_PROMETHEUS "Build prometheus monitoring support" false)
 option(BUILD_TEST "Build openbot unit test" OFF)
 
@@ -44,11 +44,6 @@ google_enable_testing()
 if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "/opt/openbot" CACHE PATH "Default install prefix" FORCE)
 endif()
-
-# thirdparty
-add_subdirectory(thirdparty)
-include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
-include_directories(${PROJECT_SOURCE_DIR}/thirdparty/tf2/include)
 
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams graph program_options system)
@@ -70,6 +65,7 @@ find_package(OSQP REQUIRED)
 find_package(octomap REQUIRED)
 find_package(yaml-cpp REQUIRED)
 find_package(CYBERRT REQUIRED)
+find_package(openbot_bridge REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(gRPC REQUIRED)
@@ -209,25 +205,10 @@ foreach(ABS_FIL ${ALL_PROTOS})
   )
 endforeach()
 
-# foreach(HDR ${ALL_PROTO_HDRS})
-#   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${HDR})
-#   get_filename_component(DIR ${REL_FIL} DIRECTORY)
-#   get_filename_component(ABSOLUTE_PATH "${DIR}" ABSOLUTE)
-#   string(REPLACE "/" ";" PATH_LIST "${ABSOLUTE_PATH}")
-#   list(LENGTH PATH_LIST PATH_LENGTH)
-#   if(PATH_LENGTH GREATER_EQUAL 4)
-#       math(EXPR START_INDEX "${PATH_LENGTH} - 4")
-#       list(SUBLIST PATH_LIST ${START_INDEX} 4 LAST_FOUR)
-#       string(REPLACE ";" "/" LAST_FOUR_PATH "${LAST_FOUR}")
-#   else()
-#       message(STATUS "Path is too short to extract last four directories.")
-#   endif()
-    
-#   install(
-#     FILES ${HDR}
-#     DESTINATION include/${LAST_FOUR_PATH}
-#   )
-# endforeach()
+# thirdparty
+add_subdirectory(thirdparty)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty/tf2/include)
 
 set_source_files_properties(${ALL_PROTO_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
@@ -332,6 +313,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
 target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
+target_link_libraries(${PROJECT_NAME} PUBLIC openbot_bridge)
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 

@@ -23,9 +23,9 @@
 #include <memory>
 #include <string>
 
-#include "openbot/common_msgs/sensor_msgs/pointcloud.pb.h"
-#include "openbot/common_msgs/sensor_msgs/radar.pb.h"
-#include "openbot/common_msgs/sensor_msgs/sensor_image.pb.h"
+#include "openbot_bridge/sensor_msgs/pointcloud.pb.h"
+#include "openbot_bridge/sensor_msgs/radar.pb.h"
+#include "openbot_bridge/sensor_msgs/sensor_image.pb.h"
 #include "channel_reader.h"
 #include "msg_dialog.h"
 
@@ -96,12 +96,12 @@ class MainWindow : public QMainWindow {
   struct RadarData;
 
   void PointCloudReaderCallback(
-      const std::shared_ptr<const openbot::common_msgs::drivers::PointCloud>& pdata);
+      const std::shared_ptr<const openbot_bridge::sensor_msgs::PointCloud>& pdata);
   void ImageReaderCallback(
-      const std::shared_ptr<const openbot::common_msgs::drivers::Image>& imgData,
+      const std::shared_ptr<const openbot_bridge::sensor_msgs::Image>& imgData,
       VideoImgProxy* proxy);
   void ImageReaderCallback(
-      const std::shared_ptr<const openbot::common_msgs::drivers::CompressedImage>& imgData,
+      const std::shared_ptr<const openbot_bridge::sensor_msgs::CompressedImage>& imgData,
       VideoImgProxy* proxy);
 
   void InsertAllChannelNames(void);
@@ -113,7 +113,7 @@ class MainWindow : public QMainWindow {
   RadarData* createRadarData(void);
   void DoOpenRadarChannel(bool b, RadarData* radarProxy);
   void RadarRenderCallback(
-      const std::shared_ptr<const openbot::common_msgs::drivers::RadarObstacles>& rawData,
+      const std::shared_ptr<const openbot_bridge::sensor_msgs::RadarObstacles>& rawData,
       RadarData* radar);
 
   Ui::MainWindow* ui_;
@@ -129,7 +129,7 @@ class MainWindow : public QMainWindow {
   QTreeWidgetItem* pointcloud_top_item_;
   QComboBox* pointcloud_comboBox_;
   QPushButton* pointcloud_button_;
-  CyberChannReader<openbot::common_msgs::drivers::PointCloud>* pointcloud_channel_Reader_;
+  CyberChannReader<openbot_bridge::sensor_msgs::PointCloud>* pointcloud_channel_Reader_;
 
   QMutex pointcloud_reader_mutex_;
 

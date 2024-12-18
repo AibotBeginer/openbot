@@ -33,13 +33,6 @@ DEFINE_int32(grpc_client_port, 5005, "Server port for the service");
 
 using ::openbot::bridge::grpc::GrpcClientImpl;
 
-/*
-void MessageCallback(const std::shared_ptr<openbot::common::proto::nav_msgs::Path>& msg) 
-{
-  std::cout << "msgcontent->" << std::endl;
-}
-*/
-
 
 int main(int argc, char* argv[])
 {
@@ -79,9 +72,10 @@ int main(int argc, char* argv[])
     
     //for testing....
     for (int i = 0; i < 100; i++) {
-        std::shared_ptr<openbot::common::proto::v2x::CarStatus> msg(new openbot::common::proto::v2x::CarStatus());
-        msg->set_rsu_id(i);
-        LOG(INFO) << "set msg: rsu_id>>" << msg->rsu_id();
+        std::shared_ptr<::openbot_bridge::ros2_msgs::sensor_msgs::Image> msg(new ::openbot_bridge::ros2_msgs::sensor_msgs::Image());
+        msg->set_height(100);
+        msg->set_width(100);
+        LOG(INFO) << "set msg: height>>" << msg->height();
 	grpc_client->SendMsgToGrpc(msg);
     }
     LOG(INFO) << "======================start listener====================";
@@ -92,7 +86,7 @@ int main(int argc, char* argv[])
     auto grpc_client_node = apollo::cyber::CreateNode("grpc_client");
 
     // create listener
-    auto listener = grpc_client_node->CreateReader<::openbot::common::proto::v2x::CarStatus>("grpc_channel",
+    auto listener = grpc_client_node->CreateReader<::openbot_bridge::ros2_msgs::sensor_msgs::Image>("grpc_channel",
 			  std::bind(send_msg_fn, grpc_client.get(), std::placeholders::_1));
 
     apollo::cyber::WaitForShutdown();

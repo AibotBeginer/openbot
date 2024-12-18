@@ -50,7 +50,7 @@ def start_cmds():
             print("Error:", stderr.decode())
 
 def main():
-    start_env()
+    #start_env()
     start_cmds()
 
 if __name__ == "__main__":
