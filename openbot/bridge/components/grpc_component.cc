@@ -30,7 +30,8 @@ bool GrpcComponent::Init()
             HandleSensorImage(image);
         });
 
-    grpc_client_ = std::make_shared<grpc::GrpcClientImpl>();
+    channel_ = ::grpc::CreateChannel("127.0.0.1:8009", ::grpc::InsecureChannelCredentials());
+    grpc_client_ = std::make_shared<grpc::GrpcClientImpl>(channel_);
     LOG(INFO) << "GrpcComponent::Init finished";
     return true;
 }
