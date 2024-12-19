@@ -29,53 +29,53 @@ enum OutputType {
 }
 
 message FilterConfig {
-  optional string camera_dev = 1;
-  optional string frame_id = 2;
+  string camera_dev = 1;
+  string frame_id = 2;
   // v4l pixel format
-  optional string pixel_format = 3 [default = "yuyv"];
+  string pixel_format = 3;
   // mmap, userptr, read
-  optional IOMethod io_method = 4;
-  optional uint32 width = 5;
-  optional uint32 height = 6;
-  optional uint32 frame_rate = 7;
-  optional bool monochrome = 8 [default = false];
+  IOMethod io_method = 4;
+  uint32 width = 5;
+  uint32 height = 6;
+  uint32 frame_rate = 7;
+  bool monochrome = 8;
 
-  optional int32 brightness = 9 [default = -1];
-  optional int32 contrast = 10 [default = -1];
-  optional int32 saturation = 11 [default = -1];
-  optional int32 sharpness = 12 [default = -1];
-  optional int32 gain = 13 [default = -1];
+  int32 brightness = 9;
+  int32 contrast = 10;
+  int32 saturation = 11;
+  int32 sharpness = 12;
+  int32 gain = 13;
 
-  optional bool auto_focus = 14 [default = false];
-  optional int32 focus = 15 [default = -1];
-  optional bool auto_exposure = 16 [default = true];
-  optional int32 exposure = 17 [default = 100];
-  optional bool auto_white_balance = 18 [default = true];
-  optional int32 white_balance = 19 [default = 4000];
-  optional uint32 bytes_per_pixel = 20 [default = 3];
-  optional uint32 trigger_internal = 21 [default = 0];
-  optional uint32 trigger_fps = 22 [default = 30];
-  optional string channel_name = 23;
-  optional string raw_channel_name = 24 [default = "/apollo/sensor/camera/raw/default"];
+  bool auto_focus = 14;
+  int32 focus = 15;
+  bool auto_exposure = 16;
+  int32 exposure = 17;
+  bool auto_white_balance = 18;
+  int32 white_balance = 19;
+  uint32 bytes_per_pixel = 20;
+  uint32 trigger_internal = 21;
+  uint32 trigger_fps = 22;
+  string channel_name = 23;
+  string raw_channel_name = 24;
   // wait time when camera select timeout
-  optional uint32 device_wait_ms = 25 [default = 2000];
+  uint32 device_wait_ms = 25;
   // camera select spin time
-  optional uint32 spin_rate = 26 [default = 200];
-  optional OutputType output_type = 27;
+  uint32 spin_rate = 26;
+  OutputType output_type = 27;
 
   message CompressConfig {
-    optional string output_channel = 1;
-    optional uint32 image_pool_size = 2 [default = 20];
-    optional uint32 width = 3 [default = 1920];
-    optional uint32 height = 4 [default = 1080];
+    string output_channel = 1;
+    uint32 image_pool_size = 2;
+    uint32 width = 3;
+    uint32 height = 4;
   }
-  optional CompressConfig compress_conf = 28;
-  optional bool hardware_trigger = 29 [default = true];
+  CompressConfig compress_conf = 28;
+  bool hardware_trigger = 29;
 
   message TimeCompensatorConfig {
-    optional bool enable_compensator = 1 [default = false];
-    optional string compensator_fnode = 2 [default = ""];
+    bool enable_compensator = 1;
+    string compensator_fnode = 2;
   }
-  optional TimeCompensatorConfig time_compensator_conf = 30;
-  optional bool arm_gpu_acceleration = 31 [default = false];
+  TimeCompensatorConfig time_compensator_conf = 30;
+  bool arm_gpu_acceleration = 31;
 }
