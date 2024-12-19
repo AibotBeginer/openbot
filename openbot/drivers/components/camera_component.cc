@@ -40,27 +40,46 @@ bool CameraComponent::Init()
 
 void CameraComponent::run() 
 {
+  std::string imagePath = "/workspace/openbot/src/1.jpg";
+  cv::Mat image = cv::imread(imagePath, cv::IMREAD_COLOR);
+
+  // 检查图像是否成功加载
+  if (image.empty()) {
+    AERROR << "Failed to load image: " << imagePath;
+    return;
+  }
+
   running_.exchange(true);
   while (!apollo::cyber::IsShutdown()) {
 
     auto raw_image = std::make_shared<openbot_bridge::sensor_msgs::Image>();
-    raw_image->mutable_header()->set_frame_id(camera_config_->frame_id());
-    raw_image->set_width(camera_config_->width());
-    raw_image->set_height(camera_config_->height());
-    // raw_image->mutable_data()->reserve(raw_image_for_compress_->image_size);
-    raw_image->set_encoding(camera_config_->pixel_format());
-
-    for (int i = 0; i < camera_config_->width(); ++i) {
-      for (int j = 0; j < camera_config_->height(); ++i) {
-        
-      }
-    }
-
-    // raw_writer_->Write(raw_image_for_compress);
+    ToImage(image, *raw_image.get());
+    raw_writer_->Write(raw_image);
     LOG(INFO) << "Publish images";
     apollo::cyber::SleepFor(std::chrono::seconds(1));
   }
 }
+
+void CameraComponent::ToImage(const cv::Mat& cvImage, openbot_bridge::sensor_msgs::Image& imageMessage)
+{
+  imageMessage.set_height(cvImage.rows);
+  imageMessage.set_width(cvImage.cols);
+  imageMessage.set_step(cvImage.step);
+  
+  // 设置编码格式
+  // OpenCV 的常见编码格式有 "bgr8", "rgb8", "mono8", 等等
+  if (cvImage.type() == CV_8UC3) {
+      imageMessage.set_encoding("bgr8");
+  } else if (cvImage.type() == CV_8UC1) {
+      imageMessage.set_encoding("mono8");
+  }
+  // 其他类型可以根据需要添加
+
+  // 设置图像数据
+  size_t dataSize = cvImage.step * cvImage.rows;
+  imageMessage.set_data(cvImage.data, dataSize);
+}
+
 
 CameraComponent::~CameraComponent() 
 {
