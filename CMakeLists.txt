@@ -37,7 +37,7 @@ option(BUILD_PROMETHEUS "Build prometheus monitoring support" false)
 option(BUILD_TEST "Build openbot unit test" OFF)
 
 if(BUILD_GRPC)
-include("${PROJECT_SOURCE_DIR}/cmake/openbot_bridge.cmake")
+  include("${PROJECT_SOURCE_DIR}/cmake/openbot_bridge.cmake")
 endif()
 include("${PROJECT_SOURCE_DIR}/cmake/functions.cmake")
 google_initialize_openbot_project()
