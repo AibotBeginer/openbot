@@ -22,6 +22,8 @@
 
 #include <grpc++/grpc++.h>
 
+#include "openbot/common/macros.hpp"
+
 #include "openbot_bridge/ros2_msgs/sensor_msgs.pb.h"
 #include "openbot_bridge/service_msgs/ros2_service.pb.h"
 #include "openbot_bridge/service_msgs/ros2_service.grpc.pb.h"
@@ -33,6 +35,9 @@ namespace grpc {
 class GrpcClientImpl 
 {
 public:
+
+    OPENBOT_SMART_PTR_DEFINITIONS(GrpcClientImpl)
+
     /**
      * @brief construct function
      * @param input car_status type msg shared ptr

@@ -25,6 +25,8 @@
 #include "cyber/message/raw_message.h"
 
 #include "openbot/common/macros.hpp"
+#include "openbot_bridge/sensor_msgs/sensor_image.pb.h"
+#include "openbot/bridge/common/grpc/grpc_client.hpp"
 
 namespace openbot {
 namespace bridge { 
@@ -40,7 +42,12 @@ public:
     bool Init() override;
 
 private:
- 
+
+    void HandleSensorImage(const std::shared_ptr<::openbot_bridge::sensor_msgs::Image>& msgs);
+
+    std::shared_ptr<apollo::cyber::Reader<::openbot_bridge::sensor_msgs::Image>> sensor_image_reader_{nullptr};
+
+    grpc::GrpcClientImpl::SharedPtr grpc_client_{nullptr};
 };
 
 CYBER_REGISTER_COMPONENT(GrpcComponent)

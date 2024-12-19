@@ -16,13 +16,29 @@
 
 #include "openbot/bridge/components/grpc_component.hpp"
 
+#include "openbot/common/utils/logging.hpp"
+
 namespace openbot {
 namespace bridge { 
 namespace compontents { 
 
 bool GrpcComponent::Init()
 {
+    sensor_image_reader_ = node_->CreateReader<::openbot_bridge::sensor_msgs::Image>(
+        "/openbot/sensor/camera/test/image", 
+        [this](const std::shared_ptr<openbot_bridge::sensor_msgs::Image>& image) {
+            HandleSensorImage(image);
+        });
+
+    grpc_client_ = std::make_shared<grpc::GrpcClientImpl>();
+    LOG(INFO) << "GrpcComponent::Init finished";
     return true;
+}
+
+void GrpcComponent::HandleSensorImage(const std::shared_ptr<::openbot_bridge::sensor_msgs::Image>& msgs)
+{
+    LOG(INFO) << "recevie image data";
+    grpc_client_->SendMsgToGrpc(msgs);
 }
 
 }  // namespace compontents
