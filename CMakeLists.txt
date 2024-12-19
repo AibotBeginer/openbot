@@ -327,7 +327,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${OPENBOT_BRIDGE_LIB})
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
-# compontent
+# openbot compontents
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/bridge)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/control)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/drivers)
