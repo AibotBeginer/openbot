@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "cyber/cyber.h"
+#include <opencv2/opencv.hpp>
 
 #include "openbot_bridge/sensor_msgs/sensor_image.pb.h"
 #include "openbot/drivers/proto/camera_config.pb.h"
@@ -43,10 +44,11 @@ class CameraComponent : public Component<>
 private:
   void run();
 
+  void ToImage(const cv::Mat& cvImage, openbot_bridge::sensor_msgs::Image& imageMessage);
+
   std::shared_ptr<Writer<openbot_bridge::sensor_msgs::Image>> writer_ = nullptr;
   std::shared_ptr<Writer<openbot_bridge::sensor_msgs::Image>> raw_writer_ = nullptr;
   std::shared_ptr<openbot::drivers::camera::config::Config> camera_config_;
-
   uint32_t spin_rate_ = 200;
   uint32_t device_wait_ = 2000;
   int index_ = 0;
