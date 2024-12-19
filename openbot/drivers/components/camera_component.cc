@@ -54,13 +54,13 @@ void CameraComponent::run()
   running_.exchange(true);
   while (!apollo::cyber::IsShutdown()) {
 
-    // auto raw_image = std::make_shared<openbot_bridge::sensor_msgs::Image>();
-    // ToImage(image, *raw_image.get());
-    // raw_writer_->Write(raw_image);
-
-    auto raw_image = std::make_shared<openbot_bridge::ros2_msgs::sensor_msgs::Image>();
+    auto raw_image = std::make_shared<openbot_bridge::sensor_msgs::Image>();
     ToImage(image, *raw_image.get());
-    ros2_msgs_writer_->Write(raw_image);
+    raw_writer_->Write(raw_image);
+
+    // auto raw_image = std::make_shared<openbot_bridge::ros2_msgs::sensor_msgs::Image>();
+    // ToImage(image, *raw_image.get());
+    // ros2_msgs_writer_->Write(raw_image);
     
     LOG(INFO) << "Publish images";
     apollo::cyber::SleepFor(std::chrono::seconds(1));
@@ -96,7 +96,7 @@ void CameraComponent::ToImage(const cv::Mat& cvImage, openbot_bridge::ros2_msgs:
   auto header_time = apollo::cyber::Time::Now().ToSecond();
   image.mutable_header()->mutable_stamp()->set_seconds(header_time);
   image.mutable_header()->set_frame_id("test");
-;
+
   image.set_height(cvImage.rows);
   image.set_width(cvImage.cols);
   image.set_step(cvImage.step);
