@@ -14,5 +14,19 @@
 
 syntax = "proto3";
 
-package openbot.bridge.grpc;
+package openbot.bridge.net;
 
+message UDPBridgeSenderRemoteInfo 
+{
+  string remote_ip = 1;  // [default = "127.0.0.1"];
+  int32 remote_port = 2; // [default = 8900];
+  string proto_name = 3; //  [default = "ProtoMsgName"];
+}
+
+message UDPBridgeReceiverRemoteInfo 
+{
+  string topic_name = 1;  // [default = ""];
+  int32 bind_port = 2;    // [default = 8500];
+  string proto_name = 3;  // [default = "ProtoMsgName"];
+  bool enable_timeout = 4; // [default = true];
+}

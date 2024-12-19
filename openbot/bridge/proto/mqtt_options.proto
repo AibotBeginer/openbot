@@ -14,5 +14,5 @@
 
 syntax = "proto3";
 
-package openbot.mqtt;
+package openbot.bridge.mqtt;
 
