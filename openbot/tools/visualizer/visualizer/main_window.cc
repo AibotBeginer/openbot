@@ -33,7 +33,7 @@ namespace {
 const char* globalTreeItemStyle = "margin-right:10px";
 
 const char* aboutMessage =
-    "Cyber_Visualizer\n"
+    "Openbot_Visualizer\n"
     "\n"
     "One Visualization Tool for Presenting Cyber Channel Data\n"
     "\n"
@@ -935,6 +935,7 @@ void MainWindow::PlayRenderableObject(bool b) {
 void MainWindow::ImageReaderCallback(
     const std::shared_ptr<const openbot_bridge::sensor_msgs::Image>& imgData,
     VideoImgProxy* theVideoImgProxy) {
+
   theVideoImgProxy->reader_mutex_.lock();
   if (theVideoImgProxy->dynamic_texture_ != nullptr && imgData != nullptr) {
     if (theVideoImgProxy->dynamic_texture_->UpdateData(imgData)) {

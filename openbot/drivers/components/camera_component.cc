@@ -62,9 +62,27 @@ void CameraComponent::run()
 
 void CameraComponent::ToImage(const cv::Mat& cvImage, openbot_bridge::sensor_msgs::Image& imageMessage)
 {
+  auto header_time = apollo::cyber::Time::Now().ToSecond();
+  imageMessage.mutable_header()->set_timestamp_sec(header_time);
+  imageMessage.mutable_header()->set_frame_id("test");
+  imageMessage.set_measurement_time(header_time);
   imageMessage.set_height(cvImage.rows);
   imageMessage.set_width(cvImage.cols);
   imageMessage.set_step(cvImage.step);
+
+  // message Image 
+  // {
+  //   openbot_bridge.common_msgs.Header header = 1;
+  //   string frame_id = 2;
+  //   double measurement_time = 3;
+
+  //   uint32 height = 4;  // image height, that is, number of rows
+  //   uint32 width = 5;   // image width, that is, number of columns
+
+  //   string encoding = 6;
+  //   uint32 step = 7;  // Full row length in bytes
+  //   bytes data = 8;   // actual matrix data, size is (step * rows)
+  // }
   
   // 设置编码格式
   // OpenCV 的常见编码格式有 "bgr8", "rgb8", "mono8", 等等
