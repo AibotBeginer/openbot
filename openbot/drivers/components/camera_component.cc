@@ -34,6 +34,8 @@ bool CameraComponent::Init()
 
   writer_ = node_->CreateWriter<openbot_bridge::sensor_msgs::Image>(camera_config_->channel_name());
   raw_writer_ = node_->CreateWriter<openbot_bridge::sensor_msgs::Image>(camera_config_->raw_channel_name());
+  ros2_msgs_writer_ = node_->CreateWriter<openbot_bridge::ros2_msgs::sensor_msgs::Image>(camera_config_->raw_channel_name());
+
   async_result_ = apollo::cyber::Async(&CameraComponent::run, this);
   return true;
 }
@@ -52,52 +54,66 @@ void CameraComponent::run()
   running_.exchange(true);
   while (!apollo::cyber::IsShutdown()) {
 
-    auto raw_image = std::make_shared<openbot_bridge::sensor_msgs::Image>();
+    // auto raw_image = std::make_shared<openbot_bridge::sensor_msgs::Image>();
+    // ToImage(image, *raw_image.get());
+    // raw_writer_->Write(raw_image);
+
+    auto raw_image = std::make_shared<openbot_bridge::ros2_msgs::sensor_msgs::Image>();
     ToImage(image, *raw_image.get());
-    raw_writer_->Write(raw_image);
+    ros2_msgs_writer_->Write(raw_image);
+    
     LOG(INFO) << "Publish images";
     apollo::cyber::SleepFor(std::chrono::seconds(1));
   }
 }
 
-void CameraComponent::ToImage(const cv::Mat& cvImage, openbot_bridge::sensor_msgs::Image& imageMessage)
+void CameraComponent::ToImage(const cv::Mat& cvImage, openbot_bridge::sensor_msgs::Image& image)
 {
   auto header_time = apollo::cyber::Time::Now().ToSecond();
-  imageMessage.mutable_header()->set_timestamp_sec(header_time);
-  imageMessage.mutable_header()->set_frame_id("test");
-  imageMessage.set_measurement_time(header_time);
-  imageMessage.set_height(cvImage.rows);
-  imageMessage.set_width(cvImage.cols);
-  imageMessage.set_step(cvImage.step);
+  image.mutable_header()->set_timestamp_sec(header_time);
+  image.mutable_header()->set_frame_id("test");
+  image.set_measurement_time(header_time);
+  image.set_height(cvImage.rows);
+  image.set_width(cvImage.cols);
+  image.set_step(cvImage.step);
 
-  // message Image 
-  // {
-  //   openbot_bridge.common_msgs.Header header = 1;
-  //   string frame_id = 2;
-  //   double measurement_time = 3;
-
-  //   uint32 height = 4;  // image height, that is, number of rows
-  //   uint32 width = 5;   // image width, that is, number of columns
-
-  //   string encoding = 6;
-  //   uint32 step = 7;  // Full row length in bytes
-  //   bytes data = 8;   // actual matrix data, size is (step * rows)
-  // }
-  
   // 设置编码格式
   // OpenCV 的常见编码格式有 "bgr8", "rgb8", "mono8", 等等
   if (cvImage.type() == CV_8UC3) {
-      imageMessage.set_encoding("bgr8");
+      image.set_encoding("bgr8");
   } else if (cvImage.type() == CV_8UC1) {
-      imageMessage.set_encoding("mono8");
+      image.set_encoding("mono8");
   }
   // 其他类型可以根据需要添加
 
   // 设置图像数据
   size_t dataSize = cvImage.step * cvImage.rows;
-  imageMessage.set_data(cvImage.data, dataSize);
+  image.set_data(cvImage.data, dataSize);
 }
 
+void CameraComponent::ToImage(const cv::Mat& cvImage, openbot_bridge::ros2_msgs::sensor_msgs::Image& image)
+{
+  auto header_time = apollo::cyber::Time::Now().ToSecond();
+  image.mutable_header()->mutable_stamp()->set_seconds(header_time);
+  image.mutable_header()->set_frame_id("test");
+;
+  image.set_height(cvImage.rows);
+  image.set_width(cvImage.cols);
+  image.set_step(cvImage.step);
+  
+  // 设置编码格式
+  // OpenCV 的常见编码格式有 "bgr8", "rgb8", "mono8", 等等
+  if (cvImage.type() == CV_8UC3) {
+      image.set_encoding("bgr8");
+  } else if (cvImage.type() == CV_8UC1) {
+      image.set_encoding("mono8");
+  }
+  image.set_is_bigendian(false);
+
+  // 设置图像数据
+  size_t dataSize = cvImage.step * cvImage.rows;
+  image.set_data(cvImage.data, dataSize);
+}
 
 CameraComponent::~CameraComponent() 
 {
