@@ -16,7 +16,7 @@
  */
 
 
-#include "openbot/planning/components/map_component.hpp"
+#include "openbot/map/components/map_component.hpp"
 #include "openbot/common/utils/logging.hpp"
 
 namespace openbot {
@@ -25,14 +25,14 @@ namespace map {
 bool MapComponent::Init() 
 {
     LOG(INFO) << "Load MapComponent ....";
-    filter_config_ = std::make_shared<Config>();
+    filter_config_ = std::make_shared<FilterConfig>();
     if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
-                                                camera_config_.get())) {
+                                                filter_config_.get())) {
       return false;
     }
     LOG(INFO) << "Filter config: " << filter_config_->DebugString();
     return true;
 }
 
-}  // namespace planning 
+}  // namespace map 
 }  // namespace openbot
