@@ -18,7 +18,6 @@
 
 #include <iostream>
 
-
 #include "openbot/common/proto/builtin_interfaces.pb.h"
 #include "openbot/common/proto/diagnostic_msgs.pb.h"
 #include "openbot/common/proto/geometry_msgs.pb.h"

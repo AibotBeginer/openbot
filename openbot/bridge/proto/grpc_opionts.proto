@@ -14,5 +14,5 @@
 
 syntax = "proto3";
 
-package openbot.http;
+package openbot.bridge.http;
 

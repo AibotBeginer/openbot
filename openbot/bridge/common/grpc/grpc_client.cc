@@ -21,7 +21,6 @@
 #include "cyber/common/log.h"
 #include "cyber/cyber.h"
 
-
 namespace openbot {
 namespace bridge { 
 namespace grpc {

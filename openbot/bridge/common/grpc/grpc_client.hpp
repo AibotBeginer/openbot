@@ -33,6 +33,9 @@ namespace grpc {
 class GrpcClientImpl 
 {
 public:
+
+    OPENBOT_SMART_PTR_DEFINITIONS(GrpcClientImpl);
+
     /**
      * @brief construct function
      * @param input car_status type msg shared ptr
