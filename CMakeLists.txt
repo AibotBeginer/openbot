@@ -36,6 +36,9 @@ option(BUILD_TOOLS "Build openbot tools support" ON)
 option(BUILD_PROMETHEUS "Build prometheus monitoring support" false)
 option(BUILD_TEST "Build openbot unit test" OFF)
 
+if(BUILD_GRPC)
+  include("${PROJECT_SOURCE_DIR}/cmake/openbot_bridge.cmake")
+endif()
 include("${PROJECT_SOURCE_DIR}/cmake/functions.cmake")
 google_initialize_openbot_project()
 google_enable_testing()
@@ -65,7 +68,7 @@ find_package(OSQP REQUIRED)
 find_package(octomap REQUIRED)
 find_package(yaml-cpp REQUIRED)
 find_package(CYBERRT REQUIRED)
-find_package(openbot_bridge REQUIRED)
+#find_package(openbot_bridge REQUIRED)
 
 if (${BUILD_GRPC})
   find_package(gRPC REQUIRED)
@@ -313,16 +316,29 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
 target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
-target_link_libraries(${PROJECT_NAME} PUBLIC openbot_bridge)
+
+# 指定openbot_bridge的安装路径
+set(openbot_bridge_INCLUDE_DIR /usr/local/include)
+set(openbot_bridge_LIBRARY_DIR /usr/local/lib)
+# 找到openbot_bridge库
+set(OPENBOT_BRIDGE_LIB "/usr/local/lib/libopenbot_bridge.so")
+target_link_libraries(${PROJECT_NAME} PUBLIC ${OPENBOT_BRIDGE_LIB})
 
 set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${GOOG_CXX_FLAGS}")
 
-# compontent
+# openbot compontents
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/bridge)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/control)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/drivers)
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/localization)
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/map)
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/perception)
 add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/planning)
-
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/prediction)
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/system)
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/tasks)
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/transform)
+add_subdirectory(${PROJECT_SOURCE_DIR}/openbot/vehicle)
 
 # set(TEST_LIB openbot_test_library)
 # add_library(${TEST_LIB} ${TEST_LIBRARY_HDRS} ${TEST_LIBRARY_SRCS})

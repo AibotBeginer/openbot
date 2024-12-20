@@ -29,6 +29,8 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/map/proto/grid_map.pb.h"
 
+#include "openbot/planning/planner_server.hpp"
+
 namespace openbot {
 namespace planning { 
 
@@ -41,6 +43,8 @@ public:
     bool Init() override;
 
 private:
+
+    PlannerServer::SharedPtr planner_server_{nullptr};
 
 };
 

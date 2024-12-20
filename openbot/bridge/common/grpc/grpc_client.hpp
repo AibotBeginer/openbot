@@ -22,9 +22,9 @@
 
 #include <grpc++/grpc++.h>
 
-#include "openbot_bridge/ros2_msgs/sensor_msgs.pb.h"
-#include "openbot_bridge/service_msgs/ros2_service.pb.h"
-#include "openbot_bridge/service_msgs/ros2_service.grpc.pb.h"
+#include "openbot_bridge/sensor_msgs/sensor_image.pb.h"
+#include "openbot_bridge/service_msgs/sensor_service.pb.h"
+#include "openbot_bridge/service_msgs/sensor_service.grpc.pb.h"
 
 namespace openbot {
 namespace bridge { 
@@ -33,6 +33,9 @@ namespace grpc {
 class GrpcClientImpl 
 {
 public:
+
+    OPENBOT_SMART_PTR_DEFINITIONS(GrpcClientImpl);
+
     /**
      * @brief construct function
      * @param input car_status type msg shared ptr
@@ -47,11 +50,11 @@ public:
      * @brief function that send car status msg through grpc
      * @param input car_status type msg shared ptr
      */
-    void SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::ros2_msgs::sensor_msgs::Image>& msg);
+    void SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::sensor_msgs::Image>& msg);
 
 private:
     //  grpc service stub
-    std::unique_ptr<::openbot_bridge::service_msgs::ROS2SenorService::Stub> stub_;
+    std::unique_ptr<::openbot_bridge::service_msgs::SensorService::Stub> stub_;
     u_int64_t tv_nsec_;
     bool init_flag_ = false;
 };

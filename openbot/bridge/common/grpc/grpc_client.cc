@@ -21,7 +21,6 @@
 #include "cyber/common/log.h"
 #include "cyber/cyber.h"
 
-
 namespace openbot {
 namespace bridge { 
 namespace grpc {
@@ -32,14 +31,14 @@ using ::grpc::ClientContext;
 using ::grpc::Status;
 
 GrpcClientImpl::GrpcClientImpl(std::shared_ptr<Channel> channel)
-    : stub_(::openbot_bridge::service_msgs::ROS2SenorService::NewStub(channel)) 
+    : stub_(::openbot_bridge::service_msgs::SensorService::NewStub(channel)) 
 {
   LOG(INFO) << "GrpcClientImpl initial success";
   tv_nsec_ = (1000000000 / 10 / 2);
   init_flag_ = true;
 }
 
-void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::ros2_msgs::sensor_msgs::Image>& msg) 
+void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::sensor_msgs::Image>& msg) 
 {
   LOG(INFO) << "SendMsgToGrpc  >>>>>";
   // set timeout

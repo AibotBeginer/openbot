@@ -14,5 +14,5 @@
 
 syntax = "proto3";
 
-package openbot.grpc;
+package openbot.bridge.grpc;
 

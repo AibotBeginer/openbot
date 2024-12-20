@@ -1,0 +1,13 @@
+# Define all coms in DAG streaming.
+module_config {
+  module_library : "/opt/openbot/lib/libmap_component.so"
+  components {
+    class_name : "MapComponent"
+    config {
+      name: "map"
+      config_file_path:  "/opt/openbot/share/openbot/map/conf/filter_config.pb.txt"
+      readers: [
+      ]
+    }
+  }
+}
