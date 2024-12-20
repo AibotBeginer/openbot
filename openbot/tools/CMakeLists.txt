@@ -1,1 +1,2 @@
 add_subdirectory(visualizer)
+add_subdirectory(ros_bridge)
