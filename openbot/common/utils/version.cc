@@ -25,7 +25,7 @@ namespace utils {
 namespace {
 
 const char* OPENBOT_VERSION = "1.0.1";
-const char* OPENBOT_COMMIT_ID = "e78f7c9";
+const char* OPENBOT_COMMIT_ID = "4350b26";
 const char* OPENBOT_COMMIT_DATE = "2024-12-19";
 
 }  // namespace
