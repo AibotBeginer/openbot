@@ -885,9 +885,9 @@ void Maps::Maze3DGen()
 
 void Maps::PCLToPointCloud2()
 {
-  ::openbot::common::pcl::toROSMsg(*cloud_, *output_);
-  output_->header.frame_id = "map";
-  LOG(INFO) << "finish: infill " << cloud_->width / (1.0 * info.sizeX * info.sizeY * info.sizeZ);
+  // ::openbot::common::pcl::toROSMsg(*cloud_, *output_);
+  // output_->header.frame_id = "map";
+  // LOG(INFO) << "finish: infill " << cloud_->width / (1.0 * info.sizeX * info.sizeY * info.sizeZ);
 }
 
 }  // namespace mockamap

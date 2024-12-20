@@ -23,8 +23,8 @@
 #include <pcl/conversions.h>
 
 #include "openbot/common/macros.hpp"
-#include "openbot/common/utils/pcl_conversions.hpp"
-#include "openbot/common/msgs/sensor_msgs.hpp"
+#include "openbot/common/io/msgs.hpp"
+
 #include "openbot/tools/map_generator/mockamap/map_opionts.hpp"
 
 namespace openbot {

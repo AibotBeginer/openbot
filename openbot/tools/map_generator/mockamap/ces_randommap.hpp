@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_MAP_MOCKAMAP_CES_RANDOMMAP_HPP
-#define OPENBOT_MAP_MOCKAMAP_CES_RANDOMMAP_HPP
+#pragma once
 
 #include <vector>
 
@@ -33,8 +32,7 @@
 #include <Eigen/SVD>
 
 #include "openbot/common/macros.hpp"
-#include "openbot/common/msgs/msgs.hpp"
-#include "openbot/common/utils/pcl_conversions.hpp"
+#include "openbot/common/io/msgs.hpp"
 #include "openbot/tools/map_generator/mockamap/map_opionts.hpp"
 
 namespace openbot {
