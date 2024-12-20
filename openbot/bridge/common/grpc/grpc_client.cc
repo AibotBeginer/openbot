@@ -50,7 +50,8 @@ void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::senso
 
   // time used statistics
   auto start = std::chrono::steady_clock::now();
-  Status status = stub_->PublishImageSennorMessages(&context, *msg, nullptr);
+  ::google::protobuf::Empty empty;
+  Status status = stub_->PublishImageSennorMessages(&context, *msg, &empty);
   if (status.ok()) {
       std::cout << "Operation succeeded." << std::endl;
   } else {
