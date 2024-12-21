@@ -27,11 +27,14 @@
 #include "cyber/message/raw_message.h"
 
 #include "openbot/common/macros.hpp"
-#include "openbot/map/proto/grid_map.pb.h"
-#include "openbot/map/proto/filter_config.pb.h"
+#include "openbot/map/proto/map_config.pb.h"
+#include "openbot/map/map_server.hpp"
 
+using openbot::map::MapConfig;
 
-using openbot::map::FilterConfig;
+using apollo::cyber::Component;
+using apollo::cyber::Reader;
+using apollo::cyber::Writer;
 
 namespace openbot {
 namespace map { 
@@ -40,14 +43,24 @@ class MapComponent final : public apollo::cyber::Component<>
 {
 public:
     MapComponent() = default;
-    ~MapComponent() = default;
+    ~MapComponent();
 
     bool Init() override;
 
 private:
+    void Run();
 
-    std::shared_ptr<FilterConfig> filter_config_;
+    // cyber node
+    std::shared_ptr<Writer<openbot_bridge::sensor_msgs::PointCloud>> map_writer_{nullptr};
+    uint32_t spin_rate_ = 200;
+    std::future<void> async_result_;
+    std::atomic<bool> running_ = {false};
 
+    // map_config
+    std::shared_ptr<MapConfig> map_config_{nullptr};
+
+    // map_server 
+    MapServer::SharedPtr map_server_{nullptr};
 };
 
 CYBER_REGISTER_COMPONENT(MapComponent)

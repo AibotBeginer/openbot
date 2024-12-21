@@ -14,39 +14,44 @@
  * limitations under the License.
  */
 
-
-
 #pragma once
 
-#include <memory>
 #include <string>
-#include <unordered_map>
-
-#include "cyber/class_loader/class_loader.h"
-#include "cyber/component/component.h"
-#include "cyber/message/raw_message.h"
 
 #include "openbot/common/macros.hpp"
-#include "openbot/planning/planner_server.hpp"
+#include "openbot/map/costmap.hpp"
 
 namespace openbot {
-namespace planning { 
+namespace map { 
 
-class PlanningComponent final : public apollo::cyber::Component<> 
+class MapServer
 {
 public:
-    PlanningComponent() = default;
-    ~PlanningComponent() = default;
+     /**
+     *  @brief SharedPtr typedef
+     */
+    OPENBOT_SMART_PTR_DEFINITIONS(MapServer);
 
-    bool Init() override;
+    /**
+     * @brief A constructor for openbot::map::MapServer
+     * @param options Additional options to control creation of the node.
+     */
+    explicit MapServer();
+
+    /**
+     * @brief Destructor for openbot::map::MapServer
+     */
+    ~MapServer();
+
+    /**
+     * @brief Load matterport3d datasets
+     */
+    bool LoadPointClouds(const std::string& path, openbot_bridge::sensor_msgs::PointCloud& clouds);
 
 private:
-
-    PlannerServer::SharedPtr planner_server_{nullptr};
-
+    // costmap
+    Costmap::SharedPtr costmap_{nullptr};
 };
 
-CYBER_REGISTER_COMPONENT(PlanningComponent)
-
-}  // namespace planning 
+}  // namespace map
 }  // namespace openbot

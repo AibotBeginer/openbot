@@ -16,7 +16,5 @@ syntax = "proto3";
 
 package openbot.planning;
 
-import "openbot/map/proto/grid_map.proto";
-import "openbot/map/proto/costmap.proto";
 import "openbot/common/proto/std_msgs.proto";
 import "openbot/common/proto/geometry_msgs.proto";

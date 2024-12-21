@@ -15,38 +15,25 @@
  */
 
 
-
-#pragma once
-
-#include <memory>
-#include <string>
-#include <unordered_map>
-
-#include "cyber/class_loader/class_loader.h"
-#include "cyber/component/component.h"
-#include "cyber/message/raw_message.h"
-
-#include "openbot/common/macros.hpp"
-#include "openbot/planning/planner_server.hpp"
+#include "openbot/map/map_server.hpp"
 
 namespace openbot {
-namespace planning { 
+namespace map { 
 
-class PlanningComponent final : public apollo::cyber::Component<> 
+MapServer::MapServer()
 {
-public:
-    PlanningComponent() = default;
-    ~PlanningComponent() = default;
+    costmap_ = std::make_shared<Costmap>();
+}
 
-    bool Init() override;
+MapServer::~MapServer()
+{
 
-private:
+}
 
-    PlannerServer::SharedPtr planner_server_{nullptr};
+bool MapServer::LoadPointClouds(const std::string& path, openbot_bridge::sensor_msgs::PointCloud& clouds)
+{
+    return costmap_->LoadPlyFile(path, clouds);
+}
 
-};
-
-CYBER_REGISTER_COMPONENT(PlanningComponent)
-
-}  // namespace planning 
+}  // namespace map 
 }  // namespace openbot

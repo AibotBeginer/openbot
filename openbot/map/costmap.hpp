@@ -20,6 +20,7 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/utils/ply.hpp"
+#include "openbot_bridge/sensor_msgs/pointcloud.pb.h"
 
 #include <string>
 #include <vector>
@@ -52,7 +53,7 @@ public:
     /**
      * @brief Virtual destructor
      */
-    virtual ~Costmap() {}
+    ~Costmap() = default;
 
     /**
      * @brief Load octomap_filename convert to `pcl::PointCloud<pcl::PointXYZ>` format cloud
@@ -79,7 +80,7 @@ public:
      * @param cloud Ourput map data 
      * @return return Sccess or failed
      */
-    bool LoadPlyFile(const std::string& ply_filename, pcl::PointCloud<pcl::PointXYZ>& cloud);
+    bool LoadPlyFile(const std::string& ply_filename, openbot_bridge::sensor_msgs::PointCloud& clouds);
 
     /**
      * @brief Map resolution
