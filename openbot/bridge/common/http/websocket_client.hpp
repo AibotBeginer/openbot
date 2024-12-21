@@ -64,13 +64,21 @@ public:
      * @brief connect
      * 
      */
-    void Connect();
+    bool Connect();
+
+    /**
+     * @brief Check current client is connect
+     * 
+     * @return true 
+     * @return false 
+     */
+    bool IsConnect() { return connect_finished_;}
 
     /**
      * @brief Send msgs
      * 
      */
-    void Send(const std::string& message);
+    bool Send(const std::string& message);
 
     /**
      * @brief Receive msgs
@@ -99,6 +107,9 @@ private:
     std::shared_ptr<boost::beast::websocket::stream<tcp::socket>> ws_{nullptr};
     std::string host_;
     std::string port_;
+
+    // state
+    bool connect_finished_{false};
 };
 }  // namespace http 
 }  // namespace bridge 

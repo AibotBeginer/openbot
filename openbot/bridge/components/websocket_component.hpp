@@ -28,6 +28,7 @@
 #include "cyber/message/raw_message.h"
 
 #include "openbot/common/macros.hpp"
+#include "openbot/bridge/proto/http_options.pb.h"
 #include "openbot_bridge/sensor_msgs/sensor_image.pb.h"
 #include "openbot/bridge/common/http/websocket_client.hpp"
 
@@ -40,13 +41,28 @@ class WebSocketComponent final :
 {
 public:
     WebSocketComponent() = default;
-    ~WebSocketComponent() = default;
+    ~WebSocketComponent();
 
     bool Init() override;
 
 private:
+
+    /**
+     * @brief Main thread running
+     * 
+     */
+    void Run();
+
+    // cyber node
+    uint32_t spin_rate_ = 200;
+    std::future<void> async_result_;
+    std::atomic<bool> running_ = {false};
+
     // websocket_client
     http::WebsocketClient::SharedPtr websocket_client_{nullptr};
+
+    // config
+    std::shared_ptr<http::WebsocketConfig> websocket_config_{nullptr};
 };
 
 CYBER_REGISTER_COMPONENT(WebSocketComponent)

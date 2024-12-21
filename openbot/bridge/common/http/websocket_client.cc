@@ -33,7 +33,7 @@ WebsocketClient::WebsocketClient(const std::string& host, const std::string& por
     ws_ = std::make_shared<boost::beast::websocket::stream<tcp::socket>>(ioc_);
 }
 
-void WebsocketClient::Connect()
+bool WebsocketClient::Connect()
 {
     try {
         // Resolve the host name
@@ -44,18 +44,19 @@ void WebsocketClient::Connect()
 
         // Perform the WebSocket handshake
         ws_->handshake(host_, "/");
+        connect_finished_ = true;
+        return true;
     } catch (std::exception const& e) {
         std::cerr << "Connect error: " << e.what() << std::endl;
+        return false;
     }
+
+    return true;
 }
 
-void WebsocketClient::Send(const std::string& message)
+bool WebsocketClient::Send(const std::string& message)
 {
-    try {
-        ws_->write(boost::asio::buffer(message));
-    } catch (std::exception const& e) {
-        std::cerr << "Send error: " << e.what() << std::endl;
-    }
+    return ws_->write(boost::asio::buffer(message));
 }
 
 std::string WebsocketClient::Receive()
@@ -77,6 +78,8 @@ void WebsocketClient::Close()
     } catch (std::exception const& e) {
         std::cerr << "Close error: " << e.what() << std::endl;
     }
+
+    connect_finished_ = false;
 }
 
 }  // namespace http 
