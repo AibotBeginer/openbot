@@ -81,14 +81,14 @@ int main(int argc, char* argv[])
     }
     LOG(INFO) << "======================start listener====================";
 
-    auto send_msg_fn = std::mem_fn(&openbot::bridge::grpc::GrpcClientImpl::SendMsgToGrpc);
+    // auto send_msg_fn = std::mem_fn(&openbot::bridge::grpc::GrpcClientImpl::SendMsgToGrpc);
     
-    // create grpc_client node
-    auto grpc_client_node = apollo::cyber::CreateNode("grpc_client");
+    // // create grpc_client node
+    // auto grpc_client_node = apollo::cyber::CreateNode("grpc_client");
 
-    // create listener
-    auto listener = grpc_client_node->CreateReader<::openbot_bridge::common_msgs::Image>("/openbot/sensor/camera/test/image",
-			  std::bind(send_msg_fn, grpc_client.get(), std::placeholders::_1));
+    // // create listener
+    // auto listener = grpc_client_node->CreateReader<::openbot_bridge::common_msgs::Image>("/openbot/sensor/camera/test/image",
+	// 		  std::bind(send_msg_fn, grpc_client.get(), std::placeholders::_1));
 
     apollo::cyber::WaitForShutdown();
     return EXIT_SUCCESS;

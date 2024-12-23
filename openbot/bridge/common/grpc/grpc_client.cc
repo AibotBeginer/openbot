@@ -15,6 +15,7 @@
  */
 
 #include "openbot/bridge/common/grpc/grpc_client.hpp"
+#include "openbot/common/utils/logging.hpp"
 
 #include <chrono>
 
@@ -61,6 +62,19 @@ void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::commo
   std::chrono::duration<double> time_used = end - start;
   // response check: error_code 4: time out; 0: success;
   LOG(INFO) << "stub PushCarStatus Time used: " << time_used.count() * 1000 << " ms";
+}
+
+void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::common_msgs::PointCloud>& msg)
+{
+  ClientContext context;
+  ::google::protobuf::Empty empty;
+  Status status = stub_->PublishPointCloudSensorMessages(&context, *msg, &empty);
+  if (status.ok()) {
+      LOG(INFO) << "Call publish pointCloud sennor messages operation succeeded.";
+  } else {
+      LOG(ERROR) << "Call publish pointCloud sennor messages operation failed: " 
+                 << status.error_message();
+  }
 }
 
 }  // namespace grpc 

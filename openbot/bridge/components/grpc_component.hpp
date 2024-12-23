@@ -30,6 +30,7 @@
 #include "openbot/common/macros.hpp"
 #include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 #include "openbot/bridge/common/grpc/grpc_client.hpp"
+#include "openbot/bridge/proto/grpc_opionts.pb.h"
 
 namespace openbot {
 namespace bridge { 
@@ -40,18 +41,42 @@ class GrpcComponent final :
 {
 public:
     GrpcComponent() = default;
-    ~GrpcComponent() = default;
+    ~GrpcComponent();
 
     bool Init() override;
 
 private:
 
-    void HandleSensorImage(const std::shared_ptr<::openbot_bridge::common_msgs::Image>& msgs);
+    /**
+     * @brief Main thread running
+     * 
+     */
+    void Run();
 
+
+    void HandleSensorImageMessages(const std::shared_ptr<::openbot_bridge::common_msgs::Image>& msgs);
+
+    /**
+     * @brief Handle global map
+     * 
+     * @param msgs 
+     */
+    void HandlePointCloudMessages(const std::shared_ptr<::openbot_bridge::common_msgs::PointCloud>& msgs);
+
+
+    // cyber node
     std::shared_ptr<apollo::cyber::Reader<::openbot_bridge::common_msgs::Image>> sensor_image_reader_{nullptr};
+    std::shared_ptr<apollo::cyber::Reader<::openbot_bridge::common_msgs::PointCloud>> pointcloud_reader_{nullptr};
+
+    uint32_t spin_rate_ = 200;
+    std::future<void> async_result_;
+    std::atomic<bool> running_ = {false};
 
     grpc::GrpcClientImpl::SharedPtr grpc_client_{nullptr};
     std::shared_ptr<::grpc::Channel> channel_{nullptr};
+
+    // config
+    std::shared_ptr<::openbot::bridge::grpc::GRPCConfig> grpc_config_{nullptr};
 };
 
 CYBER_REGISTER_COMPONENT(GrpcComponent)

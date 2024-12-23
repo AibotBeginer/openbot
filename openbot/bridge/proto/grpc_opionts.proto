@@ -14,5 +14,12 @@
 
 syntax = "proto3";
 
-package openbot.bridge.http;
+package openbot.bridge.grpc;
 
+
+message GRPCConfig
+{
+    string host = 1;
+    string port = 2;
+    uint32 timeout_seconds = 3;
+}
