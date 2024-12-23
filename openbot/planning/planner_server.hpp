@@ -29,6 +29,7 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/map/voxel_map.hpp"
 #include "openbot/map/costmap.hpp"
+#include "openbot/transform/buffer.hpp"
 #include "openbot/planning/common/global_planner.hpp"
 #include "openbot/planning/plugins/rrt_planner.hpp"
 
@@ -110,6 +111,9 @@ private:
 
     // Cyber Node
     std::unique_ptr<apollo::cyber::Node> node_{nullptr};
+
+    // tf buffer
+    ::openbot::transform::Buffer* tf_buffer_ = ::openbot::transform::Buffer::Instance();
 };
 
 template <typename T>

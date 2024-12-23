@@ -20,6 +20,7 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/utils/ply.hpp"
+#include "openbot/transform/buffer.hpp"
 #include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 
 #include <string>
@@ -147,6 +148,10 @@ public:
      * @return return Sccess or failed
      */
     bool ToOccupancyGridMap(common::nav_msgs::OccupancyGrid& data);
+
+private:
+    // tf buffer
+    ::openbot::transform::Buffer* tf_buffer_ = ::openbot::transform::Buffer::Instance();
 };
 
 }  // namespace map

@@ -58,8 +58,6 @@ public:
      */
     void SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::common_msgs::PointCloud>& msg);
 
-    
-
 private:
     //  grpc service stub
     std::unique_ptr<::openbot_bridge::service_msgs::SensorService::Stub> stub_;
