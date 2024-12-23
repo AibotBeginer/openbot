@@ -38,7 +38,7 @@ GrpcClientImpl::GrpcClientImpl(std::shared_ptr<Channel> channel)
   init_flag_ = true;
 }
 
-void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::sensor_msgs::Image>& msg) 
+void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::common_msgs::Image>& msg) 
 {
   LOG(INFO) << "SendMsgToGrpc  >>>>>";
   // set timeout

@@ -33,6 +33,7 @@
 
 #include "openbot/common/macros.hpp"
 #include "openbot/common/io/msgs.hpp"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 #include "openbot/tools/map_generator/mockamap/map_opionts.hpp"
 
 namespace openbot {
@@ -57,17 +58,17 @@ public:
 
     bool FixedMapGenerate(pcl::PointCloud<pcl::PointXYZ>& cloud);
 
-    bool GetPointCloud2Data(common::sensor_msgs::PointCloud2& point_cloud);
+    bool GetPointCloud2Data(openbot_bridge::common_msgs::PointCloud2& point_cloud);
 
-    bool GetSensedPoints(const pcl::PointXYZ& current_point, common::sensor_msgs::PointCloud2& point_cloud);
+    bool GetSensedPoints(const pcl::PointXYZ& current_point, openbot_bridge::common_msgs::PointCloud2& point_cloud);
 
-    common::sensor_msgs::PointCloud2& global_map();
+    openbot_bridge::common_msgs::PointCloud2& global_map();
 
     double resolution() { return resolution_; }
 
     pcl::PointCloud<pcl::PointXYZ> cloud_map_;
-    common::sensor_msgs::PointCloud2 global_map_pcd_;
-    common::sensor_msgs::PointCloud2 local_map_pcd_;
+    openbot_bridge::common_msgs::PointCloud2 global_map_pcd_;
+    openbot_bridge::common_msgs::PointCloud2 local_map_pcd_;
 
     std::vector<Obstacle> obstacles_list_;
 

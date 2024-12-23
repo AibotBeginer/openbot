@@ -15,7 +15,6 @@
  */
 
 #include "openbot/bridge/components/websocket_component.hpp"
-#include "openbot/common/proto/geometry_msgs.pb.h"
 #include "openbot/common/utils/json_util.hpp"
 #include "openbot/common/utils/logging.hpp"
 #include "nlohmann/json.hpp"
@@ -32,8 +31,29 @@ bool WebSocketComponent::Init()
     }
     LOG(INFO) << "Websocket config: " << websocket_config_->DebugString();
     websocket_client_ = std::make_shared<http::WebsocketClient>(websocket_config_->host(), websocket_config_->port());
+
+    pointcloud_reader_ = node_->CreateReader<::openbot_bridge::common_msgs::PointCloud>(
+        "/openbot/map/matterport/pointcloud", 
+        [this](const std::shared_ptr<openbot_bridge::common_msgs::PointCloud>& msgs) {
+            HandlePointCloudMessages(msgs);
+        });
+
+
     async_result_ = apollo::cyber::Async(&WebSocketComponent::Run, this);
     return true;
+}
+
+void WebSocketComponent::HandlePointCloudMessages(const std::shared_ptr<::openbot_bridge::common_msgs::PointCloud>& msgs)
+{
+    LOG(INFO) << "HandlePointCloudMessages";
+    if (msgs == nullptr) {
+        return;
+    }
+
+    if (map_data_ != nullptr) {
+        return;
+    }
+    map_data_ = msgs;
 }
 
 void WebSocketComponent::Run()
@@ -46,10 +66,27 @@ void WebSocketComponent::Run()
                 apollo::cyber::SleepFor(std::chrono::seconds(5));
                 continue;
             }
+        } else {
+            LOG(INFO) << "Websocket server connect server success.";
         }
-  
 
-        common::geometry_msgs::Twist twist;
+        if (map_data_ == nullptr) {
+            LOG(INFO) << "map_data point cloud data is empty.";
+            apollo::cyber::SleepFor(std::chrono::seconds(5));
+            continue;
+        }
+
+        // auto header_time = apollo::cyber::Time::Now().ToSecond();
+        // map_data_->mutable_header()->mutable_stamp()->set_sec(header_time);
+        // map_data_->mutable_header()->set_frame_id("map");
+        // auto json = common::utils::JsonUtil::ProtoToJson(*map_data_.get());
+        // nlohmann::json ros_msgs;
+        // ros_msgs["op"] = "publish";
+        // ros_msgs["topic"] = "/openbot/pointcloud";
+        // ros_msgs["msg"] = json;
+
+
+        ::openbot_bridge::common_msgs::Twist twist;
         twist.mutable_linear()->set_x(1);
         twist.mutable_linear()->set_y(2);
         twist.mutable_linear()->set_z(3);
@@ -65,8 +102,8 @@ void WebSocketComponent::Run()
         ros_msgs["topic"] = "/openbot/twist";
         ros_msgs["msg"] = json;
 
-        LOG(INFO) << "ros_msgs: " << ros_msgs.dump();
 
+        LOG(INFO) << "json: " << ros_msgs.dump();
         websocket_client_->Send(ros_msgs.dump());
         apollo::cyber::SleepFor(std::chrono::seconds(1));
     }

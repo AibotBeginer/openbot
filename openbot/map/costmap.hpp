@@ -20,7 +20,7 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/utils/ply.hpp"
-#include "openbot_bridge/sensor_msgs/pointcloud.pb.h"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 
 #include <string>
 #include <vector>
@@ -80,7 +80,7 @@ public:
      * @param cloud Ourput map data 
      * @return return Sccess or failed
      */
-    bool LoadPlyFile(const std::string& ply_filename, openbot_bridge::sensor_msgs::PointCloud& clouds);
+    bool LoadPlyFile(const std::string& ply_filename, openbot_bridge::common_msgs::PointCloud& clouds);
 
     /**
      * @brief Map resolution

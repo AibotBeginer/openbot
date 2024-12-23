@@ -683,7 +683,7 @@ void Maps::setInfo(const BasicInfo& value)
 Maps::Maps()
 {
   cloud_ = new pcl::PointCloud<pcl::PointXYZ>();
-  output_ = new ::openbot::common::sensor_msgs::PointCloud2();
+  output_ = new ::openbot_bridge::common_msgs::PointCloud2();
 }
 
 Maps::Maps(const MapOption& option)

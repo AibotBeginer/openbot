@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
     //for testing....
     
     for (int i = 0; i < 100; i++) {
-        std::shared_ptr<::openbot_bridge::sensor_msgs::Image> msg(new ::openbot_bridge::sensor_msgs::Image());
+        std::shared_ptr<::openbot_bridge::common_msgs::Image> msg(new ::openbot_bridge::common_msgs::Image());
         msg->set_height(100);
         msg->set_width(100);
         LOG(INFO) << "set msg: height>>" << msg->height();
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
     auto grpc_client_node = apollo::cyber::CreateNode("grpc_client");
 
     // create listener
-    auto listener = grpc_client_node->CreateReader<::openbot_bridge::sensor_msgs::Image>("/openbot/sensor/camera/test/image",
+    auto listener = grpc_client_node->CreateReader<::openbot_bridge::common_msgs::Image>("/openbot/sensor/camera/test/image",
 			  std::bind(send_msg_fn, grpc_client.get(), std::placeholders::_1));
 
     apollo::cyber::WaitForShutdown();

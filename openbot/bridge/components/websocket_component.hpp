@@ -29,8 +29,10 @@
 
 #include "openbot/common/macros.hpp"
 #include "openbot/bridge/proto/http_options.pb.h"
-#include "openbot_bridge/sensor_msgs/sensor_image.pb.h"
 #include "openbot/bridge/common/http/websocket_client.hpp"
+
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
+
 
 namespace openbot {
 namespace bridge { 
@@ -43,6 +45,12 @@ public:
     WebSocketComponent() = default;
     ~WebSocketComponent();
 
+    /**
+     * @brief Cyber node and writer/reader init
+     * 
+     * @return true 
+     * @return false 
+     */
     bool Init() override;
 
 private:
@@ -53,7 +61,15 @@ private:
      */
     void Run();
 
+    /**
+     * @brief Handle global map
+     * 
+     * @param msgs 
+     */
+    void HandlePointCloudMessages(const std::shared_ptr<::openbot_bridge::common_msgs::PointCloud>& msgs);
+
     // cyber node
+    std::shared_ptr<apollo::cyber::Reader<::openbot_bridge::common_msgs::PointCloud>> pointcloud_reader_{nullptr};
     uint32_t spin_rate_ = 200;
     std::future<void> async_result_;
     std::atomic<bool> running_ = {false};
@@ -63,6 +79,8 @@ private:
 
     // config
     std::shared_ptr<http::WebsocketConfig> websocket_config_{nullptr};
+
+    std::shared_ptr<::openbot_bridge::common_msgs::PointCloud> map_data_{nullptr};
 };
 
 CYBER_REGISTER_COMPONENT(WebSocketComponent)

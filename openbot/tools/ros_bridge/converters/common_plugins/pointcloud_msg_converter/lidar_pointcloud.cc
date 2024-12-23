@@ -20,13 +20,13 @@ namespace apollo {
 namespace cyber {
 
 #ifdef ENABLE_ROS_MSG
-void ParseField(sensor_msgs::msg::PointField field,
+void ParseField(common_msgs::msg::PointField field,
                 std::shared_ptr<apollo::drivers::PointCloud> point_clouds,
                 std::string field_name,
-                sensor_msgs::msg::PointCloud2& raw_message) {
+                common_msgs::msg::PointCloud2& raw_message) {
   switch (field.datatype) {
-    case sensor_msgs::msg::PointField::INT8: {
-      sensor_msgs::PointCloud2ConstIterator<int8_t> iter(raw_message,
+    case common_msgs::msg::PointField::INT8: {
+      common_msgs::PointCloud2ConstIterator<int8_t> iter(raw_message,
                                                          field_name);
       int index = 0;
       for (; iter != iter.end(); ++iter) {
@@ -42,8 +42,8 @@ void ParseField(sensor_msgs::msg::PointField field,
       }
       break;
     }
-    case sensor_msgs::msg::PointField::UINT8: {
-      sensor_msgs::PointCloud2ConstIterator<int8_t> iter(raw_message,
+    case common_msgs::msg::PointField::UINT8: {
+      common_msgs::PointCloud2ConstIterator<int8_t> iter(raw_message,
                                                          field_name);
       int index = 0;
       for (; iter != iter.end(); ++iter) {
@@ -59,8 +59,8 @@ void ParseField(sensor_msgs::msg::PointField field,
       }
       break;
     }
-    case sensor_msgs::msg::PointField::INT16: {
-      sensor_msgs::PointCloud2ConstIterator<int16_t> iter(raw_message,
+    case common_msgs::msg::PointField::INT16: {
+      common_msgs::PointCloud2ConstIterator<int16_t> iter(raw_message,
                                                           field_name);
       int index = 0;
       for (; iter != iter.end(); ++iter) {
@@ -76,8 +76,8 @@ void ParseField(sensor_msgs::msg::PointField field,
       }
       break;
     }
-    case sensor_msgs::msg::PointField::UINT16: {
-      sensor_msgs::PointCloud2ConstIterator<int16_t> iter(raw_message,
+    case common_msgs::msg::PointField::UINT16: {
+      common_msgs::PointCloud2ConstIterator<int16_t> iter(raw_message,
                                                           field_name);
       int index = 0;
       for (; iter != iter.end(); ++iter) {
@@ -93,8 +93,8 @@ void ParseField(sensor_msgs::msg::PointField field,
       }
       break;
     }
-    case sensor_msgs::msg::PointField::INT32: {
-      sensor_msgs::PointCloud2ConstIterator<int32_t> iter(raw_message,
+    case common_msgs::msg::PointField::INT32: {
+      common_msgs::PointCloud2ConstIterator<int32_t> iter(raw_message,
                                                           field_name);
       int index = 0;
       for (; iter != iter.end(); ++iter) {
@@ -110,8 +110,8 @@ void ParseField(sensor_msgs::msg::PointField field,
       }
       break;
     }
-    case sensor_msgs::msg::PointField::UINT32: {
-      sensor_msgs::PointCloud2ConstIterator<uint32_t> iter(raw_message,
+    case common_msgs::msg::PointField::UINT32: {
+      common_msgs::PointCloud2ConstIterator<uint32_t> iter(raw_message,
                                                            field_name);
       int index = 0;
       for (; iter != iter.end(); ++iter) {
@@ -127,8 +127,8 @@ void ParseField(sensor_msgs::msg::PointField field,
       }
       break;
     }
-    case sensor_msgs::msg::PointField::FLOAT32: {
-      sensor_msgs::PointCloud2ConstIterator<float> iter(raw_message,
+    case common_msgs::msg::PointField::FLOAT32: {
+      common_msgs::PointCloud2ConstIterator<float> iter(raw_message,
                                                         field_name);
       int index = 0;
       for (; iter != iter.end(); ++iter) {
@@ -144,8 +144,8 @@ void ParseField(sensor_msgs::msg::PointField field,
       }
       break;
     }
-    case sensor_msgs::msg::PointField::FLOAT64: {
-      sensor_msgs::PointCloud2ConstIterator<double> iter(raw_message,
+    case common_msgs::msg::PointField::FLOAT64: {
+      common_msgs::PointCloud2ConstIterator<double> iter(raw_message,
                                                          field_name);
       int index = 0;
       for (; iter != iter.end(); ++iter) {
@@ -180,8 +180,8 @@ bool LidarPointcloud::ConvertMsg(InputTypes<InputMsgPtr>& in,
   bool has_x = false, has_y = false, has_z = false, has_intensity = false,
        has_time = false;
   std::string time_field_name;
-  sensor_msgs::msg::PointField time_field_type;
-  sensor_msgs::msg::PointField intensity_field_type;
+  common_msgs::msg::PointField time_field_type;
+  common_msgs::msg::PointField intensity_field_type;
   for (const auto& field : cloud_msg.fields) {
     if (field.name == "x") has_x = true;
     if (field.name == "y") has_y = true;
@@ -202,9 +202,9 @@ bool LidarPointcloud::ConvertMsg(InputTypes<InputMsgPtr>& in,
     return false;
   }
 
-  sensor_msgs::PointCloud2ConstIterator<float> iter_x(cloud_msg, "x");
-  sensor_msgs::PointCloud2ConstIterator<float> iter_y(cloud_msg, "y");
-  sensor_msgs::PointCloud2ConstIterator<float> iter_z(cloud_msg, "z");
+  common_msgs::PointCloud2ConstIterator<float> iter_x(cloud_msg, "x");
+  common_msgs::PointCloud2ConstIterator<float> iter_y(cloud_msg, "y");
+  common_msgs::PointCloud2ConstIterator<float> iter_z(cloud_msg, "z");
 
   for (; iter_x != iter_x.end(); ++iter_x, ++iter_y, ++iter_z) {
     x = *iter_x;

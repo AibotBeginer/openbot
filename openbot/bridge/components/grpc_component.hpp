@@ -28,7 +28,7 @@
 #include "cyber/message/raw_message.h"
 
 #include "openbot/common/macros.hpp"
-#include "openbot_bridge/sensor_msgs/sensor_image.pb.h"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 #include "openbot/bridge/common/grpc/grpc_client.hpp"
 
 namespace openbot {
@@ -46,9 +46,9 @@ public:
 
 private:
 
-    void HandleSensorImage(const std::shared_ptr<::openbot_bridge::sensor_msgs::Image>& msgs);
+    void HandleSensorImage(const std::shared_ptr<::openbot_bridge::common_msgs::Image>& msgs);
 
-    std::shared_ptr<apollo::cyber::Reader<::openbot_bridge::sensor_msgs::Image>> sensor_image_reader_{nullptr};
+    std::shared_ptr<apollo::cyber::Reader<::openbot_bridge::common_msgs::Image>> sensor_image_reader_{nullptr};
 
     grpc::GrpcClientImpl::SharedPtr grpc_client_{nullptr};
     std::shared_ptr<::grpc::Channel> channel_{nullptr};

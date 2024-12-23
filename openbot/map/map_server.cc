@@ -30,7 +30,7 @@ MapServer::~MapServer()
 
 }
 
-bool MapServer::LoadPointClouds(const std::string& path, openbot_bridge::sensor_msgs::PointCloud& clouds)
+bool MapServer::LoadPointClouds(const std::string& path, openbot_bridge::common_msgs::PointCloud& clouds)
 {
     return costmap_->LoadPlyFile(path, clouds);
 }

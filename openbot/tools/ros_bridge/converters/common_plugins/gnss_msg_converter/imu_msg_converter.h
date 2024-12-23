@@ -35,7 +35,7 @@
 #endif
 
 #ifdef ENABLE_ROS_MSG
-using RosImuMsg = sensor_msgs::msg::Imu;
+using RosImuMsg = common_msgs::msg::Imu;
 #else
 // fake wrap
 using RosImuMsg = apollo::cyber::proto::SimpleMessage;

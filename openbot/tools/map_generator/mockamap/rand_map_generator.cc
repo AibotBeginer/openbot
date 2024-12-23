@@ -48,7 +48,7 @@ MapGenerator::~MapGenerator()
 
 }
 
-bool MapGenerator::Generate(common::sensor_msgs::PointCloud2& point_cloud)
+bool MapGenerator::Generate(::openbot_bridge::common_msgs::PointCloud2& point_cloud)
 {
     map_->generate();
     if (map_->cloud() == nullptr) {

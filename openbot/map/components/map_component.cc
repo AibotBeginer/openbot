@@ -32,7 +32,7 @@ bool MapComponent::Init()
     LOG(INFO) << "Filter config: " << map_config_->DebugString();
 
     map_server_ = std::make_shared<MapServer>();
-    map_writer_ = node_->CreateWriter<openbot_bridge::sensor_msgs::PointCloud>(map_config_->channel_name());
+    map_writer_ = node_->CreateWriter<openbot_bridge::common_msgs::PointCloud>(map_config_->channel_name());
     async_result_ = apollo::cyber::Async(&MapComponent::Run, this);
     return true;
 }
@@ -41,7 +41,7 @@ void MapComponent::Run()
 {
   running_.exchange(true);
   while (!apollo::cyber::IsShutdown()) {
-    auto map_data = std::make_shared<openbot_bridge::sensor_msgs::PointCloud>();
+    auto map_data = std::make_shared<openbot_bridge::common_msgs::PointCloud>();
 
     bool success = map_server_->LoadPointClouds(map_config_->ply_path(), *map_data.get());
     if (!success) {

@@ -24,9 +24,9 @@ namespace compontents {
 
 bool GrpcComponent::Init()
 {
-    sensor_image_reader_ = node_->CreateReader<::openbot_bridge::sensor_msgs::Image>(
+    sensor_image_reader_ = node_->CreateReader<::openbot_bridge::common_msgs::Image>(
         "/openbot/sensor/camera/test/image", 
-        [this](const std::shared_ptr<openbot_bridge::sensor_msgs::Image>& image) {
+        [this](const std::shared_ptr<openbot_bridge::common_msgs::Image>& image) {
             HandleSensorImage(image);
         });
 
@@ -36,7 +36,7 @@ bool GrpcComponent::Init()
     return true;
 }
 
-void GrpcComponent::HandleSensorImage(const std::shared_ptr<::openbot_bridge::sensor_msgs::Image>& msgs)
+void GrpcComponent::HandleSensorImage(const std::shared_ptr<::openbot_bridge::common_msgs::Image>& msgs)
 {
     LOG(INFO) << "recevie image data";
     grpc_client_->SendMsgToGrpc(msgs);

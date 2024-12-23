@@ -42,7 +42,6 @@ namespace map {
 class MapComponent final : public apollo::cyber::Component<> 
 {
 public:
-    MapComponent() = default;
     ~MapComponent();
 
     bool Init() override;
@@ -51,7 +50,7 @@ private:
     void Run();
 
     // cyber node
-    std::shared_ptr<Writer<openbot_bridge::sensor_msgs::PointCloud>> map_writer_{nullptr};
+    std::shared_ptr<Writer<openbot_bridge::common_msgs::PointCloud>> map_writer_{nullptr};
     uint32_t spin_rate_ = 200;
     std::future<void> async_result_;
     std::atomic<bool> running_ = {false};

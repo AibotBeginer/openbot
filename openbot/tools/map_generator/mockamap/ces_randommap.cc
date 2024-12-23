@@ -99,7 +99,7 @@ bool CesRandomMap::FixedMapGenerate(pcl::PointCloud<pcl::PointXYZ>& cloud)
   return true;
 }
 
-bool CesRandomMap::GetPointCloud2Data(common::sensor_msgs::PointCloud2& point_cloud)
+bool CesRandomMap::GetPointCloud2Data(openbot_bridge::common_msgs::PointCloud2& point_cloud)
 {
   if (!initialized_finished_) {
     LOG(WARNING) << "Random map not initialize finished.";
@@ -114,7 +114,7 @@ bool CesRandomMap::GetPointCloud2Data(common::sensor_msgs::PointCloud2& point_cl
 }
 
 bool CesRandomMap::GetSensedPoints(const pcl::PointXYZ& current_point, 
-  common::sensor_msgs::PointCloud2& point_cloud)
+  openbot_bridge::common_msgs::PointCloud2& point_cloud)
 {
   if (!initialized_finished_ ) {
     return false;
@@ -156,7 +156,7 @@ bool CesRandomMap::GetSensedPoints(const pcl::PointXYZ& current_point,
   return true;
 }
 
-common::sensor_msgs::PointCloud2& CesRandomMap::global_map()
+openbot_bridge::common_msgs::PointCloud2& CesRandomMap::global_map()
 {
   return global_map_pcd_;
 }

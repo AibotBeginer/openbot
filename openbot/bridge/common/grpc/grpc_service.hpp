@@ -27,7 +27,7 @@
 #include "cyber/cyber.h"
 
 
-#include "openbot_bridge/sensor_msgs/sensor_image.pb.h"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 #include "openbot_bridge/service_msgs/sensor_service.pb.h"
 #include "openbot_bridge/service_msgs/sensor_service.grpc.pb.h"
 
@@ -48,7 +48,7 @@ public:
     bool InitFlag() { return init_flag_; }
 
     ::grpc::Status PublishImageSennorMessages(::grpc::ServerContext* context, 
-        const ::openbot_bridge::sensor_msgs::Image* request, google::protobuf::Empty* response) override;
+        const ::openbot_bridge::common_msgs::Image* request, google::protobuf::Empty* response) override;
 
     private:
     bool init_flag_ = false;

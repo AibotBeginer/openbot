@@ -44,7 +44,7 @@ public:
 
     ~MapGenerator();
 
-    bool Generate(common::sensor_msgs::PointCloud2& point_cloud2);
+    bool Generate(::openbot_bridge::common_msgs::PointCloud2& point_cloud2);
 
 private:
 

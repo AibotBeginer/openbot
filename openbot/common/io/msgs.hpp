@@ -17,6 +17,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 
 #include "openbot/common/proto/builtin_interfaces.pb.h"
 #include "openbot/common/proto/diagnostic_msgs.pb.h"
@@ -29,9 +30,14 @@
 #include "openbot/common/proto/vision_msgs.pb.h"
 #include "openbot/common/proto/visualization_msgs.pb.h"
 
+#include "openbot/common/utils/json_util.hpp"
+
 namespace openbot {
 namespace common {
 namespace io {
+
+
+std::string ToJson(const std::string& topic, const google::protobuf::Message &proto);
 
 }  // namespace io
 }  // namespace openbot

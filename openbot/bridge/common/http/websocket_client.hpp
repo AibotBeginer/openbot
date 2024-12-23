@@ -27,7 +27,7 @@
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
-#include "openbot_bridge/ros2_msgs/sensor_msgs.pb.h"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 
 namespace openbot {
 namespace bridge { 

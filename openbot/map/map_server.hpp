@@ -46,7 +46,7 @@ public:
     /**
      * @brief Load matterport3d datasets
      */
-    bool LoadPointClouds(const std::string& path, openbot_bridge::sensor_msgs::PointCloud& clouds);
+    bool LoadPointClouds(const std::string& path, openbot_bridge::common_msgs::PointCloud& clouds);
 
 private:
     // costmap
