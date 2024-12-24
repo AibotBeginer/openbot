@@ -16,6 +16,10 @@ syntax = "proto3";
 
 package openbot.bridge.grpc;
 
+message TopicConfig 
+{
+
+}
 
 message GRPCConfig
 {
