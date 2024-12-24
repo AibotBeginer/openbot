@@ -1,0 +1,16 @@
+# Define all coms in DAG streaming.
+module_config {
+  module_library : "/opt/openbot/lib/libwebsocket_component.so"
+  components {
+    class_name : "WebSocketComponent"
+    config {
+      name: "websocket"
+      config_file_path:  "/opt/openbot/share/openbot/bridge/conf/websocket.pb.txt"
+      readers: [
+        {
+          channel: "/openbot/bridge/websocket"
+        }
+      ]
+    }
+  }
+}

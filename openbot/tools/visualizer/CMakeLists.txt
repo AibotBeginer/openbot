@@ -21,14 +21,15 @@ file(GLOB_RECURSE QRC_FILES "visualizer/*.qrc")
 # Use qt5_add_resources for Qt5 or qt_add_resources for Qt6
 qt5_add_resources(RESOURCE_SOURCES ${QRC_FILES})
 
-add_executable(openbot_visualizer
+set(executable_name openbot.tools.drivers.visualizer)
+add_executable(${executable_name} 
   ${VISUALIZER_HDR}
   ${VISUALIZER_SRC}
   ${UI_HEADERS}
   ${RESOURCE_SOURCES}
 )
 
-target_link_libraries(openbot_visualizer 
+target_link_libraries(${executable_name} 
   Qt5::Widgets
   Qt5::Core
   Qt5::Gui
@@ -40,7 +41,7 @@ target_link_libraries(openbot_visualizer
 
 # Add the binary directory first, so that port.h is included after it has
 # been generated.
-target_include_directories(openbot_visualizer PUBLIC
+target_include_directories(${executable_name}  PUBLIC
   $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
   $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/openbot/tools/visualizer>
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/openbot/tools/visualizer>
@@ -48,7 +49,7 @@ target_include_directories(openbot_visualizer PUBLIC
 )
 
 # Install rules (if needed)
-install(TARGETS openbot_visualizer DESTINATION bin)
+install(TARGETS ${executable_name} DESTINATION bin)
 
 install(FILES visualizer/res.qrc DESTINATION share/openbot)
 install(DIRECTORY visualizer/images DESTINATION share/openbot)

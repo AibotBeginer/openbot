@@ -15,6 +15,7 @@
  */
 
 #include "openbot/bridge/common/grpc/grpc_client.hpp"
+#include "openbot/common/utils/logging.hpp"
 
 #include <chrono>
 
@@ -38,7 +39,7 @@ GrpcClientImpl::GrpcClientImpl(std::shared_ptr<Channel> channel)
   init_flag_ = true;
 }
 
-void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::sensor_msgs::Image>& msg) 
+void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::common_msgs::Image>& msg) 
 {
   LOG(INFO) << "SendMsgToGrpc  >>>>>";
   // set timeout
@@ -50,7 +51,8 @@ void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::senso
 
   // time used statistics
   auto start = std::chrono::steady_clock::now();
-  Status status = stub_->PublishImageSennorMessages(&context, *msg, nullptr);
+  ::google::protobuf::Empty empty;
+  Status status = stub_->PublishImageSennorMessages(&context, *msg, &empty);
   if (status.ok()) {
       std::cout << "Operation succeeded." << std::endl;
   } else {
@@ -60,6 +62,19 @@ void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::senso
   std::chrono::duration<double> time_used = end - start;
   // response check: error_code 4: time out; 0: success;
   LOG(INFO) << "stub PushCarStatus Time used: " << time_used.count() * 1000 << " ms";
+}
+
+void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<::openbot_bridge::common_msgs::PointCloud>& msg)
+{
+  ClientContext context;
+  ::google::protobuf::Empty empty;
+  Status status = stub_->PublishPointCloudSensorMessages(&context, *msg, &empty);
+  if (status.ok()) {
+      LOG(INFO) << "Call publish pointCloud sennor messages operation succeeded.";
+  } else {
+      LOG(ERROR) << "Call publish pointCloud sennor messages operation failed: " 
+                 << status.error_message();
+  }
 }
 
 }  // namespace grpc 

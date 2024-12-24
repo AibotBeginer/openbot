@@ -16,9 +16,37 @@
 
 #include "openbot/map/costmap.hpp"
 
+#include "cyber/cyber.h"
+
 namespace openbot {
 namespace map {
 
+bool Costmap::LoadOctomapFile(const std::string& octomap_filename, pcl::PointCloud<pcl::PointXYZ>& cloud)
+{
+    return true;
+}
+
+bool Costmap::LoadPCDFile(const std::string& pcd_filename, pcl::PointCloud<pcl::PointXYZ>& cloud)
+{
+    return true;
+}
+
+bool Costmap::LoadPlyFile(const std::string& ply_filename, openbot_bridge::common_msgs::PointCloud& clouds)
+{
+    // std::vector<PlyPoint>
+    auto ply_points = common::utils::ReadPly(ply_filename);
+    if (ply_points.empty()) {
+        return false;
+    }
+
+    for (const auto& ply_point : ply_points) {
+        auto point_new = clouds.add_points();
+        point_new->set_x(ply_point.x);
+        point_new->set_y(ply_point.y);
+        point_new->set_z(ply_point.z);
+    }
+    return true;
+}
 
 }  // namespace map
 }  // namespace openbot

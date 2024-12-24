@@ -28,8 +28,8 @@
 #include <grpc/impl/codegen/connectivity_state.h>
 
 
-DEFINE_string(grpc_client_host, "http2-gateway.healthjd.com", "Server host for the service");
-DEFINE_int32(grpc_client_port, 2000, "Server port for the service");
+DEFINE_string(grpc_client_host, "localhost", "Server host for the service");
+DEFINE_int32(grpc_client_port, 5005, "Server port for the service");
 
 using ::openbot::bridge::grpc::GrpcClientImpl;
 
@@ -71,24 +71,24 @@ int main(int argc, char* argv[])
     grpc_client->InitFlag();
     
     //for testing....
-    /*
+    
     for (int i = 0; i < 100; i++) {
-        std::shared_ptr<::openbot_bridge::sensor_msgs::Image> msg(new ::openbot_bridge::sensor_msgs::Image());
+        std::shared_ptr<::openbot_bridge::common_msgs::Image> msg(new ::openbot_bridge::common_msgs::Image());
         msg->set_height(100);
         msg->set_width(100);
         LOG(INFO) << "set msg: height>>" << msg->height();
 	grpc_client->SendMsgToGrpc(msg);
-    }*/
+    }
     LOG(INFO) << "======================start listener====================";
 
-    auto send_msg_fn = std::mem_fn(&openbot::bridge::grpc::GrpcClientImpl::SendMsgToGrpc);
+    // auto send_msg_fn = std::mem_fn(&openbot::bridge::grpc::GrpcClientImpl::SendMsgToGrpc);
     
-    // create grpc_client node
-    auto grpc_client_node = apollo::cyber::CreateNode("grpc_client");
+    // // create grpc_client node
+    // auto grpc_client_node = apollo::cyber::CreateNode("grpc_client");
 
-    // create listener
-    auto listener = grpc_client_node->CreateReader<::openbot_bridge::sensor_msgs::Image>("/openbot/sensor/camera/test/image",
-			  std::bind(send_msg_fn, grpc_client.get(), std::placeholders::_1));
+    // // create listener
+    // auto listener = grpc_client_node->CreateReader<::openbot_bridge::common_msgs::Image>("/openbot/sensor/camera/test/image",
+	// 		  std::bind(send_msg_fn, grpc_client.get(), std::placeholders::_1));
 
     apollo::cyber::WaitForShutdown();
     return EXIT_SUCCESS;

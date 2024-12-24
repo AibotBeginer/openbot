@@ -34,8 +34,7 @@
 
 #include "openbot/common/configs/config_gflags.hpp"
 #include "openbot/common/math/vec2d.hpp"
-#include "openbot_bridge/common_msgs/geometry.pb.h"
-#include "openbot_bridge/common_msgs/pnc_point.pb.h"
+#include "openbot_bridge/common_msgs/geometry_msgs.pb.h"
 
 /**
  * @namespace openbot::common::utils
@@ -119,10 +118,6 @@ bool SamePointXY(const U& u, const V& v)
          (u.y() - v.y()) * (u.y() - v.y()) < kMathEpsilonSqr;
 }
 
-openbot_bridge::common_msgs::PathPoint GetWeightedAverageOfTwoPathPoints(
-  const openbot_bridge::common_msgs::PathPoint& p1,
-  const openbot_bridge::common_msgs::PathPoint& p2,
-  const double w1, const double w2);
 
 // Test whether two float or double numbers are equal.
 // ulp: units in the last place.

@@ -54,7 +54,7 @@ void RRTPlanner::Configure(std::string name)
 void RRTPlanner::Configure(std::string name, std::shared_ptr<map::Costmap> costmap)
 {
     // costmap_ = dynamic_cast<VoxelMap::SharedPtr>(costmap);
-    costmap_ = dynamic_cast<map::VoxelMap*>(costmap.get());
+    // costmap_ = dynamic_cast<map::VoxelMap*>(costmap.get());
 
     LOG(INFO) << "Cost Map Size: " << costmap_->GetSize().transpose();
 }

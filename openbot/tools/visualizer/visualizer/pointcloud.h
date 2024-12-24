@@ -21,6 +21,7 @@
 #include "openbot_bridge/sensor_msgs/pointcloud.pb.h"
 #include "renderable_object.h"
 
+
 class QOpenGLShaderProgram;
 
 class PointCloud : public RenderableObject {

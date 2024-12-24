@@ -25,13 +25,43 @@ namespace map {
 bool MapComponent::Init() 
 {
     LOG(INFO) << "Load MapComponent ....";
-    filter_config_ = std::make_shared<FilterConfig>();
-    if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
-                                                filter_config_.get())) {
+    map_config_ = std::make_shared<MapConfig>();
+    if (!apollo::cyber::common::GetProtoFromFile(config_file_path_, map_config_.get())) {
       return false;
     }
-    LOG(INFO) << "Filter config: " << filter_config_->DebugString();
+    LOG(INFO) << "Filter config: " << map_config_->DebugString();
+
+    map_server_ = std::make_shared<MapServer>();
+    map_writer_ = node_->CreateWriter<openbot_bridge::common_msgs::PointCloud>(map_config_->channel_name());
+    async_result_ = apollo::cyber::Async(&MapComponent::Run, this);
     return true;
+}
+
+void MapComponent::Run()
+{
+  running_.exchange(true);
+  while (!apollo::cyber::IsShutdown()) {
+    auto map_data = std::make_shared<openbot_bridge::common_msgs::PointCloud>();
+
+    bool success = map_server_->LoadPointClouds(map_config_->ply_path(), *map_data.get());
+    if (!success) {
+      LOG(ERROR) << "Load ply pointcloud error.";
+      continue;
+    }
+    map_writer_->Write(map_data);
+
+    LOG(INFO) << "Publish ply pointcloud";
+    apollo::cyber::SleepFor(std::chrono::seconds(1));
+  }
+}
+
+MapComponent::~MapComponent()
+{
+  if (running_.load()) {
+    running_.exchange(false);
+    // free(raw_image_->image);
+    async_result_.wait();
+  }
 }
 
 }  // namespace map 

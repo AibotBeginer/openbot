@@ -1,4 +1,4 @@
 add_subdirectory(library_loader)
 add_subdirectory(nlohmann)
 add_subdirectory(tf2)
-add_subdirectory(rtabmap)
+# add_subdirectory(rtabmap)

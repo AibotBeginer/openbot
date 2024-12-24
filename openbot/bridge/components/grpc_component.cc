@@ -24,22 +24,58 @@ namespace compontents {
 
 bool GrpcComponent::Init()
 {
-    sensor_image_reader_ = node_->CreateReader<::openbot_bridge::sensor_msgs::Image>(
+    sensor_image_reader_ = node_->CreateReader<::openbot_bridge::common_msgs::Image>(
         "/openbot/sensor/camera/test/image", 
-        [this](const std::shared_ptr<openbot_bridge::sensor_msgs::Image>& image) {
-            HandleSensorImage(image);
+        [this](const std::shared_ptr<openbot_bridge::common_msgs::Image>& image) {
+            HandleSensorImageMessages(image);
         });
 
-    channel_ = ::grpc::CreateChannel("127.0.0.1:8009", ::grpc::InsecureChannelCredentials());
+    pointcloud_reader_ = node_->CreateReader<::openbot_bridge::common_msgs::PointCloud>(
+        "/openbot/map/matterport/pointcloud", 
+        [this](const std::shared_ptr<openbot_bridge::common_msgs::PointCloud>& msgs) {
+            HandlePointCloudMessages(msgs);
+        });
+
+    grpc_config_ = std::make_shared<::openbot::bridge::grpc::GRPCConfig>();
+    if (!apollo::cyber::common::GetProtoFromFile(config_file_path_, grpc_config_.get())) {
+      return false;
+    }
+    LOG(INFO) << "GRPC config: " << grpc_config_->DebugString();
+    std::string ip_addr = grpc_config_->host() + ":" + grpc_config_->port();
+    channel_ = ::grpc::CreateChannel(ip_addr, ::grpc::InsecureChannelCredentials());
     grpc_client_ = std::make_shared<grpc::GrpcClientImpl>(channel_);
+
+    async_result_ = apollo::cyber::Async(&GrpcComponent::Run, this);
     LOG(INFO) << "GrpcComponent::Init finished";
     return true;
 }
 
-void GrpcComponent::HandleSensorImage(const std::shared_ptr<::openbot_bridge::sensor_msgs::Image>& msgs)
+void GrpcComponent::Run()
+{
+    running_.exchange(true);
+    // while (!apollo::cyber::IsShutdown()) {
+    //     apollo::cyber::SleepFor(std::chrono::seconds(1));
+    // }
+}
+
+void GrpcComponent::HandleSensorImageMessages(const std::shared_ptr<::openbot_bridge::common_msgs::Image>& msgs)
 {
     LOG(INFO) << "recevie image data";
     grpc_client_->SendMsgToGrpc(msgs);
+}
+
+void GrpcComponent::HandlePointCloudMessages(const std::shared_ptr<::openbot_bridge::common_msgs::PointCloud>& msgs)
+{
+    LOG(INFO) << "recevie pointcloud data";
+    grpc_client_->SendMsgToGrpc(msgs);
+}
+
+GrpcComponent::~GrpcComponent()
+{
+  if (running_.load()) {
+    running_.exchange(false);
+    async_result_.wait();
+  }
 }
 
 }  // namespace compontents

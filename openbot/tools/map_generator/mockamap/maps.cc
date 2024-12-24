@@ -683,7 +683,7 @@ void Maps::setInfo(const BasicInfo& value)
 Maps::Maps()
 {
   cloud_ = new pcl::PointCloud<pcl::PointXYZ>();
-  output_ = new ::openbot::common::sensor_msgs::PointCloud2();
+  output_ = new ::openbot_bridge::common_msgs::PointCloud2();
 }
 
 Maps::Maps(const MapOption& option)
@@ -885,9 +885,9 @@ void Maps::Maze3DGen()
 
 void Maps::PCLToPointCloud2()
 {
-  ::openbot::common::pcl::toROSMsg(*cloud_, *output_);
-  output_->header.frame_id = "map";
-  LOG(INFO) << "finish: infill " << cloud_->width / (1.0 * info.sizeX * info.sizeY * info.sizeZ);
+  // ::openbot::common::pcl::toROSMsg(*cloud_, *output_);
+  // output_->header.frame_id = "map";
+  // LOG(INFO) << "finish: infill " << cloud_->width / (1.0 * info.sizeX * info.sizeY * info.sizeZ);
 }
 
 }  // namespace mockamap

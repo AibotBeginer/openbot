@@ -14,5 +14,11 @@
 
 syntax = "proto3";
 
-package openbot.bridge.grpc;
+package openbot.bridge.http;
 
+message WebsocketConfig
+{
+    string host = 1;
+    string port = 2;
+    uint32 timeout_seconds = 3;
+}

@@ -24,6 +24,9 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/common/utils/logging.hpp"
 
+#include "openbot/bridge/common/http/websocket_client.hpp"
+#include "openbot/bridge/common/grpc/grpc_client.hpp"
+
 namespace openbot {
 namespace bridge { 
 
@@ -46,8 +49,26 @@ public:
      */
     ~BridgeServer();
 
-private:
+    /**
+     * @brief Get grpc client
+     * 
+     * @return grpc::GrpcClientImpl::SharedPtr 
+     */
+    grpc::GrpcClientImpl::SharedPtr grpc_client() { return grpc_client_; }
 
+    /**
+     * @brief Get Websocket Client
+     * 
+     * @return http::WebsocketClient::SharedPtr 
+     */
+    http::WebsocketClient::SharedPtr websocket_client() { return websocket_client_; }
+
+private:
+    // grpc_client_
+    grpc::GrpcClientImpl::SharedPtr grpc_client_{nullptr};
+
+    // websocket_client
+    http::WebsocketClient::SharedPtr websocket_client_{nullptr};
 };
 
 }  // namespace bridge 

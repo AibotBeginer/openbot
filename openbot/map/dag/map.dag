@@ -5,7 +5,7 @@ module_config {
     class_name : "MapComponent"
     config {
       name: "map"
-      config_file_path:  "/opt/openbot/share/openbot/map/conf/filter_config.pb.txt"
+      config_file_path:  "/opt/openbot/share/openbot/map/conf/map_config.pb.txt"
       readers: [
       ]
     }

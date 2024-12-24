@@ -23,8 +23,8 @@
 #include <pcl/conversions.h>
 
 #include "openbot/common/macros.hpp"
-#include "openbot/common/utils/pcl_conversions.hpp"
-#include "openbot/common/msgs/sensor_msgs.hpp"
+#include "openbot/common/io/msgs.hpp"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 #include "openbot/tools/map_generator/mockamap/map_opionts.hpp"
 
 namespace openbot {
@@ -58,7 +58,7 @@ public:
   void setInfo(const BasicInfo &value);
   void generate();
 
-  ::openbot::common::sensor_msgs::PointCloud2* cloud() { return output_;}
+  ::openbot_bridge::common_msgs::PointCloud2* cloud() { return output_;}
 
 private:
   void perlin3D();
@@ -74,7 +74,7 @@ private:
   BasicInfo info;
   MapOption option_; 
 
-  ::openbot::common::sensor_msgs::PointCloud2 *output_{nullptr};
+  ::openbot_bridge::common_msgs::PointCloud2 *output_{nullptr};
   pcl::PointCloud<pcl::PointXYZ> *cloud_{nullptr};
 };
 

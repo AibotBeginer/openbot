@@ -34,7 +34,7 @@
 #endif
 
 #ifdef ENABLE_ROS_MSG
-using InputMsg = sensor_msgs::msg::PointCloud2;
+using InputMsg = common_msgs::msg::PointCloud2;
 #else
 using InputMsg = apollo::cyber::proto::SimpleMessage;
 #endif
@@ -65,7 +65,7 @@ class LidarPointcloud
 
 #ifdef ENABLE_ROS_MSG
   inline int FindFieldIndex(
-      std::string name, sensor_msgs::msg::PointCloud2& cloud_msg) {  // NOLINT
+      std::string name, common_msgs::msg::PointCloud2& cloud_msg) {  // NOLINT
     for (int i = 0; i < cloud_msg.fields.size(); i++) {
       if (cloud_msg.fields[i].name == name) {
         return i;

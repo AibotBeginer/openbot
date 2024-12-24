@@ -27,6 +27,7 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/control/common/controller_base.hpp"
 #include "openbot/control/common/goal_checker_base.hpp"
+#include "openbot/transform/buffer.hpp"
 
 namespace openbot {
 namespace control { 
@@ -54,6 +55,8 @@ public:
     ~ControllerServer();
 
 private:
+    // tf buffer
+    ::openbot::transform::Buffer *tf_buffer_ = ::openbot::transform::Buffer::Instance();
 
 };
 

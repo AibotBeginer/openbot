@@ -99,21 +99,22 @@ bool CesRandomMap::FixedMapGenerate(pcl::PointCloud<pcl::PointXYZ>& cloud)
   return true;
 }
 
-bool CesRandomMap::GetPointCloud2Data(common::sensor_msgs::PointCloud2& point_cloud)
+bool CesRandomMap::GetPointCloud2Data(openbot_bridge::common_msgs::PointCloud2& point_cloud)
 {
   if (!initialized_finished_) {
     LOG(WARNING) << "Random map not initialize finished.";
     return false;
   }
 
-  ::openbot::common::pcl::toROSMsg(cloud_map_, global_map_pcd_);
-  global_map_pcd_.header.frame_id = "map";
-  point_cloud = global_map_pcd_;
+  // TODO(duyongquan)
+  // ::openbot::common::pcl::toROSMsg(cloud_map_, global_map_pcd_);
+  // global_map_pcd_.header.frame_id = "map";
+  // point_cloud = global_map_pcd_;
   return true;
 }
 
 bool CesRandomMap::GetSensedPoints(const pcl::PointXYZ& current_point, 
-  common::sensor_msgs::PointCloud2& point_cloud)
+  openbot_bridge::common_msgs::PointCloud2& point_cloud)
 {
   if (!initialized_finished_ ) {
     return false;
@@ -149,13 +150,13 @@ bool CesRandomMap::GetSensedPoints(const pcl::PointXYZ& current_point,
   local_map.height   = 1;
   local_map.is_dense = true;
 
-  ::openbot::common::pcl::toROSMsg(local_map, local_map_pcd_);
-  local_map_pcd_.header.frame_id = "odom";
-  point_cloud = local_map_pcd_;
+  // ::openbot::common::pcl::toROSMsg(local_map, local_map_pcd_);
+  // local_map_pcd_.header.frame_id = "odom";
+  // point_cloud = local_map_pcd_;
   return true;
 }
 
-common::sensor_msgs::PointCloud2& CesRandomMap::global_map()
+openbot_bridge::common_msgs::PointCloud2& CesRandomMap::global_map()
 {
   return global_map_pcd_;
 }

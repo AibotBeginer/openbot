@@ -19,10 +19,10 @@ package openbot.common.builtin_interfaces;
 message Time 
 {
     // The seconds component, valid over all int32 values.
-    int32 seconds = 1;
+    int32 sec = 1;
 
     // The nanoseconds component, valid in the range [0, 10e9).
-    uint32 nanoseconds = 2;
+    uint32 nanosec = 2;
 }
 
 // Standard metadata for higher-level stamped data types.

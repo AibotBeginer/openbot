@@ -43,7 +43,7 @@
 #endif
 
 #ifdef ENABLE_ROS_MSG
-using RosNavMsg = sensor_msgs::msg::NavSatFix;
+using RosNavMsg = common_msgs::msg::NavSatFix;
 using RosOdometryMsg = nav_msgs::msg::Odometry;
 #else
 // fake wrap

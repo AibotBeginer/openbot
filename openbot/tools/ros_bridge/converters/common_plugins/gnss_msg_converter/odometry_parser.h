@@ -54,8 +54,8 @@
 #endif
 
 #ifdef ENABLE_ROS_MSG
-using RosNavMsg = sensor_msgs::msg::NavSatFix;
-using RosImuMsg = sensor_msgs::msg::Imu;
+using RosNavMsg = common_msgs::msg::NavSatFix;
+using RosImuMsg = common_msgs::msg::Imu;
 using RosWrapMsg = std_msgs::msg::Header;
 using RosOdomMsg = nav_msgs::msg::Odometry;
 #else

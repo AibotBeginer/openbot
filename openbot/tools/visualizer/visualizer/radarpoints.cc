@@ -19,6 +19,8 @@
 
 #include <iostream>
 
+#include "openbot_bridge/common_msgs/geometry_msgs.pb.h"
+
 RadarPoints::RadarPoints(
     const std::shared_ptr<QOpenGLShaderProgram>& shaderProgram)
     : RenderableObject(1, 3, shaderProgram),
@@ -35,10 +37,10 @@ bool RadarPoints::FillData(
   if (buffer_) {
     GLfloat* ptr = buffer_;
     const ::google::protobuf::Map<::google::protobuf::int32,
-                                 openbot_bridge::sensor_msgs::RadarObstacle>&
+                                  openbot_bridge::sensor_msgs::RadarObstacle>&
         radarObstacles = rawData->radar_obstacle();
     for (::google::protobuf::Map<::google::protobuf::int32,
-                                openbot_bridge::sensor_msgs::RadarObstacle>::const_iterator
+                                 openbot_bridge::sensor_msgs::RadarObstacle>::const_iterator
              iter = radarObstacles.cbegin();
          iter != radarObstacles.cend(); ++iter, ptr += vertex_element_count()) {
       const openbot_bridge::common_msgs::Point2D& position =

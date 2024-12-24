@@ -35,7 +35,7 @@
 #endif
 
 #ifdef ENABLE_ROS_MSG
-using RosNavMsg = sensor_msgs::msg::NavSatFix;
+using RosNavMsg = common_msgs::msg::NavSatFix;
 #else
 // fake wrap
 using RosNavMsg = apollo::cyber::proto::SimpleMessage;

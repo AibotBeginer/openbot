@@ -35,10 +35,10 @@ GrpcServerImpl::~GrpcServerImpl() {};
 
 ::grpc::Status GrpcServerImpl::PublishImageSennorMessages(
     ::grpc::ServerContext* context, 
-    const ::openbot_bridge::ros2_msgs::sensor_msgs::Image* request, 
+    const ::openbot_bridge::common_msgs::Image* request, 
     google::protobuf::Empty* response)
 {    
-    LOG(INFO) << "PushCarStatus call success !<_>!";
+    LOG(INFO) << "grpc call success !<_>!";
     return ::grpc::Status::OK;
 }
 

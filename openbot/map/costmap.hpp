@@ -20,6 +20,8 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/utils/ply.hpp"
+#include "openbot/transform/buffer.hpp"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 
 #include <string>
 #include <vector>
@@ -52,7 +54,7 @@ public:
     /**
      * @brief Virtual destructor
      */
-    virtual ~Costmap() {}
+    ~Costmap() = default;
 
     /**
      * @brief Load octomap_filename convert to `pcl::PointCloud<pcl::PointXYZ>` format cloud
@@ -79,7 +81,7 @@ public:
      * @param cloud Ourput map data 
      * @return return Sccess or failed
      */
-    bool LoadPlyFile(const std::string& ply_filename, pcl::PointCloud<pcl::PointXYZ>& cloud);
+    bool LoadPlyFile(const std::string& ply_filename, openbot_bridge::common_msgs::PointCloud& clouds);
 
     /**
      * @brief Map resolution
@@ -146,6 +148,10 @@ public:
      * @return return Sccess or failed
      */
     bool ToOccupancyGridMap(common::nav_msgs::OccupancyGrid& data);
+
+private:
+    // tf buffer
+    ::openbot::transform::Buffer* tf_buffer_ = ::openbot::transform::Buffer::Instance();
 };
 
 }  // namespace map

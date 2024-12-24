@@ -16,19 +16,10 @@ syntax = "proto3";
 
 package openbot.map;
 
-import "openbot/common/proto/geometry_msgs.proto";
-
-message GridMapInfo
+message MapConfig 
 {
-    // Resolution of the grid [m/cell].
-    double resolution = 1;
-    
-    // Length in x-direction [m].
-    double length_x = 2;
-    
-    // Length in y-direction [m].
-    double length_y = 3;
-    
-    // Pose of the grid map center in the frame defined in `header` [m].
-    common.geometry_msgs.Pose pose = 4;
+    string frame_id = 1;
+    string channel_name = 2;
+    string ply_path = 3;
 }
+  

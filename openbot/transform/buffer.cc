@@ -89,7 +89,7 @@ void Buffer::SubscriptionCallbackImpl(
 
       // header
       const auto& header = msg_evt->transforms(i).header();
-      trans_stamped.header.stamp = static_cast<uint64_t>(header.stamp().seconds() * kSecondToNanoFactor);
+      trans_stamped.header.stamp = static_cast<uint64_t>(header.stamp().sec() * kSecondToNanoFactor);
       trans_stamped.header.frame_id = header.frame_id();
 
       // child_frame_id
@@ -138,7 +138,7 @@ void Buffer::TF2MsgToCyber(
 
   // TODO(duyongquan)
   // header
-  trans_stamped.mutable_header()->mutable_stamp()->set_seconds(tf2_trans_stamped.header.stamp);
+  trans_stamped.mutable_header()->mutable_stamp()->set_sec(tf2_trans_stamped.header.stamp);
   trans_stamped.mutable_header()->set_frame_id(tf2_trans_stamped.header.frame_id);
 
   // child_frame_id
