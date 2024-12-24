@@ -97,8 +97,22 @@ BASE_NAME="robot-registry.jd.local/openbot/openbot:latest"
 
 # --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh 
 
+function container_exist()
+{
+    # 使用 docker ps -a 检查容器是否存在
+    container_exists=$(docker ps -a --format '{{.Names}}' | grep -w "SpaceHero")
+    if [ -n "$container_exists" ]; then
+        print_info "Container SpaceHero exists. Stopping and removing it..."
+        docker stop SpaceHero
+        docker rm SpaceHero
+        print_info "Container /SpaceHero has been stopped and removed."
+    fi
+}
+
 function main() {
     # info "Starting docker container \"${RUNTIME_CONTAINER}\" ..."
+    # 
+    container_exist
 
     # Run container from image
     docker run -it --name SpaceHero \
