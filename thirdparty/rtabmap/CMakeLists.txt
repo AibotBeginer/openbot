@@ -1230,11 +1230,6 @@ install(
     devel
 )
   
-####
-
-### Install package.xml for catkin
-install(FILES package.xml DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_PREFIX}" COMPONENT devel)
-
 #######################
 # CPACK (Packaging)
 #######################
