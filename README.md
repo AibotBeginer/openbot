@@ -11,6 +11,8 @@
 - [x] 支持CyberRT通信机制
 - [ ] 支持mqtt、grpc、zmq、http网络通信机制
 - [x] 支持原生ROS/ROS2通用msgs消息格式
+- [ ] 支持相机（realsense2）、IMU和雷达驱动
+- [ ] 支持多传感器数据融合
 - [ ] 支持激光SLAM建图
 - [x] 支持3D视觉SLAM建图
 - [x] 支持2D/3D占用栅格地图全局路径规划，以及全局路径的动态库插件化 
@@ -19,9 +21,9 @@
 - [x] 支持数据、算法和ROS2数据生态互联与应用扩展
 - [x] 支持docker (**<font color='green'>x86-64 & aarch64 系统平台</font>**)
 - [ ] 支持本地化网页显示
-- [ ] 支持cmake、bazel系统编译
+- [x] 支持cmake、bazel系统编译
 - [ ] 支持行为树调度 
-- [ ] 完善的说明文档和使用文档  
+- [x] 完善的说明文档和使用文档  
 
 * :shamrock: Github Code
 
