@@ -116,17 +116,19 @@ function main() {
 
     # Run container from image
     docker run -it --name SpaceHero \
-        --privileged \
+        --privileged=true \
         --network host \
         --ipc=host \
         ${DOCKER_ARGS[@]} \
         -v $OPENBOT_DEV_DIR:/workspace/openbot \
         -v /dev/*:/dev/* \
         -v /etc/localtime:/etc/localtime:ro \
+        --gpus all \
         --workdir /workspace \
         $@ \
         $BASE_NAME \
         /bin/bash
 }
+
 
 main "$@"
