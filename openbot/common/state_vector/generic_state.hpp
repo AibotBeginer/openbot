@@ -221,7 +221,7 @@ public:
 
   ///
   /// @brief      Get the size of the state.
-  ///
+  ///GenericState
   /// @note       This can also be called on an instance of the state.
   ///
   /// @return     Number of variables in this state.

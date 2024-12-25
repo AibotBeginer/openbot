@@ -698,12 +698,12 @@ IF(WITH_OCTOMAP)
     ENDIF(octomap_FOUND)
 ENDIF(WITH_OCTOMAP)
 
-IF(WITH_GRIDMAP)
-    FIND_PACKAGE(grid_map_core QUIET)
-    IF(grid_map_core_FOUND)
-       MESSAGE(STATUS "Found grid_map_core ${grid_map_core_VERSION}: ${grid_map_core_INCLUDE_DIRS}")
-    ENDIF(grid_map_core_FOUND)
-ENDIF(WITH_GRIDMAP)
+# IF(WITH_GRIDMAP)
+#     FIND_PACKAGE(grid_map_core QUIET)
+#     IF(grid_map_core_FOUND)
+#        MESSAGE(STATUS "Found grid_map_core ${grid_map_core_VERSION}: ${grid_map_core_INCLUDE_DIRS}")
+#     ENDIF(grid_map_core_FOUND)
+# ENDIF(WITH_GRIDMAP)
 
 IF(WITH_CPUTSDF)
     FIND_PACKAGE(CPUTSDF QUIET)
@@ -1230,11 +1230,6 @@ install(
     devel
 )
   
-####
-
-### Install package.xml for catkin
-install(FILES package.xml DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_PREFIX}" COMPONENT devel)
-
 #######################
 # CPACK (Packaging)
 #######################
