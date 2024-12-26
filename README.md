@@ -96,11 +96,10 @@ Openbot is released under the [Apache 2.0 license](https://github.com/AibotBegin
 In the development of Openbot, we stand on the shoulders of the following repositories:
 
 * [Apollo](https://github.com/ApolloAuto/apollo): Apollo is a high performance, flexible architecture which accelerates the development, testing, and deployment of Autonomous Vehicles.
-
 * [Autoware Universe](https://github.com/autowarefoundation/autoware.universe): Autoware Universe serves as a foundational pillar within the Autoware ecosystem, playing a critical role in enhancing the core functionalities of autonomous driving technologies. This repository is a pivotal element of the Autoware Core/Universe concept, managing a wide array of packages that significantly extend the capabilities of autonomous vehicles.
-
 * [rtabmap](https://github.com/introlab/rtabmap): **RTAB-Map** (Real-Time Appearance-Based Mapping) is a RGB-D, Stereo and Lidar Graph-Based SLAM approach based on an incremental appearance-based loop closure detector. 
 * [rtabmap_ros](https://github.com/introlab/rtabmap_ros): This package is a ROS wrapper of [RTAB-Map](http://introlab.github.io/rtabmap) (Real-Time Appearance-Based Mapping), a RGB-D SLAM approach based on a global loop closure detector with real-time constraints.
+* [ROS2](https://github.com/ros2): The Robot Operating System (ROS) is a set of software libraries and tools that help you build robot applications. From drivers to state-of-the-art algorithms, and with powerful developer tools, ROS has what you need for your next robotics project. And it's all open source. Full project details on [ROS.org](https://ros.org/)
 
 
 
