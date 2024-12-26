@@ -133,7 +133,7 @@ bool UDPListener<T>::Listen() {
     for (int i = 0; i < nfds; ++i) {
       if (events[i].data.fd == listener_sock_) {
         pthread_t thread;
-        pthread_attr_t attr;apollo
+        pthread_attr_t attr;
         pthread_attr_init(&attr);
         pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
         pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);

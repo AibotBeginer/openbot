@@ -5,6 +5,19 @@ if(${BUILD_GRPC})
   add_library(grpc_component SHARED components/grpc_component.cc)
   target_link_libraries(grpc_component ${PROJECT_NAME})
 
+  # udp_bridge_sender_component
+  add_library(udp_bridge_sender_component SHARED components/udp_bridge_sender_component.cc)
+  target_link_libraries(udp_bridge_sender_component ${PROJECT_NAME})
+
+  # udp_bridge_receiver_component
+  add_library(udp_bridge_receiver_component SHARED components/udp_bridge_receiver_component.cc)
+  target_link_libraries(udp_bridge_receiver_component ${PROJECT_NAME})
+
+  # udp_bridge_multi_receiver_component
+  add_library(udp_bridge_multi_receiver_component SHARED components/udp_bridge_multi_receiver_component.cc)
+  target_link_libraries(udp_bridge_multi_receiver_component ${PROJECT_NAME})
+
+
   # openbot.application.grpc_client_main
   google_binary(openbot.application.grpc_client_main
     SRCS
@@ -20,6 +33,9 @@ if(${BUILD_GRPC})
   # install
   install(TARGETS
     grpc_component
+    udp_bridge_sender_component
+    udp_bridge_receiver_component
+    udp_bridge_multi_receiver_component
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
