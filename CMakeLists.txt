@@ -51,6 +51,7 @@ endif()
 find_package(absl REQUIRED)
 set(BOOST_COMPONENTS iostreams graph program_options system)
 
+find_package(Threads REQUIRED)
 find_package(CYBERRT REQUIRED)
 find_package(FastRTPS REQUIRED)
 find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS})
@@ -316,6 +317,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 # target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "${library_loader_INCLUDE_DIR}")
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
 target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
+target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
 
 # 指定openbot_bridge的安装路径
 set(openbot_bridge_INCLUDE_DIR /usr/local/include)

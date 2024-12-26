@@ -17,6 +17,7 @@ target_link_libraries(camera_component ${PROJECT_NAME})
 target_link_libraries(camera_component ${avcodec_LIBRARIES})
 target_link_libraries(camera_component ${swscale_LIBRARIES})
 
+
 # install
 install(TARGETS
   camera_component

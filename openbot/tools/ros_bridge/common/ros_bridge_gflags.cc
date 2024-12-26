@@ -19,7 +19,7 @@
  * @brief The gflags used by ros bridge binary
  */
 
-#include "openbot/tools/ros_bridge/common/ros_bridge_gflags.h"
+#include "openbot/tools/ros_bridge/common/ros_bridge_gflags.hpp"
 
 namespace apollo {
 namespace cyber {

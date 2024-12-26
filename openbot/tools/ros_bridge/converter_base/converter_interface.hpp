@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2023 The Apollo Authors. All Rights Reserved.
+ * Copyright 2024 The Apollo Authors. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,16 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "converters/examples/apollo_ros_converter/apollo_ros_converter.hpp"
+#ifndef CYBER_CONVERTER_INTERFACE_H_
+#define CYBER_CONVERTER_INTERFACE_H_
 
-namespace apollo {
-namespace cyber {
+#include "converter_base/convert_apollo_double.hpp"
+#include "converter_base/convert_apollo_quadruple.hpp"
+#include "converter_base/convert_apollo_single.hpp"
+#include "converter_base/convert_apollo_triple.hpp"
+#include "converter_base/convert_ros_double.hpp"
+#include "converter_base/convert_ros_quadruple.hpp"
+#include "converter_base/convert_ros_single.hpp"
+#include "converter_base/convert_ros_triple.hpp"
 
-bool ApolloRosConverter::ConvertMsg(InputTypes<InputMsg0Ptr>& in,
-                                    OutputTypes<OutputMsg0Ptr>& out) {
-#ifdef ENABLE_ROS_MSG
-  auto in_msg = std::get<0>(in.values);
-  auto out_msg = std::get<0>(out.values);
-  out_msg->data = in_msg->text();
-  // out->data = in->text();
 #endif
-  return true;
-}
-
-}  // namespace cyber
-}  // namespace apollo
