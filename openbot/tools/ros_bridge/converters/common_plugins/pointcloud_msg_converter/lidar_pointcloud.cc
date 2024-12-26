@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "cyber/ros_bridge/converters/common_plugins/pointcloud_msg_converter/lidar_pointcloud.h"  // NOLINT
+#include "converters/common_plugins/pointcloud_msg_converter/lidar_pointcloud.hpp"  // NOLINT
 
 namespace apollo {
 namespace cyber {

@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "openbot/tools/ros_bridge/common/bridge_argument.h"
+#include "openbot/tools/ros_bridge/common/bridge_argument.hpp"
 
 #include <getopt.h>
 #include <libgen.h>

@@ -16,19 +16,17 @@
 
 #include <vector>
 
-#include "cyber/ros_bridge/common/macros.h"
-
-#include "cyber/ros_bridge/proto/ros_bridge_conf.pb.h"
 #include "cyber/cyber.h"
 #include "cyber/plugin_manager/plugin_manager.h"
-#include "cyber/ros_bridge/common/bridge_argument.h"
-#include "cyber/ros_bridge/common/ros_bridge_gflags.h"
-#include "cyber/ros_bridge/common/utils.h"
-#include "cyber/ros_bridge/converter_base/message_converter.h"
 
-#include "gperftools/heap-profiler.h"
-#include "gperftools/malloc_extension.h"
-#include "gperftools/profiler.h"
+#include "common/macros.hpp"
+#include "common/bridge_argument.hpp"
+#include "common/ros_bridge_gflags.hpp"
+#include "common/utils.hpp"
+#include "converter_base/message_converter.hpp"
+
+#include "openbot/tools/ros_bridge/proto/converter_conf.pb.h"
+#include "openbot/tools/ros_bridge/proto/ros_bridge_conf.pb.h"
 
 #if __has_include("rclcpp/rclcpp.hpp")
 #include "rclcpp/rclcpp.hpp"
@@ -71,29 +69,10 @@ int main(int argc, char** argv) {
     converter_list_.push_back(converter);
   }
 
-  if (bridge_args.GetEnableCpuprofile()) {
-    auto profile_filename = bridge_args.GetProfileFilename();
-    ProfilerStart(profile_filename.c_str());
-  }
-
-  if (bridge_args.GetEnableHeapprofile()) {
-    auto profile_filename = bridge_args.GetHeapProfileFilename();
-    HeapProfilerStart(profile_filename.c_str());
-  }
-
   apollo::cyber::WaitForShutdown();
 #ifdef RCLCPP__RCLCPP_HPP_
   rclcpp::shutdown();
 #endif
-
-  if (bridge_args.GetEnableCpuprofile()) {
-    ProfilerStop();
-  }
-
-  if (bridge_args.GetEnableHeapprofile()) {
-    HeapProfilerDump("Befor shutdown");
-    HeapProfilerStop();
-  }
 
   return 0;
 }

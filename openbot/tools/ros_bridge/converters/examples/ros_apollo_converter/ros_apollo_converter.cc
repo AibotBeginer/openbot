@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "cyber/ros_bridge/converters/examples/ros_apollo_converter/ros_apollo_converter.h"
+#include "converters/examples/ros_apollo_converter/ros_apollo_converter.hpp"
 
 namespace apollo {
 namespace cyber {
