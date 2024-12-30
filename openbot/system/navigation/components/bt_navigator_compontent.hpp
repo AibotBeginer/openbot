@@ -15,3 +15,36 @@
  */
 
 #pragma once
+
+#include <memory>
+#include <string>
+#include <unordered_map>
+
+#include "cyber/class_loader/class_loader.h"
+#include "cyber/component/component.h"
+#include "cyber/message/raw_message.h"
+
+#include "openbot/common/macros.hpp"
+
+
+namespace openbot {
+namespace system { 
+namespace navigation { 
+
+class BtNavigatorComponent final : public ::apollo::cyber::Component<> 
+{
+public:
+    BtNavigatorComponent();
+    ~BtNavigatorComponent() = default;
+
+    bool Init() override;
+
+private:
+
+};
+
+CYBER_REGISTER_COMPONENT(BtNavigatorComponent)
+
+}  // namespace navigation
+}  // namespace system
+}  // namespace openbot

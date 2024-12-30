@@ -16,22 +16,20 @@
 
 #pragma once
 
-#include <memory>
-#include <string>
-#include <chrono>
-
-#include "behaviortree_cpp/action_node.h"
-
-#include "openbot/system/navigation/behavior_tree/bt_conversions.hpp"
+#include "behaviortree_cpp/behavior_tree.h"
 
 namespace openbot {
-namespace system { 
+namespace system {
 namespace navigation {
 namespace behavior_tree {
 
+/**
+ * @brief A BT::ConditionNode that returns SUCCESS if initial pose
+ * has been received and FAILURE otherwise
+ */
+BT::NodeStatus InitialPoseReceived(BT::TreeNode & tree_node);
 
-
-}  // namespace behavior_tree 
-}  // namespace navigation
-}  // namespace system
-}  // namespace openbot
+}   // namespace behavior_tree 
+}   // namespace navigation
+}   // namespace system
+}   // namespace openbot

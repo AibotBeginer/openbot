@@ -49,7 +49,6 @@ add_library(websocket_component SHARED components/websocket_component.cc)
 target_link_libraries(websocket_component ${PROJECT_NAME})
 target_include_directories(websocket_component PRIVATE ${WEBSOCKETPP_INCLUDE_DIRS})
 
-
 # install
 install(TARGETS
   websocket_component

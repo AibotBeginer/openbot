@@ -13,3 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#include "openbot/system/navigation/components/bt_navigator_compontent.hpp"
+
+#include "openbot/common/utils/logging.hpp"
+
+namespace openbot {
+namespace system { 
+namespace navigation { 
+
+BtNavigatorComponent::BtNavigatorComponent()
+{
+    LOG(INFO) << "Start BtNavigatorComponent.";
+}
+
+bool BtNavigatorComponent::Init() 
+{
+    return true;
+}
+
+}  // namespace navigation
+}  // namespace system
+}  // namespace openbot

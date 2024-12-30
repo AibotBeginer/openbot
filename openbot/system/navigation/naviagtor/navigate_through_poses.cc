@@ -13,3 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace openbot {
+namespace system { 
+namespace navigation { 
+
+}  // namespace navigation
+}  // namespace system
+}  // namespace openbot

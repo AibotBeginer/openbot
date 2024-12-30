@@ -17,12 +17,11 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <memory>
+#include <mutex>
 
-#include "cyber/cyber.h"
-
-#include "behaviortree_cpp/condition_node.h"
 #include "openbot/common/io/msgs.hpp"
+#include "behaviortree_cpp/condition_node.h"
 
 namespace openbot {
 namespace system {
@@ -30,22 +29,22 @@ namespace navigation {
 namespace behavior_tree {
 
 /**
- * @brief A BT::ConditionNode that returns SUCCESS when goal is
- * updated on the blackboard and FAILURE otherwise
+ * @brief A BT::ConditionNode that listens to a battery topic and
+ * returns SUCCESS when battery is charging and FAILURE otherwise
  */
-class GloballyUpdatedGoalCondition : public BT::ConditionNode
+class IsBatteryChargingCondition : public BT::ConditionNode
 {
 public:
     /**
-     * @brief A constructor for nav2_behavior_tree::GloballyUpdatedGoalCondition
+     * @brief A constructor for nav2_behavior_tree::IsBatteryChargingCondition
      * @param condition_name Name for the XML tag for this node
      * @param conf BT node configuration
      */
-    GloballyUpdatedGoalCondition(
+    IsBatteryChargingCondition(
         const std::string & condition_name,
         const BT::NodeConfiguration & conf);
 
-    GloballyUpdatedGoalCondition() = delete;
+    IsBatteryChargingCondition() = delete;
 
     /**
      * @brief The main override required by a BT action
@@ -53,23 +52,28 @@ public:
      */
     BT::NodeStatus tick() override;
 
-
     /**
      * @brief Creates list of BT ports
      * @return BT::PortsList Containing node-specific ports
      */
     static BT::PortsList providedPorts()
     {
-        return {};
+        return {
+            BT::InputPort<std::string>("battery_topic", std::string("/battery_status"), "Battery topic")
+        };
     }
 
 private:
-    bool first_time;
-    std::shared_ptr<::apollo::cyber::Node> node_;
-    common::geometry_msgs::PoseStamped goal_;
-    std::vector<common::geometry_msgs::PoseStamped> goals_;
-};
+    /**
+     * @brief Callback function for battery topic
+     * @param msg Shared pointer to sensor_msgs::msg::BatteryState message
+     */
+    // void BatteryCallback(sensor_msgs::msg::BatteryState::SharedPtr msg);
 
+    // rclcpp::Subscription<sensor_msgs::msg::BatteryState>::SharedPtr battery_reader_;
+    std::string battery_topic_;
+    bool is_battery_charging_;
+};
 
 }   // namespace behavior_tree 
 }   // namespace navigation

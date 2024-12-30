@@ -13,3 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#include "openbot/system/navigation/behavior_tree/plugins/condition/goal_updated_condition.hpp"
+
+namespace openbot {
+namespace system {
+namespace navigation {
+namespace behavior_tree {
+
+GoalUpdatedCondition::GoalUpdatedCondition(
+  const std::string & condition_name,
+  const BT::NodeConfiguration & conf)
+: BT::ConditionNode(condition_name, conf)
+{}
+
+BT::NodeStatus GoalUpdatedCondition::tick()
+{
+    if (status() == BT::NodeStatus::IDLE) {
+        config().blackboard->get<std::vector<common::geometry_msgs::PoseStamped>>("goals", goals_);
+        config().blackboard->get<common::geometry_msgs::PoseStamped>("goal", goal_);
+        return BT::NodeStatus::FAILURE;
+    }
+
+    std::vector<common::geometry_msgs::PoseStamped> current_goals;
+    config().blackboard->get<std::vector<common::geometry_msgs::PoseStamped>>("goals", current_goals);
+    common::geometry_msgs::PoseStamped current_goal;
+    config().blackboard->get<common::geometry_msgs::PoseStamped>("goal", current_goal);
+
+    // if (goal_ != current_goal || goals_ != current_goals) {
+    //     goal_ = current_goal;
+    //     goals_ = current_goals;
+    //     return BT::NodeStatus::SUCCESS;
+    // }
+
+    return BT::NodeStatus::FAILURE;
+}
+
+}   // namespace behavior_tree 
+}   // namespace navigation
+}   // namespace system
+}   // namespace openbot
+
+#include "behaviortree_cpp/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+    factory.registerNodeType<openbot::system::navigation::behavior_tree::GoalUpdatedCondition>("GoalUpdated");
+}

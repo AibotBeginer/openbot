@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "openbot/system/navigation/navigator.hpp"
+#pragma once
 
 namespace openbot {
 namespace system { 

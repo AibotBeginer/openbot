@@ -16,37 +16,47 @@
 
 #pragma once
 
-#include "openbot/common/macros.hpp"
-#include "openbot/planning/planner_server.hpp"
+#include <memory>
+#include <string>
+#include <vector>
 
-#include "cyber/cyber.h"
+#include "openbot/system/navigation/common/navigator.hpp"
 
 namespace openbot {
 namespace system { 
 namespace navigation { 
 
-class Navigator
+/**
+ * @class BtNavigator
+ * @brief An action server that uses behavior tree for navigating a robot to its
+ * goal position.
+ */
+class BtNavigator
 {
 public:
     /**
      *  @brief SharedPtr typedef
      */
-    OPENBOT_SMART_PTR_DEFINITIONS(Navigator);
+    OPENBOT_SMART_PTR_DEFINITIONS(BtNavigator);
 
     /**
-     * @brief A constructor for openbot::system::navigation::Navigator
+     * @brief A constructor for BtNavigator class
+     * @param options Additional options to control creation of the node.
      */
-    explicit Navigator();
-
+    explicit BtNavigator();
     /**
-     * @brief Destructor for openbot::system::navigation::Navigator
+     * @brief A destructor for BtNavigator class
      */
-    ~Navigator();
+    ~BtNavigator();
 
-private:
-  
+protected:
+
+    // // To handle all the BT related execution
+    // std::unique_ptr<Navigator<nav2_msgs::action::NavigateToPose>> pose_navigator_;
+    // std::unique_ptr<Navigator<nav2_msgs::action::NavigateThroughPoses>> poses_navigator_;
+
+    NavigatorMuxer plugin_muxer_;
 };
-
 
 }  // namespace navigation
 }  // namespace system

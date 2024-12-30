@@ -14,4 +14,10 @@
  * limitations under the License.
  */
 
-#pragma once
+namespace openbot {
+namespace system { 
+namespace navigation { 
+
+}  // namespace navigation
+}  // namespace system
+}  // namespace openbot

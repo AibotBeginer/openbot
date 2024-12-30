@@ -13,3 +13,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#include "openbot/system/navigation/behavior_tree/plugins/condition/globally_updated_goal_condition.hpp"
+
+namespace openbot {
+namespace system {
+namespace navigation {
+namespace behavior_tree {
+
+GloballyUpdatedGoalCondition::GloballyUpdatedGoalCondition(
+  const std::string & condition_name,
+  const BT::NodeConfiguration & conf)
+: BT::ConditionNode(condition_name, conf),
+  first_time(true)
+{
+    node_ = config().blackboard->get<std::shared_ptr<::apollo::cyber::Node>>("node");
+}
+
+BT::NodeStatus GloballyUpdatedGoalCondition::tick()
+{
+    if (first_time) {
+        first_time = false;
+        config().blackboard->get<std::vector<common::geometry_msgs::PoseStamped>>("goals", goals_);
+        config().blackboard->get<common::geometry_msgs::PoseStamped>("goal", goal_);
+        return BT::NodeStatus::SUCCESS;
+    }
+
+    std::vector<common::geometry_msgs::PoseStamped> current_goals;
+    config().blackboard->get<std::vector<common::geometry_msgs::PoseStamped>>("goals", current_goals);
+    common::geometry_msgs::PoseStamped current_goal;
+    config().blackboard->get<common::geometry_msgs::PoseStamped>("goal", current_goal);
+
+    // if (goal_ != current_goal || goals_ != current_goals) {
+    //     goal_ = current_goal;
+    //     goals_ = current_goals;
+    //     return BT::NodeStatus::SUCCESS;
+    // }
+
+    return BT::NodeStatus::FAILURE;
+}
+
+}   // namespace behavior_tree 
+}   // namespace navigation
+}   // namespace system
+}   // namespace openbot
+
+
+#include "behaviortree_cpp/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+  factory.registerNodeType<openbot::system::navigation::behavior_tree::GloballyUpdatedGoalCondition>("GlobalUpdatedGoal");
+}

@@ -15,3 +15,57 @@
  */
 
 #pragma once
+
+#include <string>
+#include <vector>
+
+#include "openbot/common/io/msgs.hpp"
+#include "behaviortree_cpp/condition_node.h"
+
+namespace openbot {
+namespace system {
+namespace navigation {
+namespace behavior_tree {
+
+/**
+ * @brief A BT::ConditionNode that returns SUCCESS when goal is
+ * updated on the blackboard and FAILURE otherwise
+ */
+class GoalUpdatedCondition : public BT::ConditionNode
+{
+public:
+    /**
+     * @brief A constructor for nav2_behavior_tree::GoalUpdatedCondition
+     * @param condition_name Name for the XML tag for this node
+     * @param conf BT node configuration
+     */
+    GoalUpdatedCondition(
+        const std::string & condition_name,
+        const BT::NodeConfiguration & conf);
+
+    GoalUpdatedCondition() = delete;
+
+    /**
+     * @brief The main override required by a BT action
+     * @return BT::NodeStatus Status of tick execution
+     */
+    BT::NodeStatus tick() override;
+
+    /**
+     * @brief Creates list of BT ports
+     * @return BT::PortsList Containing node-specific ports
+     */
+    static BT::PortsList providedPorts()
+    {
+        return {};
+    }
+
+private:
+    common::geometry_msgs::PoseStamped goal_;
+    std::vector<common::geometry_msgs::PoseStamped> goals_;
+};
+
+}   // namespace behavior_tree 
+}   // namespace navigation
+}   // namespace system
+}   // namespace openbot
