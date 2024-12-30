@@ -14,14 +14,40 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_COLLATOR_INTERFACE_HPP_
-#define OPENBOT_SENSOR_COLLATOR_INTERFACE_HPP_
+#pragma once
+
+#include <functional>
+#include <memory>
+#include <vector>
+
+#include "absl/container/flat_hash_set.h"
+#include "absl/types/optional.h"
+#include "openbot/drivers/sensor/common/data.hpp"
 
 namespace openbot {
+namespace drivers {
 namespace sensor { 
 
+class CollatorInterface 
+{
+public:
+    using Callback = std::function<void(const std::string&, std::unique_ptr<Data>)>;
+
+    CollatorInterface() {}
+    virtual ~CollatorInterface() {}
+    CollatorInterface(const CollatorInterface&) = delete;
+    CollatorInterface& operator=(const CollatorInterface&) = delete;
+
+    // Adds 'data' for 'trajectory_id' to be collated. 'data' must contain valid
+    // sensor data. Sensor packets with matching 'data.sensor_id_' must be added
+    // in time order.
+    virtual void AddSensorData(std::unique_ptr<Data> data) = 0;
+
+    // Dispatches all queued sensor packets. May only be called once.
+    // AddSensorData may not be called after Flush.
+    virtual void Flush() = 0;
+};
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
-
-#endif  // OPENBOT_SENSOR_COLLATOR_INTERFACE_HPP_

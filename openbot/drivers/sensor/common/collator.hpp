@@ -14,14 +14,42 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_COLLATOR_HPP_
-#define OPENBOT_SENSOR_COLLATOR_HPP_
+#pragma once
+
+#include <functional>
+#include <memory>
+#include <vector>
+
+#include "absl/container/flat_hash_map.h"
+#include "absl/container/flat_hash_set.h"
+#include "openbot/drivers/sensor/common/collator_interface.hpp"
+#include "openbot/drivers/sensor/common/data.hpp"
+#include "openbot/drivers/sensor/common/ordered_multi_queue.hpp"
 
 namespace openbot {
+namespace drivers {
 namespace sensor { 
 
+class Collator : public CollatorInterface 
+{
+ public:
+  Collator() {}
+
+  Collator(const Collator&) = delete;
+  Collator& operator=(const Collator&) = delete;
+
+  void AddSensorData(std::unique_ptr<Data> data) override;
+
+  void Flush() override;
+
+ private:
+  // Queue keys are a pair of trajectory ID and sensor identifier.
+  OrderedMultiQueue queue_;
+
+  // Map of trajectory ID to all associated QueueKeys.
+  absl::flat_hash_map<int, std::vector<QueueKey>> queue_keys_;
+};
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
-
-#endif  // OPENBOT_SENSOR_COLLATOR_HPP_

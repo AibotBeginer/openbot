@@ -14,14 +14,30 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_DATA_HPP_
-#define OPENBOT_SENSOR_DATA_HPP_
+#pragma once
+
+#include <string>
+
+#include "openbot/common/utils/time.hpp"
 
 namespace openbot {
+namespace drivers {
 namespace sensor { 
+
+class Data 
+{
+ public:
+  explicit Data(const std::string &sensor_id) : sensor_id_(sensor_id) {}
+  virtual ~Data() {}
+
+  virtual common::Time GetTime() const = 0;
+  const std::string &GetSensorId() const { return sensor_id_; }
+
+ protected:
+  const std::string sensor_id_;
+};
 
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
-
-#endif  // OPENBOT_SENSOR_DATA_HPP_

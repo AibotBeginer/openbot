@@ -14,14 +14,31 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_IMU_DATA_HPP_
-#define OPENBOT_SENSOR_IMU_DATA_HPP_
+#pragma once
+
+#include "Eigen/Core"
+
+#include "openbot/common/utils/time.hpp"
+#include "openbot_bridge/common_msgs/builtin_interfaces.pb.h"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
 
 namespace openbot {
+namespace drivers {
 namespace sensor { 
 
+struct ImuData 
+{
+    common::Time time;
+    Eigen::Vector3d linear_acceleration;
+    Eigen::Vector3d angular_velocity;
+};
+
+// Converts 'imu_data' to a proto::ImuData.
+openbot_bridge::common_msgs::Imu ToProto(const ImuData& imu_data);
+
+// Converts 'proto' to an ImuData.
+ImuData FromProto(const openbot_bridge::common_msgs::Imu& proto);
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
-
-#endif  // OPENBOT_SENSOR_IMU_DATA_HPP_

@@ -17,8 +17,10 @@
 #include "openbot/drivers/sensor/common/point_cloud.hpp"
 
 namespace openbot {
-namespace sensor {
+namespace drivers {
+namespace sensor { 
 
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot

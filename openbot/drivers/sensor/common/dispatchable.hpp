@@ -14,14 +14,37 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_DISPATCHABLE_HPP_
-#define OPENBOT_SENSOR_DISPATCHABLE_HPP_
+#pragma once
+
+#include "openbot/drivers/sensor/common/data.hpp"
 
 namespace openbot {
+namespace drivers {
 namespace sensor { 
+
+template <typename DataType>
+class Dispatchable : public Data 
+{
+ public:
+  Dispatchable(const std::string &sensor_id, const DataType &data)
+      : Data(sensor_id), data_(data) {}
+
+  common::Time GetTime() const override { return data_.time; }
+
+  const DataType &data() const { return data_; }
+
+ private:
+  const DataType data_;
+};
+
+template <typename DataType>
+std::unique_ptr<Dispatchable<DataType>> MakeDispatchable(
+    const std::string &sensor_id, const DataType &data) 
+{
+  return std::make_unique<Dispatchable<DataType>>(sensor_id, data);
+}
 
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
-
-#endif  // OPENBOT_SENSOR_DISPATCHABLE_HPP_

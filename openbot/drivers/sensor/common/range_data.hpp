@@ -14,14 +14,37 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_RANGE_DATA_HPP_
-#define OPENBOT_SENSOR_RANGE_DATA_HPP_
+#pragma once
+
+#include "openbot/drivers/sensor/common/point_cloud.hpp"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
+#include "openbot_bridge/common_msgs/geometry_msgs.pb.h"
 
 namespace openbot {
+namespace drivers {
 namespace sensor { 
 
+// Rays begin at 'origin'. 'returns' are the points where obstructions were
+// detected. 'misses' are points in the direction of rays for which no return
+// was detected, and were inserted at a configured distance. It is assumed that
+// between the 'origin' and 'misses' is free space.
+struct RangeData 
+{
+  Eigen::Vector3f origin;
+  PointCloud returns;
+  PointCloud misses;
+};
+
+// Crops 'range_data' according to the region defined by 'min_z' and 'max_z'.
+RangeData CropRangeData(const RangeData& range_data, float min_z, float max_z);
+
+// Converts 'range_data' to a openbot_bridge::common_msgs::Range 
+openbot_bridge::common_msgs::Range ToProto(const RangeData& range_data);
+
+// Converts 'proto' to RangeData.
+RangeData FromProto(const openbot_bridge::common_msgs::Range& proto);
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
 
-#endif  // OPENBOT_SENSOR_RANGE_DATA_HPP_

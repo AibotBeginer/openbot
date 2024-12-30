@@ -17,8 +17,10 @@
 #include "openbot/drivers/sensor/common/range_data.hpp"
 
 namespace openbot {
-namespace sensor {
+namespace drivers {
+namespace sensor { 
 
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
