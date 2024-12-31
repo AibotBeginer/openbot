@@ -15,3 +15,13 @@
  */
 
 #pragma once
+
+namespace openbot {
+namespace system {
+namespace navigation {
+namespace behavior_tree {
+
+}   // namespace behavior_tree 
+}   // namespace navigation
+}   // namespace system
+}   // namespace openbot

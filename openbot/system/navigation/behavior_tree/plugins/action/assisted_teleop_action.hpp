@@ -15,3 +15,18 @@
  */
 
 #pragma once
+
+#include <string>
+
+#include "openbot/common/io/msgs.hpp"
+
+namespace openbot {
+namespace system {
+namespace navigation {
+namespace behavior_tree {
+
+
+}   // namespace behavior_tree 
+}   // namespace navigation
+}   // namespace system
+}   // namespace openbot
