@@ -51,6 +51,31 @@ add_library(nav_is_battery_low_condition_bt_node SHARED behavior_tree/plugins/co
 target_link_libraries(nav_is_battery_low_condition_bt_node ${PROJECT_NAME})
 list(APPEND plugin_libs nav_is_battery_low_condition_bt_node)
 
+# library(is_path_valid_condition)
+add_library(nav_is_path_valid_condition_bt_node SHARED behavior_tree/plugins/condition/is_path_valid_condition.cc)
+target_link_libraries(nav_is_path_valid_condition_bt_node ${PROJECT_NAME})
+list(APPEND plugin_libs nav_is_path_valid_condition_bt_node)
+
+# library(is_stuck_condition)
+add_library(nav_is_stuck_condition_bt_node SHARED behavior_tree/plugins/condition/is_stuck_condition.cc)
+target_link_libraries(nav_is_stuck_condition_bt_node ${PROJECT_NAME})
+list(APPEND plugin_libs nav_is_stuck_condition_bt_node)
+
+# library(path_expiring_timer_condition)
+add_library(nav_path_expiring_timer_condition_bt_node SHARED behavior_tree/plugins/condition/path_expiring_timer_condition.cc)
+target_link_libraries(nav_path_expiring_timer_condition_bt_node ${PROJECT_NAME})
+list(APPEND plugin_libs nav_path_expiring_timer_condition_bt_node)
+
+# library(time_expired_condition)
+add_library(nav_time_expired_condition_bt_node SHARED behavior_tree/plugins/condition/time_expired_condition.cc)
+target_link_libraries(nav_time_expired_condition_bt_node ${PROJECT_NAME})
+list(APPEND plugin_libs nav_time_expired_condition_bt_node)
+
+# library(transform_available_condition)
+add_library(nav_transform_available_condition_bt_node SHARED behavior_tree/plugins/condition/transform_available_condition.cc)
+target_link_libraries(nav_transform_available_condition_bt_node ${PROJECT_NAME})
+list(APPEND plugin_libs nav_transform_available_condition_bt_node)
+
 
 ###################################################################################################################
 #
