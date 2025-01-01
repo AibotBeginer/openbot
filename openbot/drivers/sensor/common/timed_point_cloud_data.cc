@@ -17,8 +17,10 @@
 #include "openbot/drivers/sensor/common/timed_point_cloud_data.hpp"
 
 namespace openbot {
-namespace sensor {
+namespace drivers {
+namespace sensor { 
 
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot

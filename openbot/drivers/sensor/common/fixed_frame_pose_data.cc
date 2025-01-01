@@ -17,8 +17,10 @@
 #include "openbot/drivers/sensor/common/fixed_frame_pose_data.hpp"
 
 namespace openbot {
-namespace sensor {
+namespace drivers {
+namespace sensor { 
 
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot

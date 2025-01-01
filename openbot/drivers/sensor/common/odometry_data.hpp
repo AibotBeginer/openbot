@@ -14,14 +14,30 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_ODOMETRY_DATA_HPP_
-#define OPENBOT_SENSOR_ODOMETRY_DATA_HPP_
+#pragma once
+
+#include "openbot/common/utils/time.hpp"
+#include "openbot/common/transform/rigid_transform.hpp"
+#include "openbot_bridge/common_msgs/builtin_interfaces.pb.h"
+#include "openbot_bridge/common_msgs/sensor_msgs.pb.h"
+#include "openbot_bridge/common_msgs/geometry_msgs.pb.h"
 
 namespace openbot {
+namespace drivers {
 namespace sensor { 
 
+struct OdometryData 
+{
+  common::Time time;
+  common::transform::Rigid3d pose;
+};
+
+// Converts 'odometry_data' to a proto::OdometryData.
+::openbot_bridge::common_msgs::Transform ToProto(const OdometryData& odometry_data);
+
+// Converts 'proto' to an OdometryData.
+OdometryData FromProto(const ::openbot_bridge::common_msgs::Transform& proto);
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
-
-#endif  // OPENBOT_SENSOR_ODOMETRY_DATA_HPP_

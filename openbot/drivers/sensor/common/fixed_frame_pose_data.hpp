@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-#ifndef OPENBOT_SENSOR_FIXED_FRAME_POSE_DATA_HPP_
-#define OPENBOT_SENSOR_FIXED_FRAME_POSE_DATA_HPP_
+#pragma once
 
 namespace openbot {
+namespace drivers {
 namespace sensor { 
 
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
-
-#endif  // OPENBOT_SENSOR_FIXED_FRAME_POSE_DATA_HPP_

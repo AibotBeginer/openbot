@@ -17,8 +17,23 @@
 #include "openbot/drivers/sensor/common/imu_data.hpp"
 
 namespace openbot {
-namespace sensor {
+namespace drivers {
+namespace sensor { 
 
+::openbot_bridge::common_msgs::Imu ToProto(const ImuData& imu_data) 
+{
+    ::openbot_bridge::common_msgs::Imu proto;
+    // proto.mutable_ set_timestamp(common::ToUniversal(imu_data.time));
+    // *proto.mutable_linear_acceleration() = transform::ToProto(imu_data.linear_acceleration);
+    // *proto.mutable_angular_velocity() =  transform::ToProto(imu_data.angular_velocity);
+    return proto;
+}
+
+ImuData FromProto(const ::openbot_bridge::common_msgs::Imu& proto) 
+{
+  return ImuData{};
+}
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot

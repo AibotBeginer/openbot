@@ -17,8 +17,21 @@
 #include "openbot/drivers/sensor/common/odometry_data.hpp"
 
 namespace openbot {
-namespace sensor {
+namespace drivers {
+namespace sensor { 
 
+::openbot_bridge::common_msgs::Transform ToProto(const OdometryData& odometry_data)
+{
+    ::openbot_bridge::common_msgs::Transform proto;
+    return proto;
+}
+
+// Converts 'proto' to an OdometryData.
+OdometryData FromProto(const ::openbot_bridge::common_msgs::Transform& proto)
+{
+    return OdometryData{};
+}
 
 }  // namespace sensor
+}  // namespace drivers
 }  // namespace openbot
