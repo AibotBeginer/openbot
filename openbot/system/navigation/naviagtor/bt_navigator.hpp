@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "openbot/system/navigation/common/navigator.hpp"
+#include "openbot/system/navigation/common/odometry_utils.hpp"
 #include "openbot/system/navigation/naviagtor/navigate_to_pose.hpp"
 #include "openbot/system/navigation/naviagtor/navigate_through_poses.hpp"
 
@@ -46,7 +47,7 @@ public:
      * @brief A constructor for BtNavigator class
      * @param options Additional options to control creation of the node.
      */
-    explicit BtNavigator();
+    explicit BtNavigator(const std::shared_ptr<::apollo::cyber::Node>& node);
     /**
      * @brief A destructor for BtNavigator class
      */
@@ -54,11 +55,26 @@ public:
 
 protected:
 
+    // cyber node
+    std::shared_ptr<::apollo::cyber::Node> node_;
+
     // To handle all the BT related execution
     std::unique_ptr<Navigator<openbot::navigation::NavigateToPose>> pose_navigator_;
     std::unique_ptr<Navigator<openbot::navigation::NavigateThroughPoses>> poses_navigator_;
 
     NavigatorMuxer plugin_muxer_;
+
+    // Odometry smoother object
+    std::shared_ptr<OdomSmoother> odom_smoother_;
+
+    // Metrics for feedback
+    std::string robot_frame_;
+    std::string global_frame_;
+    double transform_tolerance_;
+    std::string odom_topic_;
+
+    // Tf
+    std::shared_ptr<::openbot::transform::Buffer> tf_buffer_;
 };
 
 }  // namespace navigation

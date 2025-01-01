@@ -24,7 +24,7 @@ namespace navigation {
 
 bool BtNavigatorComponent::Init() 
 {
-    navigator_ = std::make_shared<BtNavigator>();
+    navigator_ = std::make_shared<BtNavigator>(node_);
     return true;
 }
 

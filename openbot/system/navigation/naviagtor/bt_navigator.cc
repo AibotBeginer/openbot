@@ -20,7 +20,8 @@ namespace openbot {
 namespace system { 
 namespace navigation { 
 
-BtNavigator::BtNavigator()
+BtNavigator::BtNavigator(const std::shared_ptr<::apollo::cyber::Node>& node)
+  : node_{node}
 {
     const std::vector<std::string> plugin_libs = {
         "nav_compute_path_to_pose_action_bt_node",
@@ -75,6 +76,8 @@ BtNavigator::BtNavigator()
 
     pose_navigator_ = std::make_unique<NavigateToPoseNavigator>();
     poses_navigator_ = std::make_unique<NavigateThroughPosesNavigator>();
+    odom_smoother_ = std::make_shared<OdomSmoother>(node_, 0.3, odom_topic_);
+
 
 }
 
