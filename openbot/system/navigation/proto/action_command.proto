@@ -56,6 +56,24 @@ message NavigateToPose
     Response response = 2;
 }
 
+message NavigateThroughPoses
+{
+    message Request 
+    {
+    }
+
+    message Response
+    {
+        Status status = 1;
+    }
+
+    // service request
+    Request request = 1;
+
+    // service response
+    Response response = 2;
+}
+
 message FollowPath
 {
     message Request 

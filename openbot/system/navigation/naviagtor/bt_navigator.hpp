@@ -21,6 +21,9 @@
 #include <vector>
 
 #include "openbot/system/navigation/common/navigator.hpp"
+#include "openbot/system/navigation/naviagtor/navigate_to_pose.hpp"
+#include "openbot/system/navigation/naviagtor/navigate_through_poses.hpp"
+
 
 namespace openbot {
 namespace system { 
@@ -51,9 +54,9 @@ public:
 
 protected:
 
-    // // To handle all the BT related execution
-    // std::unique_ptr<Navigator<nav2_msgs::action::NavigateToPose>> pose_navigator_;
-    // std::unique_ptr<Navigator<nav2_msgs::action::NavigateThroughPoses>> poses_navigator_;
+    // To handle all the BT related execution
+    std::unique_ptr<Navigator<openbot::navigation::NavigateToPose>> pose_navigator_;
+    std::unique_ptr<Navigator<openbot::navigation::NavigateThroughPoses>> poses_navigator_;
 
     NavigatorMuxer plugin_muxer_;
 };

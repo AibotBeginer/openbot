@@ -25,6 +25,7 @@
 #include "cyber/message/raw_message.h"
 
 #include "openbot/common/macros.hpp"
+#include "openbot/system/navigation/naviagtor/bt_navigator.hpp"
 
 
 namespace openbot {
@@ -34,12 +35,15 @@ namespace navigation {
 class BtNavigatorComponent final : public ::apollo::cyber::Component<> 
 {
 public:
-    BtNavigatorComponent();
+    BtNavigatorComponent() = default;
     ~BtNavigatorComponent() = default;
 
     bool Init() override;
 
 private:
+
+    // bt navigator
+    BtNavigator::SharedPtr navigator_{nullptr};
 
 };
 

@@ -34,22 +34,28 @@ template <class ActionT>
 class BtActionServer
 {
 public:
-    /**
-     * @brief A constructor for nav2_behavior_tree::BtActionServer class
-     */
-    explicit BtActionServer(
-        const std::string & action_name,
-        const std::vector<std::string> & plugin_lib_names,
-        const std::string & default_bt_xml_filename,
-        OnGoalReceivedCallback on_goal_received_callback,
-        OnLoopCallback on_loop_callback,
-        OnPreemptCallback on_preempt_callback,
-        OnCompletionCallback on_completion_callback);
+
+    using OnGoalReceivedCallback = std::function<bool (const std::shared_ptr<typename ActionT::Request>&)>;
+    using OnLoopCallback = std::function<void ()>;
+    using OnPreemptCallback = std::function<bool (typename std::shared_ptr<typename ActionT::Request>&)>;
+    using OnCompletionCallback = std::function<bool (typename std::shared_ptr<typename ActionT::Response>&)>;
+
+    // /**
+    //  * @brief A constructor for nav2_behavior_tree::BtActionServer class
+    //  */
+    // explicit BtActionServer(
+    //     const std::string & action_name,
+    //     const std::vector<std::string> & plugin_lib_names,
+    //     const std::string & default_bt_xml_filename,
+    //     OnGoalReceivedCallback on_goal_received_callback,
+    //     OnLoopCallback on_loop_callback,
+    //     OnPreemptCallback on_preempt_callback,
+    //     OnCompletionCallback on_completion_callback);
 
     /**
      * @brief A destructor for nav2_behavior_tree::BtActionServer class
      */
-    ~BtActionServer();
+    ~BtActionServer() {}
 
     /**
      * @brief Replace current BT with another one

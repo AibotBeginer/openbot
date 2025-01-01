@@ -22,15 +22,14 @@ namespace openbot {
 namespace system { 
 namespace navigation { 
 
-BtNavigatorComponent::BtNavigatorComponent()
-{
-    LOG(INFO) << "Start BtNavigatorComponent.";
-}
-
 bool BtNavigatorComponent::Init() 
 {
+    navigator_ = std::make_shared<BtNavigator>();
     return true;
 }
+
+
+
 
 }  // namespace navigation
 }  // namespace system

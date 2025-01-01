@@ -25,6 +25,7 @@
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/utils/logging.hpp"
 #include "openbot/planning/planner_server.hpp"
+#include "openbot/system/navigation/behavior_tree/bt_action_server.hpp"
 
 #include "cyber/cyber.h"
 
@@ -97,7 +98,7 @@ protected:
  * @class Navigator
  * @brief Navigator interface that acts as a base class for all BT-based Navigator action's plugins
  */
-// template<class ActionT>
+template<class ActionT>
 class Navigator
 {
 public:
@@ -183,10 +184,8 @@ protected:
      */
     virtual void GoalCompleted() = 0;
 
-
-
 private:
-    //   std::unique_ptr<nav2_behavior_tree::BtActionServer<ActionT>> bt_action_server_;
+    std::unique_ptr<behavior_tree::BtActionServer<ActionT>> bt_action_server_;
     NavigatorMuxer* plugin_muxer_;
 };
 

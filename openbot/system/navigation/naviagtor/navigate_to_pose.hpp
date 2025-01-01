@@ -19,7 +19,7 @@
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/macros.hpp"
 #include "openbot/system/navigation/common/navigator.hpp"
-
+#include "openbot/system/navigation/proto/action_command.pb.h"
 
 namespace openbot {
 namespace system { 
@@ -29,7 +29,7 @@ namespace navigation {
  * @class NavigateToPoseNavigator
  * @brief A navigator for navigating to a specified pose
  */
-class NavigateToPoseNavigator : public Navigator
+class NavigateToPoseNavigator : public Navigator<openbot::navigation::NavigateToPose>
 {
 public:
     /**

@@ -70,7 +70,17 @@ BtNavigator::BtNavigator()
         "nav_back_up_cancel_bt_node",
         "nav_drive_on_heading_cancel_bt_node",
         "nav_is_battery_charging_condition_bt_node"
-  };
+    };
+
+
+    pose_navigator_ = std::make_unique<NavigateToPoseNavigator>();
+    poses_navigator_ = std::make_unique<NavigateThroughPosesNavigator>();
+
+}
+
+BtNavigator::~BtNavigator()
+{
+
 }
 
 }  // namespace navigation
