@@ -15,3 +15,65 @@
  */
 
 #pragma once
+
+#include <string>
+#include <memory>
+
+#include "openbot/common/io/msgs.hpp"
+#include "openbot/system/navigation/behavior_tree/bt_action_node.hpp"
+#include "openbot/system/navigation/proto/action_command.pb.h"
+
+namespace openbot {
+namespace system {
+namespace navigation {
+namespace behavior_tree {
+
+/**
+ * @brief A nav2_behavior_tree::BtActionNode class that wraps nav2_msgs::action::FollowPath
+ */
+class FollowPathAction : public BtActionNode<openbot::navigation::FollowPath>
+{
+public:
+    /**
+     * @brief A constructor for nav2_behavior_tree::FollowPathAction
+     * @param xml_tag_name Name for the XML tag for this node
+     * @param action_name Action name this node creates a client for
+     * @param conf BT node configuration
+     */
+    FollowPathAction(
+        const std::string& xml_tag_name,
+        const std::string& action_name,
+        const BT::NodeConfiguration& conf);
+
+    /**
+     * @brief Function to perform some user-defined operation on tick
+     */
+    void OnTick() override;
+
+    /**
+     * @brief Function to perform some user-defined operation after a timeout
+     * waiting for a result that hasn't been received yet
+     * @param feedback shared_ptr to latest feedback message
+     */
+    void OnWaitForResult(
+        std::shared_ptr<const typename openbot::navigation::FollowPath::Response> response) override;
+
+    /**
+     * @brief Creates list of BT ports
+     * @return BT::PortsList Containing basic ports along with node-specific ports
+     */
+    static BT::PortsList providedPorts()
+    {
+        return providedBasicPorts(
+        {
+            BT::InputPort<common::nav_msgs::Path>("path", "Path to follow"),
+            BT::InputPort<std::string>("controller_id", ""),
+            BT::InputPort<std::string>("goal_checker_id", ""),
+        });
+    }
+};
+
+}   // namespace behavior_tree 
+}   // namespace navigation
+}   // namespace system
+}   // namespace openbot

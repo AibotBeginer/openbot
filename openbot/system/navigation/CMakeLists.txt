@@ -9,6 +9,16 @@ target_link_libraries(${library_name} ${PROJECT_NAME})
 #
 ###################################################################################################################
 
+# library(follow_path_action)
+add_library(nav_follow_path_action_bt_node SHARED behavior_tree/plugins/action/follow_path_action.cc)
+target_link_libraries(nav_follow_path_action_bt_node ${PROJECT_NAME})
+list(APPEND plugin_libs nav_follow_path_action_bt_node)
+
+# library(wait_action)
+add_library(nav_wait_action_bt_node SHARED behavior_tree/plugins/action/wait_action.cc)
+target_link_libraries(nav_wait_action_bt_node ${PROJECT_NAME})
+list(APPEND plugin_libs nav_wait_action_bt_node)
+
 
 ###################################################################################################################
 #

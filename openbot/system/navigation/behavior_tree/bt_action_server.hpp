@@ -20,6 +20,7 @@
 #include <string>
 #include <vector>
 
+#include "cyber/cyber.h"
 
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/system/navigation/behavior_tree/behavior_tree_engine.hpp"
@@ -29,6 +30,7 @@ namespace system {
 namespace navigation {
 namespace behavior_tree {
 
+template <class ActionT>
 class BtActionServer
 {
 public:
@@ -130,8 +132,8 @@ protected:
     // Libraries to pull plugins (BT Nodes) from
     std::vector<std::string> plugin_lib_names_;
 
-    // // A regular, non-spinning ROS node that we can use for calls to the action client
-    // rclcpp::Node::SharedPtr client_node_;
+    // A regular, non-spinning ROS node that we can use for calls to the action client
+    std::shared_ptr<apollo::cyber::Node> client_node_;
 
     // Duration for each iteration of BT execution
     std::chrono::milliseconds bt_loop_duration_;

@@ -14,13 +14,48 @@
  * limitations under the License.
  */
 
+#include "openbot/system/navigation/behavior_tree/plugins/action/wait_action.hpp"
+
+#include "openbot/common/utils/logging.hpp"
 
 namespace openbot {
 namespace system {
 namespace navigation {
 namespace behavior_tree {
 
+WaitAction::WaitAction(
+  const std::string& xml_tag_name,
+  const std::string& action_name,
+  const BT::NodeConfiguration& conf)
+: BtActionNode<openbot::navigation::Wait>(xml_tag_name, action_name, conf)
+{
+    int duration;
+    getInput("wait_duration", duration);
+    if (duration <= 0) {
+        LOG(WARNING) << "Wait duration is negative or zero " << duration << ". Setting to positive.";
+        duration *= -1;
+    }
+
+    // goal_.time.sec = duration;
+}
+
+void WaitAction::OnTick()
+{
+    IncrementRecoveryCount();
+}
+
 }   // namespace behavior_tree 
 }   // namespace navigation
 }   // namespace system
 }   // namespace openbot
+
+#include "behaviortree_cpp/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+    BT::NodeBuilder builder = [](const std::string& name, const BT::NodeConfiguration& config)
+    {
+        return std::make_unique<openbot::system::navigation::behavior_tree::WaitAction>(name, "wait", config);
+    };
+
+    factory.registerBuilder<openbot::system::navigation::behavior_tree::WaitAction>("Wait", builder);
+}

@@ -23,7 +23,9 @@
 
 #include "behaviortree_cpp/action_node.h"
 
+#include "openbot/common/utils/logging.hpp"
 #include "openbot/common/service_wrapper/client_wrapper.hpp"
+#include "openbot/system/navigation/proto/action_command.pb.h"
 #include "openbot/system/navigation/behavior_tree/bt_conversions.hpp"
 
 namespace openbot {
@@ -33,6 +35,7 @@ namespace behavior_tree {
 
 using namespace std::chrono_literals;  // NOLINT
 
+template <class ServiceType>
 class BtServiceNode : public BT::ActionNodeBase
 {
 public:
@@ -235,8 +238,7 @@ protected:
 
     std::string service_name_, service_node_name_;
  
-    // common::ClientWrapper<> service_client_
-    std::shared_ptr<typename ServiceT::Request> request_;
+    std::shared_ptr<common::ClientWrapper<typename ServiceType::Request, typename ServiceType::Response>> request_;
 
     // The timeout value while to use in the tick loop while waiting for
     // a result from the server
