@@ -14,23 +14,43 @@
  * limitations under the License.
  */
 
-#include "openbot/system/navigation/components/bt_navigator_compontent.hpp"
+#include <memory>
+#include <string>
+#include <unordered_map>
 
-#include "openbot/common/utils/logging.hpp"
+#include "cyber/class_loader/class_loader.h"
+#include "cyber/component/component.h"
+#include "cyber/message/raw_message.h"
+
+#include "openbot/common/macros.hpp"
+#include "openbot/system/navigation/naviagtor/bt_navigator.hpp"
+
 
 namespace openbot {
 namespace system { 
 namespace navigation { 
+namespace {
 
-bool BtNavigatorComponent::Init() 
+void Run()
 {
-    navigator_ = std::make_shared<BtNavigator>(node_);
-    return true;
+    // create cyber node
+    auto node = apollo::cyber::CreateNode("navigator");
+
+    // // bt navigator
+    // auto navigator = std::make_shared<BtNavigator>(node);
 }
 
-
-
-
+}  // namespace
 }  // namespace navigation
 }  // namespace system
 }  // namespace openbot
+
+
+int main(int argc, char* argv[]) 
+{
+    // init cyber framework
+    apollo::cyber::Init(argv[0]);
+    openbot::system::navigation::Run();
+    apollo::cyber::WaitForShutdown();
+    return 0;
+}

@@ -149,15 +149,17 @@ add_library(nav_speed_controller_bt_node SHARED behavior_tree/plugins/decorator/
 target_link_libraries(nav_speed_controller_bt_node ${PROJECT_NAME})
 list(APPEND plugin_libs nav_speed_controller_bt_node)
 
-# library(bt_navigator_compontent)
-add_library(bt_navigator_compontent SHARED components/bt_navigator_compontent.cc)
-target_link_libraries(bt_navigator_compontent ${PROJECT_NAME})
-list(APPEND plugin_libs bt_navigator_compontent)
+# openbot.application.navigation_main
+google_binary(openbot.application.navigation_main
+  SRCS
+    navigation_main.cc
+)
 
 # install
 install(TARGETS 
   ${library_name}
   ${plugin_libs}
+  openbot.application.navigation_main
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin

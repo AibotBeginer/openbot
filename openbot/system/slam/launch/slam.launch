@@ -1,10 +1,10 @@
 <cyber>
     <module>
-        <name>navigation</name>
+        <name>slam</name>
         <dag_conf></dag_conf>
         <type>binary</type>
         <process_name>
-            /opt/openbot/bin/openbot.application.navigation_main
+            openbot.application.slam_main --flagfile=openbot/system/slam/conf/slam.conf
         </process_name>
         <exception_handler>respawn</exception_handler>
     </module>

@@ -18,14 +18,14 @@ if(${BUILD_GRPC})
   target_link_libraries(udp_bridge_multi_receiver_component ${PROJECT_NAME})
 
 
-  # openbot.application.grpc_client_main
-  google_binary(openbot.application.grpc_client_main
+  # openbot.test.grpc_client_main
+  google_binary(openbot.test.grpc_client_main
     SRCS
       common/grpc/grpc_client_main.cc
   )
 
-  # openbot.application.grpc_server_main
-  google_binary(openbot.application.grpc_server_main
+  # openbot.test.grpc_server_main
+  google_binary(openbot.test.grpc_server_main
     SRCS
       common/grpc/grpc_server_main.cc
   )
