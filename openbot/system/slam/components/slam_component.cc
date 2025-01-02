@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
+#include "openbot/system/slam/components/slam_component.hpp"
 
-#include "gflags/gflags.h"
-#include "glog/logging.h"
+#include "openbot/common/utils/logging.hpp"
 
 namespace openbot {
-namespace {
+namespace system { 
+namespace slam { 
 
-void Run() 
+bool SlamComponent::Init() 
 {
-  LOG(INFO) << "Openbot SLAM app starting !!! ";
+    return true;
 }
 
-}  // namespace
+
+}  // namespace slam
+}  // namespace system
 }  // namespace openbot
-
-int main(int argc, char** argv) 
-{
-  google::AllowCommandLineReparsing();
-  google::InitGoogleLogging(argv[0]);
-  google::ParseCommandLineFlags(&argc, &argv, false);
-  
-  openbot::Run();
-  google::ShutdownGoogleLogging();
-  return 0;
-}

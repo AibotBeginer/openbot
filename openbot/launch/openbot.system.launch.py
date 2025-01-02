@@ -20,7 +20,7 @@ import subprocess
 # 定义要并发执行的命令列表
 commands = [
     ['cyber_launch', 'start', '/opt/openbot/share/openbot/system/navigation/launch/bt_navigator.launch'],
-    # ['cyber_launch', 'start', '/opt/openbot/share/openbot/bridge/launch/websocket_bridge.launch'],
+    # ['cyber_launch', 'start', '/opt/openbot/share/openbot/system/slam/launch/slam.launch'],
 ]
 
 def start_env():

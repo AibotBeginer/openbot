@@ -1,11 +1,7 @@
 <cyber>
     <module>
         <name>slam</name>
-        <dag_conf></dag_conf>
-        <type>binary</type>
-        <process_name>
-            openbot.application.slam_main --flagfile=openbot/system/slam/conf/slam.conf
-        </process_name>
-        <exception_handler>respawn</exception_handler>
+        <dag_conf>/opt/openbot/share/openbot/system/slam/dag/slam.dag</dag_conf>
+        <process_name>slam</process_name>
     </module>
 </cyber>
