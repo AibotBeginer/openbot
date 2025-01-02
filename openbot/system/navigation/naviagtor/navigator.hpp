@@ -152,20 +152,6 @@ public:
             std::bind(&Navigator::OnCompletion, this, std::placeholders::_1, std::placeholders::_2));
     }
 
-   
-    // using OnPreemptCallback = std::function<void (const typename std::shared_ptr<typename ActionT::Request>&)>;
-    // using OnCompletionCallback = std::function<bool (const typename std::shared_ptr<typename ActionT::Response>&, behavior_tree::BtStatus)>;
-
-    //   explicit BtActionServer(
-    //     std::shared_ptr<::apollo::cyber::Node>& node,
-    //     const std::string& action_name,
-    //     const std::vector<std::string>& plugin_lib_names,
-    //     const std::string& default_bt_xml_filename,
-    //     OnGoalReceivedCallback on_goal_received_callback,
-    //     OnLoopCallback on_loop_callback,
-    //     OnPreemptCallback on_preempt_callback,
-    //     OnCompletionCallback on_completion_callback);
-
 protected:
     /**
      * @brief An intermediate goal reception function to mux navigators.

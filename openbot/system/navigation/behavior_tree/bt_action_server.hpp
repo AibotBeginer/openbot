@@ -35,9 +35,7 @@ template <class ActionT>
 class BtActionServer
 {
 public:
-
     using ActionServer = common::ServiceWrapper<ActionT>;
-
     using OnGoalReceivedCallback = std::function<bool (const std::shared_ptr<typename ActionT::Request>)>;
     using OnLoopCallback = std::function<void ()>;
     using OnPreemptCallback = std::function<void (const typename std::shared_ptr<typename ActionT::Request>)>;

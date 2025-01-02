@@ -156,7 +156,6 @@ void BtActionServer<ActionT>::ExecuteCallback()
             // action_server_->terminate_all(result);
             break;
     }
-
 }
 
 }  // namespace behavior_tree 
