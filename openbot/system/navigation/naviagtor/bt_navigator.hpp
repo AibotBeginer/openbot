@@ -20,11 +20,11 @@
 #include <string>
 #include <vector>
 
-#include "openbot/system/navigation/common/navigator.hpp"
+#include "openbot/system/navigation/naviagtor/navigator.hpp"
 #include "openbot/system/navigation/common/odometry_utils.hpp"
 #include "openbot/system/navigation/naviagtor/navigate_to_pose.hpp"
 #include "openbot/system/navigation/naviagtor/navigate_through_poses.hpp"
-
+#include "openbot/system/navigation/proto/bt_navigator.pb.h"
 
 namespace openbot {
 namespace system { 
@@ -47,7 +47,8 @@ public:
      * @brief A constructor for BtNavigator class
      * @param options Additional options to control creation of the node.
      */
-    explicit BtNavigator(const std::shared_ptr<::apollo::cyber::Node>& node);
+    explicit BtNavigator(const std::shared_ptr<::apollo::cyber::Node>& node, 
+        const std::shared_ptr<openbot::navigation::NavigationConfig>& config);
     /**
      * @brief A destructor for BtNavigator class
      */
@@ -57,6 +58,9 @@ protected:
 
     // cyber node
     std::shared_ptr<::apollo::cyber::Node> node_;
+
+    // config
+    openbot::navigation::NavigationConfig* config_;
 
     // To handle all the BT related execution
     std::unique_ptr<Navigator<openbot::navigation::NavigateToPose>> pose_navigator_;

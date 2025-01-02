@@ -23,6 +23,7 @@
 #include "cyber/cyber.h"
 
 #include "openbot/common/io/msgs.hpp"
+#include "openbot/common/service_wrapper/server_wrapper.hpp"
 #include "openbot/system/navigation/behavior_tree/behavior_tree_engine.hpp"
 
 namespace openbot {
@@ -35,27 +36,30 @@ class BtActionServer
 {
 public:
 
-    using OnGoalReceivedCallback = std::function<bool (const std::shared_ptr<typename ActionT::Request>&)>;
-    using OnLoopCallback = std::function<void ()>;
-    using OnPreemptCallback = std::function<bool (typename std::shared_ptr<typename ActionT::Request>&)>;
-    using OnCompletionCallback = std::function<bool (typename std::shared_ptr<typename ActionT::Response>&)>;
+    using ActionServer = common::ServiceWrapper<ActionT>;
 
-    // /**
-    //  * @brief A constructor for nav2_behavior_tree::BtActionServer class
-    //  */
-    // explicit BtActionServer(
-    //     const std::string & action_name,
-    //     const std::vector<std::string> & plugin_lib_names,
-    //     const std::string & default_bt_xml_filename,
-    //     OnGoalReceivedCallback on_goal_received_callback,
-    //     OnLoopCallback on_loop_callback,
-    //     OnPreemptCallback on_preempt_callback,
-    //     OnCompletionCallback on_completion_callback);
+    using OnGoalReceivedCallback = std::function<bool (const std::shared_ptr<typename ActionT::Request>)>;
+    using OnLoopCallback = std::function<void ()>;
+    using OnPreemptCallback = std::function<void (const typename std::shared_ptr<typename ActionT::Request>)>;
+    using OnCompletionCallback = std::function<void (const typename std::shared_ptr<typename ActionT::Response>, const behavior_tree::BtStatus)>;
+
+    /**
+     * @brief A constructor for nav2_behavior_tree::BtActionServer class
+     */
+    explicit BtActionServer(
+        std::shared_ptr<::apollo::cyber::Node>& node,
+        const std::string& action_name,
+        const std::vector<std::string>& plugin_lib_names,
+        const std::string& default_bt_xml_filename,
+        OnGoalReceivedCallback on_goal_received_callback,
+        OnLoopCallback on_loop_callback,
+        OnPreemptCallback on_preempt_callback,
+        OnCompletionCallback on_completion_callback);
 
     /**
      * @brief A destructor for nav2_behavior_tree::BtActionServer class
      */
-    ~BtActionServer() {}
+    ~BtActionServer();
 
     /**
      * @brief Replace current BT with another one
@@ -119,8 +123,8 @@ protected:
     // Action name
     std::string action_name_;
 
-    // // Our action server implements the template action
-    // std::shared_ptr<ActionServer> action_server_;
+    // Our action server implements the template action
+    std::shared_ptr<ActionServer> action_server_;
 
     // Behavior Tree to be executed when goal is received
     BT::Tree tree_;
@@ -158,3 +162,5 @@ protected:
 }  // namespace navigation
 }  // namespace system
 }  // namespace openbot
+
+#include "openbot/system/navigation/behavior_tree/bt_action_server_impl.hpp"  // NOLINT(build/include_order)

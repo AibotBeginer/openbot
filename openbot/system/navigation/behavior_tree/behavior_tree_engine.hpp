@@ -63,7 +63,7 @@ public:
      * @return nav2_behavior_tree::BtStatus Status of BT execution
      */
     BtStatus Run(
-        BT::Tree * tree,
+        BT::Tree* tree,
         std::function<void()> OnLoop,
         std::function<bool()> CancelRequested,
         std::chrono::milliseconds loop_timeout = std::chrono::milliseconds(10));

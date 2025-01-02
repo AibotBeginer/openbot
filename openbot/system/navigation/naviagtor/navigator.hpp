@@ -25,6 +25,7 @@
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/utils/logging.hpp"
 #include "openbot/planning/planner_server.hpp"
+#include "openbot/system/navigation/common/odometry_utils.hpp"
 #include "openbot/system/navigation/behavior_tree/bt_action_server.hpp"
 
 #include "cyber/cyber.h"
@@ -112,7 +113,8 @@ public:
     /**
      * @brief A Navigator constructor
      */
-    Navigator()
+    Navigator(const std::shared_ptr<apollo::cyber::Node>& node)
+        : node_{node}
     {
         plugin_muxer_ = nullptr;
     }
@@ -130,16 +132,50 @@ public:
 
     virtual std::string GetDefaultBTFilepath() = 0;
 
+    void Configure(
+        const std::vector<std::string>& plugin_lib_names, 
+        NavigatorMuxer* plugin_muxer,
+        std::shared_ptr<OdomSmoother> odom_smoother)
+    {
+        // get the default behavior tree for this navigator
+        std::string default_bt_xml_filename = GetDefaultBTFilepath();
+
+        // Create the Behavior Tree Action Server for this navigator
+        bt_action_server_ = std::make_unique<behavior_tree::BtActionServer<ActionT>>(
+            node_,
+            GetName(),
+            plugin_lib_names,
+            default_bt_xml_filename,
+            std::bind(&Navigator::OnGoalReceived, this, std::placeholders::_1),
+            std::bind(&Navigator::OnLoop, this),
+            std::bind(&Navigator::OnPreempt, this, std::placeholders::_1),
+            std::bind(&Navigator::OnCompletion, this, std::placeholders::_1, std::placeholders::_2));
+    }
+
+   
+    // using OnPreemptCallback = std::function<void (const typename std::shared_ptr<typename ActionT::Request>&)>;
+    // using OnCompletionCallback = std::function<bool (const typename std::shared_ptr<typename ActionT::Response>&, behavior_tree::BtStatus)>;
+
+    //   explicit BtActionServer(
+    //     std::shared_ptr<::apollo::cyber::Node>& node,
+    //     const std::string& action_name,
+    //     const std::vector<std::string>& plugin_lib_names,
+    //     const std::string& default_bt_xml_filename,
+    //     OnGoalReceivedCallback on_goal_received_callback,
+    //     OnLoopCallback on_loop_callback,
+    //     OnPreemptCallback on_preempt_callback,
+    //     OnCompletionCallback on_completion_callback);
+
 protected:
     /**
      * @brief An intermediate goal reception function to mux navigators.
      */
-    bool OnGoalReceived(const std::shared_ptr<common::geometry_msgs::PoseStamped>& goal)
+    bool OnGoalReceived(const std::shared_ptr<typename ActionT::Request>& goal)
     {
         if (plugin_muxer_->IsNavigating()) {
-            LOG(ERROR) << 
-            "Requested navigation from " << GetName().c_str() << " while another navigator is processing rejecting request.";
-        return false;
+            LOG(ERROR) <<  "Requested navigation from " << GetName().c_str() 
+                       << " while another navigator is processing rejecting request.";
+            return false;
         }
 
         bool goal_accepted = GoalReceived(goal);
@@ -154,7 +190,8 @@ protected:
     /**
      * @brief An intermediate completion function to mux navigators
      */
-    void OnCompletion()
+    void OnCompletion(const std::shared_ptr<typename ActionT::Response> result, 
+        const behavior_tree::BtStatus final_bt_status)
     {
         plugin_muxer_->StopNavigating(GetName());
         // GoalCompleted(result, final_bt_status);
@@ -165,7 +202,7 @@ protected:
      * Can be used to check if goal is valid and put values on
      * the blackboard which depend on the received goal
      */
-    virtual bool GoalReceived(const std::shared_ptr<common::geometry_msgs::PoseStamped>& goal) = 0;
+    virtual bool GoalReceived(const std::shared_ptr<typename ActionT::Request> request) = 0;
 
     /**
      * @brief A callback that defines execution that happens on one iteration through the BT
@@ -176,13 +213,15 @@ protected:
     /**
      * @brief A callback that is called when a preempt is requested
      */
-    virtual void OnPreempt(const std::shared_ptr<common::geometry_msgs::PoseStamped>& goal) = 0;
+    virtual void OnPreempt(const std::shared_ptr<typename ActionT::Request> request) = 0;
 
     /**
      * @brief A callback that is called when a the action is completed; Can fill in
      * action result message or indicate that this action is done.
      */
     virtual void GoalCompleted() = 0;
+
+    std::shared_ptr<apollo::cyber::Node> node_;
 
 private:
     std::unique_ptr<behavior_tree::BtActionServer<ActionT>> bt_action_server_;

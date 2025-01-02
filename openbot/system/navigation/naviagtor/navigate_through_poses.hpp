@@ -18,7 +18,7 @@
 
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/macros.hpp"
-#include "openbot/system/navigation/common/navigator.hpp"
+#include "openbot/system/navigation/naviagtor/navigator.hpp"
 #include "openbot/system/navigation/proto/action_command.pb.h"
 
 namespace openbot {
@@ -33,6 +33,8 @@ class NavigateThroughPosesNavigator
   : public Navigator<openbot::navigation::NavigateThroughPoses>
 {
 public:
+    using ActionT = openbot::navigation::NavigateThroughPoses;
+
      /**
      *  @brief SharedPtr typedef
      */
@@ -41,7 +43,7 @@ public:
     /**
      * @brief A constructor for NavigateToPoseNavigator
      */
-    NavigateThroughPosesNavigator() : Navigator() {}
+    NavigateThroughPosesNavigator(const std::shared_ptr<apollo::cyber::Node>& node) : Navigator(node) {}
 
     /**
      * @brief A subscription and callback to handle the topic-based goal published
@@ -71,7 +73,7 @@ protected:
      * @param goal Action template's goal message
      * @return bool if goal was received successfully to be processed
      */
-    bool GoalReceived(const std::shared_ptr<common::geometry_msgs::PoseStamped>& goal) override;
+    bool GoalReceived(const std::shared_ptr<typename ActionT::Request> request) override;
 
     /**
      * @brief A callback that defines execution that happens on one iteration through the BT
@@ -82,7 +84,7 @@ protected:
     /**
      * @brief A callback that is called when a preempt is requested
      */
-    void OnPreempt(const std::shared_ptr<common::geometry_msgs::PoseStamped>& goal) override;
+    void OnPreempt(const std::shared_ptr<typename ActionT::Request> request) override;
 
     /**
      * @brief A callback that is called when a the action is completed, can fill in
@@ -97,7 +99,7 @@ protected:
      * @brief Goal pose initialization on the blackboard
      * @param goal Action template's goal message to process
      */
-    void InitializeGoalPose(const std::shared_ptr<common::geometry_msgs::PoseStamped>& goal);
+    void InitializeGoalPose(const std::shared_ptr<typename ActionT::Request> request);
 
     std::string goal_blackboard_id_;
     std::string path_blackboard_id_;

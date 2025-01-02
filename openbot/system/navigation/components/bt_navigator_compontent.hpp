@@ -27,6 +27,7 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/system/navigation/naviagtor/bt_navigator.hpp"
 
+#include "openbot/system/navigation/proto/bt_navigator.pb.h"
 
 namespace openbot {
 namespace system { 
@@ -45,6 +46,8 @@ private:
     // bt navigator
     BtNavigator::SharedPtr navigator_{nullptr};
 
+    // nav config 
+    std::shared_ptr<openbot::navigation::NavigationConfig> nav_config_{nullptr};
 };
 
 CYBER_REGISTER_COMPONENT(BtNavigatorComponent)

@@ -20,8 +20,10 @@ namespace openbot {
 namespace system { 
 namespace navigation { 
 
-BtNavigator::BtNavigator(const std::shared_ptr<::apollo::cyber::Node>& node)
-  : node_{node}
+BtNavigator::BtNavigator(const std::shared_ptr<::apollo::cyber::Node>& node, 
+  const std::shared_ptr<openbot::navigation::NavigationConfig>& config)
+  : node_{node},
+    config_{config.get()}
 {
     const std::vector<std::string> plugin_libs = {
         "nav_compute_path_to_pose_action_bt_node",
@@ -73,12 +75,13 @@ BtNavigator::BtNavigator(const std::shared_ptr<::apollo::cyber::Node>& node)
         "nav_is_battery_charging_condition_bt_node"
     };
 
-
-    pose_navigator_ = std::make_unique<NavigateToPoseNavigator>();
-    poses_navigator_ = std::make_unique<NavigateThroughPosesNavigator>();
+    pose_navigator_ = std::make_unique<NavigateToPoseNavigator>(node_);
+    poses_navigator_ = std::make_unique<NavigateThroughPosesNavigator>(node_);
     odom_smoother_ = std::make_shared<OdomSmoother>(node_, 0.3, odom_topic_);
 
-
+    // configure
+    pose_navigator_->Configure(plugin_libs, &plugin_muxer_, odom_smoother_);
+    poses_navigator_->Configure(plugin_libs, &plugin_muxer_, odom_smoother_);
 }
 
 BtNavigator::~BtNavigator()

@@ -55,18 +55,11 @@ public:
                    std::chrono::milliseconds server_timeout = std::chrono::milliseconds(500))
     {
         
-        accept_server_ = node->CreateService<typename ServiceT::Request, typename ServiceT::Response>(
+        server_ = node->CreateService<typename ServiceT::Request, typename ServiceT::Response>(
             service_name,
             [this](const std::shared_ptr<typename ServiceT::Request>& request, 
                    std::shared_ptr<typename ServiceT::Response>& response) {
                 HandleAccepted(request, response);
-            });
-
-        cancel_server_  = node->CreateService<typename ServiceT::Request, typename ServiceT::Response>(
-            service_name,
-            [](const std::shared_ptr<typename ServiceT::Request>& request,
-               std::shared_ptr<typename ServiceT::Response>& response) {
-                HandleCancel(request, response);
             });
     }
 
@@ -81,112 +74,34 @@ public:
         const std::shared_ptr<typename ServiceT::Request>& request, 
         std::shared_ptr<typename ServiceT::Response>& response)
     { 
-        std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-        InfoMsg("Receiving a new goal");
-
-        if (IsActive(current_handle_) || IsRunning()) {
-            InfoMsg("An older goal is active, moving the new goal to a pending slot.");
-
-            if (IsActive(pending_handle_)) {
-                InfoMsg(
-                "The pending slot is occupied. The previous pending goal will be terminated and replaced.");
-                Terminate(pending_handle_);
-            }
-            pending_handle_ = handle;
-            preempt_requested_ = true;
-        } else {
-            if (IsActive(pending_handle_)) {
-                // Shouldn't reach a state with a pending goal but no current one.
-                ErrorMsg("Forgot to handle a preemption. Terminating the pending goal.");
-                Terminate(pending_handle_);
-                preempt_requested_ = false;
-            }
-
-            current_handle_ = handle;
-
-            // Return quickly to avoid blocking the executor, so spin up a new thread
-            InfoMsg("Executing goal asynchronously.");
-            accept_execution_future_ = std::async(std::launch::async, [this]() {AcceptedWork();});
-        }
-        return true;
-    }
-
-    /**
-     * @brief 
-     * 
-     * @param request 
-     * @return ServiceT::Response 
-     */
-    bool HandleCancel(
-        const std::shared_ptr<typename ServiceT::Request>& request, 
-        std::shared_ptr<typename ServiceT::Response>& response)
-    {
-        // std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-        // if (!handle->is_active()) {
-        //     WarnMsg("Received request for goal cancellation, but the handle is inactive, so reject the request");
-        //     return typename ServiceT::Response::Status::REJECT;
-        // }
-
-        // InfoMsg("Received request for goal cancellation");
-        // return typename ServiceT::Response::Status::ACCEPT;
-
         InfoMsg("Executing goal asynchronously.");
-        cancel_execution_future_ = std::async(std::launch::async, [this]() {CanceledWork();});
-
+        execution_future_ = std::async(std::launch::async, [this]() {Work();});
         return true;
     }
 
     /**
      * @brief Computed background work and processes stop requests
      */
-    void AcceptedWork()
+    void Work()
     {
-        while (apollo::cyber::Ok() && !stop_execution_ && IsActive(current_handle_)) 
+        while (apollo::cyber::OK() && !stop_execution_) 
         {
             InfoMsg("Executing the goal...");
             try {
                 execute_callback_();
             } catch (std::exception& ex) {
                 LOG(ERROR) << "Action server failed while executing action callback: " << ex.what();
-                TerminateAll();
                 completion_callback_();
                 return;
             }
 
-            InfoMsg("Blocking processing of new goal handles.");
-            std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-
             if (stop_execution_) {
                 WarnMsg("Stopping the thread per request.");
-                TerminateAll();
                 completion_callback_();
-                break;
-            }
-
-            if (IsActive(current_handle_)) {
-                WarnMsg("Current goal was not completed successfully.");
-                Terminate(current_handle_);
-                completion_callback_();
-            }
-
-            if (IsActive(pending_handle_)) {
-                InfoMsg("Executing a pending handle on the existing thread.");
-                AcceptPendingRequest();
-            } else {
-                InfoMsg("Done processing available goals.");
                 break;
             }
         }
         InfoMsg("Accept worker thread done.");
-    }
-
-    void CanceledWork()
-    {
-        while (apollo::cyber::Ok() && !stop_execution_ && IsActive(current_handle_)) 
-        {
-
-        }
-        InfoMsg("Cancel worker thread done.");
     }
 
     /**
@@ -195,8 +110,8 @@ public:
      */
     bool IsRunning()
     {
-        return accept_execution_future_.valid() &&
-            (accept_execution_future_.wait_for(std::chrono::milliseconds(0)) ==
+        return execution_future_.valid() &&
+            (execution_future_.wait_for(std::chrono::milliseconds(0)) ==
             std::future_status::timeout);
     }
 
@@ -208,6 +123,15 @@ public:
     {
         std::lock_guard<std::recursive_mutex> lock(update_mutex_);
         return server_active_;
+    }
+
+    /**
+     * @brief Whether or not a cancel command has come in
+     * @return bool Whether a cancel command has been requested or not
+     */
+    bool IsCancelRequested() const
+    {
+        return true;
     }
 
     /**
@@ -225,113 +149,28 @@ public:
      */
     void TerminatePendingRequest()
     {
-        std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-        if (!pending_handle_ || !pending_handle_->is_active()) {
-            ErrorMsg("Attempting to terminate pending request when not available");
-            return;
-        }
-
-        Terminate(pending_handle_);
-        preempt_requested_ = false;
-        InfoMsg("Pending goal terminated");
     }
 
-    /**
-     * @brief Get the current goal object
-     * @return Goal Ptr to the  goal that's being processed currently
-     */
-    const std::shared_ptr<const typename ActionT::Request> GetCurrentRequest() const
+    void TerminateCurrent()
     {
-        std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-
-        if (!IsActive(current_handle_)) {
-            ErrorMsg("A goal is not available or has reached a final state");
-            return std::shared_ptr<const typename ActionT::Request>();
-        }
-
-        return current_handle_->get_goal();
+    }
+    
+    /**
+     * @brief Get the current request object
+     * @return request Ptr to the  goal that's being processed currently
+     */
+    const std::shared_ptr<const typename ServiceT::Request> GetCurrentRequest() const
+    {
+        return nullptr;
     }
 
     /**
-     * @brief Get the pending goal object
-     * @return Goal Ptr to the goal that's pending
+     * @brief Get the pending request object
+     * @return Request Ptr to the request that's pending
      */
     const std::shared_ptr<const typename ServiceT::Request> GetPendingRequest() const
     {
-        std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-
-        if (!pending_handle_ || !pending_handle_->is_active()) {
-            ErrorMsg("Attempting to get pending goal when not available");
-            return std::shared_ptr<const typename ServiceT::Goal>();
-        }
-
-        return pending_handle_->get_goal();
-    }
-
-    /**
-     * @brief Whether or not a cancel command has come in
-     * @return bool Whether a cancel command has been requested or not
-     */
-    bool IsCancelRequested() const
-    {
-        std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-
-        // A cancel request is assumed if either handle is canceled by the client.
-
-        if (current_handle_ == nullptr) {
-            ErrorMsg("Checking for cancel but current goal is not available");
-            return false;
-        }
-
-        if (pending_handle_ != nullptr) {
-            return pending_handle_->is_canceling();
-        }
-
-        return current_handle_->is_canceling();
-    }
-
-    /**
-     * @brief Terminate all pending and active actions
-     * @param result A result object to send to the terminated actions
-     */
-    void TerminateAll(
-        typename std::shared_ptr<typename ServiceT::Response> result =
-        std::make_shared<typename ServiceT::Response>())
-    {
-        std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-        Terminate(current_handle_, result);
-        Terminate(pending_handle_, result);
-        preempt_requested_ = false;
-    }
-
-
-    /**
-     * @brief Terminate the active action
-     * @param result A result object to send to the terminated action
-     */
-    void TerminateCurrent(
-        typename std::shared_ptr<typename ServiceT::Response> result =
-        std::make_shared<typename ServiceT::Response>())
-    {
-        std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-        Terminate(current_handle_, result);
-    }
-
-    /**
-     * @brief Return success of the active action
-     * @param result A result object to send to the terminated actions
-     */
-    void SucceededCurrent(
-        typename std::shared_ptr<typename ServiceT::Response> result =
-        std::make_shared<typename ServiceT::Response>())
-    {
-        std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-
-        if (is_active(current_handle_)) {
-            InfoMsg("Setting succeed on current goal.");
-            current_handle_->succeed(result);
-            current_handle_.reset();
-        }
+        return nullptr;
     }
 
 protected:
@@ -367,35 +206,11 @@ protected:
         return std::make_shared<typename ServiceT::Response>();
     }
 
-    /**
-     * @brief Terminate a particular action with a result
-     * @param handle goal handle to terminate
-     * @param the Results object to terminate the action with
-     */
-    void Terminate(
-        std::shared_ptr<rclcpp_action::ServerGoalHandle<ServiceT>> & handle,
-        typename std::shared_ptr<typename ServiceT::Response> result =
-        std::make_shared<typename ServiceT::Response>())
-    {
-        std::lock_guard<std::recursive_mutex> lock(update_mutex_);
-        if (IsActive(handle)) {
-            if (handle->IsCanceling()) {
-                WarnMsg("Client requested to cancel the goal. Cancelling.");
-                handle->canceled(result);
-            } else {
-                WarnMsg("Aborting handle.");
-                handle->abort(result);
-            }
-            handle.reset();
-        }
-    }
-
     std::string service_name_;
 
     ExecuteCallback execute_callback_;
     CompletionCallback completion_callback_;
-    std::future<void> accept_execution_future_;
-    std::future<void> cancel_execution_future_;
+    std::future<void> execution_future_;
     bool stop_execution_{false};
 
     mutable std::recursive_mutex update_mutex_;
@@ -403,10 +218,7 @@ protected:
     bool preempt_requested_{false};
     std::chrono::milliseconds server_timeout_;
 
-    std::shared_ptr<::apollo::cyber::Service<typename ServiceT::Request, typename ServiceT::Response>> current_handle_;
-    std::shared_ptr<::apollo::cyber::Service<typename ServiceT::Request, typename ServiceT::Response>> pending_handle_;
-    std::shared_ptr<::apollo::cyber::Service<typename ServiceT::Request, typename ServiceT::Response>> accept_server_;
-    std::shared_ptr<::apollo::cyber::Service<typename ServiceT::Request, typename ServiceT::Response>> cancel_server_;
+    std::shared_ptr<::apollo::cyber::Service<typename ServiceT::Request, typename ServiceT::Response>> server_;
 };
 
 }  // namespace common

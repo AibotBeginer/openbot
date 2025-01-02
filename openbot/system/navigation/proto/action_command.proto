@@ -26,22 +26,35 @@ enum Status
     SUCCESS = 0;
     FAILURE = 1;
     RUNNING = 2;
-    REJECT = 3;
-    ACCEPT = 4;
+    CANCELED = 3;
+    REJECT = 4;
+    ACCEPT = 5;
+}
+
+enum CommandType
+{
+    CONFIGURE = 0;
+    ACTIVATE = 1;
+    DEACTIVATE = 2;
+    CLEANUP = 3;
+    SHUTDOWN = 4;
 }
 
 message NavigateToPose
 {
     message Request 
     {
+        // command_type
+        CommandType command_type = 1;
+
         // path
-        common.geometry_msgs.PoseStamped pose = 1;
+        common.geometry_msgs.PoseStamped pose = 2;
 
         // behavior_tree
-        string behavior_tree = 2;
+        string behavior_tree = 3;
 
         // goal_checker_id
-        string goal_checker_id = 3;
+        string goal_checker_id = 4;
     }
 
     message Response
@@ -60,6 +73,8 @@ message NavigateThroughPoses
 {
     message Request 
     {
+        // command_type
+        CommandType command_type = 1;
     }
 
     message Response
@@ -78,14 +93,17 @@ message FollowPath
 {
     message Request 
     {
+        // command_type
+        CommandType command_type = 1;
+
         // path
-        common.nav_msgs.Path path = 1;
+        common.nav_msgs.Path path = 2;
 
         // controller_id
-        string controller_id = 2;
+        string controller_id = 3;
 
         // goal_checker_id
-        string goal_checker_id = 3;
+        string goal_checker_id = 4;
     }
 
     message Response
@@ -106,9 +124,12 @@ message BackUp
 {
     message Request 
     {
-        common.geometry_msgs.Point target = 1;
-        double speed = 2;
-        common.builtin_interfaces.Duration time_allowance = 3;
+        // command_type
+        CommandType command_type = 1;
+
+        common.geometry_msgs.Point target = 2;
+        double speed = 3;
+        common.builtin_interfaces.Duration time_allowance = 4;
     }
 
     message Response
@@ -128,9 +149,13 @@ message Spin
 {
     message Request 
     {
+        // command_type
+        CommandType command_type = 1;
+
         // yaw
-        double target_yaw = 1;
-        common.builtin_interfaces.Duration time_allowance = 2;
+        double target_yaw = 2;
+
+        common.builtin_interfaces.Duration time_allowance = 3;
     }
 
     message Response
@@ -150,10 +175,15 @@ message Wait
 {
     message Request 
     {
+        // command_type
+        CommandType command_type = 1;
+
         // target 
-        common.geometry_msgs.Point target = 1;
-        double speed = 2;
-        common.builtin_interfaces.Duration time_allowance = 3;
+        common.geometry_msgs.Point target = 2;
+
+        double speed = 3;
+
+        common.builtin_interfaces.Duration time_allowance = 4;
     }
 
     message Response

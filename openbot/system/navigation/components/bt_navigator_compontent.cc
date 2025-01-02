@@ -24,7 +24,13 @@ namespace navigation {
 
 bool BtNavigatorComponent::Init() 
 {
-    navigator_ = std::make_shared<BtNavigator>(node_);
+    nav_config_ = std::make_shared<openbot::navigation::NavigationConfig>();
+    if (!apollo::cyber::common::GetProtoFromFile(config_file_path_, nav_config_.get())) 
+    {
+        return false;
+    }
+
+    navigator_ = std::make_shared<BtNavigator>(node_, nav_config_);
     return true;
 }
 

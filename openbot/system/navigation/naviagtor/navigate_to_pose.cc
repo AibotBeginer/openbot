@@ -39,7 +39,8 @@ std::string NavigateToPoseNavigator::GetDefaultBTFilepath()
     return default_bt_xml_filename;
 }
 
-bool NavigateToPoseNavigator::GoalReceived(const std::shared_ptr<common::geometry_msgs::PoseStamped>& goal)
+bool NavigateToPoseNavigator::GoalReceived(
+    const std::shared_ptr<typename ActionT::Request> request)
 {
     return true;
 }
@@ -48,7 +49,8 @@ void NavigateToPoseNavigator::OnLoop()
 {
 }
 
-void NavigateToPoseNavigator::OnPreempt(const std::shared_ptr<common::geometry_msgs::PoseStamped>& goal)
+void NavigateToPoseNavigator::OnPreempt(
+    const std::shared_ptr<typename ActionT::Request> request)
 {
 
 }
