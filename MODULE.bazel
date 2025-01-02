@@ -1,0 +1,41 @@
+###############################################################################
+# Bazel now uses Bzlmod by default to manage external dependencies.
+# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
+#
+# For more details, please check https://github.com/bazelbuild/bazel/issues/18958
+###############################################################################
+
+module(
+    name = "openbot"
+    #repo_name = ""
+)
+
+
+bazel_dep(name = "rules_cc", version = "0.0.16")
+bazel_dep(name = "bazel_skylib", version = "1.7.1")
+bazel_dep(name = "rules_python", version = "1.0.0")
+bazel_dep(name = "rules_proto", version = "7.1.0")
+
+#bazel_dep(name = "protobuf", version = "3.19.0")
+
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+http_file(
+    name = "com_google_protobuf",
+    url = "https://github.com/protocolbuffers/protobuf/archive/v3.14.0.tar.gz",
+    sha256 = "d0f5f605d0d656007ce6c8b5a82df3037e1d8fe8b121ed42e536f569dec16113",
+)
+
+http_file(
+    name = "com_github_grpc_grpc",
+    urls = [
+        "https://apollo-system.cdn.bcebos.com/archive/6.0/v1.30.0.tar.gz",
+        "https://github.com/grpc/grpc/archive/v1.30.0.tar.gz",
+    ],
+    sha256 = "419dba362eaf8f1d36849ceee17c3e2ff8ff12ac666b42d3ff02a164ebe090e9",
+)
+
+bazel_dep(name = "cyber")
+local_path_override(
+    module_name = "cyber",
+    path = "/opt/cyber",
+)
