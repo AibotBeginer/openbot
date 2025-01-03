@@ -53,12 +53,17 @@ public:
                    ExecuteCallback execute_callback,
                    CompletionCallback completion_callback = nullptr,
                    std::chrono::milliseconds server_timeout = std::chrono::milliseconds(500))
+        :  service_name_(service_name),
+           execute_callback_(execute_callback),
+           completion_callback_(completion_callback),
+           server_timeout_(server_timeout)
     {
-        
         server_ = node->CreateService<typename ServiceT::Request, typename ServiceT::Response>(
             service_name,
             [this](const std::shared_ptr<typename ServiceT::Request>& request, 
                    std::shared_ptr<typename ServiceT::Response>& response) {
+
+                server_active_ = true;
                 HandleAccepted(request, response);
             });
     }
@@ -88,7 +93,10 @@ public:
         {
             InfoMsg("Executing the goal...");
             try {
+                InfoMsg("Executing the goal...1");
                 execute_callback_();
+
+                InfoMsg("Executing the goal 2");
             } catch (std::exception& ex) {
                 LOG(ERROR) << "Action server failed while executing action callback: " << ex.what();
                 completion_callback_();

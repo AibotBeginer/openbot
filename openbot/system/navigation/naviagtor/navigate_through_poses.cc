@@ -36,6 +36,9 @@ std::string NavigateThroughPosesNavigator::GetDefaultBTFilepath()
 
     // node->get_parameter("default_nav_to_pose_bt_xml", default_bt_xml_filename);
 
+
+    
+
     return default_bt_xml_filename;
 }
 

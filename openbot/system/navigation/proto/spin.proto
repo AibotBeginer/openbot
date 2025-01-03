@@ -22,42 +22,29 @@ import "openbot/common/proto/nav_msgs.proto";
 import "openbot/common/proto/geometry_msgs.proto"; 
 import "openbot/system/navigation/proto/types.proto"; 
 
-message BehaviorTreeConfig
+
+message Spin
 {
-    string global_frame = 1;
+    message Request 
+    {
+        // command_type
+        CommandType command_type = 1;
 
-    string robot_base_frame = 2;
+        // yaw
+        double target_yaw = 2;
 
-    string odom_topic = 3;
+        common.builtin_interfaces.Duration time_allowance = 3;
+    }
 
-    uint32 bt_loop_duration = 4;
+    message Response
+    {
+        Status status = 1;
+        double angular_distance_traveled = 2;
+    }
 
-    // xml
-    string default_xml_behavior_trees = 5;
+    // service request
+    Request request = 1;
 
-    repeated string plugin_lib_names = 6;
-}
-
-message ControllerConfig
-{
-    string id = 1;
-}
-
-
-message PlannerConfig
-{
-    double expected_planner_frequency = 1;
-    repeated string planner_plugins = 2;
-}
-
-message NavigationConfig
-{
-    // behavior_tree config
-    BehaviorTreeConfig behavior_tree = 1;
-
-    // controller config
-    ControllerConfig controller = 2;
-
-    // Global planner config 
-    PlannerConfig global_planner = 3;
+    // service response
+    Response response = 2;
 }

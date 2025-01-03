@@ -51,7 +51,7 @@ public:
      * @brief A constructor for nav2_behavior_tree::BehaviorTreeEngine
      * @param plugin_libraries vector of BT plugin library names to load
      */
-    explicit BehaviorTreeEngine(const std::vector<std::string> & plugin_libraries);
+    explicit BehaviorTreeEngine(const std::vector<std::string>& plugin_libraries);
     virtual ~BehaviorTreeEngine() {}
 
     /**
@@ -75,7 +75,7 @@ public:
      * @return BT::Tree Created behavior tree
      */
     BT::Tree CreateTreeFromText(
-        const std::string & xml_string,
+        const std::string& xml_string,
         BT::Blackboard::Ptr blackboard);
 
     /**
@@ -85,14 +85,14 @@ public:
      * @return BT::Tree Created behavior tree
      */
     BT::Tree CreateTreeFromFile(
-        const std::string & file_path,
+        const std::string& file_path,
         BT::Blackboard::Ptr blackboard);
 
     /**
      * @brief Function to explicitly reset all BT nodes to initial state
      * @param root_node Pointer to BT root node
      */
-    void HaltAllActions(BT::TreeNode * root_node);
+    void HaltAllActions(BT::Tree& tree);
 
 protected:
     // The factory that will be used to dynamically construct the behavior tree

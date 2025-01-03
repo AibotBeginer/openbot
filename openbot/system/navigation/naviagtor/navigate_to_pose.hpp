@@ -19,7 +19,8 @@
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/macros.hpp"
 #include "openbot/system/navigation/naviagtor/navigator.hpp"
-#include "openbot/system/navigation/proto/action_command.pb.h"
+#include "openbot/system/navigation/proto/navigate_to_pose.pb.h"
+#include "openbot/system/navigation/proto/bt_navigator.pb.h"
 
 namespace openbot {
 namespace system { 
@@ -42,7 +43,10 @@ public:
     /**
      * @brief A constructor for NavigateToPoseNavigator
      */
-    NavigateToPoseNavigator(const std::shared_ptr<apollo::cyber::Node>& node) : Navigator(node) {}
+    NavigateToPoseNavigator(
+        const std::shared_ptr<apollo::cyber::Node>& node, 
+        const openbot::navigation::NavigationConfig* config) 
+    : Navigator(node), config_{config} {}
 
     /**
      * @brief A subscription and callback to handle the topic-based goal published
@@ -98,10 +102,15 @@ protected:
      * @brief Goal pose initialization on the blackboard
      * @param goal Action template's goal message to process
      */
-    void InitializeGoalPose(const std::shared_ptr<typename ActionT::Request>& request);
+    void InitializeGoalPose(const std::shared_ptr<typename ActionT::Request> request);
 
     std::string goal_blackboard_id_;
     std::string path_blackboard_id_;
+
+
+private:
+    // config
+    const openbot::navigation::NavigationConfig* config_;
 };
 
 }  // namespace navigation

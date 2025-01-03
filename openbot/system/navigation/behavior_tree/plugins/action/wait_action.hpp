@@ -21,7 +21,7 @@
 
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/system/navigation/behavior_tree/bt_action_node.hpp"
-#include "openbot/system/navigation/proto/action_command.pb.h"
+#include "openbot/system/navigation/proto/wait.pb.h"
 
 namespace openbot {
 namespace system {

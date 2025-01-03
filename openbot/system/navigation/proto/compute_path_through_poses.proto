@@ -21,43 +21,37 @@ import "openbot/common/proto/builtin_interfaces.proto";
 import "openbot/common/proto/nav_msgs.proto";
 import "openbot/common/proto/geometry_msgs.proto"; 
 import "openbot/system/navigation/proto/types.proto"; 
+import "openbot/system/navigation/proto/error_codes.proto"; 
 
-message BehaviorTreeConfig
+message ComputePathThroughPoses
 {
-    string global_frame = 1;
+    message Request
+    {
+        // goal
+        repeated common.geometry_msgs.PoseStamped goals = 1;
 
-    string robot_base_frame = 2;
+        // start
+        common.geometry_msgs.PoseStamped start = 2;
 
-    string odom_topic = 3;
+        // planner_id
+        string planner_id = 3;
 
-    uint32 bt_loop_duration = 4;
+        // If false, use current robot pose as path start, if true, use start above instead
+        bool use_start = 4;
+    }
 
-    // xml
-    string default_xml_behavior_trees = 5;
+    message Response
+    {
+        Status status = 1;
+        ErrorCode error_code = 2;
+        string error_msg = 3;
+        common.nav_msgs.Path path = 4;
+        common.builtin_interfaces.Duration planning_time = 5;
+    }
 
-    repeated string plugin_lib_names = 6;
-}
+    // service request
+    Request request = 1;
 
-message ControllerConfig
-{
-    string id = 1;
-}
-
-
-message PlannerConfig
-{
-    double expected_planner_frequency = 1;
-    repeated string planner_plugins = 2;
-}
-
-message NavigationConfig
-{
-    // behavior_tree config
-    BehaviorTreeConfig behavior_tree = 1;
-
-    // controller config
-    ControllerConfig controller = 2;
-
-    // Global planner config 
-    PlannerConfig global_planner = 3;
+    // service response
+    Response response = 2;
 }

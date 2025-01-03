@@ -43,7 +43,8 @@ BtActionServer<ActionT>::BtActionServer(
     OnLoopCallback on_loop_callback,
     OnPreemptCallback on_preempt_callback,
     OnCompletionCallback on_completion_callback)
-    : action_name_(action_name),
+    : client_node_(node),
+      action_name_(action_name),
       default_bt_xml_filename_(default_bt_xml_filename),
       plugin_lib_names_(plugin_lib_names),
       on_goal_received_callback_(on_goal_received_callback),
@@ -51,13 +52,39 @@ BtActionServer<ActionT>::BtActionServer(
       on_preempt_callback_(on_preempt_callback),
       on_completion_callback_(on_completion_callback)
 {
+    // Create Action Server
     action_server_ = std::make_shared<ActionServer>(
         node, action_name_, std::bind(&BtActionServer<ActionT>::ExecuteCallback, this));
+
+
+    // Create the class that registers our custom nodes and executes the BT
+    bt_ = std::make_unique<BehaviorTreeEngine>(plugin_lib_names_);
+
+    // Create the blackboard that will be shared by all of the nodes in the tree
+    blackboard_ = BT::Blackboard::create();
+
+    // Put items on the blackboard
+    blackboard_->set<std::shared_ptr<::apollo::cyber::Node>>("node", client_node_);  // NOLINT
+    blackboard_->set<std::chrono::milliseconds>("server_timeout", default_server_timeout_);  // NOLINT
+    blackboard_->set<std::chrono::milliseconds>("bt_loop_duration", bt_loop_duration_);  // NOLINT
+    blackboard_->set<std::chrono::milliseconds>("wait_for_service_timeout", wait_for_service_timeout_);
+
+    // Load behavior tree 
+    if (!LoadBehaviorTree(default_bt_xml_filename_)) {
+        LOG(ERROR) << "Error loading XML file: " << default_bt_xml_filename_;
+    }
 }
 
 template<class ActionT>
 BtActionServer<ActionT>::~BtActionServer()
-{}
+{
+    action_server_.reset();
+    plugin_lib_names_.clear();
+    current_bt_xml_filename_.clear();
+    blackboard_.reset();
+    bt_->HaltAllActions(tree_);
+    bt_.reset();
+}
 
 template<class ActionT>
 bool BtActionServer<ActionT>::LoadBehaviorTree(const std::string& bt_xml_filename)
@@ -79,18 +106,18 @@ bool BtActionServer<ActionT>::LoadBehaviorTree(const std::string& bt_xml_filenam
         return false;
     }
 
-    auto xml_string = std::string(
-        std::istreambuf_iterator<char>(xml_file),
-        std::istreambuf_iterator<char>());
+    auto xml_string = std::string(std::istreambuf_iterator<char>(xml_file), std::istreambuf_iterator<char>());
 
     // Create the Behavior Tree from the XML input
     try {
         tree_ = bt_->CreateTreeFromText(xml_string, blackboard_);
-        // for (auto& blackboard : tree_.blackboard_stack) {
-        //     blackboard->set<std::shared_ptr<::apollo::cyber::Node>>("node", client_node_);
-        //     blackboard->set<std::chrono::milliseconds>("server_timeout", default_server_timeout_);
-        //     blackboard->set<std::chrono::milliseconds>("bt_loop_duration", bt_loop_duration_);
-        // }
+        for (auto& subtree : tree_.subtrees) {
+            auto& blackboard = subtree->blackboard;
+            blackboard->set("node", client_node_);
+            blackboard->set<std::shared_ptr<::apollo::cyber::Node>>("node", client_node_);
+            blackboard->set<std::chrono::milliseconds>("server_timeout", default_server_timeout_);
+            blackboard->set<std::chrono::milliseconds>("bt_loop_duration", bt_loop_duration_);
+        }
     } catch (const std::exception & e) {
         LOG(ERROR) << "Exception when loading BT: " << e.what();
         return false;
@@ -108,6 +135,8 @@ void BtActionServer<ActionT>::ExecuteCallback()
     //     return;
     // }
 
+    LOG(INFO) << "ExecuteCallback() .....》》》》》》》》》》》》》》 1";
+
     auto is_canceling = [&]() {
         if (action_server_ == nullptr) {
             LOG(WARNING) << "Action server unavailable. Canceling.";
@@ -120,6 +149,7 @@ void BtActionServer<ActionT>::ExecuteCallback()
         return action_server_->IsCancelRequested();
     };
 
+    LOG(INFO) << "ExecuteCallback() .....》》》》》》》》》》》》》》 2";
     auto on_loop = [&]() {
         // if (action_server_->IsPreemptRequested() && on_preempt_callback_) {
         //     on_preempt_callback_(action_server_->GetPendingRequest());
@@ -127,35 +157,38 @@ void BtActionServer<ActionT>::ExecuteCallback()
         on_loop_callback_();
     };
 
-    // Execute the BT that was previously created in the configure step
-    BtStatus rc = bt_->Run(&tree_, on_loop, is_canceling, bt_loop_duration_);
 
-    // Make sure that the Bt is not in a running state from a previous execution
-    // note: if all the ControlNodes are implemented correctly, this is not needed.
-    bt_->HaltAllActions(tree_.rootNode());
+    LOG(INFO) << "ExecuteCallback() .....》》》》》》》》》》》》》》 3";
 
-    // Give server an opportunity to populate the result message or simple give
-    // an indication that the action is complete.
-    auto result = std::make_shared<typename ActionT::Response>();
-    on_completion_callback_(result, rc);
+    // // Execute the BT that was previously created in the configure step
+    // BtStatus rc = bt_->Run(&tree_, on_loop, is_canceling, bt_loop_duration_);
 
-    switch (rc) 
-    {
-        case BtStatus::SUCCEEDED:
-            LOG(INFO) << "Goal succeeded";
-            // action_server_->succeeded_current(result);
-            break;
+    // // Make sure that the Bt is not in a running state from a previous execution
+    // // note: if all the ControlNodes are implemented correctly, this is not needed.
+    // bt_->HaltAllActions(tree_);
 
-        case BtStatus::FAILED:
-            LOG(INFO) << "Goal failed";
-            // action_server_->terminate_current(result);
-            break;
+    // // Give server an opportunity to populate the result message or simple give
+    // // an indication that the action is complete.
+    // auto result = std::make_shared<typename ActionT::Response>();
+    // on_completion_callback_(result, rc);
 
-        case BtStatus::CANCELED:
-            LOG(INFO) << "Goal canceled";
-            // action_server_->terminate_all(result);
-            break;
-    }
+    // switch (rc) 
+    // {
+    //     case BtStatus::SUCCEEDED:
+    //         LOG(INFO) << "Goal succeeded";
+    //         // action_server_->succeeded_current(result);
+    //         break;
+
+    //     case BtStatus::FAILED:
+    //         LOG(INFO) << "Goal failed";
+    //         // action_server_->terminate_current(result);
+    //         break;
+
+    //     case BtStatus::CANCELED:
+    //         LOG(INFO) << "Goal canceled";
+    //         // action_server_->terminate_all(result);
+    //         break;
+    // }
 }
 
 }  // namespace behavior_tree 

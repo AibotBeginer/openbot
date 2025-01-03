@@ -19,7 +19,8 @@
 #include "openbot/common/io/msgs.hpp"
 #include "openbot/common/macros.hpp"
 #include "openbot/system/navigation/naviagtor/navigator.hpp"
-#include "openbot/system/navigation/proto/action_command.pb.h"
+#include "openbot/system/navigation/proto/navigate_through_poses.pb.h"
+#include "openbot/system/navigation/proto/bt_navigator.pb.h"
 
 namespace openbot {
 namespace system { 
@@ -43,7 +44,10 @@ public:
     /**
      * @brief A constructor for NavigateToPoseNavigator
      */
-    NavigateThroughPosesNavigator(const std::shared_ptr<apollo::cyber::Node>& node) : Navigator(node) {}
+    NavigateThroughPosesNavigator(
+      const std::shared_ptr<apollo::cyber::Node>& node,
+      const openbot::navigation::NavigationConfig* config) 
+      : Navigator(node), config_{config} {}
 
     /**
      * @brief A subscription and callback to handle the topic-based goal published
@@ -103,7 +107,9 @@ protected:
 
     std::string goal_blackboard_id_;
     std::string path_blackboard_id_;
-
+private:
+    // config
+    const openbot::navigation::NavigationConfig* config_;
 };
 
 }  // namespace navigation

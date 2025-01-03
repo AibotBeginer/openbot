@@ -30,6 +30,7 @@ bool BtNavigatorComponent::Init()
         return false;
     }
 
+    // LOG(INFO) << "Filter config: " << nav_config_->DebugString();
     navigator_ = std::make_shared<BtNavigator>(node_, nav_config_);
     return true;
 }

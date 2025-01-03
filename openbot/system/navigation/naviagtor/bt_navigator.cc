@@ -75,8 +75,8 @@ BtNavigator::BtNavigator(const std::shared_ptr<::apollo::cyber::Node>& node,
         "nav_is_battery_charging_condition_bt_node"
     };
 
-    pose_navigator_ = std::make_unique<NavigateToPoseNavigator>(node_);
-    poses_navigator_ = std::make_unique<NavigateThroughPosesNavigator>(node_);
+    pose_navigator_ = std::make_unique<NavigateToPoseNavigator>(node_, config_);
+    poses_navigator_ = std::make_unique<NavigateThroughPosesNavigator>(node_, config_);
     odom_smoother_ = std::make_shared<OdomSmoother>(node_, 0.3, odom_topic_);
 
     // configure

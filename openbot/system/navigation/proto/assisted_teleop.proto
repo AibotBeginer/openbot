@@ -22,42 +22,23 @@ import "openbot/common/proto/nav_msgs.proto";
 import "openbot/common/proto/geometry_msgs.proto"; 
 import "openbot/system/navigation/proto/types.proto"; 
 
-message BehaviorTreeConfig
+
+message AssistedTeleop
 {
-    string global_frame = 1;
+    message Request 
+    {
+        common.builtin_interfaces.Duration time_allowance = 1;
+    }
 
-    string robot_base_frame = 2;
+    message Response
+    {
+        Status status = 1;
+        string error_msg = 2;
+    }
 
-    string odom_topic = 3;
+    // service request
+    Request request = 1;
 
-    uint32 bt_loop_duration = 4;
-
-    // xml
-    string default_xml_behavior_trees = 5;
-
-    repeated string plugin_lib_names = 6;
-}
-
-message ControllerConfig
-{
-    string id = 1;
-}
-
-
-message PlannerConfig
-{
-    double expected_planner_frequency = 1;
-    repeated string planner_plugins = 2;
-}
-
-message NavigationConfig
-{
-    // behavior_tree config
-    BehaviorTreeConfig behavior_tree = 1;
-
-    // controller config
-    ControllerConfig controller = 2;
-
-    // Global planner config 
-    PlannerConfig global_planner = 3;
+    // service response
+    Response response = 2;
 }

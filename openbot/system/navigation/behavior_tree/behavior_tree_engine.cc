@@ -53,11 +53,11 @@ BtStatus BehaviorTreeEngine::Run(
         while (::apollo::cyber::OK() && result == BT::NodeStatus::RUNNING) 
         {
             if (CancelRequested()) {
-                // tree->rootNode()->halt();
+                tree->haltTree();
                 return BtStatus::CANCELED;
             }
 
-            // result = tree->tickRoot();
+            result = tree->tickOnce();
 
             OnLoop();
 
@@ -83,23 +83,10 @@ BT::Tree BehaviorTreeEngine::CreateTreeFromFile(const std::string& file_path, BT
 }
 
 // In order to re-run a Behavior Tree, we must be able to reset all nodes to the initial state
-void BehaviorTreeEngine::HaltAllActions(BT::TreeNode* root_node)
+void BehaviorTreeEngine::HaltAllActions(BT::Tree& tree)
 {
-    if (!root_node) {
-        return;
-    }
-
     // this halt signal should propagate through the entire tree.
-    // root_node->halt();
-
-    // but, just in case...
-    auto visitor = [](BT::TreeNode * node) 
-    {
-        if (node->status() == BT::NodeStatus::RUNNING) {
-            // node->halt();
-        }
-    };
-    BT::applyRecursiveVisitor(root_node, visitor);
+    tree.haltTree();
 }
 
 }  // namespace behavior_tree 
