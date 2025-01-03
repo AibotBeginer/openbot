@@ -9,7 +9,7 @@ cc_library(
     srcs = glob([
         #"components/*.cc",
         "sensor/*.cc",
-        "sensor/**/*.cc",
+        # "sensor/**/*.cc",
     ], allow_empty = True),
     hdrs = glob([
                 #"components/*.hpp",
@@ -20,11 +20,14 @@ cc_library(
     deps = [
             "@cyber",
             ":drivers_config_cc_pb",
+            "@openbot_bridge//openbot_bridge:openbot_bridge_cc_pb",
+            "@eigen",
+            "@lua",
     ],
-    copts = ["-I/usr/include/opencv4"],
-    linkopts = ["-L/usr/lib/x86_64-linux-gnu",
-                "-L/usr/local/lib",
-    ],
+    # copts = ["-I/usr/include/opencv4"],
+    # linkopts = ["-L/usr/lib/x86_64-linux-gnu",
+    #             "-L/usr/local/lib",
+    # ],
 )
 
 cc_proto_library(
