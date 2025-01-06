@@ -70,6 +70,7 @@ void ComputePathToPoseAction::halt()
 }   // namespace system
 }   // namespace openbot
 
+
 #include "behaviortree_cpp/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {

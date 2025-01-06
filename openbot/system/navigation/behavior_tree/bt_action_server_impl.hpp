@@ -56,9 +56,10 @@ BtActionServer<ActionT>::BtActionServer(
     action_server_ = std::make_shared<ActionServer>(
         node, action_name_, std::bind(&BtActionServer<ActionT>::ExecuteCallback, this));
 
-
     // Create the class that registers our custom nodes and executes the BT
     bt_ = std::make_unique<BehaviorTreeEngine>(plugin_lib_names_);
+
+    LOG(INFO) << "-------------------1---------------------";
 
     // Create the blackboard that will be shared by all of the nodes in the tree
     blackboard_ = BT::Blackboard::create();
@@ -69,10 +70,14 @@ BtActionServer<ActionT>::BtActionServer(
     blackboard_->set<std::chrono::milliseconds>("bt_loop_duration", bt_loop_duration_);  // NOLINT
     blackboard_->set<std::chrono::milliseconds>("wait_for_service_timeout", wait_for_service_timeout_);
 
+    LOG(INFO) << "--------------------2--------------------";
+
     // Load behavior tree 
     if (!LoadBehaviorTree(default_bt_xml_filename_)) {
         LOG(ERROR) << "Error loading XML file: " << default_bt_xml_filename_;
     }
+
+    LOG(INFO) << "BtActionServer init finished";
 }
 
 template<class ActionT>
@@ -97,6 +102,8 @@ bool BtActionServer<ActionT>::LoadBehaviorTree(const std::string& bt_xml_filenam
         LOG(INFO) << "BT will not be reloaded as the given xml is already loaded";
         return true;
     }
+    
+    LOG(INFO) << "--------------------3--------------------";
 
     // Read the input BT XML from the specified file into a string
     std::ifstream xml_file(filename);
@@ -108,9 +115,13 @@ bool BtActionServer<ActionT>::LoadBehaviorTree(const std::string& bt_xml_filenam
 
     auto xml_string = std::string(std::istreambuf_iterator<char>(xml_file), std::istreambuf_iterator<char>());
 
+    LOG(INFO) << "--------------------4--------------------";
+
     // Create the Behavior Tree from the XML input
     try {
         tree_ = bt_->CreateTreeFromText(xml_string, blackboard_);
+
+        LOG(INFO) << "--------------------5--------------------";
         for (auto& subtree : tree_.subtrees) {
             auto& blackboard = subtree->blackboard;
             blackboard->set("node", client_node_);
@@ -123,6 +134,8 @@ bool BtActionServer<ActionT>::LoadBehaviorTree(const std::string& bt_xml_filenam
         return false;
     }
 
+   
+     LOG(INFO) << "--------------------6--------------------";
     current_bt_xml_filename_ = filename;
     return true;
 }

@@ -26,6 +26,8 @@
 
 #include "behaviortree_cpp/utils/shared_library.h"
 #include "openbot/common/utils/logging.hpp"
+#include "openbot/system/navigation/common/library_config.hpp"
+
 
 namespace openbot {
 namespace system { 
@@ -36,8 +38,13 @@ BehaviorTreeEngine::BehaviorTreeEngine(const std::vector<std::string>& plugin_li
 {
     BT::SharedLibrary loader;
     for (const auto& p : plugin_libraries) {
-        factory_.registerFromPlugin(loader.getOSName(p));
+        factory_.registerFromPlugin(BehaviorTreeLibraryDirectory() + loader.getOSName(p));
     }
+
+    // FIXME: the next two line are needed for back-compatibility with BT.CPP 3.8.x
+    // Note that the can be removed, once we migrate from BT.CPP 4.5.x to 4.6+
+    BT::ReactiveSequence::EnableException(false);
+    BT::ReactiveFallback::EnableException(false);
 }
 
 BtStatus BehaviorTreeEngine::Run(
@@ -72,8 +79,12 @@ BtStatus BehaviorTreeEngine::Run(
     return (result == BT::NodeStatus::SUCCESS) ? BtStatus::SUCCEEDED : BtStatus::FAILED;
 }
 
-BT::Tree BehaviorTreeEngine::CreateTreeFromText(const std::string & xml_string, BT::Blackboard::Ptr blackboard)
+BT::Tree BehaviorTreeEngine::CreateTreeFromText(const std::string& xml_string, BT::Blackboard::Ptr blackboard)
 {
+    std::cout << "CreateTreeFromFile-----------------------------1" << std::endl;
+
+    std::cout << "xml_string: " << xml_string.c_str() << std::endl;
+
     return factory_.createTreeFromText(xml_string, blackboard);
 }
 
