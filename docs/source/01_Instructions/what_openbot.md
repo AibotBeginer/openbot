@@ -18,9 +18,13 @@
 > * 支持行为树调度 **（TODO）**
 > * 完善的说明文档和使用文档 **（TODO）**
 
+## 2 系统数据流
 
+* Software-Overview
 
-## 2 详细文档
+  ![openbot_docs](images/software_overview.png)
+
+## 3 详细文档
 
 **<font color='green'>详解编译安装目录下的docs 文件夹 </font>**
 

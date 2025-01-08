@@ -4,6 +4,8 @@
 
 ## 1 简介
 
+![motion_planning_overview](images/motion_planning_overview.png)
+
 
 ## 2 参数描述
 
