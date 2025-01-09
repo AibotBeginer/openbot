@@ -1,7 +1,7 @@
-load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_proto_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 # load("//tools:cc_so_proto_rules.bzl", "cc_so_proto_library")
-
+load("@protobuf//bazel:cc_proto_library.bzl", "cc_proto_library")
 
 
 cc_library(
@@ -9,7 +9,7 @@ cc_library(
     srcs = glob([
         #"components/*.cc",
         "sensor/*.cc",
-        # "sensor/**/*.cc",
+        "sensor/**/*.cc",
     ], allow_empty = True),
     hdrs = glob([
                 #"components/*.hpp",
@@ -23,6 +23,11 @@ cc_library(
             "@openbot_bridge//openbot_bridge:openbot_bridge_cc_pb",
             "@eigen",
             "@lua",
+            "//openbot/common/utils:common_blocking_queue",
+            "//openbot/common:common",
+            "//openbot/common/transform:transform",
+            "//openbot/common/utils:common_lua_parameter_dictionary",
+            "//openbot/common/utils:common_time",
     ],
     # copts = ["-I/usr/include/opencv4"],
     # linkopts = ["-L/usr/lib/x86_64-linux-gnu",

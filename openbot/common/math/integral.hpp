@@ -278,7 +278,7 @@ double IntegrateByGaussLegendre(const std::function<double(double)>& func,
   const double m = (upper_bound + lower_bound) * 0.5;
 
   double integral = 0.0;
-  for (size_t i = 0; i < N; ++i) {
+  for (std::size_t i = 0; i < N; ++i) {
     integral += w[i] * func(t * x[i] + m);
   }
 
