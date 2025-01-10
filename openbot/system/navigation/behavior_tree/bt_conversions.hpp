@@ -52,4 +52,24 @@ inline openbot::common::geometry_msgs::Point convertFromString(const StringView 
   }
 }
 
+template<typename T> inline
+bool getInputPortOrBlackboard(
+  const BT::TreeNode& bt_node,
+  const BT::Blackboard& blackboard,
+  const std::string& param_name,
+  T& value)
+{
+    if (bt_node.getInput<T>(param_name, value)) {
+        return true;
+    }
+    if (blackboard.get<T>(param_name, value)) {
+        return true;
+    }
+    return false;
+}
+
+// Macro to remove boiler plate when using getInputPortOrBlackboard
+#define getInputOrBlackboard(name, value) \
+  getInputPortOrBlackboard(*this, *(this->config().blackboard), name, value);
+
 }  // namespace BT

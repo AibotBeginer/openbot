@@ -16,10 +16,47 @@
 
 #pragma once
 
+#include "cyber/cyber.h"
+
+#include "openbot/common/io/msgs.hpp"
+#include "openbot/system/navigation/behavior_tree/bt_cancel_action_node.hpp"
+#include "openbot/system/navigation/behavior_tree/bt_action_node.hpp"
+#include "openbot/system/navigation/proto/follow_path.pb.h"
+
 namespace openbot {
 namespace system {
 namespace navigation {
 namespace behavior_tree {
+
+
+/**
+ * @brief A BtActionNode class that wraps openbot::navigation::FollowPath
+ */
+class ControllerCancel : public BtCancelActionNode<openbot::navigation::FollowPath>
+{
+public:
+    /**
+     * @brief A constructor for FollowPathAction
+     * @param xml_tag_name Name for the XML tag for this node
+     * @param action_name Action name this node creates a client for
+     * @param conf BT node configuration
+     */
+    ControllerCancel(
+        const std::string& xml_tag_name,
+        const std::string& action_name,
+        const BT::NodeConfiguration& conf);
+
+    /**
+     * @brief Creates list of BT ports
+     * @return BT::PortsList Containing basic ports along with node-specific ports
+     */
+    static BT::PortsList providedPorts()
+    {
+        return providedBasicPorts(
+        {
+        });
+    }
+};
 
 }   // namespace behavior_tree 
 }   // namespace navigation

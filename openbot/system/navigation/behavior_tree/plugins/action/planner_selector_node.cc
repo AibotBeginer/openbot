@@ -28,7 +28,7 @@ PlannerSelector::PlannerSelector(
 {
     node_ = config().blackboard->get<std::shared_ptr<apollo::cyber::Node>>("node");
     getInput("topic_name", topic_name_);
-     planner_selector_reader_ = node_->CreateReader<common::std_msgs::String>(
+    planner_selector_reader_ = node_->CreateReader<common::std_msgs::String>(
         topic_name_, 
         [this](const std::shared_ptr<common::std_msgs::String>& msg) {
             CallbackPlannerSelect(msg);

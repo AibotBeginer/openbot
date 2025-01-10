@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "openbot/system/navigation/behavior_tree/plugins/action/reinitialize_global_localization_service.hpp"
 
 namespace openbot {
 namespace system {

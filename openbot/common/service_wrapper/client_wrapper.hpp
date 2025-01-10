@@ -36,7 +36,7 @@ namespace common {
 template <typename Request, typename Response>
 class ClientWrapper {
  public:
-  ClientWrapper(const std::shared_ptr<cyber::Node>& node,
+  ClientWrapper(const std::shared_ptr<apollo::cyber::Node>& node,
                 const std::string& service_name);
   /**
    * @brief Request the Service with a shared ptr Request type
@@ -91,7 +91,7 @@ class ClientWrapper {
 
 template <typename Request, typename Response>
 ClientWrapper<Request, Response>::ClientWrapper(
-    const std::shared_ptr<cyber::Node>& node, const std::string& service_name)
+    const std::shared_ptr<apollo::cyber::Node>& node, const std::string& service_name)
     : client_(node->CreateClient<Request, Response>(service_name)),
       request_writer_(node->CreateWriter<Request>(service_name)) {}
 

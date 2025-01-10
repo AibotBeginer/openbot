@@ -41,9 +41,11 @@ namespace geometry_utils {
  */
 inline common::geometry_msgs::Quaternion OrientationAroundZAxis(double angle)
 {
-    tf2::Quaternion q;
-    q.setRPY(0, 0, angle);  // void returning function
-    return tf2::toMsg(q);
+    // tf2::Quaternion q;
+    // q.setRPY(0, 0, angle);  // void returning function
+    // return tf2::toMsg(q);
+    common::geometry_msgs::Quaternion q;
+    return q;
 }
 
 /**
@@ -173,12 +175,12 @@ inline Iter FirstAfterIntegratedDistance(Iter begin, Iter end, Getter getCompare
  */
 inline double CalculatePathLength(const common::nav_msgs::Path& path, size_t start_index = 0)
 {
-    if (start_index + 1 >= path.poses.size()) {
+    if (start_index + 1 >= path.poses().size()) {
         return 0.0;
     }
     double path_length = 0.0;
-    for (size_t idx = start_index; idx < path.poses.size() - 1; ++idx) {
-        path_length += EuclideanDistance(path.poses[idx].pose, path.poses[idx + 1].pose);
+    for (size_t idx = start_index; idx < path.poses().size() - 1; ++idx) {
+        path_length += EuclideanDistance(path.poses(idx).pose(), path.poses(idx + 1).pose());
     }
     return path_length;
 }

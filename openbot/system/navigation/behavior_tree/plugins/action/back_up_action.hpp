@@ -16,10 +16,82 @@
 
 #pragma once
 
+#include <string>
+
+#include "openbot/common/io/msgs.hpp"
+#include "openbot/system/navigation/behavior_tree/bt_action_node.hpp"
+#include "openbot/system/navigation/proto/back_up.pb.h"
+
 namespace openbot {
 namespace system {
 namespace navigation {
 namespace behavior_tree {
+
+/**
+ * @brief A nav2_behavior_tree::BtActionNode class that wraps nav2_msgs::action::BackUp
+ */
+class BackUpAction : public BtActionNode<openbot::navigation::BackUp>
+{
+    using Action = openbot::navigation::BackUp;
+    using ActionResult = Action::Response;
+
+public:
+    /**
+     * @brief A constructor for nav2_behavior_tree::BackUpAction
+     * @param xml_tag_name Name for the XML tag for this node
+     * @param action_name Action name this node creates a client for
+     * @param conf BT node configuration
+     */
+    BackUpAction(
+        const std::string& xml_tag_name,
+        const std::string& action_name,
+        const BT::NodeConfiguration& conf);
+
+    /**
+     * @brief Function to perform some user-defined operation on tick
+     */
+    void OnTick() override;
+
+
+    /**
+     * @brief Function to perform some user-defined operation upon successful completion of the action
+     */
+    BT::NodeStatus OnSuccess() override;
+
+    /**
+     * @brief Function to perform some user-defined operation upon abortion of the action
+     */
+    BT::NodeStatus OnAborted() override;
+
+    /**
+     * @brief Function to perform some user-defined operation upon cancellation of the action
+     */
+    BT::NodeStatus OnCancelled() override;
+
+    /**
+     * @brief Function to read parameters and initialize class variables
+     */
+    void Initialize();
+
+    /**
+     * @brief Creates list of BT ports
+     * @return BT::PortsList Containing basic ports along with node-specific ports
+     */
+    static BT::PortsList providedPorts()
+    {
+        return providedBasicPorts(
+        {
+            BT::InputPort<double>("backup_dist", 0.15, "Distance to backup"),
+            BT::InputPort<double>("backup_speed", 0.025, "Speed at which to backup"),
+            BT::InputPort<double>("time_allowance", 10.0, "Allowed time for reversing"),
+            // BT::OutputPort<ActionResult::_error_code_type>(
+            // "error_code_id", "The back up behavior server error code")
+        });
+    }
+
+private:
+    bool initialized_;
+};
 
 }   // namespace behavior_tree 
 }   // namespace navigation

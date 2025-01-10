@@ -13,6 +13,22 @@ target_link_libraries(${library_name} ${PROJECT_NAME})
 add_library(nav_assisted_teleop_action_bt_node SHARED behavior_tree/plugins/action/assisted_teleop_action.cc)
 list(APPEND plugin_libs nav_assisted_teleop_action_bt_node)
 
+# library(assisted_teleop_cancel)
+add_library(nav_assisted_teleop_cancel_bt_node SHARED behavior_tree/plugins/action/assisted_teleop_cancel_node.cc)
+list(APPEND plugin_libs nav_assisted_teleop_cancel_bt_node)
+
+# library(back_up_action)
+add_library(nav_back_up_action_bt_node SHARED behavior_tree/plugins/action/back_up_action.cc)
+list(APPEND plugin_libs nav_back_up_action_bt_node)
+
+# library(back_up_action)
+add_library(nav_back_up_cancel_bt_node SHARED behavior_tree/plugins/action/back_up_cancel_node.cc)
+list(APPEND plugin_libs nav_back_up_cancel_bt_node)
+
+# library(clear_costmap_service)
+add_library(nav_clear_costmap_service_bt_node SHARED behavior_tree/plugins/action/clear_costmap_service.cc)
+list(APPEND plugin_libs nav_clear_costmap_service_bt_node)
+
 # library(compute_path_through_poses_action)
 add_library(nav_compute_path_through_poses_action_bt_node SHARED behavior_tree/plugins/action/compute_path_through_poses_action.cc)
 list(APPEND plugin_libs nav_compute_path_through_poses_action_bt_node)
@@ -25,6 +41,18 @@ list(APPEND plugin_libs nav_compute_path_to_pose_action_bt_node)
 add_library(nav_controller_selector_bt_node SHARED behavior_tree/plugins/action/controller_selector_node.cc)
 list(APPEND plugin_libs nav_controller_selector_bt_node)
 
+# library(drive_on_heading_action)
+add_library(nav_drive_on_heading_bt_node SHARED behavior_tree/plugins/action/drive_on_heading_action.cc)
+list(APPEND plugin_libs nav_drive_on_heading_bt_node)
+
+# library(drive_on_heading_cancel)
+add_library(nav_drive_on_heading_cancel_bt_node SHARED behavior_tree/plugins/action/drive_on_heading_cancel_node.cc)
+list(APPEND plugin_libs nav_drive_on_heading_cancel_bt_node)
+
+# library(controller_selector)
+add_library(nav_controller_cancel_bt_node SHARED behavior_tree/plugins/action/controller_cancel_node.cc)
+list(APPEND plugin_libs nav_controller_cancel_bt_node)
+
 # library(follow_path_action)
 add_library(nav_follow_path_action_bt_node SHARED behavior_tree/plugins/action/follow_path_action.cc)
 list(APPEND plugin_libs nav_follow_path_action_bt_node)
@@ -33,21 +61,45 @@ list(APPEND plugin_libs nav_follow_path_action_bt_node)
 add_library(nav_goal_checker_selector_bt_node SHARED behavior_tree/plugins/action/goal_checker_selector_node.cc)
 list(APPEND plugin_libs nav_goal_checker_selector_bt_node)
 
+# library(navigate_to_pose_action)
+add_library(nav_navigate_to_pose_action_bt_node SHARED behavior_tree/plugins/action/navigate_to_pose_action.cc)
+list(APPEND plugin_libs nav_navigate_to_pose_action_bt_node)
+
 # library(planner_selector_node)
-add_library(nav_planner_selector_node_bt_node SHARED behavior_tree/plugins/action/planner_selector_node.cc)
-list(APPEND plugin_libs nav_planner_selector_node_bt_node)
+add_library(nav_planner_selector_bt_node SHARED behavior_tree/plugins/action/planner_selector_node.cc)
+list(APPEND plugin_libs nav_planner_selector_bt_node)
+
+# library(progress_checker_selector_node)
+add_library(nav_progress_checker_selector_bt_node SHARED behavior_tree/plugins/action/progress_checker_selector_node.cc)
+list(APPEND plugin_libs nav_progress_checker_selector_bt_node)
 
 # library(smooth_path_action)
 add_library(nav_smooth_path_action_bt_node SHARED behavior_tree/plugins/action/smooth_path_action.cc)
 list(APPEND plugin_libs nav_smooth_path_action_bt_node)
 
+# library(smoother_selector_node)
+add_library(nav_smoother_selector_bt_node SHARED behavior_tree/plugins/action/smoother_selector_node.cc)
+list(APPEND plugin_libs nav_smoother_selector_bt_node)
+
 # library(spin_action)
 add_library(nav_spin_action_bt_node SHARED behavior_tree/plugins/action/spin_action.cc)
 list(APPEND plugin_libs nav_spin_action_bt_node)
 
+# library(truncate_path_local_action)
+add_library(nav_truncate_path_local_action_bt_node SHARED behavior_tree/plugins/action/truncate_path_local_action.cc)
+list(APPEND plugin_libs nav_truncate_path_local_action_bt_node)
+
+# library(truncate_path_action)
+add_library(nav_truncate_path_action_bt_node SHARED behavior_tree/plugins/action/truncate_path_action.cc)
+list(APPEND plugin_libs nav_truncate_path_action_bt_node)
+
 # library(wait_action)
 add_library(nav_wait_action_bt_node SHARED behavior_tree/plugins/action/wait_action.cc)
 list(APPEND plugin_libs nav_wait_action_bt_node)
+
+# library(wait_cancel_node)
+add_library(nav_wait_cancel_bt_node SHARED behavior_tree/plugins/action/wait_cancel_node.cc)
+list(APPEND plugin_libs nav_wait_cancel_bt_node)
 
 
 ###################################################################################################################

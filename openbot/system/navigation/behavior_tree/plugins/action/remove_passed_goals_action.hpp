@@ -16,10 +16,59 @@
 
 #pragma once
 
+#include <string>
+#include <memory>
+
+#include "openbot/common/io/msgs.hpp"
+#include "behaviortree_cpp/action_node.h"
+
+                                
 namespace openbot {
 namespace system {
 namespace navigation {
 namespace behavior_tree {
+
+// class RemoveInCollisionGoals : public BtServiceNode<nav2_msgs::srv::GetCosts>
+// {
+// public:
+//     typedef std::vector<geometry_msgs::msg::PoseStamped> Goals;
+
+//     /**
+//      * @brief A constructor for nav2_behavior_tree::RemoveInCollisionGoals
+//      * @param service_node_name Service name this node creates a client for
+//      * @param conf BT node configuration
+//      */
+//     RemoveInCollisionGoals(
+//         const std::string & service_node_name,
+//         const BT::NodeConfiguration & conf);
+
+//     /**
+//      * @brief The main override required by a BT service
+//      * @return BT::NodeStatus Status of tick execution
+//      */
+//     void on_tick() override;
+
+//     BT::NodeStatus on_completion(std::shared_ptr<nav2_msgs::srv::GetCosts::Response> response)
+//     override;
+
+//     static BT::PortsList providedPorts()
+//     {
+//         return providedBasicPorts(
+//         {
+//             BT::InputPort<Goals>("input_goals", "Original goals to remove from"),
+//             BT::InputPort<double>("cost_threshold", 254.0, "Cost threshold for considering a goal in collision"),
+//             BT::InputPort<bool>("use_footprint", true, "Whether to use footprint cost"),
+//             BT::InputPort<bool>("consider_unknown_as_obstacle", false, "Whether to consider unknown cost as obstacle"),
+//             BT::OutputPort<Goals>("output_goals", "Goals with in-collision goals removed"),
+//         });
+//     }
+
+// private:
+//   bool use_footprint_;
+//   bool consider_unknown_as_obstacle_;
+//   double cost_threshold_;
+//   Goals input_goals_;
+// };
 
 }   // namespace behavior_tree 
 }   // namespace navigation

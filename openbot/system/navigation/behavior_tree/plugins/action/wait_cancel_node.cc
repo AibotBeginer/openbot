@@ -14,13 +14,35 @@
  * limitations under the License.
  */
 
+#include "openbot/system/navigation/behavior_tree/plugins/action/wait_cancel_node.hpp"
 
 namespace openbot {
 namespace system {
 namespace navigation {
 namespace behavior_tree {
 
+WaitCancel::WaitCancel(
+  const std::string& xml_tag_name,
+  const std::string& action_name,
+  const BT::NodeConfiguration& conf)
+: BtCancelActionNode<openbot::navigation::Wait>(xml_tag_name, action_name, conf)
+{
+}
+
 }   // namespace behavior_tree 
 }   // namespace navigation
 }   // namespace system
 }   // namespace openbot
+
+#include "behaviortree_cpp/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+    BT::NodeBuilder builder = [](const std::string& name, const BT::NodeConfiguration& config)
+    {
+        return std::make_unique<openbot::system::navigation::behavior_tree::WaitCancel>(
+            name, "wait", config);
+    };
+
+    factory.registerBuilder<openbot::system::navigation::behavior_tree::WaitCancel>(
+        "CancelWait", builder);
+}
