@@ -19,28 +19,28 @@
 #include <string>
 
 #include "openbot/system/navigation/behavior_tree/bt_service_node.hpp"
-
+#include "openbot/system/navigation/proto/reinitialize_global_localization.pb.h"
 
 namespace openbot {
 namespace system {
 namespace navigation {
 namespace behavior_tree {
 
-// /**
-//  * @brief A nav2_behavior_tree::BtServiceNode class that wraps nav2_msgs::srv::Empty
-//  */
-// class ReinitializeGlobalLocalizationService : public BtServiceNode<std_srvs::srv::Empty>
-// {
-// public:
-//     /**
-//      * @brief A constructor for nav2_behavior_tree::ReinitializeGlobalLocalizationService
-//      * @param service_node_name Service name this node creates a client for
-//      * @param conf BT node configuration
-//      */
-//     ReinitializeGlobalLocalizationService(
-//         const std::string& service_node_name,
-//         const BT::NodeConfiguration& conf);
-// };
+/**
+ * @brief A nav2_behavior_tree::BtServiceNode class that wrapsopenbot::navigation::ReinitializeGlobalLocalization
+ */
+class ReinitializeGlobalLocalizationService : public BtServiceNode<openbot::navigation::ReinitializeGlobalLocalization>
+{
+public:
+    /**
+     * @brief A constructor for nav2_behavior_tree::ReinitializeGlobalLocalizationService
+     * @param service_node_name Service name this node creates a client for
+     * @param conf BT node configuration
+     */
+    ReinitializeGlobalLocalizationService(
+        const std::string& service_node_name,
+        const BT::NodeConfiguration& conf);
+};
 
 }   // namespace behavior_tree 
 }   // namespace navigation

@@ -53,7 +53,7 @@ public:
         const BT::NodeConfiguration& conf)
     : BT::ActionNodeBase(xml_tag_name, conf), action_name_(action_name), should_send_request_(true)
     {
-        node_ = config().blackboard->template get<std::shared_ptr<::apollo::cyber::Node>>("node");
+        // node_ = config().blackboard->template get<std::shared_ptr<::apollo::cyber::Node>>("node");
     
         // Get the required items from the blackboard
         bt_loop_duration_ = config().blackboard->template get<std::chrono::milliseconds>("bt_loop_duration");

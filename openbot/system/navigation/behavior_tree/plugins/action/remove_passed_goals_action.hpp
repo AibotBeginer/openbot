@@ -19,8 +19,11 @@
 #include <string>
 #include <memory>
 
-#include "openbot/common/io/msgs.hpp"
+
 #include "behaviortree_cpp/action_node.h"
+#include "openbot/common/io/msgs.hpp"
+#include "openbot/system/navigation/behavior_tree/bt_service_node.hpp"
+#include "openbot/system/navigation/proto/get_costs.pb.h"
 
                                 
 namespace openbot {
@@ -28,47 +31,41 @@ namespace system {
 namespace navigation {
 namespace behavior_tree {
 
-// class RemoveInCollisionGoals : public BtServiceNode<nav2_msgs::srv::GetCosts>
-// {
-// public:
-//     typedef std::vector<geometry_msgs::msg::PoseStamped> Goals;
+class RemovePassedGoals : public BT::ActionNodeBase
+{
+public:
+    typedef std::vector<common::geometry_msgs::PoseStamped> Goals;
 
-//     /**
-//      * @brief A constructor for nav2_behavior_tree::RemoveInCollisionGoals
-//      * @param service_node_name Service name this node creates a client for
-//      * @param conf BT node configuration
-//      */
-//     RemoveInCollisionGoals(
-//         const std::string & service_node_name,
-//         const BT::NodeConfiguration & conf);
+    RemovePassedGoals(
+        const std::string& xml_tag_name,
+        const BT::NodeConfiguration& conf);
 
-//     /**
-//      * @brief The main override required by a BT service
-//      * @return BT::NodeStatus Status of tick execution
-//      */
-//     void on_tick() override;
+    /**
+     * @brief Function to read parameters and initialize class variables
+     */
+    void Initialize();
 
-//     BT::NodeStatus on_completion(std::shared_ptr<nav2_msgs::srv::GetCosts::Response> response)
-//     override;
+    static BT::PortsList providedPorts()
+    {
+        return {
+            BT::InputPort<Goals>("input_goals", "Original goals to remove viapoints from"),
+            BT::OutputPort<Goals>("output_goals", "Goals with passed viapoints removed"),
+            BT::InputPort<double>("radius", 0.5, "radius to goal for it to be considered for removal"),
+            BT::InputPort<std::string>("global_frame", "Global frame"),
+            BT::InputPort<std::string>("robot_base_frame", "Robot base frame"),
+        };
+    }
 
-//     static BT::PortsList providedPorts()
-//     {
-//         return providedBasicPorts(
-//         {
-//             BT::InputPort<Goals>("input_goals", "Original goals to remove from"),
-//             BT::InputPort<double>("cost_threshold", 254.0, "Cost threshold for considering a goal in collision"),
-//             BT::InputPort<bool>("use_footprint", true, "Whether to use footprint cost"),
-//             BT::InputPort<bool>("consider_unknown_as_obstacle", false, "Whether to consider unknown cost as obstacle"),
-//             BT::OutputPort<Goals>("output_goals", "Goals with in-collision goals removed"),
-//         });
-//     }
+private:
+    void halt() override {}
+    BT::NodeStatus tick() override;
 
-// private:
-//   bool use_footprint_;
-//   bool consider_unknown_as_obstacle_;
-//   double cost_threshold_;
-//   Goals input_goals_;
-// };
+    double viapoint_achieved_radius_;
+    double transform_tolerance_;
+    // std::shared_ptr<tf2_ros::Buffer> tf_;
+    std::string robot_base_frame_;
+    bool initialized_;
+};
 
 }   // namespace behavior_tree 
 }   // namespace navigation

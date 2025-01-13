@@ -14,13 +14,82 @@
  * limitations under the License.
  */
 
+#include "openbot/system/navigation/behavior_tree/plugins/action/remove_passed_goals_action.hpp"
 
 namespace openbot {
 namespace system {
 namespace navigation {
 namespace behavior_tree {
 
+RemovePassedGoals::RemovePassedGoals(
+  const std::string& name,
+  const BT::NodeConfiguration& conf)
+: BT::ActionNodeBase(name, conf),
+  viapoint_achieved_radius_(0.5),
+  initialized_(false)
+{}
+
+void RemovePassedGoals::Initialize()
+{
+    getInput("radius", viapoint_achieved_radius_);
+
+    // tf_ = config().blackboard->get<std::shared_ptr<tf2_ros::Buffer>>("tf_buffer");
+    auto node = config().blackboard->get<std::shared_ptr<apollo::cyber::Node>>("node");
+    // node->get_parameter("transform_tolerance", transform_tolerance_);
+
+    // robot_base_frame_ = BT::deconflictPortAndParamFrame<std::string>(node, "robot_base_frame", this);
+    initialized_ = true;
+}
+
+inline BT::NodeStatus RemovePassedGoals::tick()
+{
+    setStatus(BT::NodeStatus::RUNNING);
+
+    if (!initialized_) {
+        Initialize();
+    }
+
+    Goals goal_poses;
+    getInput("input_goals", goal_poses);
+
+    if (goal_poses.empty()) {
+        setOutput("output_goals", goal_poses);
+        return BT::NodeStatus::SUCCESS;
+    }
+
+    // using namespace nav2_util::geometry_utils;  // NOLINT
+
+    // common::geometry_msgs::PoseStamped current_pose;
+    // if (!nav2_util::getCurrentPose(
+    //     current_pose, *tf_, goal_poses[0].header.frame_id, robot_base_frame_,
+    //     transform_tolerance_))
+    // {
+    //     return BT::NodeStatus::FAILURE;
+    // }
+
+    // double dist_to_goal;
+    // while (goal_poses.size() > 1) {
+    //     dist_to_goal = euclidean_distance(goal_poses[0].pose, current_pose.pose);
+
+    //     if (dist_to_goal > viapoint_achieved_radius_) {
+    //         break;
+    //     }
+
+    //     goal_poses.erase(goal_poses.begin());
+    // }
+
+    setOutput("output_goals", goal_poses);
+
+    return BT::NodeStatus::SUCCESS;
+}
+
 }   // namespace behavior_tree 
 }   // namespace navigation
 }   // namespace system
 }   // namespace openbot
+
+#include "behaviortree_cpp/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+    factory.registerNodeType<openbot::system::navigation::behavior_tree::RemovePassedGoals>("RemovePassedGoals");
+}

@@ -26,7 +26,6 @@
 
 #include "openbot/common/utils/logging.hpp"
 #include "openbot/common/service_wrapper/client_wrapper.hpp"
-#include "openbot/system/navigation/proto/action_command.pb.h"
 #include "openbot/system/navigation/behavior_tree/bt_conversions.hpp"
 
 namespace openbot {

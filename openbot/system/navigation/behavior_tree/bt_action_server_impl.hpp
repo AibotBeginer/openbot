@@ -56,21 +56,17 @@ BtActionServer<ActionT>::BtActionServer(
     action_server_ = std::make_shared<ActionServer>(
         node, action_name_, std::bind(&BtActionServer<ActionT>::ExecuteCallback, this));
 
-    // Create the class that registers our custom nodes and executes the BT
-    bt_ = std::make_unique<BehaviorTreeEngine>(plugin_lib_names_);
-
-    LOG(INFO) << "-------------------1---------------------";
-
     // Create the blackboard that will be shared by all of the nodes in the tree
     blackboard_ = BT::Blackboard::create();
+
+    // Create the class that registers our custom nodes and executes the BT
+    bt_ = std::make_unique<BehaviorTreeEngine>(plugin_lib_names_);
 
     // Put items on the blackboard
     blackboard_->set<std::shared_ptr<::apollo::cyber::Node>>("node", client_node_);  // NOLINT
     blackboard_->set<std::chrono::milliseconds>("server_timeout", default_server_timeout_);  // NOLINT
     blackboard_->set<std::chrono::milliseconds>("bt_loop_duration", bt_loop_duration_);  // NOLINT
     blackboard_->set<std::chrono::milliseconds>("wait_for_service_timeout", wait_for_service_timeout_);
-
-    LOG(INFO) << "--------------------2--------------------";
 
     // Load behavior tree 
     if (!LoadBehaviorTree(default_bt_xml_filename_)) {
@@ -103,8 +99,6 @@ bool BtActionServer<ActionT>::LoadBehaviorTree(const std::string& bt_xml_filenam
         return true;
     }
     
-    LOG(INFO) << "--------------------3--------------------";
-
     // Read the input BT XML from the specified file into a string
     std::ifstream xml_file(filename);
 
@@ -116,6 +110,10 @@ bool BtActionServer<ActionT>::LoadBehaviorTree(const std::string& bt_xml_filenam
     auto xml_string = std::string(std::istreambuf_iterator<char>(xml_file), std::istreambuf_iterator<char>());
 
     LOG(INFO) << "--------------------4--------------------";
+    if (bt_ == nullptr) {
+        LOG(ERROR) << " Behavior Tree Engine object have not create, it's nullptr object";
+        return false;
+    }
 
     // Create the Behavior Tree from the XML input
     try {
@@ -134,8 +132,6 @@ bool BtActionServer<ActionT>::LoadBehaviorTree(const std::string& bt_xml_filenam
         return false;
     }
 
-   
-     LOG(INFO) << "--------------------6--------------------";
     current_bt_xml_filename_ = filename;
     return true;
 }

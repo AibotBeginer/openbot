@@ -21,7 +21,20 @@ namespace system {
 namespace navigation {
 namespace behavior_tree {
 
+ReinitializeGlobalLocalizationService::ReinitializeGlobalLocalizationService(
+  const std::string& service_node_name,
+  const BT::NodeConfiguration& conf)
+: BtServiceNode<openbot::navigation::ReinitializeGlobalLocalization>(service_node_name, conf)
+{}
+
 }   // namespace behavior_tree 
 }   // namespace navigation
 }   // namespace system
 }   // namespace openbot
+
+#include "behaviortree_cpp/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+    factory.registerNodeType<openbot::system::navigation::behavior_tree::ReinitializeGlobalLocalizationService>(
+        "ReinitializeGlobalLocalization");
+}

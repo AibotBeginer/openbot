@@ -28,8 +28,8 @@ using google::protobuf::util::MessageToJsonString;
 
 google::protobuf::util::JsonOptions JsonOption() {
   google::protobuf::util::JsonOptions json_option;
-  // json_option.always_print_primitive_fields = true;
-  json_option.always_print_fields_with_no_presence = true;
+  json_option.always_print_primitive_fields = true;
+  // json_option.always_print_fields_with_no_presence = true;
   return json_option;
 }
 

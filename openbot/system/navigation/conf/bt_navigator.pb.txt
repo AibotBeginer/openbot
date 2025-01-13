@@ -4,6 +4,7 @@ behavior_tree
     robot_base_frame: "base_link"
     odom_topic: "odom"
     bt_loop_duration : 10
-    default_xml_behavior_trees: "/opt/openbot/share/openbot/system/navigation/conf/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
+    # default_xml_behavior_trees: "/opt/openbot/share/openbot/system/navigation/conf/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
+    default_xml_behavior_trees: "/opt/openbot/share/openbot/system/navigation/conf/behavior_trees/dummy_test.xml"
     plugin_lib_names: ""
 }

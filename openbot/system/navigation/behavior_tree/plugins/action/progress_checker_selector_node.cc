@@ -66,3 +66,10 @@ void ProgressCheckerSelector::CallbackProgressCheckerSelect(const std::shared_pt
 }   // namespace navigation
 }   // namespace system
 }   // namespace openbot
+
+#include "behaviortree_cpp/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+    factory.registerNodeType<openbot::system::navigation::behavior_tree::ProgressCheckerSelector>(
+        "ProgressCheckerSelector");
+}

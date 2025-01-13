@@ -21,8 +21,7 @@ import "openbot/common/proto/builtin_interfaces.proto";
 import "openbot/common/proto/nav_msgs.proto";
 import "openbot/common/proto/geometry_msgs.proto"; 
 
-
-message GetCosts
+message ReinitializeGlobalLocalization
 {
     message Request 
     {
@@ -38,4 +37,3 @@ message GetCosts
     // service response
     Response response = 2;
 }
-

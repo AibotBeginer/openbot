@@ -61,6 +61,10 @@ list(APPEND plugin_libs nav_follow_path_action_bt_node)
 add_library(nav_goal_checker_selector_bt_node SHARED behavior_tree/plugins/action/goal_checker_selector_node.cc)
 list(APPEND plugin_libs nav_goal_checker_selector_bt_node)
 
+# library(navigate_through_poses_action)
+add_library(nav_navigate_through_poses_action_bt_node SHARED behavior_tree/plugins/action/navigate_through_poses_action.cc)
+list(APPEND plugin_libs nav_navigate_through_poses_action_bt_node)
+
 # library(navigate_to_pose_action)
 add_library(nav_navigate_to_pose_action_bt_node SHARED behavior_tree/plugins/action/navigate_to_pose_action.cc)
 list(APPEND plugin_libs nav_navigate_to_pose_action_bt_node)
@@ -73,6 +77,14 @@ list(APPEND plugin_libs nav_planner_selector_bt_node)
 add_library(nav_progress_checker_selector_bt_node SHARED behavior_tree/plugins/action/progress_checker_selector_node.cc)
 list(APPEND plugin_libs nav_progress_checker_selector_bt_node)
 
+# library(reinitialize_global_localization_service)
+add_library(nav_reinitialize_global_localization_service_bt_node SHARED behavior_tree/plugins/action/reinitialize_global_localization_service.cc)
+list(APPEND plugin_libs nav_reinitialize_global_localization_service_bt_node)
+
+# library(remove_passed_goals_action)
+add_library(nav_remove_passed_goals_action_bt_node SHARED behavior_tree/plugins/action/remove_passed_goals_action.cc)
+list(APPEND plugin_libs nav_remove_passed_goals_action_bt_node)
+
 # library(smooth_path_action)
 add_library(nav_smooth_path_action_bt_node SHARED behavior_tree/plugins/action/smooth_path_action.cc)
 list(APPEND plugin_libs nav_smooth_path_action_bt_node)
@@ -84,6 +96,10 @@ list(APPEND plugin_libs nav_smoother_selector_bt_node)
 # library(spin_action)
 add_library(nav_spin_action_bt_node SHARED behavior_tree/plugins/action/spin_action.cc)
 list(APPEND plugin_libs nav_spin_action_bt_node)
+
+# library(spin_cancel_node)
+add_library(nav_spin_cancel_bt_node SHARED behavior_tree/plugins/action/spin_cancel_node.cc)
+list(APPEND plugin_libs nav_spin_cancel_bt_node)
 
 # library(truncate_path_local_action)
 add_library(nav_truncate_path_local_action_bt_node SHARED behavior_tree/plugins/action/truncate_path_local_action.cc)
@@ -205,14 +221,29 @@ list(APPEND plugin_libs nav_single_trigger_node_bt_node)
 add_library(nav_rate_controller_bt_node SHARED behavior_tree/plugins/decorator/rate_controller.cc)
 list(APPEND plugin_libs nav_rate_controller_bt_node)
 
+# library(single_trigger)
+add_library(nav_single_trigger_bt_node SHARED behavior_tree/plugins/decorator/single_trigger_node.cc)
+list(APPEND plugin_libs nav_single_trigger_bt_node)
+
 # library(speed_controller)
 add_library(nav_speed_controller_bt_node SHARED behavior_tree/plugins/decorator/speed_controller.cc)
 list(APPEND plugin_libs nav_speed_controller_bt_node)
+
+###################################################################################################################
+#
+#         library dummy node
+#
+###################################################################################################################
+
+# library(dummy_nodes)
+add_library(nav_dummy_nodes_bt_node SHARED behavior_tree/plugins/dummy_nodes.cc)
+list(APPEND plugin_libs nav_dummy_nodes_bt_node)
 
 foreach(bt_plugin ${plugin_libs})
   target_link_libraries(${bt_plugin} ${PROJECT_NAME})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
+
 
 ###################################################################################################################
 #

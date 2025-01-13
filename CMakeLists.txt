@@ -34,7 +34,7 @@ option(BUILD_GRPC "Build openbot gRPC support" true)
 option(BUILD_DOCS "Build openbot docs support" OFF)
 option(BUILD_TOOLS "Build openbot tools support" ON)
 option(BUILD_PROMETHEUS "Build prometheus monitoring support" false)
-option(BUILD_TEST "Build openbot unit test" OFF)
+option(BUILD_TEST "Build openbot unit test" ON)
 
 if(BUILD_GRPC)
   include("${PROJECT_SOURCE_DIR}/cmake/openbot_bridge.cmake")
