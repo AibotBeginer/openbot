@@ -35,12 +35,6 @@ template <class ActionT>
 class BtActionServer
 {
 public:
-    using ActionServer = common::ServiceWrapper<ActionT>;
-    using OnGoalReceivedCallback = std::function<bool (const std::shared_ptr<typename ActionT::Request>)>;
-    using OnLoopCallback = std::function<void ()>;
-    using OnPreemptCallback = std::function<void (const typename std::shared_ptr<typename ActionT::Request>)>;
-    using OnCompletionCallback = std::function<void (const typename std::shared_ptr<typename ActionT::Response>, const behavior_tree::BtStatus)>;
-
     /**
      * @brief A constructor for nav2_behavior_tree::BtActionServer class
      */
@@ -48,11 +42,7 @@ public:
         std::shared_ptr<::apollo::cyber::Node>& node,
         const std::string& action_name,
         const std::vector<std::string>& plugin_lib_names,
-        const std::string& default_bt_xml_filename,
-        OnGoalReceivedCallback on_goal_received_callback,
-        OnLoopCallback on_loop_callback,
-        OnPreemptCallback on_preempt_callback,
-        OnCompletionCallback on_completion_callback);
+        const std::string& default_bt_xml_filename);
 
     /**
      * @brief A destructor for nav2_behavior_tree::BtActionServer class
@@ -151,12 +141,6 @@ protected:
 
     // The timeout value for waiting for a service to response
     std::chrono::milliseconds wait_for_service_timeout_;
-
-    // User-provided callbacks
-    OnGoalReceivedCallback on_goal_received_callback_;
-    OnLoopCallback on_loop_callback_;
-    OnPreemptCallback on_preempt_callback_;
-    OnCompletionCallback on_completion_callback_;
 };
 
 }  // namespace behavior_tree 

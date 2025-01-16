@@ -1,0 +1,11 @@
+<cyber>
+    <module>
+        <name>foxglove_bridge</name>
+        <dag_conf></dag_conf>
+        <type>binary</type>
+        <process_name>
+            openbot.tools.foxglove_bridge --flagfile=openbot/tools/foxglove_bridge/conf/foxglove_bridge.conf
+        </process_name>
+        <exception_handler>respawn</exception_handler>
+    </module>
+</cyber>

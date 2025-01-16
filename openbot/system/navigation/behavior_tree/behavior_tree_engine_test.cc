@@ -23,6 +23,8 @@
 #include <fstream>
 
 #include "cyber/cyber.h"
+#include "behaviortree_cpp/utils/shared_library.h"
+#include "openbot/common/utils/logging.hpp"
 #include "openbot/system/navigation/common/library_config.hpp"
 #include "openbot/system/navigation/behavior_tree/plugins/dummy_nodes.hpp"
 
@@ -75,33 +77,12 @@ TEST(BehaviorTreeEngineTest, LoadTree2)
 
     auto blackboard = BT::Blackboard::create();
 
-      // Trees are created at deployment-time (i.e. at run-time, but only once at the beginning).
+    // Trees are created at deployment-time (i.e. at run-time, but only once at the beginning).
     // The currently supported format is XML.
     // IMPORTANT: when the object "tree" goes out of scope, all the TreeNodes are destroyed
-    auto tree = bt.CreateTreeFromText(xml_text, blackboard);
+    // auto tree = bt.CreateTreeFromText(xml_text, blackboard);
 
-    // To "execute" a Tree you need to "tick" it.
-    // The tick is propagated to the children based on the logic of the tree.
-    // In this case, the entire sequence is executed, because all the children
-    // of the Sequence return SUCCESS.
-    tree.tickWhileRunning();
-}
-
-TEST(BehaviorTreeEngineTest, LoadTree3) 
-{
-   std::vector<std::string> plugin_libs = {
-        "nav_dummy_nodes_bt_node"
-    };
-
-    auto blackboard = BT::Blackboard::create();
-    // std::shared_ptr<apollo::cyber::Node> node(::apollo::cyber::CreateNode("node"));
-    blackboard->set<std::shared_ptr<::apollo::cyber::Node>>("node", nullptr);
-    blackboard->set<std::chrono::milliseconds>("bt_loop_duration", std::chrono::milliseconds(10));  // NOLINT
-    blackboard->set<std::chrono::milliseconds>("server_timeout", std::chrono::milliseconds(10));  // NOLINT
-
-    auto bt = BehaviorTreeEngine(plugin_libs);
-
-    auto tree = bt.CreateTreeFromText(xml_text, blackboard);
+    auto tree = bt.CreateTreeFromFile("/opt/openbot/share/openbot/system/navigation/conf/behavior_trees/dummy_test.xml", blackboard);
 
     // To "execute" a Tree you need to "tick" it.
     // The tick is propagated to the children based on the logic of the tree.

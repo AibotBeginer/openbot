@@ -14,28 +14,40 @@
  * limitations under the License.
  */
 
-#include "openbot/system/navigation/components/bt_navigator_compontent.hpp"
+#pragma once
 
-#include "openbot/common/utils/logging.hpp"
+#include "openbot/tools/foxglove_bridge/foxglove_view.hpp"
 
 namespace openbot {
-namespace system { 
-namespace navigation { 
+namespace tools {
+namespace foxglove_bridge {
 
-bool BtNavigatorComponent::Init() 
+FoxgloveViewer::FoxgloveViewer()
 {
-    nav_config_ = std::make_shared<openbot::navigation::NavigationConfig>();
-    if (!apollo::cyber::common::GetProtoFromFile(config_file_path_, nav_config_.get())) 
-    {
-        return false;
-    }
 
-    // LOG(INFO) << "Filter config: " << nav_config_->DebugString();
-    navigator_ = std::make_shared<BtNavigator>(node_, nav_config_);
-    return true;
+}
+
+FoxgloveViewer::~FoxgloveViewer()
+{
+
+}
+
+openbot::common::Status FoxgloveViewer::Init()
+{
+    return openbot::common::Status::OK();
+}
+
+openbot::common::Status FoxgloveViewer::Start()
+{
+    return openbot::common::Status::OK();
+}
+
+void FoxgloveViewer::Stop()
+{
+
 }
 
 
-}  // namespace navigation
-}  // namespace system
+}  // namespace foxglove_bridge
+}  // namespace tools
 }  // namespace openbot

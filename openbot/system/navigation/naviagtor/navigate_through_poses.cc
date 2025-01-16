@@ -20,6 +20,15 @@ namespace openbot {
 namespace system { 
 namespace navigation { 
 
+NavigateThroughPosesNavigator::NavigateThroughPosesNavigator(
+    const std::shared_ptr<apollo::cyber::Node>& node, 
+    const openbot::navigation::NavigationConfig* config)
+    : node_{node},
+      config_{config}
+{
+
+}
+
 std::string NavigateThroughPosesNavigator::GetDefaultBTFilepath()
 {
     std::string default_bt_xml_filename;
@@ -37,30 +46,7 @@ std::string NavigateThroughPosesNavigator::GetDefaultBTFilepath()
     // node->get_parameter("default_nav_to_pose_bt_xml", default_bt_xml_filename);
 
 
-    
-
     return default_bt_xml_filename;
-}
-
-bool NavigateThroughPosesNavigator::GoalReceived(
-    const std::shared_ptr<typename ActionT::Request> request)
-{
-    return true;
-}
-
-void NavigateThroughPosesNavigator::OnLoop()
-{
-}
-
-void NavigateThroughPosesNavigator::OnPreempt(
-    const std::shared_ptr<typename ActionT::Request> request)
-{
-
-}
-
-void NavigateThroughPosesNavigator::GoalCompleted()
-{
-
 }
 
 }  // namespace navigation

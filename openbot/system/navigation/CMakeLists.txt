@@ -251,28 +251,17 @@ endforeach()
 #
 ###################################################################################################################
 
-# bt_navigator_compontent
-add_library(bt_navigator_compontent SHARED components/bt_navigator_compontent.cc)
-target_link_libraries(bt_navigator_compontent ${PROJECT_NAME})
-list(APPEND plugin_libs bt_navigator_compontent)
-
-###################################################################################################################
-#
-#         For tests
-#
-###################################################################################################################
-
-# openbot.test.navigate_to_pose_client_main
-google_binary(openbot.test.navigate_to_pose_client_main
-  SRCS
-  naviagtor/navigate_to_pose_client_main.cc
-)
+# navigator_compontent
+add_library(navigator_compontent SHARED 
+  components/navigate_to_pose_compontent.cc
+  components/navigate_through_poses_compontent.cc)
+target_link_libraries(navigator_compontent ${PROJECT_NAME})
+list(APPEND plugin_libs navigator_compontent)
 
 # install
 install(TARGETS 
   ${library_name}
   ${plugin_libs}
-  openbot.test.navigate_to_pose_client_main
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin

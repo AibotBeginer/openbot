@@ -76,11 +76,14 @@ BtStatus BehaviorTreeEngine::Run(
 
 BT::Tree BehaviorTreeEngine::CreateTreeFromText(const std::string& xml_string, BT::Blackboard::Ptr blackboard)
 {
-    std::cout << "CreateTreeFromFile-----------------------------1" << std::endl;
+    AINFO << "-------------------------------------1-----";
+    
+    if (blackboard == nullptr) {
+        AINFO << "-------------------------------------2-----";
+    }
 
-    std::cout << "xml_string: " << xml_string.c_str() << std::endl;
 
-    return factory_.createTreeFromText(xml_string, blackboard);
+    return factory_.createTreeFromText(xml_string);
 }
 
 BT::Tree BehaviorTreeEngine::CreateTreeFromFile(const std::string& file_path, BT::Blackboard::Ptr blackboard)

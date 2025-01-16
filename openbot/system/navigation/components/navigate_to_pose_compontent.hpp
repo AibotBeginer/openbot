@@ -25,32 +25,52 @@
 #include "cyber/message/raw_message.h"
 
 #include "openbot/common/macros.hpp"
-#include "openbot/system/navigation/naviagtor/bt_navigator.hpp"
-
+#include "openbot/common/io/msgs.hpp"
+#include "openbot/system/navigation/naviagtor/navigate_to_pose.hpp"
 #include "openbot/system/navigation/proto/bt_navigator.pb.h"
 
 namespace openbot {
 namespace system { 
 namespace navigation { 
 
-class BtNavigatorComponent final : public ::apollo::cyber::Component<> 
+class PoseNavigatorComponent final : public ::apollo::cyber::Component<> 
 {
 public:
-    BtNavigatorComponent() = default;
-    ~BtNavigatorComponent() = default;
+    using GoalMsg = common::geometry_msgs::PoseStamped;
+
+    PoseNavigatorComponent() = default;
+    ~PoseNavigatorComponent() = default;
 
     bool Init() override;
 
 private:
 
-    // bt navigator
-    BtNavigator::SharedPtr navigator_{nullptr};
+    bool InitConfig();
+    bool InitIO();
+    bool LaunchNavigator();
+
+    void Run();
+
+    void OnGoalReceived(const std::shared_ptr<GoalMsg>& msg);
+
+    // navigator;
+    NavigateToPoseNavigator::SharedPtr navigator_{nullptr};
 
     // nav config 
     std::shared_ptr<openbot::navigation::NavigationConfig> nav_config_{nullptr};
+
+    // cyber node topics
+    std::shared_ptr<apollo::cyber::Reader<GoalMsg>> start_goal_listener_ = nullptr;
+    std::shared_ptr<apollo::cyber::Reader<GoalMsg>> cancel_goal_listener_ = nullptr;
+
+    std::string nav_start_goal_topic_ = "";
+    std::string nav_cancel_goal_topic_ = "";
+
+    std::future<void> async_result_;
+    std::atomic<bool> running_ = {false};
 };
 
-CYBER_REGISTER_COMPONENT(BtNavigatorComponent)
+CYBER_REGISTER_COMPONENT(PoseNavigatorComponent)
 
 }  // namespace navigation
 }  // namespace system
