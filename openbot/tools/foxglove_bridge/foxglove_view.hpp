@@ -32,11 +32,30 @@ public:
      */
     OPENBOT_SMART_PTR_DEFINITIONS(FoxgloveViewer);
 
+     /**
+     * @brief A constructor for openbot::tools::foxglove_bridge::FoxgloveViewer
+     * @param options Additional options to control creation of the node.
+     */
     FoxgloveViewer();
+
+    /**
+     * @brief Destructor for openbot::tools::foxglove_bridge::FoxgloveViewer
+     */
     ~FoxgloveViewer();
 
     openbot::common::Status Init();
+
+    /**
+     * @brief Start foxglove viewer
+     * 
+     * @return openbot::common::Status 
+     */
     openbot::common::Status Start();
+
+    /**
+     * @brief Stop foxglove viewer
+     * 
+     */
     void Stop();
 
 private:
