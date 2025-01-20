@@ -16,33 +16,50 @@
 
 #pragma once
 
+#include <atomic>
+#include <chrono>
+#include <cmath>
+#include <csignal>
+#include <iostream>
+#include <memory>
+#include <queue>
+#include <thread>
+#include <unordered_set>
+
+#include <google/protobuf/descriptor.pb.h>
+#include <google/protobuf/util/time_util.h>
+
 #include "openbot/common/macros.hpp"
 #include "openbot/common/status/status.hpp"
-#include "openbot/tools/foxglove_bridge/foxglove_server.hpp"
+
+// #include "foxglove/websocket/base64.hpp"
+// #include <foxglove/websocket/server_factory.hpp>
+// #include <foxglove/websocket/websocket_notls.hpp>
+// #include <foxglove/websocket/websocket_server.hpp>
 
 namespace openbot {
 namespace tools {
 namespace foxglove_bridge {
 
-class FoxgloveViewer
+class FoxgloveServer
 {
 public:
 
     /**
      *  @brief SharedPtr typedef
      */
-    OPENBOT_SMART_PTR_DEFINITIONS(FoxgloveViewer);
+    OPENBOT_SMART_PTR_DEFINITIONS(FoxgloveServer);
 
      /**
-     * @brief A constructor for openbot::tools::foxglove_bridge::FoxgloveViewer
+     * @brief A constructor for openbot::tools::foxglove_bridge::FoxgloveServer
      * @param options Additional options to control creation of the node.
      */
-    FoxgloveViewer();
+    FoxgloveServer();
 
     /**
-     * @brief Destructor for openbot::tools::foxglove_bridge::FoxgloveViewer
+     * @brief Destructor for openbot::tools::foxglove_bridge::FoxgloveServer
      */
-    ~FoxgloveViewer();
+    ~FoxgloveServer();
 
     openbot::common::Status Init();
 
@@ -59,17 +76,9 @@ public:
      */
     void Stop();
 
-    /**
-     * @brief Get foxglove server
-     * 
-     * @return FoxgloveServer::SharedPtr 
-     */
-    FoxgloveServer::SharedPtr server();
-
 private:
 
-    // FoxgloveServer
-    FoxgloveServer::SharedPtr server_{nullptr};
+
 };
 
 

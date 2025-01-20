@@ -16,41 +16,37 @@
 
 #pragma once
 
-#include "openbot/tools/foxglove_bridge/foxglove_view.hpp"
+#include "openbot/tools/foxglove_bridge/foxglove_server.hpp"
 
 namespace openbot {
 namespace tools {
 namespace foxglove_bridge {
 
-FoxgloveViewer::FoxgloveViewer()
+FoxgloveServer::FoxgloveServer()
 {
 
 }
 
-FoxgloveViewer::~FoxgloveViewer()
+FoxgloveServer::~FoxgloveServer()
 {
 
 }
 
-openbot::common::Status FoxgloveViewer::Init()
-{
-    return openbot::common::Status::OK();
-}
-
-openbot::common::Status FoxgloveViewer::Start()
+openbot::common::Status FoxgloveServer::Init()
 {
     return openbot::common::Status::OK();
 }
 
-void FoxgloveViewer::Stop()
+openbot::common::Status FoxgloveServer::Start()
+{
+    return openbot::common::Status::OK();
+}
+
+void FoxgloveServer::Stop()
 {
 
 }
 
-FoxgloveServer::SharedPtr FoxgloveViewer::server()
-{
-    return server_;
-}
 
 }  // namespace foxglove_bridge
 }  // namespace tools
