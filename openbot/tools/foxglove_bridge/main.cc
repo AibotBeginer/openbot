@@ -20,6 +20,8 @@
 
 #include "openbot/tools/foxglove_bridge/foxglove_view.hpp"
 
+// https://github.com/foxglove/ws-protocol/blob/main/docs/spec.md
+
 int main(int argc, char* argv[]) 
 {
     // set working directory to APOLLO_RUNTIME_PATH for relative file paths
@@ -36,7 +38,7 @@ int main(int argc, char* argv[])
     auto viewer = std::make_shared<::openbot::tools::foxglove_bridge::FoxgloveViewer>();
     const bool init_success = viewer->Init().ok() && viewer->Start().ok();
     if (!init_success) {
-        AERROR << "Failed to initialize dreamview server";
+        AERROR << "Failed to initialize foxglove view bridge server";
         return -1;
     }
     ::apollo::cyber::WaitForShutdown();
