@@ -18,9 +18,9 @@
 
 #include <Eigen/Core>
 
-namespace openbot {
-namespace common {
-namespace math {
+// namespace openbot {
+// namespace common {
+// namespace math {
   
 #ifdef _MSVC_LANG
 #define CPP_VERSION _MSVC_LANG
@@ -95,7 +95,7 @@ EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION_CUSTOM(Eigen::Matrix<double, 3, 4>)
 
 #undef CPP_VERSION
 
-}  // namespace math
-}  // namespace common
-}  // namespace openbot
+// }  // namespace math
+// }  // namespace common
+// }  // namespace openbot
 

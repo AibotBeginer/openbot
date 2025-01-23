@@ -14,11 +14,53 @@
  * limitations under the License.
  */
 
+#include "openbot/system/navigation/behavior_tree/plugins/action/smoother_selector_node.hpp"
 
 namespace openbot {
 namespace system {
 namespace navigation {
 namespace behavior_tree {
+
+SmootherSelector::SmootherSelector(
+  const std::string & name,
+  const BT::NodeConfiguration & conf)
+: BT::SyncActionNode(name, conf)
+{
+    node_ = config().blackboard->get<std::shared_ptr<apollo::cyber::Node>>("node");
+    getInput("topic_name", topic_name_);
+    smoother_selector_reader_ = node_->CreateReader<common::std_msgs::String>(
+        topic_name_, 
+        [this](const std::shared_ptr<common::std_msgs::String>& msg) {
+            CallbackSmootherSelect(msg);
+        });
+}
+
+BT::NodeStatus SmootherSelector::tick()
+{
+    // This behavior always use the last selected smoother received from the topic input.
+    // When no input is specified it uses the default smoother.
+    // If the default smoother is not specified then we work in "required smoother mode":
+    // In this mode, the behavior returns failure if the smoother selection is not received from
+    // the topic input.
+    if (last_selected_smoother_.empty()) {
+        std::string default_smoother;
+        getInput("default_smoother", default_smoother);
+        if (default_smoother.empty()) {
+            return BT::NodeStatus::FAILURE;
+        } else {
+            last_selected_smoother_ = default_smoother;
+        }
+    }
+
+    setOutput("selected_smoother", last_selected_smoother_);
+
+    return BT::NodeStatus::SUCCESS;
+}
+
+void SmootherSelector::CallbackSmootherSelect(const std::shared_ptr<common::std_msgs::String> msg)
+{
+    last_selected_smoother_ = msg->data();
+}
 
 }   // namespace behavior_tree 
 }   // namespace navigation

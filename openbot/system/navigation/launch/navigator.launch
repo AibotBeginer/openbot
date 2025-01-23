@@ -1,0 +1,7 @@
+<cyber>
+    <module>
+        <name>navigator</name>
+        <dag_conf>/opt/openbot/share/openbot/system/navigation/dag/navigator.dag</dag_conf>
+        <process_name>navigator</process_name>
+    </module>
+</cyber>

@@ -1,0 +1,29 @@
+# Define all coms in DAG streaming.
+module_config {
+  module_library : "/opt/openbot/lib/libnavigator_compontent.so"
+  components {
+    class_name : "PoseNavigatorComponent"
+    config {
+      name: "navigator_pose"
+      config_file_path:  "/opt/openbot/share/openbot/system/navigation/conf/bt_navigator.pb.txt"
+      readers: [
+        {
+          channel: "/openbot/prediction"
+        }
+      ]
+    }
+  }
+
+  components {
+    class_name : "PosesNavigatorComponent"
+    config {
+      name: "navigator_poses"
+      config_file_path:  "/opt/openbot/share/openbot/system/navigation/conf/bt_navigator.pb.txt"
+      readers: [
+        {
+          channel: "/openbot/prediction"
+        }
+      ]
+    }
+  }
+}

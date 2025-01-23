@@ -9,7 +9,7 @@
 **<font color='green'>openbot</font>** 不依赖 **<font color='red'>ROS/ROS2</font>** 的机器人视觉定位&建图、导航系统框架，完全由C++开发。打造一个linux系统级别，支持分布式、高吞吐、低延时、易部署、易调试、高性能的机器人算法框架：
 
 - [x] 支持CyberRT通信机制
-- [ ] 支持mqtt、grpc、zmq、http网络通信机制
+- [x] 支持mqtt、grpc、zmq、http网络通信机制
 - [x] 支持原生ROS/ROS2通用msgs消息格式
 - [ ] 支持相机（realsense2）、IMU和雷达驱动
 - [ ] 支持多传感器数据融合
@@ -20,20 +20,32 @@
 - [ ] 支持雷达/视觉感知、预测、识别和实例分割功能
 - [x] 支持数据、算法和ROS2数据生态互联与应用扩展
 - [x] 支持docker (**<font color='green'>x86-64 & aarch64 系统平台</font>**)
-- [ ] 支持本地化网页显示
+- [x] 支持本地化网页显示
 - [x] 支持cmake、bazel系统编译
-- [ ] 支持行为树调度 
+- [x] 支持行为树调度 
 - [x] 完善的说明文档和使用文档  
 
 * :link: **Video Links:**  [bilibili](TODO) (TODO)
-
-
 
 * :shamrock: Github Code
 
 ```bash
 # openbot
 git clone https://github.com/AibotBeginer/openbot.git
+```
+
+* :herb: **docker镜像**
+
+**ARM平台**
+
+```shell
+docker pull # TODO
+```
+
+**x86-64平台**
+
+```shell
+docker pull # TODO
 ```
 
 ## :house_with_garden: Usage

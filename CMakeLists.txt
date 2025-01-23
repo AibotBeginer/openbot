@@ -20,7 +20,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(OPENBOT_MAJOR_VERSION 1)
+set(OPENBOT_MAJOR_VERSION 0)
 set(OPENBOT_MINOR_VERSION 0)
 set(OPENBOT_PATCH_VERSION 1)
 set(OPENBOT_VERSION ${OPENBOT_MAJOR_VERSION}.${OPENBOT_MINOR_VERSION}.${OPENBOT_PATCH_VERSION})
@@ -213,6 +213,7 @@ endforeach()
 add_subdirectory(thirdparty)
 include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
 include_directories(${PROJECT_SOURCE_DIR}/thirdparty/tf2/include)
+include_directories(${PROJECT_SOURCE_DIR}/thirdparty/foxglove-websocket/include)
 
 set_source_files_properties(${ALL_PROTO_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 list(APPEND ALL_LIBRARY_HDRS ${ALL_PROTO_HDRS})
@@ -318,6 +319,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
 target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
 target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PUBLIC foxglove_websocket)
 
 # 指定openbot_bridge的安装路径
 set(openbot_bridge_INCLUDE_DIR /usr/local/include)
@@ -427,7 +429,7 @@ install(
 
 # conf dag launch
 file(GLOB_RECURSE ALL_OPENBOT_DAGS "openbot/*.dag")
-file(GLOB_RECURSE ALL_OPENBOT_CONFS "openbot/*.pb.txt" "openbot/*.conf")
+file(GLOB_RECURSE ALL_OPENBOT_CONFS "openbot/*.pb.txt" "openbot/*.conf" "openbot/*.xml")
 file(GLOB_RECURSE ALL_OPENBOT_LAUNCHS "openbot/*.launch*")
 
 # install dag files

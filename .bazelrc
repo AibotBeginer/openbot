@@ -29,7 +29,7 @@ build --spawn_strategy=standalone
 build --cxxopt="-fdiagnostics-color=always"
 
 # --enable_bzlmod=false
-build --enable_bzlmod=false
+build --enable_bzlmod=true
 
 # Do not show warnings from external dependencies.
 # build --output_filter="^//"

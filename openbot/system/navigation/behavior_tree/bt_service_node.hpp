@@ -21,11 +21,11 @@
 #include <memory>
 #include <chrono>
 
+#include "cyber/cyber.h"
 #include "behaviortree_cpp/action_node.h"
 
 #include "openbot/common/utils/logging.hpp"
 #include "openbot/common/service_wrapper/client_wrapper.hpp"
-#include "openbot/system/navigation/proto/action_command.pb.h"
 #include "openbot/system/navigation/behavior_tree/bt_conversions.hpp"
 
 namespace openbot {
@@ -46,55 +46,48 @@ public:
    * @param service_name Optional service name this node creates a client for instead of from input port
    */
   BtServiceNode(
-    const std::string & service_node_name,
-    const BT::NodeConfiguration & conf,
-    const std::string & service_name = "")
+    const std::string& service_node_name,
+    const BT::NodeConfiguration& conf,
+    const std::string& service_name = "")
   : BT::ActionNodeBase(service_node_name, conf), service_name_(service_name), service_node_name_(
       service_node_name)
-  {
-    node_ = config().blackboard->template get<rclcpp::Node::SharedPtr>("node");
-    callback_group_ = node_->create_callback_group(
-      rclcpp::CallbackGroupType::MutuallyExclusive,
-      false);
-    callback_group_executor_.add_callback_group(callback_group_, node_->get_node_base_interface());
+    {
+        node_ = config().blackboard->template get<std::shared_ptr<apollo::cyber::Node>>("node");
+        // Get the required items from the blackboard
+        bt_loop_duration_ = config().blackboard->template get<std::chrono::milliseconds>("bt_loop_duration");
+        server_timeout_ = config().blackboard->template get<std::chrono::milliseconds>("server_timeout");
+        getInput<std::chrono::milliseconds>("server_timeout", server_timeout_);
 
-    // Get the required items from the blackboard
-    bt_loop_duration_ =
-      config().blackboard->template get<std::chrono::milliseconds>("bt_loop_duration");
-    server_timeout_ =
-      config().blackboard->template get<std::chrono::milliseconds>("server_timeout");
-    getInput<std::chrono::milliseconds>("server_timeout", server_timeout_);
+        // Now that we have node_ to use, create the service client for this BT service
+        getInput("service_name", service_name_);
+        // service_client_ = node_->create_client<ServiceT>(
+        //   service_name_,
+        //   rclcpp::ServicesQoS().get_rmw_qos_profile(),
+        //   callback_group_);
 
-    // Now that we have node_ to use, create the service client for this BT service
-    getInput("service_name", service_name_);
-    service_client_ = node_->create_client<ServiceT>(
-      service_name_,
-      rclcpp::ServicesQoS().get_rmw_qos_profile(),
-      callback_group_);
+        // // Make a request for the service without parameter
+        // request_ = std::make_shared<typename ServiceT::Request>();
 
-    // Make a request for the service without parameter
-    request_ = std::make_shared<typename ServiceT::Request>();
+        // // Make sure the server is actually there before continuing
+        // RCLCPP_DEBUG(
+        //   node_->get_logger(), "Waiting for \"%s\" service",
+        //   service_name_.c_str());
+        // if (!service_client_->wait_for_service(1s)) {
+        //   RCLCPP_ERROR(
+        //     node_->get_logger(), "\"%s\" service server not available after waiting for 1 s",
+        //     service_node_name.c_str());
+        //   throw std::runtime_error(
+        //           std::string(
+        //             "Service server %s not available",
+        //             service_node_name.c_str()));
+        // }
 
-    // Make sure the server is actually there before continuing
-    RCLCPP_DEBUG(
-      node_->get_logger(), "Waiting for \"%s\" service",
-      service_name_.c_str());
-    if (!service_client_->wait_for_service(1s)) {
-      RCLCPP_ERROR(
-        node_->get_logger(), "\"%s\" service server not available after waiting for 1 s",
-        service_node_name.c_str());
-      throw std::runtime_error(
-              std::string(
-                "Service server %s not available",
-                service_node_name.c_str()));
+        // RCLCPP_DEBUG(
+        //   node_->get_logger(), "\"%s\" BtServiceNode initialized",
+        //   service_node_name_.c_str());
     }
 
-    RCLCPP_DEBUG(
-      node_->get_logger(), "\"%s\" BtServiceNode initialized",
-      service_node_name_.c_str());
-  }
-
-  BtServiceNode() = delete;
+    BtServiceNode() = delete;
 
     virtual ~BtServiceNode()
     {
@@ -110,11 +103,10 @@ public:
     static BT::PortsList providedBasicPorts(BT::PortsList addition)
     {
         BT::PortsList basic = {
-        BT::InputPort<std::string>("service_name", "please_set_service_name_in_BT_Node"),
-        BT::InputPort<std::chrono::milliseconds>("server_timeout")
+          BT::InputPort<std::string>("service_name", "please_set_service_name_in_BT_Node"),
+          BT::InputPort<std::chrono::milliseconds>("server_timeout")
         };
         basic.insert(addition.begin(), addition.end());
-
         return basic;
     }
 
@@ -133,29 +125,29 @@ public:
      */
     BT::NodeStatus tick() override
     {
-        if (!request_sent_) {
-            // reset the flag to send the request or not,
-            // allowing the user the option to set it in on_tick
-            should_send_request_ = true;
+        // if (!request_sent_) {
+        //     // reset the flag to send the request or not,
+        //     // allowing the user the option to set it in on_tick
+        //     should_send_request_ = true;
 
-            // user defined callback, may modify "should_send_request_".
-            on_tick();
+        //     // user defined callback, may modify "should_send_request_".
+        //     on_tick();
 
-            if (!should_send_request_) {
-                return BT::NodeStatus::FAILURE;
-            }
+        //     if (!should_send_request_) {
+        //         return BT::NodeStatus::FAILURE;
+        //     }
 
-            future_result_ = service_client_->async_send_request(request_).share();
-            sent_time_ = node_->now();
-            request_sent_ = true;
-        }
-        return check_future();
+        //     future_result_ = service_client_->async_send_request(request_).share();
+        //     sent_time_ = node_->now();
+        //     request_sent_ = true;
+        // }
+        return CheckFuture();
     }
 
     /**
      * @brief The other (optional) override required by a BT service.
      */
-    void Halt() override
+    void halt() override
     {
         request_sent_ = false;
         setStatus(BT::NodeStatus::IDLE);
@@ -165,7 +157,7 @@ public:
      * @brief Function to perform some user-defined operation on tick
      * Fill in service request with information if necessary
      */
-    virtual void on_tick()
+    virtual void OnTick()
     {
     }
 
@@ -175,7 +167,7 @@ public:
      * @param response can be used to get the result of the service call in the BT Node.
      * @return BT::NodeStatus Returns SUCCESS by default, user may override to return another value
      */
-    virtual BT::NodeStatus on_completion(std::shared_ptr<typename ServiceT::Response>/*response*/)
+    virtual BT::NodeStatus OnCompletion(std::shared_ptr<typename ServiceType::Response>/*response*/)
     {
         return BT::NodeStatus::SUCCESS;
     }
@@ -184,35 +176,35 @@ public:
      * @brief Check the future and decide the status of BT
      * @return BT::NodeStatus SUCCESS if future complete before timeout, FAILURE otherwise
      */
-    virtual BT::NodeStatus check_future()
+    virtual BT::NodeStatus CheckFuture()
     {
-        auto elapsed = (node_->now() - sent_time_).template to_chrono<std::chrono::milliseconds>();
-        auto remaining = server_timeout_ - elapsed;
+        // auto elapsed = (node_->now() - sent_time_).template to_chrono<std::chrono::milliseconds>();
+        // auto remaining = server_timeout_ - elapsed;
 
-        if (remaining > std::chrono::milliseconds(0)) {
-        auto timeout = remaining > bt_loop_duration_ ? bt_loop_duration_ : remaining;
+        // if (remaining > std::chrono::milliseconds(0)) {
+        // auto timeout = remaining > bt_loop_duration_ ? bt_loop_duration_ : remaining;
 
-        rclcpp::FutureReturnCode rc;
-        rc = callback_group_executor_.spin_until_future_complete(future_result_, timeout);
-        if (rc == rclcpp::FutureReturnCode::SUCCESS) {
-            request_sent_ = false;
-            BT::NodeStatus status = on_completion(future_result_.get());
-            return status;
-        }
+        // rclcpp::FutureReturnCode rc;
+        // rc = callback_group_executor_.spin_until_future_complete(future_result_, timeout);
+        // if (rc == rclcpp::FutureReturnCode::SUCCESS) {
+        //     request_sent_ = false;
+        //     BT::NodeStatus status = on_completion(future_result_.get());
+        //     return status;
+        // }
 
-        if (rc == rclcpp::FutureReturnCode::TIMEOUT) {
-            on_wait_for_result();
-            elapsed = (node_->now() - sent_time_).template to_chrono<std::chrono::milliseconds>();
-            if (elapsed < server_timeout_) {
-            return BT::NodeStatus::RUNNING;
-            }
-        }
-        }
+        // if (rc == rclcpp::FutureReturnCode::TIMEOUT) {
+        //     on_wait_for_result();
+        //     elapsed = (node_->now() - sent_time_).template to_chrono<std::chrono::milliseconds>();
+        //     if (elapsed < server_timeout_) {
+        //     return BT::NodeStatus::RUNNING;
+        //     }
+        // }
+        // }
 
-        RCLCPP_WARN(
-        node_->get_logger(),
-        "Node timed out while executing service call to %s.", service_name_.c_str());
-        request_sent_ = false;
+        // RCLCPP_WARN(
+        // node_->get_logger(),
+        // "Node timed out while executing service call to %s.", service_name_.c_str());
+        // request_sent_ = false;
         return BT::NodeStatus::FAILURE;
     }
 
@@ -220,7 +212,7 @@ public:
      * @brief Function to perform some user-defined operation after a timeout waiting
      * for a result that hasn't been received yet
      */
-    virtual void on_wait_for_result()
+    virtual void OnWaitForResult()
     {
     }
 
@@ -228,7 +220,7 @@ protected:
     /**
      * @brief Function to increment recovery count on blackboard if this node wraps a recovery
      */
-    void increment_recovery_count()
+    void IncrementRecoveryCount()
     {
         int recovery_count = 0;
         config().blackboard->template get<int>("number_recoveries", recovery_count);  // NOLINT
@@ -238,6 +230,9 @@ protected:
 
     std::string service_name_, service_node_name_;
  
+    // The node that will be used for any cyber operations
+    std::shared_ptr<::apollo::cyber::Node> node_;
+
     std::shared_ptr<common::ClientWrapper<typename ServiceType::Request, typename ServiceType::Response>> request_;
 
     // The timeout value while to use in the tick loop while waiting for
@@ -248,7 +243,7 @@ protected:
     std::chrono::milliseconds bt_loop_duration_;
 
     // To track the server response when a new request is sent
-    std::shared_future<typename ServiceT::Response::SharedPtr> future_result_;
+    std::shared_future<std::shared_ptr<typename ServiceType::Response>> future_result_;
     bool request_sent_{false};
 
     // Can be set in on_tick or on_wait_for_result to indicate if a request should be sent.

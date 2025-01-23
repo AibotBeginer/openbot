@@ -1,0 +1,7 @@
+<cyber>
+    <module>
+        <name>slam</name>
+        <dag_conf>/opt/openbot/share/openbot/system/slam/dag/slam.dag</dag_conf>
+        <process_name>slam</process_name>
+    </module>
+</cyber>

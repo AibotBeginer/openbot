@@ -1,0 +1,63 @@
+###############################################################################
+# Bazel now uses Bzlmod by default to manage external dependencies.
+# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
+#
+# For more details, please check https://github.com/bazelbuild/bazel/issues/18958
+###############################################################################
+
+module(
+    name = "openbot"
+    #repo_name = ""
+)
+
+
+bazel_dep(name = "rules_cc", version = "0.0.16")
+bazel_dep(name = "bazel_skylib", version = "1.7.1")
+bazel_dep(name = "rules_python", version = "1.0.0")
+bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "protobuf", version = "29.2")
+#bazel_dep(name = "protobuf", version = "3.19.0")
+
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+#http_file(
+#    name = "com_google_protobuf",
+#    url = "https://github.com/protocolbuffers/protobuf/archive/v3.14.0.tar.gz",
+#    sha256 = "d0f5f605d0d656007ce6c8b5a82df3037e1d8fe8b121ed42e536f569dec16113",
+#)
+
+#http_file(
+#    name = "com_github_grpc_grpc",
+#    urls = [
+#        "https://apollo-system.cdn.bcebos.com/archive/6.0/v1.30.0.tar.gz",
+#        "https://github.com/grpc/grpc/archive/v1.30.0.tar.gz",
+#    ],
+#    sha256 = "419dba362eaf8f1d36849ceee17c3e2ff8ff12ac666b42d3ff02a164ebe090e9",
+#)
+
+bazel_dep(name = "cyber")
+local_path_override(
+    module_name = "cyber",
+    path = "/opt/cyber",
+)
+
+bazel_dep(name = "openbot_bridge")
+local_path_override(
+    module_name = "openbot_bridge",
+    path = "/workspace/openbot/openbot_bridge",
+)
+
+bazel_dep(name = "eigen", version = "3.4.0")
+bazel_dep(name = "lua", version = "5.4.6")
+bazel_dep(name = "platforms", version = "0.0.9")
+bazel_dep(name = "gflags", version = "2.2.2")
+bazel_dep(name = "nlohmann_json", version = "3.11.3")
+bazel_dep(name = "abseil-cpp", version = "20240722.0")
+bazel_dep(name = "boost.iostreams", version = "1.83.0.bcr.1")
+bazel_dep(name = "googletest", version = "1.15.2")
+bazel_dep(name = "glog", version = "0.5.0")
+bazel_dep(name = "osqp", version = "0.6.3.bcr.2")
+#bazel_dep(name = "osqp-cpp", version = "0.0.0-20231004-4343373.bcr.1")
+#bazel_dep(name = "osqp-cpp", version = "0.0.0-20231004-4343373")
+#bazel_dep(name = "qdldl", version = "0.1.7")
+#bazel_dep(name = "suitesparse", version = "7.6.0.bcr.1")
+bazel_dep(name = "boost.predef", version = "1.83.0.bcr.1")

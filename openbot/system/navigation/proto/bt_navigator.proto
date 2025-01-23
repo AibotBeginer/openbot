@@ -1,0 +1,63 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package openbot.navigation;
+
+import "openbot/common/proto/std_msgs.proto";
+import "openbot/common/proto/builtin_interfaces.proto";
+import "openbot/common/proto/nav_msgs.proto";
+import "openbot/common/proto/geometry_msgs.proto"; 
+import "openbot/system/navigation/proto/types.proto"; 
+
+message BehaviorTreeConfig
+{
+    string global_frame = 1;
+
+    string robot_base_frame = 2;
+
+    string odom_topic = 3;
+
+    uint32 bt_loop_duration = 4;
+
+    // xml
+    string default_xml_behavior_trees = 5;
+
+    repeated string plugin_lib_names = 6;
+}
+
+message ControllerConfig
+{
+    string id = 1;
+}
+
+
+message PlannerConfig
+{
+    double expected_planner_frequency = 1;
+    repeated string planner_plugins = 2;
+}
+
+message NavigationConfig
+{
+    // behavior_tree config
+    BehaviorTreeConfig behavior_tree = 1;
+
+    // controller config
+    ControllerConfig controller = 2;
+
+    // Global planner config 
+    PlannerConfig global_planner = 3;
+}

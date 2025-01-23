@@ -16,10 +16,71 @@
 
 #pragma once
 
+#include <string>
+
+#include "openbot/common/io/msgs.hpp"
+#include "openbot/system/navigation/behavior_tree/bt_action_node.hpp"
+#include "openbot/system/navigation/proto/navigate_to_pose.pb.h"
+
 namespace openbot {
 namespace system {
 namespace navigation {
 namespace behavior_tree {
+
+/**
+ * @brief A nav2_behavior_tree::BtActionNode class that wraps nav2_msgs::action::NavigateToPose
+ */
+class NavigateToPoseAction : public BtActionNode<openbot::navigation::NavigateToPose>
+{
+  using Action = openbot::navigation::NavigateToPose;
+  using ActionResult = Action::Response;
+
+public:
+    /**
+     * @brief A constructor for nav2_behavior_tree::NavigateToPoseAction
+     * @param xml_tag_name Name for the XML tag for this node
+     * @param action_name Action name this node creates a client for
+     * @param conf BT node configuration
+     */
+    NavigateToPoseAction(
+        const std::string& xml_tag_name,
+        const std::string& action_name,
+        const BT::NodeConfiguration& conf);
+
+    /**
+     * @brief Function to perform some user-defined operation on tick
+     */
+    void OnTick() override;
+
+    /**
+     * @brief Function to perform some user-defined operation upon successful completion of the action
+     */
+    BT::NodeStatus OnSuccess() override;
+
+    /**
+     * @brief Function to perform some user-defined operation upon abortion of the action
+     */
+    BT::NodeStatus OnAborted() override;
+
+    /**
+     * @brief Function to perform some user-defined operation upon cancellation of the action
+     */
+    BT::NodeStatus OnCancelled() override;
+
+    /**
+     * @brief Creates list of BT ports
+     * @return BT::PortsList Containing basic ports along with node-specific ports
+     */
+    static BT::PortsList providedPorts()
+    {
+        return providedBasicPorts(
+        {
+            BT::InputPort<common::geometry_msgs::PoseStamped>("goal", "Destination to plan to"),
+            BT::InputPort<std::string>("behavior_tree", "Behavior tree to run"),
+            // BT::OutputPort<ActionResult::_error_code_type>("error_code_id", "Navigate to pose error code"),
+        });
+    }
+};
 
 }   // namespace behavior_tree 
 }   // namespace navigation

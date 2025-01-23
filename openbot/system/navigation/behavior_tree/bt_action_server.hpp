@@ -23,6 +23,7 @@
 #include "cyber/cyber.h"
 
 #include "openbot/common/io/msgs.hpp"
+#include "openbot/common/service_wrapper/server_wrapper.hpp"
 #include "openbot/system/navigation/behavior_tree/behavior_tree_engine.hpp"
 
 namespace openbot {
@@ -38,13 +39,10 @@ public:
      * @brief A constructor for nav2_behavior_tree::BtActionServer class
      */
     explicit BtActionServer(
-        const std::string & action_name,
-        const std::vector<std::string> & plugin_lib_names,
-        const std::string & default_bt_xml_filename,
-        OnGoalReceivedCallback on_goal_received_callback,
-        OnLoopCallback on_loop_callback,
-        OnPreemptCallback on_preempt_callback,
-        OnCompletionCallback on_completion_callback);
+        std::shared_ptr<::apollo::cyber::Node>& node,
+        const std::string& action_name,
+        const std::vector<std::string>& plugin_lib_names,
+        const std::string& default_bt_xml_filename);
 
     /**
      * @brief A destructor for nav2_behavior_tree::BtActionServer class
@@ -113,8 +111,8 @@ protected:
     // Action name
     std::string action_name_;
 
-    // // Our action server implements the template action
-    // std::shared_ptr<ActionServer> action_server_;
+    // Our action server implements the template action
+    std::shared_ptr<ActionServer> action_server_;
 
     // Behavior Tree to be executed when goal is received
     BT::Tree tree_;
@@ -141,14 +139,13 @@ protected:
     // Default timeout value while waiting for response from a server
     std::chrono::milliseconds default_server_timeout_;
 
-    // User-provided callbacks
-    OnGoalReceivedCallback on_goal_received_callback_;
-    OnLoopCallback on_loop_callback_;
-    OnPreemptCallback on_preempt_callback_;
-    OnCompletionCallback on_completion_callback_;
+    // The timeout value for waiting for a service to response
+    std::chrono::milliseconds wait_for_service_timeout_;
 };
 
 }  // namespace behavior_tree 
 }  // namespace navigation
 }  // namespace system
 }  // namespace openbot
+
+#include "openbot/system/navigation/behavior_tree/bt_action_server_impl.hpp"  // NOLINT(build/include_order)

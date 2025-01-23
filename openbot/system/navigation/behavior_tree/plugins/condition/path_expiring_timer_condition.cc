@@ -73,5 +73,5 @@ BT::NodeStatus PathExpiringTimerCondition::tick()
 #include "behaviortree_cpp/bt_factory.h"
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<openbot::system::navigation::behavior_tree::PathExpiringTimerCondition>("PathExpiringTimer");
+    factory.registerNodeType<openbot::system::navigation::behavior_tree::PathExpiringTimerCondition>("PathExpiringTimer");
 }

@@ -26,6 +26,8 @@
 
 #include "behaviortree_cpp/utils/shared_library.h"
 #include "openbot/common/utils/logging.hpp"
+#include "openbot/system/navigation/common/library_config.hpp"
+
 
 namespace openbot {
 namespace system { 
@@ -36,7 +38,7 @@ BehaviorTreeEngine::BehaviorTreeEngine(const std::vector<std::string>& plugin_li
 {
     BT::SharedLibrary loader;
     for (const auto& p : plugin_libraries) {
-        factory_.registerFromPlugin(loader.getOSName(p));
+        factory_.registerFromPlugin(BehaviorTreeLibraryDirectory() + loader.getOSName(p));
     }
 }
 
@@ -53,11 +55,11 @@ BtStatus BehaviorTreeEngine::Run(
         while (::apollo::cyber::OK() && result == BT::NodeStatus::RUNNING) 
         {
             if (CancelRequested()) {
-                // tree->rootNode()->halt();
+                tree->haltTree();
                 return BtStatus::CANCELED;
             }
 
-            // result = tree->tickRoot();
+            result = tree->tickOnce();
 
             OnLoop();
 
@@ -72,34 +74,29 @@ BtStatus BehaviorTreeEngine::Run(
     return (result == BT::NodeStatus::SUCCESS) ? BtStatus::SUCCEEDED : BtStatus::FAILED;
 }
 
-BT::Tree BehaviorTreeEngine::CreateTreeFromText(const std::string & xml_string, BT::Blackboard::Ptr blackboard)
+BT::Tree BehaviorTreeEngine::CreateTreeFromText(const std::string& xml_string, BT::Blackboard::Ptr blackboard)
 {
-    return factory_.createTreeFromText(xml_string, blackboard);
+    AINFO << "-------------------------------------1-----";
+    
+    if (blackboard == nullptr) {
+        AINFO << "-------------------------------------2-----";
+    }
+
+
+    return factory_.createTreeFromText(xml_string);
 }
 
 BT::Tree BehaviorTreeEngine::CreateTreeFromFile(const std::string& file_path, BT::Blackboard::Ptr blackboard)
 {
+    AINFO << "-------------------------------------1-----";
     return factory_.createTreeFromFile(file_path, blackboard);
 }
 
 // In order to re-run a Behavior Tree, we must be able to reset all nodes to the initial state
-void BehaviorTreeEngine::HaltAllActions(BT::TreeNode* root_node)
+void BehaviorTreeEngine::HaltAllActions(BT::Tree& tree)
 {
-    if (!root_node) {
-        return;
-    }
-
     // this halt signal should propagate through the entire tree.
-    // root_node->halt();
-
-    // but, just in case...
-    auto visitor = [](BT::TreeNode * node) 
-    {
-        if (node->status() == BT::NodeStatus::RUNNING) {
-            // node->halt();
-        }
-    };
-    BT::applyRecursiveVisitor(root_node, visitor);
+    tree.haltTree();
 }
 
 }  // namespace behavior_tree 

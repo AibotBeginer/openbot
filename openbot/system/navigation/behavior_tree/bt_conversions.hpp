@@ -15,3 +15,61 @@
  */
 
 #pragma once
+
+#include <string>
+#include <set>
+#include <vector>
+
+#include "cyber/cyber.h"
+
+#include "openbot/common/io/msgs.hpp"
+#include "behaviortree_cpp/behavior_tree.h"
+
+namespace BT {
+
+// The follow templates are required when using these types as parameters
+// in our BT XML files. They parse the strings in the XML into their corresponding
+// data type.
+
+/**
+ * @brief Parse XML string to geometry_msgs::msg::Point
+ * @param key XML string
+ * @return geometry_msgs::msg::Point
+ */
+template<>
+inline openbot::common::geometry_msgs::Point convertFromString(const StringView key)
+{
+  // three real numbers separated by semicolons
+  auto parts = BT::splitString(key, ';');
+  if (parts.size() != 3) {
+    throw std::runtime_error("invalid number of fields for point attribute)");
+  } else {
+    openbot::common::geometry_msgs::Point position;
+    position.set_x(BT::convertFromString<double>(parts[0]));
+    position.set_y(BT::convertFromString<double>(parts[1]));
+    position.set_z(BT::convertFromString<double>(parts[2]));
+    return position;
+  }
+}
+
+template<typename T> inline
+bool getInputPortOrBlackboard(
+  const BT::TreeNode& bt_node,
+  const BT::Blackboard& blackboard,
+  const std::string& param_name,
+  T& value)
+{
+    if (bt_node.getInput<T>(param_name, value)) {
+        return true;
+    }
+    if (blackboard.get<T>(param_name, value)) {
+        return true;
+    }
+    return false;
+}
+
+// Macro to remove boiler plate when using getInputPortOrBlackboard
+#define getInputOrBlackboard(name, value) \
+  getInputPortOrBlackboard(*this, *(this->config().blackboard), name, value);
+
+}  // namespace BT

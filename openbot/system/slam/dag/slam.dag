@@ -1,0 +1,16 @@
+# Define all coms in DAG streaming.
+module_config {
+  module_library : "/opt/openbot/lib/libslam_component.so"
+  components {
+    class_name : "SlamComponent"
+    config {
+      name: "slam"
+      config_file_path:  "/opt/openbot/share/openbot/system/slam/conf/slam.pb.txt"
+      readers: [
+        {
+          channel: "/openbot/slam"
+        }
+      ]
+    }
+  }
+}

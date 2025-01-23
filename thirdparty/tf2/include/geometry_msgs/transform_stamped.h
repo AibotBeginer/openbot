@@ -57,6 +57,12 @@ struct Quaternion {
   Quaternion(): x(0.0), y(0.0), z(0.0), w(0.0) {}
 };
 
+struct QuaternionStamped
+{
+  Header header;
+  Quaternion quaternion;
+};
+
 struct Transform {
   Vector3 translation;
   Quaternion rotation;
@@ -67,6 +73,7 @@ struct TransformStamped {
   std::string child_frame_id;
   Transform transform;
 }; 
+
 
 }
 

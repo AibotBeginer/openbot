@@ -84,3 +84,5 @@ BT_REGISTER_NODES(factory)
     factory.registerBuilder<openbot::system::navigation::behavior_tree::FollowPathAction>(
         "FollowPath", builder);
 }
+
+

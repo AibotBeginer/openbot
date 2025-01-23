@@ -1,0 +1,84 @@
+// Copyright 2024 The OpenRobotic Beginner Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package openbot.navigation;
+
+import "openbot/common/proto/std_msgs.proto";
+import "openbot/common/proto/builtin_interfaces.proto";
+import "openbot/common/proto/nav_msgs.proto";
+import "openbot/common/proto/geometry_msgs.proto"; 
+import "openbot/system/navigation/proto/types.proto"; 
+
+message SmoothPath
+{
+    // Error codes
+    // Note: The expected priority order of the errors should match the message order
+    enum ErrorCode
+    {
+        NONE=0;
+        UNKNOWN=500;
+        INVALID_SMOOTHER=501;
+        TIMEOUT=502;
+        SMOOTHED_PATH_IN_COLLISION=503;
+        FAILED_TO_SMOOTH_PATH=504;
+        INVALID_PATH=505;
+    }
+
+    message Request 
+    {
+        // command_type
+        CommandType command_type = 1;
+
+        // path
+        common.nav_msgs.Path path = 2;
+
+        // smoother_id
+        string smoother_id = 3;
+
+        // max_smoothing_duration
+        common.builtin_interfaces.Duration max_smoothing_duration = 4;
+
+        // check_for_collisions
+        bool check_for_collisions = 5;
+    }
+
+    message Response
+    {
+        // status
+        Status status = 1;
+
+        // error codes
+        ErrorCode error_code = 2;
+
+        // path
+        common.nav_msgs.Path path = 3;
+
+        // max_smoothing_duration
+        common.builtin_interfaces.Duration smoothing_duration = 4;
+
+        // was_completed
+        bool was_completed = 5;
+
+        // error_msg
+        string error_msg = 6;
+    }
+
+    // service request
+    Request request = 1;
+
+    // service response
+    Response response = 2;
+}
