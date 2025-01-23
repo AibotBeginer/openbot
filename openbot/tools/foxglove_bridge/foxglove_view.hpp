@@ -69,7 +69,7 @@ public:
 private:
 
     // FoxgloveServer
-    FoxgloveServer::SharedPtr server_{nullptr};
+    // FoxgloveServer::SharedPtr server_{nullptr};
 };
 
 

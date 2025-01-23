@@ -30,6 +30,9 @@ NavigateToPoseNavigator::NavigateToPoseNavigator(
     : node_{node},
       config_{config}
 {
+
+    AINFO << "Init navigate_to_pose navigator successed.";
+
     auto plugin_libs = GetDefaultPluginLibraries();
     bt_ = std::make_unique<behavior_tree::BehaviorTreeEngine>(plugin_libs);
      // Create the blackboard that will be shared by all of the nodes in the tree

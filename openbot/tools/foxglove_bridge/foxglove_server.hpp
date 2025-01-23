@@ -32,10 +32,10 @@
 #include "openbot/common/macros.hpp"
 #include "openbot/common/status/status.hpp"
 
-// #include "foxglove/websocket/base64.hpp"
-// #include <foxglove/websocket/server_factory.hpp>
-// #include <foxglove/websocket/websocket_notls.hpp>
-// #include <foxglove/websocket/websocket_server.hpp>
+#include "foxglove/websocket/base64.hpp"
+#include "foxglove/websocket/server_factory.hpp"
+#include "foxglove/websocket/websocket_notls.hpp"
+#include "foxglove/websocket/websocket_server.hpp"
 
 namespace openbot {
 namespace tools {

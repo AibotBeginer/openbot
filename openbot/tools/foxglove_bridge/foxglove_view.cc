@@ -49,7 +49,8 @@ void FoxgloveViewer::Stop()
 
 FoxgloveServer::SharedPtr FoxgloveViewer::server()
 {
-    return server_;
+    // return server_;
+    return nullptr;
 }
 
 }  // namespace foxglove_bridge

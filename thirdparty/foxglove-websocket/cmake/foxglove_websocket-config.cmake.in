@@ -15,23 +15,24 @@
 #  Usage from an external project:
 #    In your CMakeLists.txt, add these lines:
 #
-#    find_package(foxglove REQUIRED)
-#    target_link_libraries(MY_TARGET_NAME PUBLIC foxglove)
+#    find_package(foxglove_websocket REQUIRED)
+#    target_link_libraries(MY_TARGET_NAME PUBLIC foxglove_websocket)
 
 @PACKAGE_INIT@
 
-set_and_check(FOXGLOVE_CMAKE_DIR "@PACKAGE_FOXGLOVE_CMAKE_DIR@")
+set_and_check(FOXGLOVE_WEBSOCKET_CMAKE_DIR "@PACKAGE_FOXGLOVE_WEBSOCKET_CMAKE_DIR@")
 
-if (foxglove_FIND_QUIETLY)
+if (foxglove_websocket_FIND_QUIETLY)
    set(QUIET_OR_REQUIRED_OPTION "QUIET")
-elseif (foxglove_FIND_REQUIRED)
+elseif (foxglove_websocket_FIND_REQUIRED)
    set(QUIET_OR_REQUIRED_OPTION "REQUIRED")
 else ()
    set(QUIET_OR_REQUIRED_OPTION "")
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${FOXGLOVE_CMAKE_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${FOXGLOVE_WEBSOCKET_CMAKE_DIR})
 
-include("${FOXGLOVE_CMAKE_DIR}/FoxgloveTargets.cmake")
+include("${FOXGLOVE_WEBSOCKET_CMAKE_DIR}/FoxgloveWebsocketTargets.cmake")
 
 unset(QUIET_OR_REQUIRED_OPTION)
+

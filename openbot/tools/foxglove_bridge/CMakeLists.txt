@@ -1,11 +1,6 @@
-find_package(foxglove REQUIRED)
-
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
-  ${foxglove_INCLUDE_DIR}
 )
-
-message("------------------------------------ L: ${foxglove_INCLUDE_DIR}")
 
 # Source files
 file(GLOB_RECURSE HDRS "*.hpp" "*.h")
@@ -20,8 +15,9 @@ add_executable(${executable_name}
 
 target_link_libraries(${executable_name} 
   openbot
-  ${foxglove_LIBRARY}
+  ${FOXGLOVE_WEBSOCKET_LIBRARY}
   ${CYBERRT_LIBRARY})
+
 
 # Add the binary directory first, so that port.h is included after it has
 # been generated.

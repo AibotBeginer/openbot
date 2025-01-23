@@ -88,6 +88,7 @@ BT::Tree BehaviorTreeEngine::CreateTreeFromText(const std::string& xml_string, B
 
 BT::Tree BehaviorTreeEngine::CreateTreeFromFile(const std::string& file_path, BT::Blackboard::Ptr blackboard)
 {
+    AINFO << "-------------------------------------1-----";
     return factory_.createTreeFromFile(file_path, blackboard);
 }
 
