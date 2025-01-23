@@ -320,6 +320,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC yaml-cpp)
 # target_link_libraries(${PROJECT_NAME} PUBLIC library_loader)
 target_link_libraries(${PROJECT_NAME} PUBLIC tf2)
 target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PUBLIC foxglove_websocket)
 
 # 指定openbot_bridge的安装路径
 set(openbot_bridge_INCLUDE_DIR /usr/local/include)

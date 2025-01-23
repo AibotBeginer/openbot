@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-#pragma once
-
 #include "openbot/tools/foxglove_bridge/foxglove_view.hpp"
 
 namespace openbot {

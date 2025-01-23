@@ -37,7 +37,9 @@ add_library(foxglove_websocket SHARED
 	src/serialization.cpp
 	src/server_factory.cpp
 )
-target_link_libraries(foxglove_websocket nlohmann_json::nlohmann_json websocketpp::websocketpp)
+target_link_libraries(foxglove_websocket 
+  nlohmann_json::nlohmann_json 
+  websocketpp::websocketpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>

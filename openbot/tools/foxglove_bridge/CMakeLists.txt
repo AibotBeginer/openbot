@@ -1,5 +1,6 @@
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
+  ${OPENSSL_INCLUDE_DIR}
 )
 
 # Source files
@@ -13,9 +14,9 @@ add_executable(${executable_name}
   ${SRCS}
 )
 
-target_link_libraries(${executable_name} 
+
+target_link_libraries(${executable_name}
   openbot
-  ${FOXGLOVE_WEBSOCKET_LIBRARY}
   ${CYBERRT_LIBRARY})
 
 
