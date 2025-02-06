@@ -31,7 +31,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 option(BUILD_GRPC "Build openbot gRPC support" true)
-option(BUILD_DOCS "Build openbot docs support" OFF)
+option(BUILD_DOCS "Build openbot docs support" false)
 option(BUILD_TOOLS "Build openbot tools support" ON)
 option(BUILD_PROMETHEUS "Build prometheus monitoring support" false)
 option(BUILD_TEST "Build openbot unit test" OFF)
@@ -80,13 +80,13 @@ if(${BUILD_PROMETHEUS})
   find_package( ZLIB REQUIRED )
 endif()
 
-# Only build the documentation if we can find Sphinx.
-if(${BUILD_DOCS})
-  find_package(Sphinx)
-  if(SPHINX_FOUND)
-    add_subdirectory("docs")
-  endif()
-endif()
+# # Only build the documentation if we can find Sphinx.
+# if(${BUILD_DOCS})
+#   find_package(Sphinx)
+#   if(SPHINX_FOUND)
+#     add_subdirectory("docs")
+#   endif()
+# endif()
 
 # Install catkin package.xml
 install(FILES package.xml DESTINATION share/openbot)
